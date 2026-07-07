@@ -40,17 +40,24 @@
   .bar .kicker{color:#fff;opacity:.9;font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:600}
   .bar h1{margin:8px 0 4px;font-size:26px;font-weight:600}
   .bar p{margin:0;color:#f3edff;font-size:14px}
-  .wrap{max-width:1080px;margin:0 auto;padding:28px 40px 64px}
+  .wrap{max-width:1120px;margin:0 auto;padding:28px 40px 64px}
+  .layout{display:flex;gap:24px;align-items:flex-start}
 
-  /* progress rail */
-  .rail{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 6px}
-  .rail a{flex:1;min-width:180px;text-decoration:none;background:#fff;border:1px solid var(--line);
-        border-radius:10px;padding:12px 14px;color:var(--txt);transition:.15s}
-  .rail a:hover{border-color:var(--blue2);box-shadow:0 2px 8px rgba(38,84,124,.12)}
-  .rail .n{display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:50%;
-        background:var(--blue);color:#fff;font-size:12px;font-weight:bold;margin-right:8px}
-  .rail .t{font-size:13px;font-weight:bold;color:var(--ink)}
-  .rail .s{display:block;font-size:11.5px;color:var(--muted);margin-top:3px}
+  /* left sidebar rail */
+  .sidebar{flex:0 0 210px;position:sticky;top:72px}
+  .rail-v{display:flex;flex-direction:column;gap:6px}
+  .rail-btn{display:flex;align-items:flex-start;gap:10px;width:100%;background:#fff;border:1px solid var(--line);
+        border-radius:10px;padding:11px 13px;color:var(--txt);cursor:pointer;text-align:left;transition:.15s;
+        font-family:inherit}
+  .rail-btn:hover{border-color:var(--blue2);box-shadow:0 2px 8px rgba(76,0,255,.1)}
+  .rail-btn.active{border-color:var(--blue);background:#f0ecff}
+  .rail-btn .n{flex-shrink:0;display:inline-flex;width:22px;height:22px;align-items:center;justify-content:center;
+        border-radius:50%;background:var(--blue);color:#fff;font-size:12px;font-weight:bold;margin-top:1px}
+  .rail-btn.active .n{background:var(--indigo)}
+  .rail-btn .t{font-size:13px;font-weight:600;color:var(--ink);display:block}
+  .rail-btn .s{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+
+  .content{flex:1;min-width:0}
 
   .note{background:var(--warnbg);border:1px solid #f0d68a;border-left:5px solid var(--gold);
         border-radius:8px;padding:12px 16px;margin:18px 0;font-size:13.5px;color:#5c4a12}
@@ -73,7 +80,8 @@
   .story .kicker-line{margin:12px 0 0;font-size:13px;color:var(--muted)}
 
   .stage{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:20px 0;
-        scroll-margin-top:16px}
+        scroll-margin-top:16px;display:none}
+  .stage.open{display:block}
   .stage h2{font-size:19px;color:var(--blue);margin:0 0 2px}
   .stage .lead{color:var(--muted);font-size:13.5px;margin:0 0 14px}
   .stage h3{font-size:14.5px;color:var(--ink);margin:18px 0 6px;border-left:3px solid var(--gold);padding-left:10px}
@@ -136,19 +144,26 @@
   </div></div>
 
   <div class="wrap">
-    <div class="rail">
-      <a href="#s0"><span class="n">0</span><span class="t">Prerequisites</span><span class="s">Install &amp; access · before you start</span></a>
-      <a href="#s1"><span class="n">1</span><span class="t">IAM Toolkit + CLI</span><span class="s">Login &amp; bulk-upload agreements · 15 min</span></a>
-      <a href="#s2"><span class="n">2</span><span class="t">Extraction surfaces</span><span class="s">Agreement Manager · included above</span></a>
-      <a href="#s3"><span class="n">3</span><span class="t">MCP · Copilot Studio</span><span class="s">Connect + Scenario A · 30 min</span></a>
-      <a href="#s4"><span class="n">4</span><span class="t">Agent Studio</span><span class="s">Procurement agent demo · 10 min</span></a>
+  <div class="layout">
+    <!-- LEFT SIDEBAR -->
+    <div class="sidebar">
+      <div class="rail-v">
+        <button class="rail-btn" onclick="toggleStage(0)"><span class="n">0</span><div><span class="t">Prerequisites</span><span class="s">Install &amp; access · before you start</span></div></button>
+        <button class="rail-btn" onclick="toggleStage(1)"><span class="n">1</span><div><span class="t">IAM Toolkit + CLI</span><span class="s">Login &amp; bulk-upload · 15 min</span></div></button>
+        <button class="rail-btn" onclick="toggleStage(2)"><span class="n">2</span><div><span class="t">Extraction surfaces</span><span class="s">Agreement Manager</span></div></button>
+        <button class="rail-btn" onclick="toggleStage(3)"><span class="n">3</span><div><span class="t">MCP · Copilot Studio</span><span class="s">Connect + Scenario A · 30 min</span></div></button>
+        <button class="rail-btn" onclick="toggleStage(4)"><span class="n">4</span><div><span class="t">Agent Studio</span><span class="s">Procurement agent demo · 10 min</span></div></button>
+      </div>
     </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
 
     <!-- STORY / SCENARIO -->
     <div class="story">
       <div class="eyebrow">The scenario</div>
-      <h2>You're the implementation partner. Procurement is drowning in PDFs.</h2>
-      <p>Your customer, <strong>Fontara</strong>, just signed with Docusign, and you're the developer standing up their agreement platform. Fontara's procurement team manages thousands of vendor agreements, MSAs, SOWs, and NDAs, sitting as flat PDFs across shared drives and inboxes. The documents are signed and safe, but the <em>data</em> inside them is trapped.</p>
+      <h2>You work at Fontara. Procurement is drowning in PDFs.</h2>
+      <p>You're a developer at <strong>Fontara</strong>, a fast-growing company managing hundreds of vendor relationships, and you've been tasked with standing up their agreement platform on Docusign. Fontara's procurement team manages thousands of vendor agreements, MSAs, SOWs, and NDAs, sitting as flat PDFs across shared drives and inboxes. The documents are signed and safe, but the <em>data</em> inside them is trapped.</p>
       <p>So nobody can answer the questions the business actually asks:
         <span class="qs">Which contracts auto-renew next quarter? Which vendors are on payment terms over 45 days? Where are we missing a price-increase cap? What's our total committed spend with this supplier?</span>
         Today, every answer means a human opening files one at a time.</p>
@@ -162,7 +177,7 @@
           <li><b>Stage 4 · Ship</b>: hand them a Procurement agent that lives in the tools they already use.</li>
         </ol>
       </div>
-      <p class="kicker-line">This is the exact pattern you'll repeat for every client: <strong>export the legacy repo → standardize with IAM Toolkit → ingest via API → operationalize with agents.</strong></p>
+      <p class="kicker-line">This is the pattern: <strong>export the legacy repo → standardize with IAM Toolkit → ingest via API → operationalize with agents.</strong></p>
     </div>
 
     <!-- PREREQUISITES -->
@@ -384,13 +399,22 @@
       Page 2 of 2, Hands-on Flow. See <strong>1_Run_of_Show.html</strong> for the agenda &amp; timings.<br>
       Prerequisites and Stage 1 use the official Docusign Agreement CLI (<code>ds</code>) commands. Stage 2 extraction steps follow the current Agreement Manager UI, confirm exact labels against your account.
     </div>
+    </div><!-- end .content -->
+  </div><!-- end .layout -->
   </div>
 
 <script>
+  function toggleStage(n){
+    var el = document.getElementById('s'+n);
+    var btns = document.querySelectorAll('.rail-btn');
+    var isOpen = el.classList.contains('open');
+    document.querySelectorAll('.stage').forEach(function(s){s.classList.remove('open');});
+    btns.forEach(function(b){b.classList.remove('active');});
+    if(!isOpen){el.classList.add('open');btns[n].classList.add('active');el.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  }
   function cp(btn){
     var box = btn.parentElement;
     var txt = box.cloneNode(true);
-    // remove the button text from the copied content
     var b = txt.querySelector('.copy'); if(b) b.remove();
     var q = txt.querySelector('.q'); if(q) q.remove();
     var content = txt.innerText.trim();
