@@ -17,7 +17,6 @@
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:'DSIndigo',Arial,Helvetica,sans-serif;color:var(--txt);background:var(--lt);line-height:1.5;font-weight:300}
-  /* ---- Docusign-style top navigation ---- */
   .util{background:#1a0040}
   .util .in{max-width:1080px;margin:0 auto;padding:9px 28px;display:flex;justify-content:flex-end;gap:22px;flex-wrap:wrap}
   .util a{color:#e6e0f5;text-decoration:none;font-size:12.5px}
@@ -37,10 +36,40 @@
   .hero .in{max-width:1080px;margin:0 auto;padding:36px 28px 42px}
   .hero h1{margin:0 0 8px;font-size:28px;font-weight:600}
   .hero p{margin:0;color:#f3edff;font-size:15px}
-  .wrap{max-width:1080px;margin:0 auto;padding:34px 24px}
-  .lead{font-size:16px;color:var(--muted);margin:0 0 26px}
+  .wrap{max-width:1080px;margin:0 auto;padding:34px 24px 48px}
+
+  /* two excitement frames */
+  .frames{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 0 24px}
+  @media(max-width:640px){.frames{grid-template-columns:1fr}}
+  .frame{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 24px;position:relative;overflow:hidden}
+  .frame:before{content:"";position:absolute;top:0;left:0;right:0;height:4px}
+  .frame.f1:before{background:linear-gradient(90deg,#4C00FF,#7A1FD0)}
+  .frame.f2:before{background:linear-gradient(90deg,#C0207E,#FF5252)}
+  .frame .fnum{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--indigo);margin-bottom:10px}
+  .frame.f2 .fnum{color:#C0207E}
+  .frame h2{font-size:20px;font-weight:600;color:var(--ink);margin:0 0 12px;line-height:1.3}
+  .frame .why{background:#f7f4ff;border-radius:8px;padding:10px 14px;margin:0 0 14px;font-size:13px;color:var(--ink)}
+  .frame.f2 .why{background:#fff3f3}
+  .frame .why strong{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--indigo);margin-bottom:4px}
+  .frame.f2 .why strong{color:#C0207E}
+  .frame p{font-size:13.5px;color:var(--muted);margin:0}
+
+  /* how we get there */
+  .how{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:0 0 28px}
+  .how h3{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+  .how-steps{display:flex;flex-wrap:wrap;gap:10px}
+  .how-step{flex:1;min-width:180px;display:flex;align-items:flex-start;gap:10px;background:var(--lt);border-radius:10px;padding:12px 14px}
+  .how-step .dot{flex-shrink:0;width:8px;height:8px;border-radius:50%;margin-top:5px}
+  .how-step.hs1 .dot{background:#4C00FF}
+  .how-step.hs2 .dot{background:#C0207E}
+  .how-step.hs3 .dot{background:#aaa}
+  .how-step strong{display:block;font-size:13px;color:var(--ink);font-weight:600;margin-bottom:2px}
+  .how-step span{font-size:12px;color:var(--muted)}
+
+  /* nav cards */
+  .sec-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-  @media (max-width:640px){.cards{grid-template-columns:1fr}}
+  @media(max-width:640px){.cards{grid-template-columns:1fr}}
   .card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);
     border-radius:12px;padding:22px;transition:transform .12s ease,box-shadow .12s ease}
   .card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(76,0,255,.12);border-color:var(--indigo)}
@@ -49,7 +78,6 @@
   .card h2{margin:0 0 8px;font-size:19px;color:var(--ink);font-weight:600}
   .card p{margin:0;font-size:14px;color:var(--muted)}
   .card .go{margin-top:14px;font-size:14px;font-weight:600;color:var(--indigo)}
-  .foot{margin-top:30px;font-size:13px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -62,30 +90,70 @@
     <a class="brand" href="index.html"><img src="assets/img/docusign-horizontal-black.svg" alt="Docusign"></a>
     <div class="tabs">
       <a href="index.html" class="active">Overview</a>
-      <a href="1_Run_of_Show.html">Run of Show(Internal)</a>
-      <a href="2_Hands_on_Flow.html">Hands-on Lab(WIP)</a>
+      <a href="1_Run_of_Show.html">Run of Show (Internal)</a>
+      <a href="2_Hands_on_Flow.html">Hands-on Lab (WIP)</a>
     </div>
     <a class="nav-cta" href="https://www.docusign.com/intelligent-agreement-management" target="_blank" rel="noopener">Docusign IAM ↗</a>
   </div></nav>
+
   <div class="hero"><div class="in">
-    <h1>Docusign Manage: From Static PDFs to Agentic Workflows</h1>
-    <p>Bengaluru Meetup Workshop · Cross-functional business stakeholders · Developer &amp; implementation-partner audience</p>
+    <h1>Build AI Agents on Agreement Data — in Under an Hour</h1>
+    <p>Bengaluru Meetup Workshop · Developer &amp; implementation-partner audience · Docusign IAM</p>
   </div></div>
+
   <div class="wrap">
-    <p class="lead">Every team (procurement, finance, legal, sales, ops) depends on agreements but can't easily answer
-      "what did we sign, with whom, on what terms?" This session walks from raw PDFs to a structured agreement data
-      model, then uses AI to surface natural-language insights and power agentic workflows.</p>
+
+    <div class="frames">
+      <div class="frame f1">
+        <div class="fnum">Why you're here · 1 of 2</div>
+        <h2>Create AI agents on Docusign's platform</h2>
+        <div class="why">
+          <strong>Why invest your time</strong>
+          Agent building is the skill of the moment. You're learning to ship production-grade AI agents on top of enterprise agreement data — a pattern you can take to any client, product, or employer.
+        </div>
+        <p>Connect the Docusign MCP Server to Copilot Studio, build a Procurement agent that answers real business questions in plain English, and deploy it to Teams and other AI clients — all in one session.</p>
+      </div>
+      <div class="frame f2">
+        <div class="fnum">Why you're here · 2 of 2</div>
+        <h2>Take agreement data into Copilot and beyond</h2>
+        <div class="why">
+          <strong>Why invest your time</strong>
+          You're not just learning Docusign — you're learning the MCP integration pattern that works across any AI client. Copilot Studio today, whatever your customers need tomorrow.
+        </div>
+        <p>Use Iris AI to unlock structured intelligence from thousands of contracts — supplier, renewal dates, payment terms, liability caps — then query it from any AI tool via a standard MCP connection.</p>
+      </div>
+    </div>
+
+    <div class="how">
+      <h3>How we get there</h3>
+      <div class="how-steps">
+        <div class="how-step hs1">
+          <div class="dot"></div>
+          <div><strong>Agreement Manager + Iris AI</strong><span>Turns flat PDFs into structured, queryable agreement data — the intelligence that powers the agents.</span></div>
+        </div>
+        <div class="how-step hs2">
+          <div class="dot"></div>
+          <div><strong>MCP + Copilot Studio</strong><span>Connects that intelligence to any AI client — natural-language queries, agent actions, workflow triggers.</span></div>
+        </div>
+        <div class="how-step hs3">
+          <div class="dot"></div>
+          <div><strong>IAM Toolkit CLI</strong><span>One-time setup that ingests a legacy repository at scale — the foundation everything else runs on.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="sec-label">Session references</p>
     <div class="cards">
       <a class="card" href="1_Run_of_Show.html">
         <span class="k">Presenter</span>
         <h2>Run of Show</h2>
-        <p>Agenda, segment timings, persona and audience framing, and the narrative arc. ~65–75 min total.</p>
+        <p>Agenda, segment timings, audience framing, and the narrative arc. ~65–75 min total.</p>
         <div class="go">Open agenda →</div>
       </a>
       <a class="card" href="2_Hands_on_Flow.html">
         <span class="k">Lab</span>
-        <h2>Hands-on Flow</h2>
-        <p>Step-by-step: CLI login &amp; bulk upload → AI extraction → MCP via Copilot Studio → Agent Studio demo.</p>
+        <h2>Hands-on Lab</h2>
+        <p>Step-by-step: AI extraction → MCP via Copilot Studio → Agent Studio — with copy-paste prompts.</p>
         <div class="go">Open lab →</div>
       </a>
     </div>
