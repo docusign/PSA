@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docusign Manage, Bengaluru Meetup Workshop</title>
+<style>
+  /* ---- Docusign brand typeface ---- */
+  @font-face{font-family:'DSIndigo';src:url('assets/fonts/DSIndigo-Light.woff2') format('woff2'),url('assets/fonts/DSIndigo-Light.woff') format('woff');font-weight:300;font-style:normal;font-display:swap}
+  @font-face{font-family:'DSIndigo';src:url('assets/fonts/DSIndigo-Medium.woff2') format('woff2'),url('assets/fonts/DSIndigo-Medium.woff') format('woff');font-weight:500;font-style:normal;font-display:swap}
+  @font-face{font-family:'DSIndigo';src:url('assets/fonts/DSIndigo-SemiBold.woff2') format('woff2'),url('assets/fonts/DSIndigo-SemiBold.woff') format('woff');font-weight:600;font-style:normal;font-display:swap}
+
+  :root{
+    --indigo:#4C00FF; --indigo-d:#3a00c2; --coral:#FF5252;
+    --ink:#130032; --ink2:#241452;
+    --lt:#F4F2FA; --line:#e5e1f0; --txt:#1c1433; --muted:#615a75;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'DSIndigo',Arial,Helvetica,sans-serif;color:var(--txt);background:var(--lt);line-height:1.5;font-weight:300}
+  /* ---- Docusign-style top navigation ---- */
+  .util{background:#1a0040}
+  .util .in{max-width:1080px;margin:0 auto;padding:9px 28px;display:flex;justify-content:flex-end;gap:22px;flex-wrap:wrap}
+  .util a{color:#e6e0f5;text-decoration:none;font-size:12.5px}
+  .util a:hover{color:#fff}
+  .nav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+  .nav .in{max-width:1080px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:26px}
+  .nav .brand{display:flex;align-items:center;padding:14px 0}
+  .nav .brand img{height:24px;display:block}
+  .tabs{display:flex;gap:24px;flex:1;flex-wrap:wrap}
+  .tabs a{position:relative;text-decoration:none;color:var(--ink);font-weight:500;font-size:15px;padding:20px 0}
+  .tabs a:hover{color:var(--indigo)}
+  .tabs a.active{color:var(--indigo);font-weight:600}
+  .tabs a.active:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:var(--indigo)}
+  .nav-cta{background:var(--indigo);color:#fff;text-decoration:none;font-weight:600;font-size:13px;padding:11px 20px;border-radius:8px;white-space:nowrap}
+  .nav-cta:hover{background:var(--indigo-d)}
+  .hero{background:linear-gradient(100deg,#4C00FF 0%,#7A1FD0 42%,#C0207E 72%,#FF5252 100%);color:#fff}
+  .hero .in{max-width:1080px;margin:0 auto;padding:36px 28px 42px}
+  .hero h1{margin:0 0 8px;font-size:28px;font-weight:600}
+  .hero p{margin:0;color:#f3edff;font-size:15px}
+  .wrap{max-width:1080px;margin:0 auto;padding:34px 24px}
+  .lead{font-size:16px;color:var(--muted);margin:0 0 26px}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media (max-width:640px){.cards{grid-template-columns:1fr}}
+  .card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);
+    border-radius:12px;padding:22px;transition:transform .12s ease,box-shadow .12s ease}
+  .card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(76,0,255,.12);border-color:var(--indigo)}
+  .card .k{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--indigo);background:#efe9ff;border-radius:999px;padding:4px 10px;margin-bottom:12px}
+  .card h2{margin:0 0 8px;font-size:19px;color:var(--ink);font-weight:600}
+  .card p{margin:0;font-size:14px;color:var(--muted)}
+  .card .go{margin-top:14px;font-size:14px;font-weight:600;color:var(--indigo)}
+  .foot{margin-top:30px;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+  <div class="util"><div class="in">
+    <a href="https://developers.docusign.com/iam-toolkit/" target="_blank" rel="noopener">IAM Toolkit Docs</a>
+    <a href="https://www.npmjs.com/package/@docusign/agreement-cli" target="_blank" rel="noopener">Agreement CLI</a>
+    <a href="https://developers.docusign.com/" target="_blank" rel="noopener">Developer Center</a>
+  </div></div>
+  <nav class="nav"><div class="in">
+    <a class="brand" href="index.html"><img src="assets/img/docusign-horizontal-black.svg" alt="Docusign"></a>
+    <div class="tabs">
+      <a href="index.html" class="active">Overview</a>
+      <a href="1_Run_of_Show.html">Run of Show</a>
+      <a href="2_Hands_on_Flow.html">Hands-on Lab</a>
+    </div>
+    <a class="nav-cta" href="https://www.docusign.com/products/iam" target="_blank" rel="noopener">Docusign IAM ↗</a>
+  </div></nav>
+  <div class="hero"><div class="in">
+    <h1>Docusign Manage: From Static PDFs to Agentic Workflows</h1>
+    <p>Bengaluru Meetup Workshop · Cross-functional business stakeholders · Developer &amp; implementation-partner audience</p>
+  </div></div>
+  <div class="wrap">
+    <p class="lead">Every team (procurement, finance, legal, sales, ops) depends on agreements but can't easily answer
+      "what did we sign, with whom, on what terms?" This session walks from raw PDFs to a structured agreement data
+      model, then to natural-language insights and agentic workflows. Two references below.</p>
+    <div class="cards">
+      <a class="card" href="1_Run_of_Show.html">
+        <span class="k">Presenter</span>
+        <h2>Run of Show</h2>
+        <p>Agenda, segment timings, persona and audience framing, and the narrative arc. ~65–75 min total.</p>
+        <div class="go">Open agenda →</div>
+      </a>
+      <a class="card" href="2_Hands_on_Flow.html">
+        <span class="k">Lab</span>
+        <h2>Hands-on Flow</h2>
+        <p>Step-by-step: CLI login &amp; bulk upload → extraction → MCP via Copilot Studio → Agent Studio demo.</p>
+        <div class="go">Open lab →</div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
