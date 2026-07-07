@@ -110,7 +110,7 @@
           <td class="time">1</td>
           <td class="dur">5–10 min</td>
           <td class="seg">Welcome &amp; problem framing</td>
-          <td>Open with the universal pain point: every team (procurement, finance, legal, sales, ops) depends on agreements but can't easily answer "what did we sign, with whom, on what terms?" Use a procurement agreement use case as the common thread (MSAs, SOWs, vendor contracts, NDAs) to make it concrete. Introduce IAM and Agreement Types, show where developers &amp; implementation partners fit (model structure, set up ingestion, expose insights), and preview the hands-on path.</td>
+          <td>Open with the universal pain point: every team (procurement, finance, legal, sales, ops) depends on agreements but can't easily answer "what did we sign, with whom, on what terms?" Use a procurement agreement use case as the common thread (MSAs, SOWs, vendor contracts, NDAs) to make it concrete. Introduce IAM and Agreement Types, briefly introduce Iris (Docusign's AI extraction engine) as the layer that turns signed agreements into structured, queryable data, show where developers &amp; implementation partners fit (model structure, set up ingestion, expose insights), and preview the hands-on path.</td>
           <td>Slides</td>
         </tr>
         <tr>
@@ -123,15 +123,15 @@
         <tr>
           <td class="time">3</td>
           <td class="dur">30 min</td>
-          <td class="seg">MCP: insights &amp; custom extractions</td>
-          <td>With data ingested and extractions surfaced in Navigator / Agreement Manager, connect the Docusign MCP server to Microsoft Copilot Studio and run Scenario A: natural-language queries over the procurement corpus (auto-renewals in 90 days, payment terms &gt; 45 days) and procurement-specific extractions (termination notice, liability caps, price-increase caps).</td>
+          <td class="seg">MCP: AI-powered insights &amp; custom extractions</td>
+          <td>With data ingested and AI-extracted fields surfaced in Agreement Manager, connect the Docusign MCP server to Microsoft Copilot Studio and run Scenario A: natural-language queries over the procurement corpus (auto-renewals in 90 days, payment terms &gt; 45 days) and procurement-specific AI extractions (termination notice, liability caps, price-increase caps).</td>
           <td>MCP · Copilot Studio</td>
         </tr>
         <tr>
           <td class="time">4</td>
           <td class="dur">10 min</td>
           <td class="seg">Agent Studio, quick demo</td>
-          <td>Show a prebuilt Procurement agent on the same structured dataset: answers "what's in my vendor agreements?", surfaces risks &amp; obligations, summarizes the vendor portfolio. Connect back to MCP, the same agent can surface in third-party tools (Teams, other AI clients).</td>
+          <td>Show a prebuilt AI Procurement agent on the same structured dataset: answers "what's in my vendor agreements?", surfaces risks &amp; obligations, summarizes the vendor portfolio. Connect back to MCP — the same AI agent reaches Teams and other AI clients via the MCP server.</td>
           <td>Agent Studio</td>
         </tr>
         <tr>
@@ -156,7 +156,7 @@
       <thead><tr><th style="width:230px">Asset</th><th>Purpose</th></tr></thead>
       <tbody>
         <tr><td class="seg">Agreement CLI</td><td><code>@docusign/agreement-cli</code> on npm (the <code>ds</code> command), scaffold, auth, catalog, upload, test &amp; ingest commands used in the lab.</td></tr>
-        <tr><td class="seg">IAM Toolkit docs</td><td>developers.docusign.com/iam-toolkit, agreement types &amp; fields as code, extraction configuration.</td></tr>
+        <tr><td class="seg">IAM Toolkit docs</td><td>developers.docusign.com/iam-toolkit, agreement types &amp; fields as code, AI extraction configuration.</td></tr>
         <tr><td class="seg">Bulk upload / Agreement Manager API</td><td>API reference + example scripts for ingesting a legacy repository at scale.</td></tr>
         <tr><td class="seg">Copilot Studio MCP handbook</td><td>Participant handbook (through Scenario A) for connecting the Docusign MCP server to Microsoft Copilot Studio.</td></tr>
         <tr><td class="seg">Sample procurement agreement set</td><td>The ready-made MSAs / SOWs / NDAs used in the CLI upload exercise.</td></tr>
