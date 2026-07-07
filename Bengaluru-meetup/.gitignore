@@ -1,0 +1,8 @@
+# Internal leadership prep, not part of the public site
+Talk_Track_Leadership.md
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.~lock.*#
