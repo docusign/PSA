@@ -118,6 +118,31 @@
   tbody tr:nth-child(even){background:var(--lt)}
   code{background:var(--lt);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12.5px}
   .foot{margin-top:34px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+
+  /* learning objectives */
+  .objectives{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:20px 0}
+  .objectives .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .objectives .sec-head .icon{font-size:20px;line-height:1}
+  .objectives .sec-head h2{font-size:17px;color:var(--ink);margin:0;font-weight:600}
+  .objectives .sec-head p{font-size:13px;color:var(--muted);margin:4px 0 0}
+  .obj-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:640px){.obj-grid{grid-template-columns:1fr}}
+  .obj-card{background:var(--lt);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .obj-card .num{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--indigo);margin-bottom:6px}
+  .obj-card strong{display:block;font-size:13.5px;color:var(--ink);margin-bottom:4px;font-weight:600}
+  .obj-card p{font-size:12.5px;color:var(--muted);margin:0}
+
+  /* how to use */
+  .howto{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:20px 0}
+  .howto .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .howto .sec-head .icon{font-size:20px;line-height:1}
+  .howto .sec-head h2{font-size:17px;color:var(--ink);margin:0;font-weight:600}
+  .howto .sec-head p{font-size:13px;color:var(--muted);margin:4px 0 0}
+  .howto table{margin-top:0;border:none;background:transparent}
+  .howto table thead th{background:var(--lt);color:var(--ink);font-size:11.5px;padding:9px 13px;border-bottom:1px solid var(--line)}
+  .howto table tbody td{font-size:13px;padding:10px 13px;border-top:1px solid var(--line);background:#fff}
+  .howto table tbody tr:nth-child(even) td{background:var(--lt)}
+  .howto table td:first-child{font-weight:600;color:var(--ink);white-space:nowrap;width:130px}
   .expect{font-size:12.5px;color:var(--ok);margin:6px 0 0;padding-left:2px}
   .expect b{color:var(--ok)}
 </style>
@@ -176,6 +201,58 @@
         </ol>
       </div>
       <p class="kicker-line">This is the pattern: <strong>export the legacy repo → standardize with IAM Toolkit → ingest via API → operationalize with agents.</strong></p>
+    </div>
+
+    <!-- LEARNING OBJECTIVES -->
+    <div class="objectives">
+      <div class="sec-head">
+        <span class="icon">🎯</span>
+        <div>
+          <h2>Learning Objectives</h2>
+          <p>By the end of this workshop you will be able to:</p>
+        </div>
+      </div>
+      <div class="obj-grid">
+        <div class="obj-card">
+          <div class="num">Objective 1</div>
+          <strong>Use Copilot Studio to build &amp; test agents with Docusign MCP</strong>
+          <p>One chat, every action — query, decide, execute.</p>
+        </div>
+        <div class="obj-card">
+          <div class="num">Objective 2</div>
+          <strong>Unlock contract intelligence on demand</strong>
+          <p>Surface pricing, dates, clauses, and risk from any contract — instantly — using Docusign Agreement Manager and Iris.</p>
+        </div>
+        <div class="obj-card">
+          <div class="num">Objective 3</div>
+          <strong>Orchestrate workflows and signatures with humans in control</strong>
+          <p>Trigger Workflow Builder workflows and route envelopes deterministically — with human approvals at the right checkpoints.</p>
+        </div>
+        <div class="obj-card">
+          <div class="num">Objective 4</div>
+          <strong>Walk away with a reusable prompt library</strong>
+          <p>Take a portable library back to your own accounts and adapt the prompts to your customers.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW TO USE -->
+    <div class="howto">
+      <div class="sec-head">
+        <span class="icon">📖</span>
+        <div>
+          <h2>How to Use This Handbook</h2>
+          <p>Self-paced and self-contained — follow it in a facilitated session or work through it independently.</p>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Element</th><th>What it means</th></tr></thead>
+        <tbody>
+          <tr><td>Setup</td><td>One-time configuration steps — do these before the scenarios.</td></tr>
+          <tr><td>Scenario</td><td>A hands-on exercise. Read the story, then run the prompts in order.</td></tr>
+          <tr><td>Prompt block</td><td>Copy-paste-ready prompt. Click the Copy button in the top-right.</td></tr>
+        </tbody>
+      </table>
     </div>
 
     <!-- PREREQUISITES -->
