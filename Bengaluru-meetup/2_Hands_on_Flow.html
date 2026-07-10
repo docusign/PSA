@@ -508,22 +508,8 @@ Behavior rules
         <strong>Human in the Loop:</strong> the workflow has deterministic routing — if the discount exceeds the threshold, it routes to Agreement Desk for a manual review and approval before proceeding to signature.
       </div>
       <p class="expect"><b>Scenario C demonstrates:</b> in-flight workflow monitoring · eSign envelope status check · nudging stalled signers without leaving chat · expiry and escalation awareness.</p>
-    </div>
 
-    <!-- STAGE 4 -->
-    <div class="stage" id="s4">
-      <h2>Stage 4 · Agent Studio, quick demo
-        <span class="badge b-dur">10 min</span>
-      </h2>
-      <p class="lead">You ship it. Fontara's procurement team gets a prebuilt Procurement agent running on the structured dataset you just built, answering questions and surfacing risk without anyone touching the underlying platform.</p>
-      <ol class="steps">
-        <li>Open the prebuilt Procurement agent in <strong>Agent Studio</strong>.</li>
-        <li>Ask <em>"What's in my vendor agreements?"</em> — it summarizes the vendor portfolio.</li>
-        <li>Ask it to <strong>surface risks &amp; obligations</strong> (uncapped liability, off-standard payment terms, imminent renewals).</li>
-        <li>Connect back to MCP: the same agent can surface in third-party tools — <strong>Microsoft Teams</strong> and other AI clients — via the MCP server.</li>
-      </ol>
-
-      <h3>4.1 · Publish to Microsoft Teams &amp; M365 Copilot</h3>
+      <h3>3.8 · Publish to Microsoft Teams &amp; M365 Copilot</h3>
       <p class="lead" style="margin:0 0 6px">Once the agent works in the test pane, push it to Teams and M365 Copilot so the procurement team can use it from where they already work.</p>
       <ol class="steps">
         <li>Open the <strong>Channels</strong> tab in your agent.</li>
@@ -536,7 +522,7 @@ Behavior rules
         <strong>Tenant note:</strong> publishing to Teams / M365 Copilot may require tenant admin approval depending on your org's Power Platform and app catalog policies. For non-production exploration, a trial environment avoids these gates. Re-publish after every change to instructions, knowledge, or tools.
       </div>
 
-      <h3>4.2 · Sample prompt library</h3>
+      <h3>3.9 · Sample prompt library</h3>
       <p class="lead" style="margin:0 0 6px">Use these prompts to extend the demo beyond the three core scenarios. Replace anything in <code>[BRACKETS]</code> with data from your demo account.</p>
       <table>
         <thead><tr><th style="width:50px">#</th><th>Prompt</th><th style="width:200px">Purpose</th></tr></thead>
@@ -551,6 +537,20 @@ Behavior rules
           <tr><td>4.2</td><td>Send a reminder to any [vendor] recipient who hasn't signed in 3+ days.</td><td>Nudge stalled signers</td></tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- STAGE 4 -->
+    <div class="stage" id="s4">
+      <h2>Stage 4 · Agent Studio, quick demo
+        <span class="badge b-dur">10 min</span>
+      </h2>
+      <p class="lead">You ship it. Fontara's procurement team gets a prebuilt Procurement agent running on the structured dataset you just built, answering questions and surfacing risk without anyone touching the underlying platform.</p>
+      <ol class="steps">
+        <li>Open the prebuilt Procurement agent in <strong>Agent Studio</strong>.</li>
+        <li>Ask <em>"What's in my vendor agreements?"</em> — it summarizes the vendor portfolio.</li>
+        <li>Ask it to <strong>surface risks &amp; obligations</strong> (uncapped liability, off-standard payment terms, imminent renewals).</li>
+        <li>Connect back to MCP: the same agent can surface in third-party tools — <strong>Microsoft Teams</strong> and other AI clients — via the MCP server.</li>
+      </ol>
 
       <div class="accurate" style="margin-top:16px">
         <strong>The one-line message:</strong> IAM Toolkit + CLI standardized and ingested the corpus → Iris AI extracted structured fields → MCP + Copilot Studio and Agent Studio turned that intelligence into answers, wherever the procurement team already works.
