@@ -40,24 +40,17 @@
   .bar .kicker{color:#fff;opacity:.9;font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:600}
   .bar h1{margin:8px 0 4px;font-size:26px;font-weight:600}
   .bar p{margin:0;color:#f3edff;font-size:14px}
-  .wrap{max-width:1120px;margin:0 auto;padding:28px 40px 64px}
-  .layout{display:flex;gap:24px;align-items:flex-start}
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 40px 64px}
 
-  /* left sidebar rail */
-  .sidebar{flex:0 0 210px;position:sticky;top:72px}
-  .rail-v{display:flex;flex-direction:column;gap:6px}
-  .rail-btn{display:flex;align-items:flex-start;gap:10px;width:100%;background:#fff;border:1px solid var(--line);
-        border-radius:10px;padding:11px 13px;color:var(--txt);cursor:pointer;text-align:left;transition:.15s;
-        font-family:inherit}
-  .rail-btn:hover{border-color:var(--blue2);box-shadow:0 2px 8px rgba(76,0,255,.1)}
-  .rail-btn.active{border-color:var(--blue);background:#f0ecff}
-  .rail-btn .n{flex-shrink:0;display:inline-flex;width:22px;height:22px;align-items:center;justify-content:center;
-        border-radius:50%;background:var(--blue);color:#fff;font-size:12px;font-weight:bold;margin-top:1px}
-  .rail-btn.active .n{background:var(--indigo)}
-  .rail-btn .t{font-size:13px;font-weight:600;color:var(--ink);display:block}
-  .rail-btn .s{display:block;font-size:11px;color:var(--muted);margin-top:2px}
-
-  .content{flex:1;min-width:0}
+  /* progress rail */
+  .rail{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 6px}
+  .rail a{flex:1;min-width:180px;text-decoration:none;background:#fff;border:1px solid var(--line);
+        border-radius:10px;padding:12px 14px;color:var(--txt);transition:.15s}
+  .rail a:hover{border-color:var(--blue2);box-shadow:0 2px 8px rgba(38,84,124,.12)}
+  .rail .n{display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:50%;
+        background:var(--blue);color:#fff;font-size:12px;font-weight:bold;margin-right:8px}
+  .rail .t{font-size:13px;font-weight:bold;color:var(--ink)}
+  .rail .s{display:block;font-size:11.5px;color:var(--muted);margin-top:3px}
 
   .note{background:var(--warnbg);border:1px solid #f0d68a;border-left:5px solid var(--gold);
         border-radius:8px;padding:12px 16px;margin:18px 0;font-size:13.5px;color:#5c4a12}
@@ -80,8 +73,7 @@
   .story .kicker-line{margin:12px 0 0;font-size:13px;color:var(--muted)}
 
   .stage{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:20px 0;
-        scroll-margin-top:16px;display:none}
-  .stage.open{display:block}
+        scroll-margin-top:16px}
   .stage h2{font-size:19px;color:var(--blue);margin:0 0 2px}
   .stage .lead{color:var(--muted);font-size:13.5px;margin:0 0 14px}
   .stage h3{font-size:14.5px;color:var(--ink);margin:18px 0 6px;border-left:3px solid var(--gold);padding-left:10px}
@@ -118,31 +110,6 @@
   tbody tr:nth-child(even){background:var(--lt)}
   code{background:var(--lt);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12.5px}
   .foot{margin-top:34px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
-
-  /* learning objectives */
-  .objectives{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:20px 0}
-  .objectives .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-  .objectives .sec-head .icon{font-size:20px;line-height:1}
-  .objectives .sec-head h2{font-size:17px;color:var(--ink);margin:0;font-weight:600}
-  .objectives .sec-head p{font-size:13px;color:var(--muted);margin:4px 0 0}
-  .obj-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  @media(max-width:640px){.obj-grid{grid-template-columns:1fr}}
-  .obj-card{background:var(--lt);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
-  .obj-card .num{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--indigo);margin-bottom:6px}
-  .obj-card strong{display:block;font-size:13.5px;color:var(--ink);margin-bottom:4px;font-weight:600}
-  .obj-card p{font-size:12.5px;color:var(--muted);margin:0}
-
-  /* how to use */
-  .howto{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:20px 0}
-  .howto .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-  .howto .sec-head .icon{font-size:20px;line-height:1}
-  .howto .sec-head h2{font-size:17px;color:var(--ink);margin:0;font-weight:600}
-  .howto .sec-head p{font-size:13px;color:var(--muted);margin:4px 0 0}
-  .howto table{margin-top:0;border:none;background:transparent}
-  .howto table thead th{background:var(--lt);color:var(--ink);font-size:11.5px;padding:9px 13px;border-bottom:1px solid var(--line)}
-  .howto table tbody td{font-size:13px;padding:10px 13px;border-top:1px solid var(--line);background:#fff}
-  .howto table tbody tr:nth-child(even) td{background:var(--lt)}
-  .howto table td:first-child{font-weight:600;color:var(--ink);white-space:nowrap;width:130px}
   .expect{font-size:12.5px;color:var(--ok);margin:6px 0 0;padding-left:2px}
   .expect b{color:var(--ok)}
 </style>
@@ -157,102 +124,45 @@
     <a class="brand" href="index.html"><img src="assets/img/docusign-horizontal-black.svg" alt="Docusign"></a>
     <div class="tabs">
       <a href="index.html">Overview</a>
-      <a href="1_Run_of_Show.html">Run of Show(Internal)</a>
-      <a href="2_Hands_on_Flow.html" class="active">Hands-on Lab(WIP)</a>
+      <a href="1_Run_of_Show.html">Run of Show</a>
+      <a href="2_Hands_on_Flow.html" class="active">Hands-on Lab</a>
     </div>
-    <a class="nav-cta" href="https://www.docusign.com/intelligent-agreement-management" target="_blank" rel="noopener">Docusign IAM ↗</a>
+    <a class="nav-cta" href="https://www.docusign.com/products/iam" target="_blank" rel="noopener">Docusign IAM ↗</a>
   </div></nav>
   <div class="bar"><div class="in">
     <div class="kicker">Docusign Manage · Bengaluru Meetup</div>
-    <h1>Hands-on Lab <span style="font-weight:400;opacity:.75">(WIP)</span></h1>
+    <h1>Hands-on Flow, Procurement / Developer Lab</h1>
     <p>CLI login &amp; upload → extraction in Agreement Manager → MCP via Copilot Studio → Agent Studio</p>
   </div></div>
 
   <div class="wrap">
-  <div class="layout">
-    <!-- LEFT SIDEBAR -->
-    <div class="sidebar">
-      <div class="rail-v">
-        <button class="rail-btn" onclick="toggleStage(0)"><span class="n">0</span><div><span class="t">Prerequisites</span><span class="s">Install &amp; access · before you start</span></div></button>
-        <button class="rail-btn" onclick="toggleStage(1)"><span class="n">1</span><div><span class="t">IAM Toolkit</span><span class="s">Login &amp; bulk-upload · 15 min</span></div></button>
-        <button class="rail-btn" onclick="toggleStage(2)"><span class="n">2</span><div><span class="t">AI Extraction</span><span class="s">Agreement Manager · Iris</span></div></button>
-        <button class="rail-btn" onclick="toggleStage(3)"><span class="n">3</span><div><span class="t">MCP · Copilot Studio</span><span class="s">Connect + Insights · 30 min</span></div></button>
-        <button class="rail-btn" onclick="toggleStage(4)"><span class="n">4</span><div><span class="t">Agent Studio</span><span class="s">Procurement agent demo · 10 min</span></div></button>
-      </div>
+    <div class="rail">
+      <a href="#s0"><span class="n">0</span><span class="t">Prerequisites</span><span class="s">Install &amp; access · before you start</span></a>
+      <a href="#s1"><span class="n">1</span><span class="t">IAM Toolkit + CLI</span><span class="s">Login &amp; bulk-upload agreements · 15 min</span></a>
+      <a href="#s2"><span class="n">2</span><span class="t">Extraction surfaces</span><span class="s">Agreement Manager · included above</span></a>
+      <a href="#s3"><span class="n">3</span><span class="t">MCP · Copilot Studio</span><span class="s">Connect + Scenario A · 30 min</span></a>
+      <a href="#s4"><span class="n">4</span><span class="t">Agent Studio</span><span class="s">Procurement agent demo · 10 min</span></a>
     </div>
-
-    <!-- MAIN CONTENT -->
-    <div class="content">
 
     <!-- STORY / SCENARIO -->
     <div class="story">
       <div class="eyebrow">The scenario</div>
-      <h2>At Fontara, procurement is buried in vendor contracts and PDFs and you're here to change that.</h2>
-      <p>Today, the procurement team owns thousands of vendor agreements, MSAs, SOWs, and NDAs, all stored as flat PDFs across shared drives and inboxes. The documents are signed and safe, but the agreement data the business cares about is locked inside.</p>
-      <p>That means nobody can answer the questions leaders actually ask: <span class="qs">Which contracts auto&#8209;renew next quarter? Which vendors are on payment terms longer than 45 days? Where are we missing a price&#8209;increase cap? What is our total committed spend with this supplier?</span> Today, every question means a human opening files one by one and reading them manually.</p>
-      <p>Over the next hour, you are going to change that with <strong>Docusign, AI, and MCP</strong>. You will treat agreements as data, not just documents, and you will do it the way developers fix things: <strong>automated, repeatable, and scalable</strong> — not by hand.</p>
+      <h2>You're the implementation partner. Procurement is drowning in PDFs.</h2>
+      <p>Your customer, <strong>Fontara</strong>, just signed with Docusign, and you're the developer standing up their agreement platform. Fontara's procurement team manages thousands of vendor agreements, MSAs, SOWs, and NDAs, sitting as flat PDFs across shared drives and inboxes. The documents are signed and safe, but the <em>data</em> inside them is trapped.</p>
+      <p>So nobody can answer the questions the business actually asks:
+        <span class="qs">Which contracts auto-renew next quarter? Which vendors are on payment terms over 45 days? Where are we missing a price-increase cap? What's our total committed spend with this supplier?</span>
+        Today, every answer means a human opening files one at a time.</p>
+      <p>Over the next hour you'll fix that, and you'll do it the way developers fix things: <strong>as code</strong>, repeatably, not by hand.</p>
       <div class="mission">
-        <div class="mlbl">What you are building — and why it matters</div>
+        <div class="mlbl">Your build, stage by stage</div>
         <ol>
-          <li><b>Foundation · Model &amp; ingest</b>: use the IAM Toolkit CLI to define agreement types as code and bulk-ingest the legacy repository. One-time setup that makes everything else possible.</li>
-          <li><b>Intelligence · AI extraction</b>: Iris reads every PDF and populates structured fields — supplier, renewal date, payment terms, liability caps. Static documents become queryable data.</li>
-          <li><b>Demo 1 · AI agent in Copilot Studio</b>: see the Docusign MCP Server connected live and watch the whole vendor corpus answer questions in plain English. This is the pattern you take to any client.</li>
-          <li><b>Demo 2 · Agreement intelligence where teams work</b>: see a Procurement agent in Agent Studio surface renewals, obligations, and risks — reaching Teams and other AI clients via MCP.</li>
+          <li><b>Stage 1 · Model &amp; ingest</b>: define the procurement agreement types and fields as code, then bulk-ingest the legacy repository with the Agreement CLI.</li>
+          <li><b>Stage 2 · Extract</b>: watch Docusign's AI turn each PDF into structured fields (supplier, renewal date, payment terms, liability caps).</li>
+          <li><b>Stage 3 · Ask</b>: wire up the MCP server so Fontara's procurement team queries the whole corpus in plain English from Copilot Studio.</li>
+          <li><b>Stage 4 · Ship</b>: hand them a Procurement agent that lives in the tools they already use.</li>
         </ol>
       </div>
-      <p class="kicker-line">The pattern: <strong>ingest once → extract with AI → expose via MCP → deploy agents everywhere.</strong></p>
-    </div>
-
-    <!-- LEARNING OBJECTIVES -->
-    <div class="objectives">
-      <div class="sec-head">
-        <span class="icon">🎯</span>
-        <div>
-          <h2>Learning Objectives</h2>
-          <p>By the end of this workshop you will be able to:</p>
-        </div>
-      </div>
-      <div class="obj-grid">
-        <div class="obj-card">
-          <div class="num">Objective 1</div>
-          <strong>Standardize and ingest agreements in bulk</strong>
-          <p>Use the IAM Toolkit and Agreement CLI to model procurement agreement types and fields (MSAs, SOWs, NDAs) and bulk-ingest a legacy vendor repository — all from the CLI.</p>
-        </div>
-        <div class="obj-card">
-          <div class="num">Objective 2</div>
-          <strong>Unlock contract intelligence on demand</strong>
-          <p>Let Iris extract the terms procurement cares about — supplier, renewal dates, payment terms, liability caps, and clauses — turning static PDFs into structured, queryable data.</p>
-        </div>
-        <div class="obj-card">
-          <div class="num">Objective 3</div>
-          <strong>Build and test an agent in Copilot Studio with Docusign MCP</strong>
-          <p>Connect the Docusign MCP Server to Microsoft Copilot Studio, then query your whole vendor corpus in natural language — "which agreements auto-renew in the next 90 days?"</p>
-        </div>
-        <div class="obj-card">
-          <div class="num">Objective 4</div>
-          <strong>Operationalize agreement intelligence where teams work</strong>
-          <p>Ship a prebuilt Agent Studio agent that surfaces renewals, off-standard terms, and obligations, and reaches Teams and other AI clients through MCP.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- HOW TO USE -->
-    <div class="howto">
-      <div class="sec-head">
-        <span class="icon">📖</span>
-        <div>
-          <h2>How to Use This Handbook</h2>
-          <p>Self-paced and self-contained — follow it in a facilitated session or work through it independently.</p>
-        </div>
-      </div>
-      <table>
-        <thead><tr><th>Element</th><th>What it means</th></tr></thead>
-        <tbody>
-          <tr><td>Setup</td><td>One-time configuration steps, do these before the scenarios.</td></tr>
-          <tr><td>Scenario</td><td>A hands-on exercise. Read the story, then run the prompts in order.</td></tr>
-          <tr><td>Prompt block</td><td>Copy-paste-ready prompt. Click the Copy button in the top-right.</td></tr>
-        </tbody>
-      </table>
+      <p class="kicker-line">This is the exact pattern you'll repeat for every client: <strong>export the legacy repo → standardize with IAM Toolkit → ingest via API → operationalize with agents.</strong></p>
     </div>
 
     <!-- PREREQUISITES -->
@@ -266,10 +176,10 @@
       <ol class="steps">
         <li><strong>Node.js LTS + npm</strong> installed (the Agreement CLI is distributed on npm).</li>
         <li><strong>Docusign Agreement CLI</strong> installed globally:
-          <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>npm i -g @docusign/agreement-cli</div>
+          <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>npm i -g @docusign/agreement-cli@1.1.0-beta</div>
         </li>
-        <li>Confirm the <code>ds</code> command is on the PATH, running it with no arguments prints the help / command list:
-          <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>ds</div>
+        <li>Confirm the <code>docusign</code> command is on the PATH, running it with no arguments prints the help / command list:
+          <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign</div>
         </li>
       </ol>
 
@@ -280,10 +190,14 @@
         <li>For Stage 3: a <strong>Microsoft 365 / Copilot Studio</strong> environment where you can add a Model Context Protocol tool.</li>
       </ul>
 
-      <h3>0.3 · Sample material to have on hand</h3>
-      <ul class="sub">
-        <li>The provided <strong>sample procurement agreements</strong> (MSAs / SOWs / NDAs), split into a <code>train</code> and a <code>test</code> set for Stage 1.</li>
-        <li>The workshop kit (sample agreements + workflow) from the shared GitHub repo, for the Copilot Studio stage.</li>
+      <h3>0.3 · Clone the workshop repo</h3>
+      <p class="lead" style="margin:0 0 6px">The repo ships the Pharma/Medtech procurement manifest, training documents, and ingest contracts ready to use. All data is synthetic.</p>
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>git clone https://github.com/docusign/PSA.git
+cd PSA</div>
+      <ul class="sub" style="margin-top:10px">
+        <li>Manifest: <code>Bengaluru-meetup/lab/manifests/iam-procurement/healthcare-life-sciences/pharma-medtech/agreement-manager-manifest.json</code></li>
+        <li>Training docs (7 sample agreements): <code>…/pharma-medtech/files/train/</code></li>
+        <li>Ingest contracts (4 contracts): <code>…/pharma-medtech/files/ingest/</code></li>
       </ul>
 
       <div class="note" style="margin-top:16px">
@@ -301,7 +215,7 @@
       <div class="accurate">
         <strong>Why IAM Toolkit, the developer value story.</strong>
         The IAM Toolkit lets implementation partners and enterprise developers configure, test, and deploy
-        <em>Docusign Agreement Manager</em>, the searchable, AI-powered agreement repository, programmatically, accelerating time-to-value. Talking points to land in this stage:
+        <em>Docusign Agreement Manager</em>, the searchable, intelligent agreement repository, programmatically, accelerating time-to-value. Talking points to land in this stage:
         <ul class="sub" style="color:#1c5138">
           <li><b>Faster deployments</b>, reduces implementation time by <b>over 40%</b> vs. manual configuration.</li>
           <li><b>Higher extraction accuracy</b>, define AI training datasets <b>as code</b> and validate them programmatically.</li>
@@ -319,53 +233,64 @@
       </div>
 
       <h3>1.1 · Authenticate</h3>
-      <p class="lead" style="margin:0 0 6px">Browser-based OAuth. Each developer logs in with their own Docusign developer account, no shared or production credentials. Use the production flag only when you deploy in 1.6.</p>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>ds auth login</div>
-      <p class="expect"><b>Expect:</b> a browser tab opens, you grant access, and the CLI confirms the authenticated account. (For production later: <code>ds auth login -e production</code>.)</p>
+      <p class="lead" style="margin:0 0 6px">Browser-based OAuth (PKCE). Each developer logs in with their own Docusign developer account — no shared or production credentials. On a headless machine add <code>--no-browser</code> to get a printed URL.</p>
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign auth login</div>
+      <p class="expect"><b>Expect:</b> a browser tab opens, you grant access, CLI prints the authenticated account ID. Then verify:</p>
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign auth test</div>
+      <p class="expect"><b>Expect:</b> <code>Authentication is valid</code> — confirms the token is live before continuing.</p>
 
       <h3>1.2 · Scaffold the workspace &amp; project</h3>
-      <p class="lead" style="margin:0 0 6px">Create the version-controlled project structure the rest of the flow reads from, the repeatable asset developers hand to each client.</p>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>ds scaffold -w my-docusign-workspace -p my-project -f agreement-manager</div>
-      <p class="expect"><b>Creates:</b> <code>{workspace}/{project}/agreement-manager/</code> with <code>configs/</code>, <code>files/train/</code>, <code>files/test/</code>, <code>tests/</code>, <code>metadata/</code> and <code>export/</code> folders.</p>
+      <p class="lead" style="margin:0 0 6px">Create the version-controlled project structure the rest of the flow reads from — the repeatable asset you hand to each client. Use <strong>lowercase</strong> <code>agreement-manager</code> (PascalCase breaks the directory layout in v1.0.7+).</p>
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign scaffold -w demo-workspace -p demo-project -f agreement-manager</div>
+      <p class="expect"><b>Creates:</b> <code>demo-workspace/demo-project/agreement-manager/</code> with <code>configs/</code>, <code>files/train/</code>, <code>files/test/</code>, <code>tests/</code>, and more.</p>
 
-      <h3>1.3 · Configure agreement types &amp; fields as code</h3>
-      <p class="lead" style="margin:0 0 6px">Pull the current catalog, edit the manifest to model the procurement structure (MSA / SOW / NDA + fields), then push it back.</p>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>ds agm get catalog</div>
-      <p class="lead" style="margin:8px 0 6px">Edit the manifest to add/adjust procurement agreement types and fields:</p>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>{workspace}/{project}/agreement-manager/configs/agreement-manager-manifest.json</div>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>ds agm upload</div>
-      <p class="lead" style="margin:8px 0 6px">Snapshot the deployed catalog back into a manifest (useful to version or replicate across accounts):</p>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>ds agm catalog-to-manifest --all</div>
+      <h3>1.3 · Drop in the Pharma/Medtech procurement manifest</h3>
+      <p class="lead" style="margin:0 0 6px">The workshop repo ships a pre-built manifest — 3 custom agreement types (Clinical Trial Supply, CRO Services, Medical Device Supply) and 9 custom pharma fields. Copy it into your workspace configs folder.</p>
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cp Bengaluru-meetup/lab/manifests/iam-procurement/healthcare-life-sciences/pharma-medtech/agreement-manager-manifest.json \
+   demo-workspace/demo-project/agreement-manager/configs/agreement-manager-manifest.json</div>
+      <p class="lead" style="margin:8px 0 6px">Copy the 7 training documents (sample agreements the AI learns from) into the workspace train folder:</p>
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cp Bengaluru-meetup/lab/manifests/iam-procurement/healthcare-life-sciences/pharma-medtech/files/train/* \
+   demo-workspace/demo-project/agreement-manager/files/train/</div>
+      <p class="lead" style="margin:8px 0 6px">Pull your account's current catalog (downloads <code>standard-catalog.json</code> + <code>custom-catalog.json</code>):</p>
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cd demo-workspace &amp;&amp; docusign agm get catalog</div>
+      <p class="lead" style="margin:8px 0 6px">Upload the manifest — creates all fields, creates all agreement types, maps fields to types, uploads training docs, and triggers AI training in one command:</p>
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign agm upload --bypass</div>
+      <p class="expect"><b>Expect:</b> CLI walks through each step and confirms fields created, types created, training uploaded. AI training runs asynchronously — extraction results appear in the UI after a few minutes.</p>
 
-      <h3>1.4 · Test the customizations</h3>
-      <p class="lead" style="margin:0 0 6px">Place sample agreements in <code>files/train/</code> and <code>files/test/</code>, generate the test template, fill in expected values, then run, extraction is validated programmatically, as code.</p>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>ds agm test generate-test-template</div>
-      <p class="lead" style="margin:8px 0 6px">Fill in expected field values in the generated tests file:</p>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>{workspace}/{project}/agreement-manager/tests/testing.csv</div>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>ds agm test run</div>
-      <p class="expect"><b>Expect:</b> a pass/fail comparison of extracted vs. expected values so you can tune types &amp; fields before going wide.</p>
+      <h3>1.4 · (Optional) Test the customizations</h3>
+      <p class="lead" style="margin:0 0 6px">Generate a test template pre-filled with what the AI actually extracted, then compare against known ground-truth values. Skip in the interest of time — revisit after the session.</p>
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign agm test generate-test-template --prefill-extractions</div>
+      <p class="lead" style="margin:8px 0 6px">Edit the generated template to set expected (ground-truth) values, then score accuracy:</p>
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign agm test run</div>
+      <p class="expect"><b>Expect:</b> a pass/fail comparison of extracted vs. expected values per field. Use this to tune your manifest before promoting to production.</p>
 
-      <h3>1.5 · Bulk-ingest the agreement set</h3>
-      <p class="lead" style="margin:0 0 6px">Ingest a whole directory of agreements at once, the "entire legacy repository, not one document at a time" moment.</p>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>ds agm ingest &lt;directory path&gt;</div>
-      <p class="lead" style="margin:8px 0 6px">To attach metadata during ingest, first generate a metadata template, fill it in, then ingest with it:</p>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>ds agm ingest --directory &lt;directory path&gt; --generate-metadata-template</div>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button># fill in: {workspace}/{project}/agreement-manager/metadata/metadata.csv</div>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>ds agm ingest --directory &lt;directory path&gt; --with-metadata</div>
+      <h3>1.5 · Bulk-ingest the Pharma/Medtech contract set</h3>
+      <p class="lead" style="margin:0 0 6px">Ingest 4 real-world-style pharma contracts (Clinical Trial Supply x2, CRO Services, Medical Device Supply) at once — the "entire legacy repository, not one file at a time" moment. Go back to the repo root first.</p>
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cd ..</div>
+      <p class="lead" style="margin:8px 0 6px">To preview what will be uploaded without actually ingesting:</p>
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign agm ingest \
+  --directory Bengaluru-meetup/lab/manifests/iam-procurement/healthcare-life-sciences/pharma-medtech/files/ingest \
+  --dry-run</div>
+      <p class="lead" style="margin:8px 0 6px">When ready, ingest for real:</p>
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>echo "y" | docusign agm ingest --bypass \
+  --directory Bengaluru-meetup/lab/manifests/iam-procurement/healthcare-life-sciences/pharma-medtech/files/ingest</div>
+      <p class="expect"><b>Expect:</b> CLI confirms 4 files uploaded. Documents appear in Agreement Manager within a few minutes as Navigator indexes them asynchronously.</p>
 
       <h3>1.6 · Deploy to production</h3>
-      <p class="lead" style="margin:0 0 6px">The same validated config promotes dev → prod (or replicates across accounts), just re-auth against production and upload.</p>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>ds auth login -e production</div>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>ds agm upload</div>
+      <p class="lead" style="margin:0 0 6px">The same validated config promotes demo → production (or replicates across client accounts) — just re-auth and re-upload. The manifest is the portable asset you hand to each client.</p>
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign auth login -e production</div>
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cd demo-workspace &amp;&amp; docusign agm upload --bypass</div>
 
       <div class="note" style="margin-top:16px">
-        <strong>Developer takeaway:</strong> everything in 1.2–1.6 is config-as-code + CLI, so a client's <em>entire</em> repository can be standardized, tested, ingested, and promoted to production the same way, not one document at a time.
+        <strong>Developer takeaway:</strong> everything in 1.2–1.6 is config-as-code + CLI. A client's <em>entire</em> repository — any size — can be standardized, trained, tested, ingested, and promoted to production: repeatable, version-controlled, and partner-deliverable.
+        <br><br><strong>Tip:</strong> if <code>agm upload</code> fails with <em>"Cannot add more than 0 active descriptors"</em>, your Integration Key is not yet on the ART allowlist. Temporarily set <code>"customExtractionEnabled": false</code> on the fields in the manifest — types and fields still get created, just without AI extraction training.
       </div>
     </div>
 
     <!-- STAGE 2 -->
     <div class="stage" id="s2">
       <h2>Stage 2 · Extraction surfaces in Agreement Manager
+        <span class="badge b-ill">Verify UI labels</span>
       </h2>
       <p class="lead">Now Fontara's PDFs stop being flat documents. Once the agreements are ingested, Docusign's AI extraction (Iris) reads each one and populates the fields you defined in Stage 1. This is where the "static PDF → structured data" moment lands for the room, and where procurement first sees answers instead of files.</p>
 
@@ -465,31 +390,21 @@
         <li>Connect back to MCP: the same agent can surface in third-party tools, <strong>Microsoft Teams</strong> and other AI clients, via the MCP server.</li>
       </ol>
       <div class="accurate">
-        <strong>The one-line message:</strong> IAM Toolkit + CLI standardized and ingested the corpus → Iris AI extracted structured fields → MCP + Copilot Studio and Agent Studio turned that intelligence into answers, wherever the procurement team already works.
+        <strong>The one-line message:</strong> IAM Toolkit + CLI standardized and ingested the corpus → Agreement Manager extracted structured fields → MCP + Copilot Studio and Agent Studio turned that structure into answers, wherever the procurement team already works.
       </div>
     </div>
 
     <div class="foot">
       Page 2 of 2, Hands-on Flow. See <strong>1_Run_of_Show.html</strong> for the agenda &amp; timings.<br>
-      Prerequisites and Stage 1 use the official Docusign Agreement CLI (<code>ds</code>) commands. Stage 2 extraction steps follow the current Agreement Manager UI, confirm exact labels against your account.
+      Prerequisites and Stage 1 use the official Docusign Agreement CLI (<code>docusign</code> command, npm: <code>@docusign/agreement-cli@1.1.0-beta</code>). Stage 2 extraction steps follow the current Agreement Manager UI — confirm exact labels against your account.
     </div>
-    </div><!-- end .content -->
-  </div><!-- end .layout -->
   </div>
-  <div style="position:fixed;bottom:0;right:0;padding:8px 16px;font-size:11px;color:#615a75;background:rgba(255,255,255,0.92);border-top:1px solid #e5e1f0;border-left:1px solid #e5e1f0;border-radius:8px 0 0 0;z-index:99">For questions or feedback: <a href="mailto:amrit.prakash@docusign.com" style="color:#4C00FF;text-decoration:none">amrit.prakash@docusign.com</a></div>
 
 <script>
-  function toggleStage(n){
-    var el = document.getElementById('s'+n);
-    var btns = document.querySelectorAll('.rail-btn');
-    var isOpen = el.classList.contains('open');
-    document.querySelectorAll('.stage').forEach(function(s){s.classList.remove('open');});
-    btns.forEach(function(b){b.classList.remove('active');});
-    if(!isOpen){el.classList.add('open');btns[n].classList.add('active');el.scrollIntoView({behavior:'smooth',block:'nearest'});}
-  }
   function cp(btn){
     var box = btn.parentElement;
     var txt = box.cloneNode(true);
+    // remove the button text from the copied content
     var b = txt.querySelector('.copy'); if(b) b.remove();
     var q = txt.querySelector('.q'); if(q) q.remove();
     var content = txt.innerText.trim();
