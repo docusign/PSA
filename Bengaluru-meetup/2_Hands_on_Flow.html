@@ -40,17 +40,24 @@
   .bar .kicker{color:#fff;opacity:.9;font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:600}
   .bar h1{margin:8px 0 4px;font-size:26px;font-weight:600}
   .bar p{margin:0;color:#f3edff;font-size:14px}
-  .wrap{max-width:1080px;margin:0 auto;padding:28px 40px 64px}
+  .wrap{max-width:1120px;margin:0 auto;padding:28px 40px 64px}
+  .layout{display:flex;gap:24px;align-items:flex-start}
 
-  /* progress rail */
-  .rail{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 6px}
-  .rail a{flex:1;min-width:180px;text-decoration:none;background:#fff;border:1px solid var(--line);
-        border-radius:10px;padding:12px 14px;color:var(--txt);transition:.15s}
-  .rail a:hover{border-color:var(--blue2);box-shadow:0 2px 8px rgba(38,84,124,.12)}
-  .rail .n{display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;border-radius:50%;
-        background:var(--blue);color:#fff;font-size:12px;font-weight:bold;margin-right:8px}
-  .rail .t{font-size:13px;font-weight:bold;color:var(--ink)}
-  .rail .s{display:block;font-size:11.5px;color:var(--muted);margin-top:3px}
+  /* left sidebar rail */
+  .sidebar{flex:0 0 210px;position:sticky;top:72px}
+  .rail-v{display:flex;flex-direction:column;gap:6px}
+  .rail-btn{display:flex;align-items:flex-start;gap:10px;width:100%;background:#fff;border:1px solid var(--line);
+        border-radius:10px;padding:11px 13px;color:var(--txt);cursor:pointer;text-align:left;transition:.15s;
+        font-family:inherit}
+  .rail-btn:hover{border-color:var(--blue2);box-shadow:0 2px 8px rgba(76,0,255,.1)}
+  .rail-btn.active{border-color:var(--blue);background:#f0ecff}
+  .rail-btn .n{flex-shrink:0;display:inline-flex;width:22px;height:22px;align-items:center;justify-content:center;
+        border-radius:50%;background:var(--blue);color:#fff;font-size:12px;font-weight:bold;margin-top:1px}
+  .rail-btn.active .n{background:var(--indigo)}
+  .rail-btn .t{font-size:13px;font-weight:600;color:var(--ink);display:block}
+  .rail-btn .s{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+
+  .content{flex:1;min-width:0}
 
   .note{background:var(--warnbg);border:1px solid #f0d68a;border-left:5px solid var(--gold);
         border-radius:8px;padding:12px 16px;margin:18px 0;font-size:13.5px;color:#5c4a12}
@@ -73,7 +80,8 @@
   .story .kicker-line{margin:12px 0 0;font-size:13px;color:var(--muted)}
 
   .stage{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:20px 0;
-        scroll-margin-top:16px}
+        scroll-margin-top:16px;display:none}
+  .stage.open{display:block}
   .stage h2{font-size:19px;color:var(--blue);margin:0 0 2px}
   .stage .lead{color:var(--muted);font-size:13.5px;margin:0 0 14px}
   .stage h3{font-size:14.5px;color:var(--ink);margin:18px 0 6px;border-left:3px solid var(--gold);padding-left:10px}
@@ -110,6 +118,31 @@
   tbody tr:nth-child(even){background:var(--lt)}
   code{background:var(--lt);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12.5px}
   .foot{margin-top:34px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+
+  /* learning objectives */
+  .objectives{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:20px 0}
+  .objectives .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .objectives .sec-head .icon{font-size:20px;line-height:1}
+  .objectives .sec-head h2{font-size:17px;color:var(--ink);margin:0;font-weight:600}
+  .objectives .sec-head p{font-size:13px;color:var(--muted);margin:4px 0 0}
+  .obj-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:640px){.obj-grid{grid-template-columns:1fr}}
+  .obj-card{background:var(--lt);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .obj-card .num{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--indigo);margin-bottom:6px}
+  .obj-card strong{display:block;font-size:13.5px;color:var(--ink);margin-bottom:4px;font-weight:600}
+  .obj-card p{font-size:12.5px;color:var(--muted);margin:0}
+
+  /* how to use */
+  .howto{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:20px 0}
+  .howto .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .howto .sec-head .icon{font-size:20px;line-height:1}
+  .howto .sec-head h2{font-size:17px;color:var(--ink);margin:0;font-weight:600}
+  .howto .sec-head p{font-size:13px;color:var(--muted);margin:4px 0 0}
+  .howto table{margin-top:0;border:none;background:transparent}
+  .howto table thead th{background:var(--lt);color:var(--ink);font-size:11.5px;padding:9px 13px;border-bottom:1px solid var(--line)}
+  .howto table tbody td{font-size:13px;padding:10px 13px;border-top:1px solid var(--line);background:#fff}
+  .howto table tbody tr:nth-child(even) td{background:var(--lt)}
+  .howto table td:first-child{font-weight:600;color:var(--ink);white-space:nowrap;width:130px}
   .expect{font-size:12.5px;color:var(--ok);margin:6px 0 0;padding-left:2px}
   .expect b{color:var(--ok)}
 </style>
@@ -124,45 +157,102 @@
     <a class="brand" href="index.html"><img src="assets/img/docusign-horizontal-black.svg" alt="Docusign"></a>
     <div class="tabs">
       <a href="index.html">Overview</a>
-      <a href="1_Run_of_Show.html">Run of Show</a>
-      <a href="2_Hands_on_Flow.html" class="active">Hands-on Lab</a>
+      <a href="1_Run_of_Show.html">Run of Show(Internal)</a>
+      <a href="2_Hands_on_Flow.html" class="active">Hands-on Lab(WIP)</a>
     </div>
-    <a class="nav-cta" href="https://www.docusign.com/products/iam" target="_blank" rel="noopener">Docusign IAM ↗</a>
+    <a class="nav-cta" href="https://www.docusign.com/intelligent-agreement-management" target="_blank" rel="noopener">Docusign IAM ↗</a>
   </div></nav>
   <div class="bar"><div class="in">
     <div class="kicker">Docusign Manage · Bengaluru Meetup</div>
-    <h1>Hands-on Flow, Procurement / Developer Lab</h1>
+    <h1>Hands-on Lab <span style="font-weight:400;opacity:.75">(WIP)</span></h1>
     <p>CLI login &amp; upload → extraction in Agreement Manager → MCP via Copilot Studio → Agent Studio</p>
   </div></div>
 
   <div class="wrap">
-    <div class="rail">
-      <a href="#s0"><span class="n">0</span><span class="t">Prerequisites</span><span class="s">Install &amp; access · before you start</span></a>
-      <a href="#s1"><span class="n">1</span><span class="t">IAM Toolkit + CLI</span><span class="s">Login &amp; bulk-upload agreements · 15 min</span></a>
-      <a href="#s2"><span class="n">2</span><span class="t">Extraction surfaces</span><span class="s">Agreement Manager · included above</span></a>
-      <a href="#s3"><span class="n">3</span><span class="t">MCP · Copilot Studio</span><span class="s">Connect + Scenario A · 30 min</span></a>
-      <a href="#s4"><span class="n">4</span><span class="t">Agent Studio</span><span class="s">Procurement agent demo · 10 min</span></a>
+  <div class="layout">
+    <!-- LEFT SIDEBAR -->
+    <div class="sidebar">
+      <div class="rail-v">
+        <button class="rail-btn" onclick="toggleStage(0)"><span class="n">0</span><div><span class="t">Prerequisites</span><span class="s">Install &amp; access · before you start</span></div></button>
+        <button class="rail-btn" onclick="toggleStage(1)"><span class="n">1</span><div><span class="t">IAM Toolkit</span><span class="s">Login &amp; bulk-upload · 15 min</span></div></button>
+        <button class="rail-btn" onclick="toggleStage(2)"><span class="n">2</span><div><span class="t">AI Extraction</span><span class="s">Agreement Manager · Iris</span></div></button>
+        <button class="rail-btn" onclick="toggleStage(3)"><span class="n">3</span><div><span class="t">MCP · Copilot Studio</span><span class="s">Connect + Insights · 30 min</span></div></button>
+        <button class="rail-btn" onclick="toggleStage(4)"><span class="n">4</span><div><span class="t">Agent Studio</span><span class="s">Procurement agent demo · 10 min</span></div></button>
+      </div>
     </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
 
     <!-- STORY / SCENARIO -->
     <div class="story">
       <div class="eyebrow">The scenario</div>
-      <h2>You're the implementation partner. Procurement is drowning in PDFs.</h2>
-      <p>Your customer, <strong>Fontara</strong>, just signed with Docusign, and you're the developer standing up their agreement platform. Fontara's procurement team manages thousands of vendor agreements, MSAs, SOWs, and NDAs, sitting as flat PDFs across shared drives and inboxes. The documents are signed and safe, but the <em>data</em> inside them is trapped.</p>
-      <p>So nobody can answer the questions the business actually asks:
-        <span class="qs">Which contracts auto-renew next quarter? Which vendors are on payment terms over 45 days? Where are we missing a price-increase cap? What's our total committed spend with this supplier?</span>
-        Today, every answer means a human opening files one at a time.</p>
-      <p>Over the next hour you'll fix that, and you'll do it the way developers fix things: <strong>as code</strong>, repeatably, not by hand.</p>
+      <h2>At Fontara, procurement is buried in vendor contracts and PDFs and you're here to change that.</h2>
+      <p>Today, the procurement team owns thousands of vendor agreements, MSAs, SOWs, and NDAs, all stored as flat PDFs across shared drives and inboxes. The documents are signed and safe, but the agreement data the business cares about is locked inside.</p>
+      <p>That means nobody can answer the questions leaders actually ask: <span class="qs">Which contracts auto&#8209;renew next quarter? Which vendors are on payment terms longer than 45 days? Where are we missing a price&#8209;increase cap? What is our total committed spend with this supplier?</span> Today, every question means a human opening files one by one and reading them manually.</p>
+      <p>Over the next hour, you are going to change that with <strong>Docusign, AI, and MCP</strong>. You will treat agreements as data, not just documents, and you will do it the way developers fix things: <strong>automated, repeatable, and scalable</strong> — not by hand.</p>
       <div class="mission">
-        <div class="mlbl">Your build, stage by stage</div>
+        <div class="mlbl">What you are building — and why it matters</div>
         <ol>
-          <li><b>Stage 1 · Model &amp; ingest</b>: define the procurement agreement types and fields as code, then bulk-ingest the legacy repository with the Agreement CLI.</li>
-          <li><b>Stage 2 · Extract</b>: watch Docusign's AI turn each PDF into structured fields (supplier, renewal date, payment terms, liability caps).</li>
-          <li><b>Stage 3 · Ask</b>: wire up the MCP server so Fontara's procurement team queries the whole corpus in plain English from Copilot Studio.</li>
-          <li><b>Stage 4 · Ship</b>: hand them a Procurement agent that lives in the tools they already use.</li>
+          <li><b>Foundation · Model &amp; ingest</b>: use the IAM Toolkit CLI to define agreement types as code and bulk-ingest the legacy repository. One-time setup that makes everything else possible.</li>
+          <li><b>Intelligence · AI extraction</b>: Iris reads every PDF and populates structured fields — supplier, renewal date, payment terms, liability caps. Static documents become queryable data.</li>
+          <li><b>Demo 1 · AI agent in Copilot Studio</b>: see the Docusign MCP Server connected live and watch the whole vendor corpus answer questions in plain English. This is the pattern you take to any client.</li>
+          <li><b>Demo 2 · Agreement intelligence where teams work</b>: see a Procurement agent in Agent Studio surface renewals, obligations, and risks — reaching Teams and other AI clients via MCP.</li>
         </ol>
       </div>
-      <p class="kicker-line">This is the exact pattern you'll repeat for every client: <strong>export the legacy repo → standardize with IAM Toolkit → ingest via API → operationalize with agents.</strong></p>
+      <p class="kicker-line">The pattern: <strong>ingest once → extract with AI → expose via MCP → deploy agents everywhere.</strong></p>
+    </div>
+
+    <!-- LEARNING OBJECTIVES -->
+    <div class="objectives">
+      <div class="sec-head">
+        <span class="icon">🎯</span>
+        <div>
+          <h2>Learning Objectives</h2>
+          <p>By the end of this workshop you will be able to:</p>
+        </div>
+      </div>
+      <div class="obj-grid">
+        <div class="obj-card">
+          <div class="num">Objective 1</div>
+          <strong>Standardize and ingest agreements in bulk</strong>
+          <p>Use the IAM Toolkit and Agreement CLI to model procurement agreement types and fields (MSAs, SOWs, NDAs) and bulk-ingest a legacy vendor repository — all from the CLI.</p>
+        </div>
+        <div class="obj-card">
+          <div class="num">Objective 2</div>
+          <strong>Unlock contract intelligence on demand</strong>
+          <p>Let Iris extract the terms procurement cares about — supplier, renewal dates, payment terms, liability caps, and clauses — turning static PDFs into structured, queryable data.</p>
+        </div>
+        <div class="obj-card">
+          <div class="num">Objective 3</div>
+          <strong>Build and test an agent in Copilot Studio with Docusign MCP</strong>
+          <p>Connect the Docusign MCP Server to Microsoft Copilot Studio, then query your whole vendor corpus in natural language — "which agreements auto-renew in the next 90 days?"</p>
+        </div>
+        <div class="obj-card">
+          <div class="num">Objective 4</div>
+          <strong>Operationalize agreement intelligence where teams work</strong>
+          <p>Ship a prebuilt Agent Studio agent that surfaces renewals, off-standard terms, and obligations, and reaches Teams and other AI clients through MCP.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW TO USE -->
+    <div class="howto">
+      <div class="sec-head">
+        <span class="icon">📖</span>
+        <div>
+          <h2>How to Use This Handbook</h2>
+          <p>Self-paced and self-contained — follow it in a facilitated session or work through it independently.</p>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>Element</th><th>What it means</th></tr></thead>
+        <tbody>
+          <tr><td>Setup</td><td>One-time configuration steps, do these before the scenarios.</td></tr>
+          <tr><td>Scenario</td><td>A hands-on exercise. Read the story, then run the prompts in order.</td></tr>
+          <tr><td>Prompt block</td><td>Copy-paste-ready prompt. Click the Copy button in the top-right.</td></tr>
+        </tbody>
+      </table>
     </div>
 
     <!-- PREREQUISITES -->
@@ -215,7 +305,7 @@ cd PSA</div>
       <div class="accurate">
         <strong>Why IAM Toolkit, the developer value story.</strong>
         The IAM Toolkit lets implementation partners and enterprise developers configure, test, and deploy
-        <em>Docusign Agreement Manager</em>, the searchable, intelligent agreement repository, programmatically, accelerating time-to-value. Talking points to land in this stage:
+        <em>Docusign Agreement Manager</em>, the searchable, AI-powered agreement repository, programmatically, accelerating time-to-value. Talking points to land in this stage:
         <ul class="sub" style="color:#1c5138">
           <li><b>Faster deployments</b>, reduces implementation time by <b>over 40%</b> vs. manual configuration.</li>
           <li><b>Higher extraction accuracy</b>, define AI training datasets <b>as code</b> and validate them programmatically.</li>
@@ -265,9 +355,9 @@ cd PSA</div>
       <p class="expect"><b>Expect:</b> a pass/fail comparison of extracted vs. expected values per field. Use this to tune your manifest before promoting to production.</p>
 
       <h3>1.5 · Bulk-ingest the Pharma/Medtech contract set</h3>
-      <p class="lead" style="margin:0 0 6px">Ingest 4 real-world-style pharma contracts (Clinical Trial Supply x2, CRO Services, Medical Device Supply) at once — the "entire legacy repository, not one file at a time" moment. Go back to the repo root first.</p>
+      <p class="lead" style="margin:0 0 6px">Ingest 4 real-world-style pharma contracts at once — the "entire legacy repository, not one file at a time" moment. Go back to the repo root first.</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cd ..</div>
-      <p class="lead" style="margin:8px 0 6px">To preview what will be uploaded without actually ingesting:</p>
+      <p class="lead" style="margin:8px 0 6px">Preview what will be uploaded without ingesting:</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign agm ingest \
   --directory Bengaluru-meetup/lab/manifests/iam-procurement/healthcare-life-sciences/pharma-medtech/files/ingest \
   --dry-run</div>
@@ -282,7 +372,7 @@ cd PSA</div>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cd demo-workspace &amp;&amp; docusign agm upload --bypass</div>
 
       <div class="note" style="margin-top:16px">
-        <strong>Developer takeaway:</strong> everything in 1.2–1.6 is config-as-code + CLI. A client's <em>entire</em> repository — any size — can be standardized, trained, tested, ingested, and promoted to production: repeatable, version-controlled, and partner-deliverable.
+        <strong>Developer takeaway:</strong> everything in 1.2–1.6 is config-as-code + CLI. A client's <em>entire</em> repository can be standardized, trained, tested, ingested, and promoted to production: repeatable, version-controlled, and partner-deliverable.
         <br><br><strong>Tip:</strong> if <code>agm upload</code> fails with <em>"Cannot add more than 0 active descriptors"</em>, your Integration Key is not yet on the ART allowlist. Temporarily set <code>"customExtractionEnabled": false</code> on the fields in the manifest — types and fields still get created, just without AI extraction training.
       </div>
     </div>
@@ -389,7 +479,7 @@ cd PSA</div>
         <li>Connect back to MCP: the same agent can surface in third-party tools, <strong>Microsoft Teams</strong> and other AI clients, via the MCP server.</li>
       </ol>
       <div class="accurate">
-        <strong>The one-line message:</strong> IAM Toolkit + CLI standardized and ingested the corpus → Agreement Manager extracted structured fields → MCP + Copilot Studio and Agent Studio turned that structure into answers, wherever the procurement team already works.
+        <strong>The one-line message:</strong> IAM Toolkit + CLI standardized and ingested the corpus → Iris AI extracted structured fields → MCP + Copilot Studio and Agent Studio turned that intelligence into answers, wherever the procurement team already works.
       </div>
     </div>
 
@@ -397,13 +487,23 @@ cd PSA</div>
       Page 2 of 2, Hands-on Flow. See <strong>1_Run_of_Show.html</strong> for the agenda &amp; timings.<br>
       Prerequisites and Stage 1 use the official Docusign Agreement CLI (<code>docusign</code> command, npm: <code>@docusign/agreement-cli@1.1.0-beta</code>). Stage 2 extraction steps follow the current Agreement Manager UI — confirm exact labels against your account.
     </div>
+    </div><!-- end .content -->
+  </div><!-- end .layout -->
   </div>
+  <div style="position:fixed;bottom:0;right:0;padding:8px 16px;font-size:11px;color:#615a75;background:rgba(255,255,255,0.92);border-top:1px solid #e5e1f0;border-left:1px solid #e5e1f0;border-radius:8px 0 0 0;z-index:99">For questions or feedback: <a href="mailto:amrit.prakash@docusign.com" style="color:#4C00FF;text-decoration:none">amrit.prakash@docusign.com</a></div>
 
 <script>
+  function toggleStage(n){
+    var el = document.getElementById('s'+n);
+    var btns = document.querySelectorAll('.rail-btn');
+    var isOpen = el.classList.contains('open');
+    document.querySelectorAll('.stage').forEach(function(s){s.classList.remove('open');});
+    btns.forEach(function(b){b.classList.remove('active');});
+    if(!isOpen){el.classList.add('open');btns[n].classList.add('active');el.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  }
   function cp(btn){
     var box = btn.parentElement;
     var txt = box.cloneNode(true);
-    // remove the button text from the copied content
     var b = txt.querySelector('.copy'); if(b) b.remove();
     var q = txt.querySelector('.q'); if(q) q.remove();
     var content = txt.innerText.trim();
