@@ -38,36 +38,40 @@
   .hero p{margin:0;color:#f3edff;font-size:15px}
   .wrap{max-width:1080px;margin:0 auto;padding:34px 24px 48px}
 
-  /* three excitement frames */
-  .frames{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:0 0 24px}
-  @media(max-width:860px){.frames{grid-template-columns:1fr 1fr}}
+  /* four capability frames */
+  .frames{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 0 24px}
   @media(max-width:640px){.frames{grid-template-columns:1fr}}
   .frame{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 24px;position:relative;overflow:hidden}
   .frame:before{content:"";position:absolute;top:0;left:0;right:0;height:4px}
   .frame.f1:before{background:linear-gradient(90deg,#4C00FF,#7A1FD0)}
   .frame.f2:before{background:linear-gradient(90deg,#C0207E,#FF5252)}
-  .frame .fnum{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--indigo);margin-bottom:10px}
-  .frame.f2 .fnum{color:#C0207E}
   .frame.f3:before{background:linear-gradient(90deg,#7A1FD0,#C0207E)}
+  .frame.f4:before{background:linear-gradient(90deg,#FF5252,#ff8c52)}
+  .frame .fnum{font-size:11px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--indigo);margin-bottom:6px}
+  .frame.f2 .fnum{color:#C0207E}
   .frame.f3 .fnum{color:#7A1FD0}
-  .frame.f3 .why{background:#f9f3ff}
-  .frame.f3 .why strong{color:#7A1FD0}
-  .frame h2{font-size:20px;font-weight:600;color:var(--ink);margin:0 0 12px;line-height:1.3}
+  .frame.f4 .fnum{color:#d44000}
+  .frame h2{font-size:17px;font-weight:600;color:var(--ink);margin:0 0 12px;line-height:1.3}
   .frame .why{background:#f7f4ff;border-radius:8px;padding:10px 14px;margin:0 0 14px;font-size:13px;color:var(--ink)}
   .frame.f2 .why{background:#fff3f3}
+  .frame.f3 .why{background:#f9f3ff}
+  .frame.f4 .why{background:#fff7f3}
   .frame .why strong{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--indigo);margin-bottom:4px}
   .frame.f2 .why strong{color:#C0207E}
+  .frame.f3 .why strong{color:#7A1FD0}
+  .frame.f4 .why strong{color:#d44000}
   .frame p{font-size:13.5px;color:var(--muted);margin:0}
 
   /* how we get there */
   .how{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:0 0 28px}
   .how h3{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
   .how-steps{display:flex;flex-wrap:wrap;gap:10px}
-  .how-step{flex:1;min-width:180px;display:flex;align-items:flex-start;gap:10px;background:var(--lt);border-radius:10px;padding:12px 14px}
+  .how-step{flex:1;min-width:160px;display:flex;align-items:flex-start;gap:10px;background:var(--lt);border-radius:10px;padding:12px 14px}
   .how-step .dot{flex-shrink:0;width:8px;height:8px;border-radius:50%;margin-top:5px}
   .how-step.hs1 .dot{background:#4C00FF}
-  .how-step.hs2 .dot{background:#C0207E}
-  .how-step.hs3 .dot{background:#aaa}
+  .how-step.hs2 .dot{background:#7A1FD0}
+  .how-step.hs3 .dot{background:#C0207E}
+  .how-step.hs4 .dot{background:#FF5252}
   .how-step strong{display:block;font-size:13px;color:var(--ink);font-weight:600;margin-bottom:2px}
   .how-step span{font-size:12px;color:var(--muted)}
 
@@ -95,63 +99,76 @@
     <a class="brand" href="index.html"><img src="assets/img/docusign-horizontal-black.svg" alt="Docusign"></a>
     <div class="tabs">
       <a href="index.html" class="active">Overview</a>
-      <a href="1_Run_of_Show.html">Run of Show (Internal)</a>
-      <a href="2_Hands_on_Flow.html">Hands-on Lab (WIP)</a>
+      <a href="1_Run_of_Show.html">Run of Show</a>
+      <a href="2_Hands_on_Flow.html">Hands-on Lab</a>
     </div>
     <a class="nav-cta" href="https://www.docusign.com/intelligent-agreement-management" target="_blank" rel="noopener">Docusign IAM ↗</a>
   </div></nav>
 
   <div class="hero"><div class="in">
-    <h1>See Agreement Intelligence in Action and Leave Knowing How to Ship It</h1>
-    <p>Bengaluru Meetup Workshop · Developer &amp; implementation-partner audience · Docusign IAM</p>
+    <h1>The Anatomy of a Trustworthy Agreement Layer</h1>
+    <p>Four capabilities that turn agreements from documents into infrastructure agents can act on · Bengaluru Meetup Workshop · Docusign IAM</p>
   </div></div>
 
   <div class="wrap">
 
     <div class="frames">
       <div class="frame f1">
-        <div class="fnum">Why you're here · 1 of 3</div>
-        <h2>See how agreement data gets structured at scale</h2>
+        <div class="fnum">Capability 1 of 4 · Data</div>
+        <h2>What does the agent actually know?</h2>
         <div class="why">
-          <strong>Why this is worth your time</strong>
-          Before any agent can answer a question, the data has to be clean and structured. The IAM Toolkit CLI is how that happens at scale, and understanding it is what separates a demo from a real deployment.
+          <strong>The gap every agentic platform hits</strong>
+          The agent reasons well until the generic ends and the agreement begins. Without the actual terms, it applies generic actions to specifically negotiated relationships. Stage 1 and 2 close that gap for Fontara's procurement team.
         </div>
-        <p>Watch how procurement agreement types and fields get defined as code, a legacy vendor repository gets ingested in bulk, and Iris AI turns every PDF into structured, queryable data.</p>
+        <p>Define procurement agreement types and fields as code, bulk-ingest a pharma-medtech vendor repository with the IAM Toolkit CLI, and watch Iris extract renewal dates, payment terms, and liability caps from every PDF.</p>
       </div>
       <div class="frame f2">
-        <div class="fnum">Why you're here · 2 of 3</div>
-        <h2>See agreement data power Copilot and other AI tools</h2>
+        <div class="fnum">Capability 2 of 4 · Integration</div>
+        <h2>Where does the agent plug in?</h2>
         <div class="why">
-          <strong>Why this is worth your time</strong>
-          You are not just seeing Docusign. You are seeing the MCP integration pattern that works across any AI client. Understanding this opens doors to Copilot Studio and whatever your customers are already using.
+          <strong>The integration pattern that travels</strong>
+          Structured data is inert if it's siloed. The MCP connection you build in Stage 3 is the same pattern that reaches Copilot Studio, Teams, or whatever your customers are already running.
         </div>
-        <p>Iris AI extracts structured intelligence from thousands of contracts: renewal dates, payment terms, liability caps. MCP then makes that intelligence queryable from any AI tool in plain English.</p>
+        <p>Wire the Docusign MCP Server into Copilot Studio and query Fontara's entire vendor corpus in plain English: auto-renewals in 90 days, vendors on off-standard payment terms, MSAs missing a price-increase cap.</p>
       </div>
       <div class="frame f3">
-        <div class="fnum">Why you're here · 3 of 3</div>
-        <h2>See AI agents running on Docusign's platform</h2>
+        <div class="fnum">Capability 3 of 4 · Guardrails</div>
+        <h2>Who decides what runs without a human?</h2>
         <div class="why">
-          <strong>Why this is worth your time</strong>
-          Agentic workflows are where enterprise software is going. Seeing it live, on real agreement data, gives you the full picture of what is possible and the pattern to replicate it for your own customers.
+          <strong>Agentic action without guardrails is liability</strong>
+          Not every agreement decision should fire automatically. Workflow Builder lets you encode exactly which renewals require sign-off before signature — so the agent escalates with full context instead of acting blind.
         </div>
-        <p>Watch a Procurement agent answer real business questions in plain English, trigger workflows, and surface obligations across the entire vendor corpus, powered by Docusign MCP and Copilot Studio.</p>
+        <p>Trigger a pharma supply renewal from one prompt: the agent calculates the deal, routes it through Workflow Builder approval, fires Agreement Prep to the vendor signer, and tracks status back — all without a human touching the toolchain.</p>
+      </div>
+      <div class="frame f4">
+        <div class="fnum">Capability 4 of 4 · Reach</div>
+        <h2>Where does the result go?</h2>
+        <div class="why">
+          <strong>The reusable asset you hand to every client</strong>
+          What you build today is version-controlled, CLI-deployable, and portable across customer accounts. The MCP endpoint it exposes is reachable from Teams, Copilot, or any AI surface your customers are already running.
+        </div>
+        <p>Deploy the prebuilt Procurement Agent in Agent Studio: it surfaces renewals, off-standard terms, and obligations across the vendor corpus, and reaches the teams that act on them through any MCP-compatible AI client.</p>
       </div>
     </div>
 
     <div class="how">
-      <h3>How we get there</h3>
+      <h3>The pattern · ingest once → extract with AI → expose via MCP → deploy agents everywhere</h3>
       <div class="how-steps">
         <div class="how-step hs1">
           <div class="dot"></div>
-          <div><strong>Agreement Manager + Iris AI</strong><span>Turns flat PDFs into structured, queryable agreement data, the intelligence that powers the agents.</span></div>
+          <div><strong>IAM Toolkit CLI</strong><span>Defines agreement types as code and bulk-ingests a legacy repository at scale — the foundation everything else runs on.</span></div>
         </div>
         <div class="how-step hs2">
           <div class="dot"></div>
-          <div><strong>MCP + Copilot Studio</strong><span>Connects that intelligence to any AI client: natural-language queries, agent actions, workflow triggers.</span></div>
+          <div><strong>Iris AI extraction</strong><span>Turns flat PDFs into structured, queryable intelligence: parties, dates, payment terms, liability caps, clauses.</span></div>
         </div>
         <div class="how-step hs3">
           <div class="dot"></div>
-          <div><strong>IAM Toolkit CLI</strong><span>One-time setup that ingests a legacy repository at scale, the foundation everything else runs on.</span></div>
+          <div><strong>Docusign MCP + Copilot Studio</strong><span>Exposes that intelligence to any AI client in plain English, with Workflow Builder routing high-stakes decisions to a human first.</span></div>
+        </div>
+        <div class="how-step hs4">
+          <div class="dot"></div>
+          <div><strong>Agent Studio</strong><span>Ships the whole stack as a Procurement Agent that reaches teams through Teams, Copilot, or any MCP-compatible surface.</span></div>
         </div>
       </div>
     </div>
