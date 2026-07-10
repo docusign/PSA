@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docusign IAM Toolkit — User Manual (Closed Beta)</title>
+<style>
+:root {
+  --teal:        #0A5C47;
+  --teal-mid:    #0F7A60;
+  --teal-light:  #E6F4EF;
+  --teal-xlight: #F2FAF7;
+  --dark:        #1A1A2E;
+  --mid:         #555566;
+  --gray-bg:     #F7F8FA;
+  --gray-border: #E2E6EA;
+  --amber:       #854F0B;
+  --amber-bg:    #FEF9EE;
+  --amber-border:#F0C060;
+  --red:         #9B2335;
+  --red-bg:      #FDF2F4;
+  --blue:        #1A5FA8;
+  --blue-bg:     #EEF4FD;
+  --blue-border: #B5CFF4;
+  --purple:      #4C3DAA;
+  --purple-bg:   #F0EEFF;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+       font-size: 15px; line-height: 1.65; color: var(--dark); background: #fff; }
+.sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 248px;
+  background: var(--teal); overflow-y: auto; z-index: 100; display: flex; flex-direction: column; }
+.main { padding: 0 52px 100px; max-width: 920px;
+  margin-left: max(248px, calc(50% - 460px));
+  margin-right: auto; }
+@media (max-width: 860px) { .sidebar { display:none; }
+  .main { margin-left:0; margin-right:0; padding:16px 20px 80px; max-width:100%; } }
+.sb-brand { padding: 24px 20px 18px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+.sb-brand .name { color:#fff; font-size:17px; font-weight:700; letter-spacing:-.01em; }
+.sb-brand .sub  { color:rgba(255,255,255,.55); font-size:11px; margin-top:3px; }
+.sb-section { padding: 14px 20px 4px; color:rgba(255,255,255,.4);
+  font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.09em; }
+.sidebar nav a { display: flex; align-items: center; gap: 9px;
+  padding: 8px 20px; color: rgba(255,255,255,.78);
+  text-decoration: none; font-size: 13px; transition: all .15s; }
+.sidebar nav a:hover  { background:rgba(255,255,255,.1); color:#fff; }
+.sidebar nav a.active { background:rgba(255,255,255,.16); color:#fff;
+  font-weight:600; border-left:3px solid #fff; }
+.sb-icon { width:16px; text-align:center; flex-shrink:0; }
+.sidebar nav a.top { font-weight:600; color:#fff; }
+.sidebar nav a.sub { padding-left:40px; font-size:12.5px; color:rgba(255,255,255,.62); }
+.sidebar nav a .num { display:inline-block; min-width:22px; color:rgba(255,255,255,.55);
+  font-variant-numeric:tabular-nums; }
+.sidebar nav a.top .num { color:rgba(255,255,255,.9); }
+.hero { background: linear-gradient(135deg, var(--teal) 0%, #063D2F 100%);
+  color: #fff; padding: 52px 52px 44px; margin: 0 -52px 0; border-radius: 0 0 20px 20px; }
+.hero-tag { background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.3);
+  display:inline-block; padding:4px 14px; border-radius:20px;
+  font-size:11px; font-weight:700; letter-spacing:.07em; margin-bottom:18px; }
+.hero h1 { font-size:32px; font-weight:800; line-height:1.2; margin-bottom:10px; }
+.hero .sub { font-size:16px; opacity:.82; margin-bottom:28px; max-width:600px; }
+.hero-pills { display:flex; gap:10px; flex-wrap:wrap; }
+.hero-pill { background:rgba(255,255,255,.13); border:1px solid rgba(255,255,255,.28);
+  padding:6px 16px; border-radius:20px; font-size:13px; }
+section { padding-top: 44px; }
+section:first-of-type { padding-top: 32px; }
+.section-header { display:flex; align-items:center; gap:14px; border-bottom:2px solid var(--teal);
+  padding-bottom:14px; margin-bottom:30px; }
+.sec-num { background:var(--teal); color:#fff; width:34px; height:34px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0; }
+h2 { font-size:22px; font-weight:700; color:var(--teal); }
+h3 { font-size:16px; font-weight:700; margin:26px 0 10px; }
+h4 { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.07em;
+  color:var(--mid); margin:18px 0 7px; }
+h5 { font-size:14.5px; font-weight:700; margin:20px 0 7px; color:var(--dark);
+  padding-left:12px; border-left:3px solid var(--teal); }
+p  { margin-bottom:13px; }
+.callout { border-radius:10px; padding:15px 18px; margin:16px 0;
+  display:flex; gap:13px; align-items:flex-start; }
+.callout-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+.callout p { margin:0; font-size:14px; }
+.callout > div > strong:first-child { display:block; margin-bottom:3px; }
+.callout-teal   { background:var(--teal-light); border:1px solid #A8D9C8; }
+.callout-amber  { background:var(--amber-bg);   border:1px solid var(--amber-border); }
+.callout-blue   { background:var(--blue-bg);    border:1px solid var(--blue-border); }
+.callout-red    { background:var(--red-bg);     border:1px solid #E8B4BB; }
+.card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin:20px 0; }
+.stat-card { background:var(--gray-bg); border:1px solid var(--gray-border);
+  border-radius:10px; padding:16px 18px; }
+.stat-card .lbl { font-size:11px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.06em; color:var(--mid); margin-bottom:6px; }
+.stat-card .val { font-size:24px; font-weight:700; color:var(--teal); }
+.stat-card .sub { font-size:12px; color:var(--mid); margin-top:3px; }
+.steps { counter-reset: step; }
+.step  { display:flex; gap:16px; margin-bottom:22px; }
+.step::before { content:counter(step); counter-increment:step;
+  background:var(--teal); color:#fff; width:28px; height:28px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:700; flex-shrink:0; margin-top:2px; }
+.step-body > strong { display:block; margin-bottom:4px; }
+.step-body p { margin:0; color:var(--mid); font-size:14px; }
+.step-body code { font-size:12px; }
+.prompt-block { background:var(--teal-light); border:1px solid #A8D9C8; border-radius:10px; overflow:hidden; margin:14px 0 22px; }
+.prompt-block .prompt-text { background:#FFFFFF; }
+.prompt-label { background:var(--teal); color:#fff; font-size:11px; font-weight:700;
+  padding:7px 14px; text-transform:uppercase; letter-spacing:.06em;
+  display:flex; align-items:center; justify-content:space-between; }
+.prompt-label .tag { background:rgba(255,255,255,.2); padding:2px 9px; border-radius:4px; font-size:10px; }
+.prompt-text { padding:16px 18px; color:var(--dark); font-size:13.5px; line-height:1.75;
+  font-family:'Menlo','Consolas','Monaco',monospace; white-space:pre-wrap; }
+code { background:#EFF2F7; color:var(--teal); padding:2px 6px;
+  border-radius:4px; font-size:13px; font-family:'Menlo','Consolas',monospace; }
+pre { background:#0E1520; color:#D8E2F2; border-radius:8px; padding:16px 18px;
+  overflow-x:auto; font-size:12.5px; line-height:1.6; margin:12px 0 18px;
+  font-family:'Menlo','Consolas','Monaco',monospace; }
+pre code { background:transparent; color:inherit; padding:0; }
+table { width:100%; border-collapse:collapse; margin:14px 0 22px; font-size:14px; }
+th { background:var(--teal); color:#fff; padding:10px 14px; text-align:left; font-size:13px; }
+td { padding:10px 14px; border-bottom:1px solid var(--gray-border); vertical-align:top; }
+tr:nth-child(even) td { background:var(--gray-bg); }
+tr:last-child td { border-bottom:none; }
+.badge { display:inline-block; padding:2px 10px; border-radius:12px;
+  font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; }
+.badge-green  { background:var(--teal-light); color:var(--teal); }
+.badge-amber  { background:var(--amber-bg);   color:var(--amber); }
+.badge-blue   { background:var(--blue-bg);    color:var(--blue); }
+.badge-purple { background:var(--purple-bg);  color:var(--purple); }
+.badge-red    { background:var(--red-bg);     color:var(--red); }
+a { color:var(--teal); text-decoration:none; }
+a:hover { text-decoration:underline; }
+.btn { display:inline-flex; align-items:center; gap:7px; background:var(--teal);
+  color:#fff; padding:9px 20px; border-radius:7px; font-size:13px;
+  font-weight:600; text-decoration:none; transition:background .15s; }
+.btn:hover { background:var(--teal-mid); text-decoration:none; }
+.btn-outline { display:inline-flex; align-items:center; gap:7px;
+  border:1.5px solid var(--teal); color:var(--teal); padding:8px 18px;
+  border-radius:7px; font-size:13px; font-weight:600; text-decoration:none;
+  transition:background .15s; }
+.btn-outline:hover { background:var(--teal-light); text-decoration:none; }
+ul.flist { list-style:none; padding:0; }
+ul.flist li { padding:7px 0 7px 28px; position:relative; font-size:14px;
+  border-bottom:1px solid var(--gray-border); }
+ul.flist li:last-child { border-bottom:none; }
+ul.flist li::before { content:'✓'; position:absolute; left:4px; color:var(--teal); font-weight:700; }
+.plainlist { padding-left:22px; margin:6px 0 16px; }
+.plainlist li { margin-bottom:6px; }
+.divider { height:1px; background:var(--gray-border); margin:40px 0; }
+.chips { display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 22px; }
+.chip { display:inline-flex; align-items:center; gap:9px; padding:8px 16px 8px 10px;
+  background:var(--gray-bg); border:1px solid var(--gray-border); border-radius:22px;
+  font-size:13.5px; font-weight:600; color:var(--dark); text-decoration:none; transition:all .15s; }
+.chip:hover { background:var(--teal); border-color:var(--teal); color:#fff; text-decoration:none; }
+.chip-num { display:inline-flex; align-items:center; justify-content:center;
+  width:22px; height:22px; border-radius:50%; background:var(--teal); color:#fff;
+  font-size:12px; font-weight:700; flex-shrink:0; transition:all .15s; }
+.chip:hover .chip-num { background:#fff; color:var(--teal); }
+details.collapsible { margin:14px 0 22px; }
+details.collapsible > summary { cursor:pointer; padding:10px 15px; font-weight:600;
+  font-size:13.5px; color:var(--teal); background:var(--gray-bg);
+  border:1px solid var(--gray-border); border-radius:8px; list-style:none; user-select:none; }
+details.collapsible[open] > summary { border-radius:8px 8px 0 0; border-bottom:none; }
+details.collapsible > summary::-webkit-details-marker { display:none; }
+details.collapsible > summary::before { content:'\25B8'; display:inline-block;
+  margin-right:9px; transition:transform .15s; }
+details.collapsible[open] > summary::before { transform:rotate(90deg); }
+details.collapsible > summary:hover { background:var(--teal-light); }
+details.collapsible[open] > *:not(summary):first-of-type { margin-top:14px; }
+details.collapsible > table { margin-top:0; }
+.faq-q { font-weight:700; margin:22px 0 6px; color:var(--dark); }
+.faq-q .qn { color:var(--teal); margin-right:6px; }
+.tree { background:#0E1520; color:#D8E2F2; border-radius:8px; padding:16px 18px;
+  font-size:12.5px; line-height:1.6; margin:12px 0 18px;
+  font-family:'Menlo','Consolas','Monaco',monospace; white-space:pre; overflow-x:auto; }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-brand">
+    <div class="name">DOCUSIGN</div>
+  </div>
+  <nav>
+    <div class="sb-section">Overview</div>
+    <a href="#overview"><span class="sb-icon">📋</span> Introduction</a>
+
+    <div class="sb-section">Workshop</div>
+    <a class="top" href="#setup-install"><span class="num">1</span> Initial Setup &amp; Installation</a>
+    <a class="top" href="#uc1"><span class="num">2</span> First-Time Customization</a>
+    <a class="sub" href="#scaffold"><span class="num">2.1</span> Scaffold your workspace</a>
+    <a class="sub" href="#auth"><span class="num">2.2</span> Authenticate the CLI</a>
+    <a class="sub" href="#iam-package"><span class="num">2.3</span> IAM package overview</a>
+    <a class="sub" href="#get-catalog"><span class="num">2.4</span> Agreement Manager catalog</a>
+    <a class="sub" href="#create-package"><span class="num">2.5</span> Create your IAM package</a>
+    <a class="sub" href="#agreement-sets"><span class="num">2.6</span> Add example agreement sets</a>
+    <a class="sub" href="#upload-package"><span class="num">2.7</span> Upload your IAM package</a>
+    <a class="sub" href="#test-package"><span class="num">2.8</span> Test your package</a>
+
+    <a class="top" href="#additional-use-cases"><span class="num">3</span> Additional Use Cases</a>
+    <a class="sub" href="#uc2"><span class="num">3.1</span> Bulk modify a config</a>
+    <a class="sub" href="#uc3"><span class="num">3.2</span> Move config between accounts</a>
+    <a class="sub" href="#uc4"><span class="num">3.3</span> Bulk ingest with metadata</a>
+    <a class="top" href="#reference"><span class="num">4</span> Troubleshooting</a>
+    <a class="top" href="#limits"><span class="num">5</span> Limits &amp; Constraints</a>
+  </nav>
+</aside>
+
+<main class="main">
+
+<div class="hero">
+  <div class="hero-tag">HANDS-ON WORKSHOP</div>
+  <h1>Docusign IAM Toolkit</h1>
+  <p class="sub">Simplify the implementation of Docusign Agreement Manager — configure custom fields and types, train and validate AI extractions, deploy across accounts, and ingest agreements in bulk, all through the Docusign Agreement CLI.</p>
+  <div class="hero-pills">
+    <span class="hero-pill">🧰 Agreement Manager</span>
+    <span class="hero-pill">⌨️ CLI Toolkit</span>
+    <span class="hero-pill">🔍 Docusign Iris</span>
+  </div>
+</div>
+
+<!-- OVERVIEW / CONTENTS -->
+<section id="overview">
+  <div class="section-header"><div class="sec-num" style="font-size:18px;">📋</div><h2>Introduction &amp; Contents</h2></div>
+
+  <p>The <strong>Docusign IAM Toolkit</strong> simplifies the implementation of <strong>Docusign Agreement Manager</strong>. With this toolkit, you can programmatically:</p>
+  <ul class="plainlist">
+    <li>Create custom fields and custom types in bulk</li>
+    <li>Map additional standard and custom fields to both standard and custom types</li>
+    <li>Provide AI training datasets for custom extractions</li>
+    <li>Validate extraction accuracy through automated testing</li>
+    <li>Deploy validated Agreement Manager configurations across Docusign accounts (not covered in this handbook — see instructions below)</li>
+    <li>Ingest agreements in bulk</li>
+  </ul>
+  <p>This manual provides a detailed guide for installing and setting up the IAM Toolkit, followed by instructions on how to use its features through the Docusign's Agreement CLI.</p>
+</section>
+
+<section id="setup-install">
+  <div class="section-header"><div class="sec-num" style="font-size:16px;">1</div><h2>Initial Setup and Installation</h2></div>
+
+  <h3>Prerequisites</h3>
+
+  <h4>Docusign Account</h4>
+  <p>A Docusign demo account. This is a workshop, so use a demo (developer) account only — do not use a production account. To create a demo account, visit <a href="https://www.docusign.com/developers/sandbox" target="_blank">https://www.docusign.com/developers/sandbox</a>.</p>
+
+  <h4>Terminal / Command Line</h4>
+  <p>The IAM Toolkit is operated through a CLI (Command-Line Interface) where you type commands in a terminal. Your OS includes a built-in option:</p>
+  <table>
+    <tr><th>OS</th><th>Recommended Terminal</th><th>Notes</th></tr>
+    <tr><td>macOS</td><td>Terminal (built-in) or <a href="https://iterm2.com/" target="_blank">iTerm2</a></td><td>Found in Applications → Utilities → Terminal</td></tr>
+    <tr><td>Windows</td><td><a href="https://apps.microsoft.com/detail/9N0DX20HK701" target="_blank">Windows Terminal</a> or PowerShell</td><td>Run as Administrator when installing npm packages globally</td></tr>
+    <tr><td>Linux</td><td>Default terminal (e.g., GNOME Terminal)</td><td>Typically opened with Ctrl + Alt + T</td></tr>
+  </table>
+
+  <h4>Node.js and npm</h4>
+  <p>Node.js is the runtime environment required to run the CLI. npm (Node Package Manager) is bundled with Node.js and is used to install the toolkit.</p>
+  <p><strong>Installation:</strong></p>
+  <table>
+    <tr><th>OS</th><th>Method</th><th>Instructions</th></tr>
+    <tr><td>macOS</td><td>Official installer</td><td>Download the LTS version from <a href="https://nodejs.org" target="_blank">nodejs.org</a> and run the installer</td></tr>
+    <tr><td></td><td>Homebrew</td><td>Run <code>brew install node</code> (install Homebrew first from <a href="https://brew.sh" target="_blank">brew.sh</a> if needed)</td></tr>
+    <tr><td>Windows</td><td>Official installer</td><td>Download the LTS version from <a href="https://nodejs.org" target="_blank">nodejs.org</a> and run the installer</td></tr>
+    <tr><td>Linux</td><td>Package manager</td><td>Follow instructions at <a href="https://nodejs.org/en/download/package-manager/" target="_blank">nodejs.org</a></td></tr>
+  </table>
+
+  <p><strong>Verify installation:</strong></p>
+  <pre><code>$ node --version
+
+$ npm --version</code></pre>
+  <p>Both commands should return a version number (e.g., v20.11.0 and 10.2.4). If either command is not recognized, restart your terminal and try again.</p>
+  <p>For example:</p>
+  <pre><code>PS C:\Users\Tamara.Flores\Documents\cli-toolkit-test\test08072026> node --version
+v24.17.0
+PS C:\Users\Tamara.Flores\Documents\cli-toolkit-test\test08072026> npm --version
+11.13.0</code></pre>
+
+  <div class="callout callout-blue">
+    <div class="callout-icon">📝</div>
+    <div>
+      <strong>Note</strong>
+      <p>The <code>$</code> symbol represents your terminal prompt — do not type it. Only type the text that follows.</p>
+    </div>
+  </div>
+
+  <h4>Code Editor</h4>
+  <p>You'll need a code editor to create and modify JSON configuration files (such as <code>agreement-manager-manifest.json</code>) and CSV files (such as <code>testing.csv</code>).</p>
+  <p><strong>Recommended:</strong> <a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a> — A free, cross-platform editor with built-in JSON validation, syntax highlighting, and an integrated terminal (Ctrl + `) that lets you edit files and run CLI commands in one window.</p>
+  <p>Download for your OS:</p>
+  <ul class="plainlist">
+    <li>macOS: <a href="https://code.visualstudio.com/docs/setup/mac" target="_blank">https://code.visualstudio.com/docs/setup/mac</a></li>
+    <li>Windows: <a href="https://code.visualstudio.com/docs/setup/windows" target="_blank">https://code.visualstudio.com/docs/setup/windows</a></li>
+    <li>Linux: <a href="https://code.visualstudio.com/docs/setup/linux" target="_blank">https://code.visualstudio.com/docs/setup/linux</a></li>
+  </ul>
+
+  <h3>Installation</h3>
+  <p><strong>Install Docusign Agreement CLI:</strong> Install the npm package globally.</p>
+  <pre><code>$ npm i -g @docusign/agreement-cli --registry https://registry.npmjs.org/
+
+OR
+
+$ sudo npm i -g @docusign/agreement-cli --registry https://registry.npmjs.org/   //If you are not an admin</code></pre>
+  <div class="callout callout-blue">
+    <div class="callout-icon">📝</div>
+    <div>
+      <strong>Windows Note</strong>
+      <p>Please run the powershell as administrator to execute the command.</p>
+    </div>
+  </div>
+
+  <h3>Verify your installation</h3>
+  <p>After installation, you can verify the CLI is installed and accessible by running the root command. The help output will be displayed.</p>
+  <pre><code>$ docusign</code></pre>
+  <p>For example:</p>
+  <pre><code>╔══════════════════════════╗  v1.1.1-beta
+║  Docusign Agreement CLI  ║  Environment: demo
+╚══════════════════════════╝  ~\Documents\cli-toolkit-test\test08072026
+Usage: docusign [options] [command]
+Docusign CLI - Manage bulk upload of custom fields and AI extraction descriptors
+Options:
+  -V, --version          output the version number
+  -h, --help             display help for command
+Commands:
+  auth                   Authentication commands (login, logout, test)
+  scaffold [options]     Create a new workspace and project structure
+  workspace|ws           Manage Docusign CLI workspaces
+  project|proj           Manage projects within the current workspace
+  agreement-manager|agm  Agreement Manager feature commands
+  update [options]       Update the Docusign CLI to the latest version
+  logs                   Manage and view debug log files
+  help [command]         display help for command
+Tip: Use 'ds' as a short alias for 'docusign'</code></pre>
+</section>
+
+<section id="uc1">
+  <div class="section-header"><div class="sec-num" style="font-size:16px;">2</div><h2>First-time customization</h2></div>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;">
+    <span class="badge badge-green">Fresh account</span>
+    <span class="badge badge-blue">Custom fields &amp; types</span>
+    <span class="badge badge-purple">AI training</span>
+  </div>
+
+  <p><strong>The scenario.</strong> A partner is standing up Agreement Manager for a customer for the very first time. There is no existing configuration to preserve — you are defining custom fields, custom agreement types, and standard-type extensions from scratch, training AI extraction, validating accuracy in a demo account, and only then promoting the proven configuration to production.</p>
+
+  <div class="callout callout-teal">
+    <div class="callout-icon">🎯</div>
+    <div>
+      <strong>Partner Opportunity</strong>
+      <p>You walk away with a validated Agreement Manager configuration live in the customer's production account, plus a repeatable IAM package you can reuse. Use this path when the custom catalog is empty or you are configuring a brand-new account. If a configuration already exists and you only need to change it, use <a href="#uc2">Use case 2</a> instead.</p>
+    </div>
+  </div>
+
+  <h3>Walkthrough</h3>
+  <p>This journey describes the recommended workflow when <strong>configuring Agreement Manager for the first time</strong> using the IAM Toolkit.</p>
+
+  
+  <h3>What this use case covers</h3>
+  <p>The root Agreement Manager command set is the engine of first-time customization. Working through this use case, you will:</p>
+  <ul class="plainlist">
+    <li>Retrieve existing configurations, including custom fields, custom types, and their AI extraction training datasets</li>
+    <li>Retrieve field mappings, including additional standard and custom fields mapped to both standard and custom types</li>
+    <li>Ingest agreements into Agreement Manager</li>
+    <li>Create custom fields and custom types in the Agreement Manager</li>
+    <li>Test Agreement Manager's AI extraction accuracy</li>
+  </ul>
+</section>
+
+<section id="scaffold">
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.1</div><h2>Scaffold your workspace</h2></div>
+
+  <p>The first step of using the Docusign Agreement CLI is to create a workspace that will be used to store your assets. The <code>docusign scaffold</code> command is used to create a structured workspace and project directory for organizing your Docusign Agreement CLI configurations, tests, and files.</p>
+
+  <div class="callout callout-blue">
+    <div class="callout-icon">📝</div>
+    <div>
+      <strong>Note</strong>
+      <p>The scaffold command creates a workspace directory structure at the location from where you run the command.</p>
+    </div>
+  </div>
+
+  <h3>Command Usage</h3>
+  <pre><code>$ docusign scaffold -h</code></pre>
+  <p>Output:</p>
+  <pre><code>Usage: docusign scaffold [options]
+
+Create a new workspace and project structure
+
+Options:
+  -w, --workspace &lt;name&gt;     Workspace name (default: "docusign-workspace")
+  -p, --project &lt;name&gt;       Project name (auto-increments if not specified)
+  -f, --features &lt;features&gt;  Comma-separated list of features (default: "Agreement-Manager")
+  --dry-run                  Show what would be created without creating it
+  -h, --help                 display help for command</code></pre>
+
+  <details class="collapsible">
+    <summary>Click here to view details on the different options</summary>
+    <table>
+      <tr><th>Option</th><th>Description</th><th>Default Value</th></tr>
+      <tr><td>-w, --workspace</td><td>The name of the root directory for your project files.</td><td>"docusign-workspace"</td></tr>
+      <tr><td>-p, --project</td><td>The name of the specific project within the workspace.</td><td>Auto-increments (e.g., project-1)</td></tr>
+      <tr><td>-f, --features</td><td>A comma-separated list of sub-directories to create under the project, used to group related configurations or scripts.</td><td>"Agreement-Manager"</td></tr>
+      <tr><td>--dry-run</td><td>Shows the file structure that would be created without actually creating it.</td><td>N/A</td></tr>
+    </table>
+  </details>
+
+  <h3>Example Execution</h3>
+  <p>The following example creates a workspace named <code>my-docusign-workspace</code> and a project named <code>fontara</code>, and sets up one feature: Agreement Manager.</p>
+  <pre><code>$ docusign scaffold -w my-docusign-workspace -p fontara -f Agreement-Manager</code></pre>
+
+  <h3>Output and Structure</h3>
+  <p>Upon successful execution, the CLI creates the following structure.</p>
+  <p>Workspace Structure:</p>
+  <div class="tree">./my-docusign-workspace/
+  .env
+  .claude/skills/          (AI skills for Claude Code)
+  .github/instructions/    (AI instructions for GitHub Copilot)
+  .gemini/                 (AI instructions for Gemini CLI)
+  .cursor/rules/           (AI rules for Cursor)
+  fontara/
+    Agreement-Manager/
+      configs/
+      tests/
+      files/
+        train/
+        test/
+      README.md
+    README.md
+Global config: ~/.docusign/
+  config.json
+  workspaces.json</div>
+
+  <p>The resulting directory structure is designed to separate different aspects of your Docusign Agreement CLI usage:</p>
+  <table>
+    <tr><th>Directory/File</th><th>Description</th></tr>
+    <tr><td>my-docusign-workspace/</td><td>The top-level workspace directory, containing all projects.</td></tr>
+    <tr><td>.env</td><td>Environment file for setting local variables (e.g., API keys, environment URLs) specific to this workspace.</td></tr>
+    <tr><td>fontara/</td><td>The project directory.</td></tr>
+    <tr><td>fontara/README.md</td><td>General description and instructions for the project.</td></tr>
+    <tr><td>fontara/agreement-manager/</td><td>A feature directory for grouping related configurations and assets.</td></tr>
+    <tr><td>configs/</td><td>Directory for storing configuration files (e.g., JSON definitions, YAML).</td></tr>
+    <tr><td>tests/</td><td>Directory for storing expected test data in a csv file.</td></tr>
+    <tr><td>files/</td><td>Directory containing agreements used for testing extraction accuracy and training custom agreement types</td></tr>
+  </table>
+</section>
+
+<section id="auth">
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.2</div><h2>Authenticate the CLI</h2></div>
+
+  <p>The <code>docusign auth login</code> command is the primary method for securely authenticating the Docusign Agreement CLI using the OAuth PKCE (Proof Key for Code Exchange) flow. This command handles the browser-based login, token retrieval, and local storage of credentials.</p>
+
+  <pre><code>$ docusign auth login -h</code></pre>
+  <p>Output:</p>
+  <pre><code>Usage: docusign auth login [options]
+
+Login to Docusign using OAuth PKCE flow
+
+Options:
+  -e, --environment &lt;env&gt;  Target environment (production|demo) (default: "demo")
+  -p, --port &lt;port&gt;        Callback server port (default: auto-select 8080-8085)
+  --no-browser             Do not automatically open browser
+  -h, --help               display help for command</code></pre>
+
+  <details class="collapsible">
+    <summary>Click here to view details on the different options</summary>
+    <table>
+      <tr><th>Option</th><th>Shorthand</th><th>Description</th><th>Accepted Values</th><th>Default Value</th></tr>
+      <tr><td>--environment</td><td>-e</td><td>The target Docusign environment to authenticate against.</td><td>production, demo</td><td>"demo"</td></tr>
+      <tr><td>--port</td><td>-p</td><td>The local port the CLI uses to host a temporary server to receive the OAuth callback.</td><td>An available port number (e.g., 8081)</td><td>Auto-selects between 8080 and 8085</td></tr>
+      <tr><td>--no-browser</td><td>N/A</td><td>Prevents the CLI from automatically opening the browser for the login URL. The URL will be printed to the console for manual access.</td><td>N/A (Flag)</td><td>Automatically opens browser</td></tr>
+    </table>
+  </details>
+
+  <h4>Login to the Demo Environment</h4>
+  <pre><code>$ docusign auth login</code></pre>
+  <p>After completing the browser login, if your credentials are associated with more than one Docusign account, the CLI will prompt you to <strong>choose the account you want to work with</strong>. Select the account that has Agreement Manager enabled for this exercise. Once selected, the CLI confirms your user, account, token, and feature availability:</p>
+  <pre><code>✔ Logging into demo (use -e to change the environment), continue? Yes
+▌ Logging into Docusign...
+Opening browser...
+✔ Browser opened
+(Complete the login in your browser)
+Multiple accounts found for tamara.flores@docusign.com:
+✔ Select which account to use: [24] EPPC
+      Account ID: 197c3762-1f04-4f45-ac67-231e885b6bb0
+      Base URL: https://demo.docusign.net
+✔ Login Successful! Welcome, Tamara Flores Caceres!
+User Information:
+  Name: Tamara Flores Caceres
+  Email: tamara.flores@docusign.com
+  User ID: 06358a56-563f-4ca8-b7e6-604520ecc01c
+Account Information:
+  Account: EPPC
+  Account ID: 197c3762-1f04-4f45-ac67-231e885b6bb0
+  Environment: demo
+  Base URL: https://demo.docusign.net
+  API Base URL: https://s1.us.services.demo.docusign.net
+Token Information:
+  Expires in: 480 minutes
+  Expiration: 08/07/2026, 18:53:57
+Feature Availability:
+───────────────────────────────────────────────────────────────────────────
+✔   Agreement Manager Plan: Agreement Manager is enabled (trial)
+✔   Agreement Manager Migration: Up to date
+✔   CLI Version: v1.1.1-beta (latest)</code></pre>
+
+  <details class="collapsible">
+    <summary>Click here to see other login alternatives (not relevant to this exercise)</summary>
+    <p><strong>Login to the Production Environment.</strong> Use the <code>-e</code> flag to specify the production environment.</p>
+    <pre><code>$ docusign auth login -e production</code></pre>
+    <p><strong>Login Manually (No Browser).</strong> Use the <code>--no-browser</code> flag when running the CLI on a remote server or an environment without a GUI. The CLI will print the full login URL, which you must copy and paste into a web browser on another device to complete the login.</p>
+    <pre><code>$ docusign auth login --no-browser</code></pre>
+  </details>
+</section>
+
+<section id="iam-package">
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.3</div><h2>IAM Package Overview</h2></div>
+  <p>The scaffold command created the structure for you to work with. Your workspace will contain your Agreement Manager package. Let's dive into the different components.</p>
+  <p>A Agreement Manager package is a bundle that contains everything needed to configure Agreement Manager programmatically. It includes:</p>
+  <ul class="plainlist">
+    <li><strong>A manifest JSON file</strong> that defines the Agreement Manager configuration, including custom agreement types, custom fields, AI training datasets for custom extractions, and mappings of standard and custom fields to agreement types.</li>
+    <li><strong>Example agreement sets</strong> used to train AI extraction for custom agreement types.</li>
+  </ul>
+</section>
+
+<section id="get-catalog">
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.4</div><h2>Agreement Manager Catalog</h2></div>
+  <h3>Get Catalog Command</h3>
+  <p>First, run the <strong>Get Catalog</strong> command to verify that the IAM Toolkit is successfully connected to Agreement Manager. This command retrieves the existing agreement types and fields from your account and generates a catalog that serves as the reference when building your Agreement Manager IAM package. This is a representation of the "Is-State" of your current Agreement Manager configuration.</p>
+  <pre><code>$ docusign agm get catalog</code></pre>
+  <p>This command fetches your existing Agreement Manager configuration into two files, <strong>"standard-catalog.json"</strong> and <strong>"custom-catalog.json"</strong>.</p>
+
+  <div class="callout callout-amber">
+    <div class="callout-icon">❗</div>
+    <div>
+      <strong>Important Note</strong>
+      <p>The data in these files are just for reference. Do not modify the data in these files.</p>
+    </div>
+  </div>
+
+  <h4>Standard catalog</h4>
+  <p>The standard catalog contains information about Agreement Manager's out-of-the-box standard fields and standard agreement types, including any additional fields mapped to the standard types.</p>
+  <details class="collapsible">
+    <summary>Example standard catalog entry — click to expand</summary>
+    <pre><code>{
+  "standardAgreementTypes": [
+    {
+      "key": "ConsultingDocumentData",
+      "displayName": "Consulting Agreement",
+      "category": "BusinessServices",
+      "fields": {
+        "defaultStandardFields": ["Title", "Execution Date", "Effective Date", "Expiration Date",......],
+        "additionalStandardFields": [],
+        "customFields": []
+      }
+    }
+  ],
+  "fields": [
+    {
+      "key": "EffectiveDate",
+      "displayName": "Effective Date",
+      "fieldType": "DateTime",
+      "category": "GeneralCategory"
+    },
+    {
+      "key": "Jurisdiction",
+      "displayName": "Jurisdiction",
+      "fieldType": "String",
+      "category": "LegalAndComplianceCategory"
+    },
+    {
+      "key": "Assignment",
+      "displayName": "Assignment (General)",
+      "fieldType": "Dropdown",
+      "category": "LegalAndComplianceCategory",
+      "dropdownOptions": [
+        {
+          "name": "No, or consent required",
+          "definition": ""
+        },
+        {
+          "name": "Silent",
+          "definition": ""
+        },
+        {
+          "name": "Yes",
+          "definition": ""
+        },
+        {
+          "name": "Yes, with conditions",
+          "definition": ""
+        }
+      ]
+    }
+  ]
+}</code></pre>
+  </details>
+
+  <h4>Custom catalog</h4>
+  <p>The custom catalog contains information about Agreement Manager's existing custom fields and custom agreement types, including any additional fields mapped to the custom types.</p>
+  <details class="collapsible">
+    <summary>Example custom catalog entry — click to expand</summary>
+    <pre><code>{
+  "customAgreementTypes": [
+    {
+      "key": "C_Data_Processing_Agreement",
+      "displayName": "Data Processing Agreement",
+      "category": "BusinessServices",
+      "fields": {
+        "defaultStandardFields": ["Title", "Parties", "Execution Date", "Effective Date", "Status", "Line of Business"],
+        "additionalStandardFields": ["Total Contract Value"],
+        "customFields": ["Supplier Name", "Supplier Address"]
+      },
+      "customExtractionEnabled": false
+    },
+    {
+      "key": "C_InternshipOffer6",
+      "displayName": "Internship Offer 6",
+      "category": "BusinessServices",
+      "fields": {
+        "defaultStandardFields": ["Title", "Parties", "Execution Date", "Effective Date", "Status", "Line of Business"],
+        "additionalStandardFields": ["Renewal Notice Period"],
+        "customFields": ["Intern Linkedin URL"]
+      },
+      "customExtractionEnabled": true,
+      "aiDefinition": "Internship Offer 6",
+      "docs": [
+        {
+          "agreementUrl": "https://&lt;Agreement ManagerURL&gt;/agreements/&lt;Agreement Manager_agreement ID&gt;",
+          "docName": "Internship offer letter_Charles.pdf"
+        },
+        {
+          "agreementUrl": "https://&lt;Agreement ManagerURL&gt;/agreements/&lt;Agreement Manager_agreement ID&gt;",
+          "docName": "Internship offer letter_Sarah.pdf"
+        },
+        {
+          "agreementUrl": "https://&lt;Agreement ManagerURL&gt;/agreements/&lt;Agreement Manager_agreement ID&gt;",
+          "docName": "Internship offer letter_Bob.pdf"
+        }
+      ]
+    }
+  ],
+  "fields": [
+    {
+      "key": "C_SupplierName",
+      "displayName": "Supplier Name",
+      "fieldType": "String",
+      "customExtractionEnabled": true,
+      "aiDefinition": "Supplier Name",
+      "examples": {
+        "en": [
+          {
+            "exampleText": "Supplier: High Tech LLC, Inc.",
+            "confirmedValue": "High Tech LLC, Inc."
+          }
+        ]
+      },
+      "category": "GeneralCategory"
+    }
+  ]
+}</code></pre>
+  </details>
+</section>
+
+<section id="create-package">
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.5</div><h2>Create your Agreement Manager IAM Package</h2></div>
+  <p>To create your Agreement Manager IAM package, you need two things: a Agreement Manager-manifest.json file and example agreements added to the <code>{workspaceName}/{projectName}/Agreement Manager/train/</code> directory. Details are provided below.</p>
+
+  <h4>1. Agreement Manager-manifest.json</h4>
+  <p>The data in this file is used to extend Agreement Manager by defining custom fields and custom agreement types. You can also extend the out-of-the box standard agreement types by mapping additional standard or custom fields to them.</p>
+  <p>The manifest must be created at the following path:</p>
+  <pre><code>{workspaceName}/{projectName}/agreement-manager/configs/agreement-manager-manifest.json</code></pre>
+
+  <h4>Manifest Properties</h4>
+  <table>
+    <tr><th>Property</th><th>Description</th><th>Required</th></tr>
+    <tr><td>version</td><td>Semantic version of your manifest</td><td>Yes</td></tr>
+    <tr><td>defaultLocale</td><td>Default language locale (currently only "en" is supported)</td><td>Yes</td></tr>
+    <tr><td>namespace</td><td>Unique identifier for your custom fields package (e.g., "com.yourcompany.custom.fields@1.0.0")</td><td>Yes</td></tr>
+    <tr><td>standardAgreementTypes</td><td>Array of standard agreement types with additional standard fields and custom field mappings</td><td>Yes</td></tr>
+    <tr><td>customAgreementTypes</td><td>Array of custom agreement types you want to create</td><td>Yes</td></tr>
+    <tr><td>fields</td><td>Array of custom field definitions</td><td>Yes</td></tr>
+    <tr><td>metadata</td><td>Information about the manifest (author, description, etc.)</td><td>Yes</td></tr>
+  </table>
+
+  <h4>Defining Custom Fields</h4>
+  <p>Custom fields are defined in the <code>fields</code> array. Each field has the following structure:</p>
+  <p><strong>Field Properties</strong></p>
+  <table>
+    <tr><th>Property</th><th>Description</th><th>Required</th><th>Allowed Values</th></tr>
+    <tr><td><strong>key</strong></td><td>Unique identifier for the field. Must start with "C_" prefix (uppercase C) followed by a valid identifier: letter, underscore (*), or dollar sign ($), then letters, digits, underscores, or dollar signs (e.g., <strong>"C_MyField"</strong>, <strong>"C_private"</strong>, <strong>"C*$special"</strong>)</td><td>Yes</td><td>A valid identifier string starting with "C_"</td></tr>
+    <tr><td><strong>displayName</strong></td><td>Display name for the field in the Agreement Manager UI</td><td>Yes</td><td>Any string (must not duplicate standard field labels)</td></tr>
+    <tr><td><strong>category</strong></td><td>Category for organizing fields</td><td>No (defaults to "GeneralCategory")</td><td>FinancialCategory, GeneralCategory, HumanResourcesCategory, LegalAndComplianceCategory, LifecycleCategory, OtherCategory, PaymentCategory, RenewalCategory, TerminationCategory</td></tr>
+    <tr><td><strong>fieldType</strong></td><td>Data type of the field</td><td>Yes</td><td>String, Number, DateTime, Dropdown</td></tr>
+    <tr><td><strong>customExtractionEnabled</strong></td><td>Whether AI extraction is enabled for this field</td><td>Yes</td><td>true or false</td></tr>
+    <tr><td><strong>aiDefinition</strong></td><td>AI Prompt used for training the AI model on how to extract the value for a given field from an actual agreement</td><td>Yes, if <strong>customExtractionEnabled</strong> is set as <strong>true</strong>. <strong>Note</strong>: This description helps train the AI. Provide a clear and meaningful description to achieve better extraction accuracy.</td><td>Any string</td></tr>
+    <tr><td><strong>examples</strong></td><td>Training examples to help AI learn how to extract this field</td><td>Yes. <strong>Note:</strong> Use full paragraphs for example text and provide at least <strong>3–5 examples</strong> to achieve better extraction accuracy.</td><td><code>"examples": { "en": [ { "exampleText": "Paragraph from Agreement.", "confirmedValue": "Actual Value" } ] }</code></td></tr>
+    <tr><td><strong>dropdownOptions</strong></td><td>Options for fields that are of fieldType "Dropdown"</td><td>Required ONLY if fieldType is Dropdown. <strong>Note</strong>: This description helps train the AI. If you plan to set <strong>customExtractionEnabled</strong> property <strong>true</strong> for a custom field of type dropdown, provide a clear and meaningful description for each dropdown option to achieve better extraction accuracy.</td><td>Array with the following structure: <code>[{ "name": "some name", "description": "description of option" }]</code></td></tr>
+  </table>
+
+  <p>Example</p>
+  <pre><code>{
+      "key": "C_AnnualCost",
+      "displayName": "Annual Cost",
+      "category": "FinancialCategory",
+      "fieldType": "Number",
+      "customExtractionEnabled": true,
+      "aiDefinition": "Total annual cost of the agreement",
+      "examples": {
+        "en": [
+          {
+            "exampleText": "The annual cost shall be $50,000",
+            "confirmedValue": "50000"
+          }
+        ]
+      }
+    },</code></pre>
+
+  <h4>Defining Custom Agreement Types</h4>
+  <p>Custom agreement types are defined in the <code>customAgreementTypes</code> array. Each agreement type has the following structure:</p>
+  <p><strong>Custom Agreement Type Properties</strong></p>
+  <table>
+    <tr><th>Property</th><th>Description</th><th>Required</th><th>Allowed Values</th></tr>
+    <tr><td><strong>key</strong></td><td>Unique identifier for the agreement type. Must start with "C_" prefix (uppercase C) followed by a valid identifier: letter, underscore (_), or dollar sign ($), then letters, digits, underscores, or dollar signs (e.g., "C_SupplierAgreement")</td><td>Yes</td><td>A valid identifier string starting with "C_"</td></tr>
+    <tr><td><strong>displayName</strong></td><td>Display name for the agreement type in the Agreement Manager UI</td><td>Yes</td><td>Any string (must not duplicate standard agreement type labels)</td></tr>
+    <tr><td><strong>category</strong></td><td>Category for organizing agreement types</td><td>No (defaults to "Miscellaneous")</td><td>BusinessServices, HumanResources, Miscellaneous, OtherDocuments</td></tr>
+    <tr><td><strong>customExtractionEnabled</strong></td><td>Whether AI extraction is enabled for this agreement type</td><td>Yes</td><td>true or false</td></tr>
+    <tr><td><strong>aiDefinition</strong></td><td>AI Prompt used for training the AI model on how to extract the value for a given field from an actual agreement</td><td>Yes, if <strong>customExtractionEnabled</strong> is set as <strong>true</strong>. <strong>Note</strong>: This description helps train the AI. Provide a clear and meaningful description to achieve better extraction accuracy.</td><td>Any string</td></tr>
+    <tr><td><strong>fields</strong></td><td>Defines the additional fields to be mapped to the custom agreement type. This object contains two arrays: (1) additionalStandardFields – standard field displayNames from the standard-catalog.json (2) customFields – custom field displayNames defined in agreement-manager-manifest.json</td><td>Yes. <strong>Note</strong>: By default, every custom agreement type includes the following six standard fields: Title, Parties, Execution Date, Effective Date, Status, and Line of Business. Do <strong>not</strong> add these fields again in the additionalStandardFields property. If a non-standard field is added in this property, the Toolkit will return a validation error. In the customFields property, include the displayName of custom fields defined in agreement-manager-manifest.json. If a field is not defined or a standard field is added in this property, the Toolkit will return a validation error.</td><td>Object with additionalStandardFields and customFields string arrays <code>"fields": { "additionalStandardFields": ["Total Contract Value"], "customFields": [ "Supplier Name", "Supplier Address" ] }</code></td></tr>
+    <tr><td><strong>docs</strong></td><td>Array of training document filenames (required if customExtractionEnabled is true)</td><td>Conditional. <strong>Note:</strong> As a prerequisite, ensure the training agreement files are available in the following directory: <code>{workspace}/{project}/agreement-manager/files/train/</code> If the files are not present, the Toolkit will return a validation error. <strong>Important</strong>: These files are used to train the AI. Provide <strong>at least 5 and up to 10 example agreements</strong> to achieve better extraction accuracy.</td><td>Array of filenames that exist in <code>{workspace}/{project}/agreement-manager/files/train/</code> <code>"docs": ["Internship Offer Letter - Charles.pdf", "Internship offer Letter - Bob.pdf"]</code></td></tr>
+  </table>
+
+  <p>Example</p>
+  <pre><code>"customAgreementTypes": [
+  {
+    "key": "C_InternshipOfferLetter",
+    "displayName": "Internship Offer Letter",
+     "category": "HumanResources",
+    "customExtractionEnabled": true,
+    "aidefinition": "An agreement outlining the terms and conditions of an internship, including the intern's role, start and end dates, stipend or compensation, reporting manager, and other employment terms.",
+    "fields": {
+      "additionalStandardFields": [],
+      "customFields": ["Intern Name", "Intern Role", "Internship Start Date", "Internship End Date", "Stipend", "Reporting Manager"]
+    },
+    "docs": ["Internship Offer Letter - Charles.pdf", "Internship offer Letter - Bob.pdf", "Internship Offer Letter - John.pdf", "Internship offer Letter - Sarah.pdf"]
+  }
+]</code></pre>
+
+  <h4>Extending Standard Agreement Types</h4>
+  <p>Standard Agreement Types are the out-of-the-box agreement types provided by Agreement Manager. Each standard agreement type includes a predefined set of standard fields. You can find details about these standard agreement types and their default standard fields <a href="https://support.docusign.com/s/document-item?language=en_US&amp;bundleId=pqz1702943441912&amp;topicId=smm1727282189861.html&amp;_LANG=enus" target="_blank">here</a>.</p>
+  <p>In the agreement-manager-manifest.json, you can extend standard agreement types by mapping additional standard fields and custom fields to them.</p>
+  <p><strong>Standard Agreement Type Properties</strong></p>
+  <table>
+    <tr><th>Property</th><th>Description</th><th>Required</th><th>Allowed Values</th></tr>
+    <tr><td><strong>key</strong></td><td>Unique identifier of the standard agreement type. Copy this value from standard-catalog.json.</td><td>Yes. <strong>Note:</strong> The value must match with the standard agreement type name. If it doesn't match, the Toolkit will return a validation error.</td><td>Actual Name of the Standard Agreement Type</td></tr>
+    <tr><td>displayName</td><td>Display name for the agreement type shown in the Agreement Manager UI. Copy this value from standard-catalog.json.</td><td>Yes. <strong>Note:</strong> The value must match with the standard agreement type label. If it doesn't match, the Toolkit will return a validation error.</td><td>Actual Label of the Standard Agreement Type</td></tr>
+    <tr><td><strong>fields</strong></td><td>Defines the additional fields to be mapped to the standard agreement type. This object contains two arrays: (1) additionalStandardFields – standard field displayNames from the standard-catalog.json (2) customFields – custom field displayNames defined in agreement-manager-manifest.json</td><td>Yes. <strong>Note</strong>: Refer to the standard-catalog.json to see which standard fields are mapped by default. Do <strong>not</strong> add them again in the additionalStandardFields property. If a non-standard field is added in this property, the Toolkit will return a validation error. In the customFields property, include the displayNames of custom fields defined in agreement-manager-manifest.json. If a field is not defined or a standard field is added in this property, the Toolkit will return a validation error.</td><td>Object with additionalStandardFields and customFields string arrays <code>"fields": { "additionalStandardFields": ["Total Contract Value"], "customFields": [ "Supplier Name", "Supplier Address" ] }</code></td></tr>
+  </table>
+
+  <p>Example</p>
+  <pre><code>{
+      "key": "ConsultingDocumentData",
+      "displayName": "Consulting Agreement",
+      "fields": {
+        "additionalStandardFields": ["Renewal Notice Date"],
+        "customFields": ["Project Code"]
+      }
+   }</code></pre>
+</section>
+
+<section id="agreement-sets">
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.6</div><h2>Add Example Agreement Sets for training AI on your Custom Agreement Types</h2></div>
+  <p>For this exercise, the example data centers on <strong>Film and Distribution Agreements</strong>. You will be provided with a set of sample agreements to work through the steps, along with a sample manifest file to get you started.</p>
+
+  <h4>Go into your project directory</h4>
+  <p>From your terminal, navigate into the project folder created during scaffolding:</p>
+  <pre><code>PS C:\Users\Tamara.Flores\Documents\cli-toolkit-test\test08072026\my-docusign-workspace\fontara></code></pre>
+
+  <h4>Open the project in VS Code</h4>
+  <p>Run the following command to open the current directory in VS Code:</p>
+  <pre><code>code .</code></pre>
+
+  <h4>Check your workspace</h4>
+  <p>It should look like this:</p>
+  <p><em>(screenshot to be added)</em></p>
+
+  <h4>Remove the sample files from the train and test folders</h4>
+  <p>Delete the sample files that were created in the <code>files/train/</code> and <code>files/test/</code> folders.</p>
+  <p><em>(screenshot to be added)</em></p>
+
+  <h4>Download the sample agreements</h4>
+  <p>Download the sample agreements here: <em>[link to be added]</em>.</p>
+
+  <h4>Add the files into the corresponding folders</h4>
+  <p>Place the downloaded agreements into the matching <code>files/train/</code> and <code>files/test/</code> folders.</p>
+  <p><em>(screenshot to be added)</em></p>
+
+  <h4>Copy the completed manifest file</h4>
+  <p>Copy the sample manifest below into <code>{workspace}/{project}/agreement-manager/configs/agreement-manager-manifest.json</code>:</p>
+  <pre><code>{
+  "version": "1.0.0",
+  "defaultLocale": "en",
+  "namespace": "com.bugbash.filmproduction.fields@1.0.0",
+  "standardAgreementTypes": [],
+  "customAgreementTypes": [
+    {
+      "key": "C_FilmProductionAgreement",
+      "displayName": "Film Production Agreement",
+      "aiDefinition": "Agreement governing the production, financing, and distribution of a film or television project",
+      "category": "BusinessServices",
+      "customExtractionEnabled": true,
+      "fields": {
+        "additionalStandardFields": ["Execution Date", "Effective Date", "Expiration Date"],
+        "customFields": ["Production Budget", "Shooting Location", "Distribution Territory", "Residual Rate"]
+      },
+      "docs": ["film_production_agreement_1.pdf", "film_production_agreement_2.pdf", "film_production_agreement_3.pdf"]
+    }
+  ],
+  "fields": [
+    {
+      "key": "C_ProductionBudget",
+      "displayName": "Production Budget",
+      "aiDefinition": "Total approved budget for the film or television production",
+      "category": "FinancialCategory",
+      "fieldType": "Number",
+      "customExtractionEnabled": true,
+      "examples": {
+        "en": [
+          {
+            "exampleText": "The total production budget for the Picture shall not exceed $12,000,000 (Twelve Million Dollars)",
+            "confirmedValue": "12000000"
+          },
+          {
+            "exampleText": "Producer agrees to deliver the Film within an approved budget of $4,500,000",
+            "confirmedValue": "4500000"
+          }
+        ]
+      }
+    },
+    {
+      "key": "C_ShootingLocation",
+      "displayName": "Shooting Location",
+      "aiDefinition": "Primary geographic location where principal photography will take place",
+      "category": "GeneralCategory",
+      "fieldType": "String",
+      "customExtractionEnabled": true,
+      "examples": {
+        "en": [
+          {
+            "exampleText": "Principal photography shall take place primarily in Vancouver, British Columbia, Canada",
+            "confirmedValue": "Vancouver, British Columbia, Canada"
+          },
+          {
+            "exampleText": "The Film will be shot on location in Atlanta, Georgia and surrounding areas",
+            "confirmedValue": "Atlanta, Georgia"
+          }
+        ]
+      }
+    },
+    {
+      "key": "C_DistributionTerritory",
+      "displayName": "Distribution Territory",
+      "aiDefinition": "Licensed geographic territory for distribution of the finished production",
+      "category": "GeneralCategory",
+      "fieldType": "String",
+      "customExtractionEnabled": true,
+      "examples": {
+        "en": [
+          {
+            "exampleText": "Distributor is granted exclusive rights in the Territory of North America (United States and Canada)",
+            "confirmedValue": "North America"
+          },
+          {
+            "exampleText": "The distribution territory shall encompass all countries worldwide (\"Worldwide\")",
+            "confirmedValue": "Worldwide"
+          }
+        ]
+      }
+    },
+    {
+      "key": "C_ResidualRate",
+      "displayName": "Residual Rate",
+      "aiDefinition": "Percentage rate for residual payments owed to talent or participants",
+      "category": "FinancialCategory",
+      "fieldType": "Number",
+      "customExtractionEnabled": true,
+      "examples": {
+        "en": [
+          {
+            "exampleText": "Artist shall receive residuals equal to 5% of the Producer's gross receipts",
+            "confirmedValue": "5"
+          },
+          {
+            "exampleText": "A residual rate of 3.5 percent of net revenues shall apply after initial exhibition",
+            "confirmedValue": "3.5"
+          }
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "createdAt": "2026-02-18T00:00:00Z",
+    "updatedAt": "2026-02-18T00:00:00Z",
+    "version": "1.0.0",
+    "author": "Bug Bash Team",
+    "description": "Custom fields for film and television production agreement tracking",
+    "tags": ["film-production", "entertainment", "bug-bash"],
+    "lastManifestHash": ""
+  }
+}</code></pre>
+
+  <div class="callout callout-blue">
+    <div class="callout-icon">📐</div>
+    <div>
+      <strong>Limits and constraints</strong>
+      <p>Custom fields, custom types, and AI extractions are subject to defined limits. See <a href="#limits">Limits and constraints</a> at the end of this handbook before finalizing your package.</p>
+    </div>
+  </div>
+</section>
+
+<section id="upload-package">
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.7</div><h2>Upload your Agreement Manager IAM Package</h2></div>
+  <p>Now that you have copied the manifest and the agreements for <code>test</code> and <code>train</code>, your workspace should look like this:</p>
+  <p><em>(screenshot to be added)</em></p>
+  <p>To upload your Agreement Manager package, run the following command:</p>
+  <pre><code>$ docusign agm upload</code></pre>
+  <p>Output:</p>
+  <pre><code>Common Usage:
+
+$ docusign agm upload [options]
+
+Options:
+  --bypass        Skip confirmation prompts
+  -y, --yes       Skip confirmation prompts (alias for --bypass)
+  -h, --help      display help for command</code></pre>
+
+  <h4>Confirm the upload succeeded</h4>
+  <p>When the manifest is uploaded correctly, you'll see output similar to this. Confirm the prompt to ingest the training files:</p>
+  <pre><code>✔ Agreement Manager manifest passed validation!
+✔ Manifest import successful!
+Refreshing custom agreement types
+Ingest 3 training file(s) for C_FilmProductionAgreement? (y/n): y</code></pre>
+
+  <h4>Ingest the training and test files</h4>
+  <p>The CLI will ask you to ingest both the training files and the test files. We will test in the next exercise, so agree to both prompts. The output should look like this:</p>
+  <pre><code>Ingest 3 training file(s) for C_FilmProductionAgreement? (y/n): y
+Computing file hashes and checking for duplicates...
+✔ Hash computation complete
+✔ Ingested 3 training file(s) for Film Production Agreement
+Film Production Agreement: Refreshed (3 agreements referenced)
+Ingest Test Files? Say yes if you plan on testing your agreement manager configuration. (y/n): y
+Computing file hashes and checking for duplicates...
+✔ Hash computation complete
+✔ Refreshed 3 test agreement(s)
+✔ Upload completed successfully!</code></pre>
+
+  <h4>Verify the agreements in Docusign</h4>
+  <p>In Docusign, you can check that the agreements have been ingested into Agreement Manager.</p>
+  <p><em>(screenshot to be added)</em></p>
+
+  <h4>What Happens After the Agreement Manager IAM Package is Uploaded?</h4>
+  <p>After successfully uploading your Agreement Manager IAM package:</p>
+  <ul class="plainlist">
+    <li>Custom fields and custom agreement types are created in Agreement Manager.</li>
+    <li>Additional standard and custom fields are mapped to the specified agreement types.</li>
+    <li>Example agreements are uploaded to train the AI for custom agreement types where customExtractionEnabled is set to true.</li>
+    <li>AI extraction is enabled in the Agreement Manager UI for custom agreement types and custom fields where customExtractionEnabled is set to true.</li>
+  </ul>
+</section>
+
+<section id="test-package">
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.8</div><h2>Test your Agreement Manager Package</h2></div>
+  <p>The testing feature allows you to programmatically compare the actual extracted values with the expected values across all test agreements.</p>
+
+  <details class="collapsible">
+    <summary>Learn more about test agreements</summary>
+    <p>Add your test agreements in the following directory: <code>{workspace}/{project}/agreement-manager/files/test/</code>. These agreements are used to evaluate the accuracy of AI extractions. They should be different from the training agreements and represent realistic agreements expected in production. The following file extensions are supported for testing: PDF, Word (DOC, DOCX, RTF), Excel (XLS, XLSX, XLSB), PowerPoint (PPT, PPTX, PPSX), HTML, Images (JPG, PNG, TIF, TIFF)</p>
+  </details>
+
+  <p>Once you have your test agreements in the following directory: <code>{workspace}/{project}/agreement-manager/files/test/</code>, you will need to perform the following 3 steps:</p>
+
+  <h4>1. Generate Testing CSV</h4>
+  <p>To programmatically compare your expected values with the actual extracted values, first generate the testing template file, testing.csv, by running:</p>
+  <pre><code>$ docusign agm test generate-test-template</code></pre>
+  <details class="collapsible">
+    <summary>Click here to view details on the different options</summary>
+    <table>
+      <tr><th>Option</th><th>Description</th><th>Default Value</th></tr>
+      <tr><td>--bypass, -y, --yes</td><td>Skips confirmation prompts</td><td>false</td></tr>
+      <tr><td>--prefill-extractions</td><td>Prefills extracted agreement type and standard and custom fields for each test agreement</td><td>false</td></tr>
+      <tr><td>--output &lt;path&gt;</td><td>Set the output path (with filename) where you want the testing template to be written to</td><td>{workspaceName}/{projectName}/agreement-manager/tests/testing.csv</td></tr>
+    </table>
+  </details>
+
+  <p>When you run this command, the Toolkit performs two actions:</p>
+  <p><strong>Action 1: Uploads your test agreements to Agreement Manager</strong><br>The test agreements in your test folder are uploaded and processed by the AI to extract values for standard fields and AI-enabled custom fields.</p>
+  <p><strong>Action 2: Generates the testing.csv file</strong><br>The file is created based on the uploaded test agreements.</p>
+  <ul class="plainlist">
+    <li><strong>Column A</strong> contains the actual names of the test agreements. This value is pre-filled by the CLI</li>
+    <li><strong>Column B</strong> contains the Agreement ID. This value is also pre-filled by the CLI</li>
+    <li><strong>Row 1</strong> contains the names of the relevant standard and custom fields. Standard and custom fields are identified by the suffix [Standard] and [Custom].</li>
+    <li>By default, the values for all test agreements will be blank. You can get them prefilled the sheet by running <code>docusign agm test generate-test-template --prefill-extractions</code>.</li>
+  </ul>
+
+  <div class="callout callout-amber">
+    <div class="callout-icon">❗</div>
+    <div>
+      <strong>Important Note About --prefill-extractions</strong>
+      <p>This option is meant to be used to give you a starting point in the CSV. If you run the command with --prefill-extractions and your agreements were recently uploaded (or uploaded by this command), the Agreement Type and field values may not have been extracted by the AI yet, so the cells may appear blank. If this happens, wait a few minutes and rerun the command to allow the AI extractions to complete. You can also populate the values manually if needed. If you run the generate-test-template command with --prefill-extractions, the Toolkit will prefill testing.csv with the actual extracted values for all relevant standard and custom fields. Review these prefilled values carefully and update them if needed. If you leave the prefilled values unchanged and run the testing, the test results will always show 100% accuracy.</p>
+    </div>
+  </div>
+
+  <h4>2. Enter the Ground Truth values in the Generated Testing CSV</h4>
+  <p>Open the testing.csv file and enter the expected (ground truth) values for the relevant standard and custom fields for each test agreement, or review and update the values if you used the --prefill-extractions option. The values you enter will be treated as the ground truth and compared against the actual AI-extracted values to calculate accuracy across both standard and custom fields.</p>
+  <p>You only need to fill in values for the fields you want to test. Leave other fields blank if they are not present in the agreement or not relevant for testing. The Toolkit will treat blank cells as fields that should not be tested.</p>
+
+  <div class="callout callout-teal">
+    <div class="callout-icon">💡</div>
+    <div>
+      <strong>For this exercise</strong>
+      <p>To save time, we have prepared a sample testing CSV with the ground truth values already filled in for the custom fields of the Film Production Agreements we are evaluating. Download it here (<em>link to be added</em>) and replace the CSV you just generated with it, so you don't have to fill in the truth values yourself.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-blue">
+    <div class="callout-icon">📝</div>
+    <div>
+      <strong>Important Notes</strong>
+      <p>For standard duration fields (for example, <em>Liability Cap Duration</em>, <em>Renewal Notice Period</em>, <em>Renewal Term</em>), enter values in the following format: # {days/months/years} Examples: 30 days, 90 days, 6 months, 3 years. DateTime values can be entered in either ISO format or MM/DD/YYYY format. The CLI uses only one testing.csv file. Each time you run the generate-test-template command, the existing testing.csv file will be overwritten.</p>
+    </div>
+  </div>
+
+  <h4>3. Run the test</h4>
+  <p>Once the ground truth values have been entered into the testing.csv, you can start the testing by running the following command:</p>
+  <pre><code>$ docusign agm test run</code></pre>
+  <table>
+    <tr><th>Option</th><th>Description</th><th>Default Value</th></tr>
+    <tr><td>--partial-match</td><td>If true, comparison of string values is done by token (word). If false, comparison of string values is done by exact match</td><td>false</td></tr>
+  </table>
+
+  <p>When you run this command, the Toolkit will fetch the actual AI-extracted values from your test agreements, compare them with the ground truth values in testing.csv, and generate accuracy results. Upon completion, the toolkit will provide the following:</p>
+  <ul class="plainlist">
+    <li>A summary of field-level accuracy in the CLI output.</li>
+  </ul>
+  <pre><code>┌────────────────────────────────── Testing Results ──────┐
+│ Run ID: 2026-03-05T21:07:59.054Z          Scope: All agreements &amp; mapped fields    │
+│ Env: test                        Compared: testing.csv vs. Agreement Manager API output    │
+├────────────────────────────── Agreement Type Status ──────-┤
+│ Agreement Type                  │ Type     │ Accuracy Score │ Notes              │
+├─────────────────────────────────┼──────────┼─────┤
+│ Film Production Agreement       │ Custom   │ 0%             │ See failures CSV   │
+├────────────────────────────────── Field Type Status ─────┤
+│ Field Name                      │ Type     │ Accuracy Score │ Notes               │
+├─────────────────────────────────┼──────────┼──────┤
+│ Effective Date                  │ Standard │ 100%           │ ─                   │
+│ Expiration Date                 │ Standard │ 67%            │ See failures CSV     │
+│ Production Budget               │ Custom   │ 0%             │ See failures CSV     │
+│ Status                          │ Standard │ 67%            │ See failures CSV     │
+└─────────────────────────────────┴──────────┴───────┘</code></pre>
+
+  <ul class="plainlist">
+    <li>Two files in the following directory: <code>{workspaceName}/{projectName}/agreement-manager/tests/</code>, for detailed results</li>
+    <li><strong>field-test-results.csv</strong> – Contains field-level comparison results for each agreement.</li>
+    <li><strong>agreement-type-test-results.csv</strong> – Contains agreement type classification results.</li>
+  </ul>
+
+  <div class="callout callout-amber">
+    <div class="callout-icon">❗</div>
+    <div>
+      <strong>Important Note</strong>
+      <p>A maximum of <strong>400 agreements</strong> can be used for testing. If the 400 agreements represent a diverse mix of agreement types and fields, the measured accuracy will be statistically equivalent to testing across hundreds of millions of agreements.</p>
+    </div>
+  </div>
+</section>
+
+  <div class="callout callout-amber">
+    <div class="callout-icon">⚠️</div>
+    <div>
+      <strong>Watch-out in your customer projects</strong>
+      <p>Test in a demo account before touching production. Only <strong>custom</strong> extractions can be tuned — improving standard-field accuracy is not supported at this time. Respect the package limits (100 custom fields, 200 custom types, 50 AI extractions, max 15 custom types with AI enabled) and provide 3–10 quality training agreements per AI-enabled type. See <a href="#create-package">Manifest &amp; schema</a>, <a href="#test-package">Testing reference</a>, and <a href="#validation-errors">Validation errors</a>.</p>
+    </div>
+  </div>
+
+
+<div class="divider"></div>
+
+<section id="additional-use-cases">
+  <div class="section-header"><div class="sec-num" style="font-size:16px;">3</div><h2>Additional use cases — not in scope for this workshop</h2></div>
+  <p>The use cases below are included for reference. They are not part of this workshop, but showcase further scenarios in which the CLI Toolkit can be useful when moving to production or moving configuration between accounts.</p>
+</section>
+
+<section id="uc2">
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">3.1</div><h2>Bulk modify a production configuration</h2></div>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;">
+    <span class="badge badge-blue">Existing config</span>
+    <span class="badge badge-green">Add / extend</span>
+    <span class="badge badge-purple">Re-validate</span>
+  </div>
+
+  <p><strong>The scenario.</strong> A customer is already live on Agreement Manager and needs changes at scale — new custom fields, new agreement types, refreshed extraction descriptions, or extended mappings. Rather than editing production directly, you pull the current configuration down, change it locally, validate it safely in a demo account, and then promote the finalized changes back to production.</p>
+
+  <div class="callout callout-teal">
+    <div class="callout-icon">🎯</div>
+    <div>
+      <strong>Partner Opportunity</strong>
+      <p>Your production configuration is updated in bulk, with every change validated before it touches live agreements. Use this path when a configuration already exists and needs to evolve. If you are instead replicating an unchanged configuration into a different account, use <a href="#uc3">Use case 3</a>.</p>
+    </div>
+  </div>
+
+  <h3>Walkthrough</h3>
+  <p>This scenario describes how to update or extend an existing Agreement Manager configuration in production using the IAM Toolkit. This is useful when you need to add new custom fields, introduce new agreement types, update extraction descriptions, or extend existing mappings in bulk.</p>
+  <p>When modifying an existing configuration, the recommended approach is to first retrieve the current configuration from production, update it locally, deploy the changes in a fresh demo account, test and refine the configuration, and then deploy the finalized configuration back to production. This workflow ensures that updates are fully validated before affecting live agreements.</p>
+  <table>
+    <tr><th style="width:44px;">Step</th><th>Action</th><th>Command / Location</th></tr>
+    <tr><td>1</td><td>Connect the Toolkit to the <strong>production Agreement Manager account</strong>.</td><td><code>docusign auth login -e production</code></td></tr>
+    <tr><td>2</td><td>Retrieve the current Agreement Manager configuration to generate the latest catalogs.</td><td><code>docusign agm get catalog</code></td></tr>
+    <tr><td>3</td><td>Review the <strong>standard catalog</strong> and <strong>custom catalog</strong> to understand the current configuration.</td><td><code>{workspace}/{project}/agreement-manager/configs/</code></td></tr>
+    <tr><td>4</td><td>Update the <strong>agreement-manager-manifest.json</strong> with the required changes (add new fields, agreement types, mappings, or improve descriptions and examples).</td><td><code>{workspace}/{project}/agreement-manager/configs/agreement-manager-manifest.json</code></td></tr>
+    <tr><td>5</td><td>Connect the Toolkit to a <strong>fresh demo Agreement Manager account</strong> for safe testing.</td><td><code>docusign auth login</code></td></tr>
+    <tr><td>6</td><td>Upload the updated Agreement Manager IAM package to the demo account.</td><td><code>docusign agm upload</code></td></tr>
+    <tr><td>7</td><td>Add <strong>training agreements</strong> for custom agreement types where customExtractionEnabled is set to true.</td><td><code>{workspace}/{project}/agreement-manager/files/train/</code></td></tr>
+    <tr><td>8</td><td>Add a <strong>diverse set of agreements</strong> (up to 400) to test extraction accuracy.</td><td><code>{workspace}/{project}/agreement-manager/files/test/</code></td></tr>
+    <tr><td>9</td><td>Generate the testing template CSV.</td><td><code>docusign agm test generate-test-template</code></td></tr>
+    <tr><td>10</td><td>Enter the <strong>ground truth values</strong> for the relevant fields.</td><td><code>{workspace}/{project}/agreement-manager/tests/testing.csv</code></td></tr>
+    <tr><td>11</td><td>Run the test to compare <strong>AI extracted values with ground truth values</strong>.</td><td><code>docusign agm test run</code></td></tr>
+    <tr><td>12</td><td>Review the results and identify fields or agreement types where accuracy is below the desired threshold.</td><td><code>{workspace}/{project}/agreement-manager/tests/</code></td></tr>
+    <tr><td>13</td><td>Refine field descriptions, examples, or agreement type definitions in the agreement-manager-manifest.json to improve extraction accuracy.</td><td></td></tr>
+    <tr><td>14</td><td>Upload the updated configuration again.</td><td><code>docusign agm upload</code></td></tr>
+    <tr><td>15</td><td>Run the test again to validate improvements.</td><td><code>docusign agm test run</code></td></tr>
+    <tr><td>16</td><td>Once the desired accuracy threshold is achieved, reconnect the Toolkit to the <strong>production account</strong>.</td><td><code>docusign auth login -e production</code></td></tr>
+    <tr><td>17</td><td>Upload the finalized Agreement Manager IAM package to production.</td><td><code>docusign agm upload</code></td></tr>
+  </table>
+
+  <div class="callout callout-amber">
+    <div class="callout-icon">⚠️</div>
+    <div>
+      <strong>Watch-outs</strong>
+      <p>The Toolkit updates existing fields and types in place — it overwrites their properties from the manifest but <strong>cannot delete</strong> a custom field or type once created, and mapped additional fields currently cannot be unmapped. Re-running <code>upload</code> with no manifest changes is a safe no-op. These constraints apply when you evolve a live configuration.</p>
+    </div>
+  </div>
+</section>
+
+<section id="uc3">
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">3.2</div><h2>Move a configuration between accounts</h2></div>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;">
+    <span class="badge badge-green">Portability</span>
+    <span class="badge badge-blue">Replicate</span>
+    <span class="badge badge-purple">No re-testing</span>
+  </div>
+
+  <p><strong>The scenario.</strong> You have a proven Agreement Manager configuration in one account and want the exact same setup in another — a new region, a new business unit, or another customer. Because the configuration is already validated, you copy it as-is from the source account to the target account with no additional training or testing.</p>
+
+  <div class="callout callout-teal">
+    <div class="callout-icon">🎯</div>
+    <div>
+      <strong>Partner Opportunity</strong>
+      <p>The target account ends up with an identical, ready-to-use configuration in minutes. Use this path for straight replication of an unchanged configuration. If you need to change anything along the way, use <a href="#uc2">Use case 2</a> instead.</p>
+    </div>
+  </div>
+
+  <h3>Walkthrough</h3>
+  <p>This scenario describes how to move an existing Agreement Manager configuration from one account to another without modification or re-testing. This is useful when you want to replicate the same Agreement Manager setup across multiple accounts or customers, such as deploying a proven configuration from one production account to another.</p>
+  <p>In this workflow, you retrieve the configuration from the source account and deploy it directly to the target account using the IAM Toolkit. Since the configuration has already been validated, no additional training or testing is required.</p>
+  <table>
+    <tr><th style="width:44px;">Step</th><th>Action</th><th>Command / Location</th></tr>
+    <tr><td>1</td><td>Connect the Toolkit to the <strong>source Agreement Manager account</strong> (the account containing the configuration you want to move).</td><td><code>docusign auth login</code> (use -e production if the source folder is a production account)</td></tr>
+    <tr><td>2</td><td>Retrieve the current Agreement Manager configuration to generate the catalogs.</td><td><code>docusign agm get catalog</code></td></tr>
+    <tr><td>3</td><td>Review the <strong>standard catalog</strong> and <strong>custom catalog</strong> to understand the configuration being moved.</td><td><code>{workspace}/{project}/agreement-manager/configs/</code></td></tr>
+    <tr><td>4</td><td>Run the Copy catalog to manifest command</td><td><code>docusign agm catalog-to-manifest --all</code></td></tr>
+    <tr><td>5</td><td>Move the <strong>agreement-manager-manifest.json</strong> from from the <strong>export</strong> folder to the <strong>configs</strong> folder</td><td><code>{workspace}/{project}/agreement-manager/configs/agreement-manager-manifest.json</code></td></tr>
+    <tr><td>6</td><td>Connect the Toolkit to the <strong>target Agreement Manager account</strong> where the configuration should be deployed.</td><td><code>docusign auth login</code> (use -e production if the source folder is a production account)</td></tr>
+    <tr><td>7</td><td>Upload the Agreement Manager IAM package to apply the configuration in the target account.</td><td><code>Docusign agm upload</code></td></tr>
+    <tr><td>8</td><td>Verify that the fields, agreement types, and mappings were successfully created in the target account.</td><td><code>docusign agm get catalog</code></td></tr>
+  </table>
+
+  <div class="callout callout-amber">
+    <div class="callout-icon">⚠️</div>
+    <div>
+      <strong>Watch-outs</strong>
+      <p>Confirm you authenticate against the correct environment on both ends — use <code>-e production</code> when either the source or target is a production account. The <code>catalog-to-manifest</code> export lands in the <strong>export</strong> folder; move it to <strong>configs</strong> before uploading.</p>
+    </div>
+  </div>
+</section>
+
+<section id="uc4">
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">3.3</div><h2>Bulk ingest agreements with metadata</h2></div>
+</section>
+
+<div class="divider"></div>
+
+<section id="reference">
+  <div class="section-header"><div class="sec-num" style="font-size:16px;">4</div><h2>Troubleshooting</h2></div>
+  <p>Common validation errors you may hit when uploading your package, and how to resolve them.</p>
+</section>
+
+<section id="validation-errors">
+  <h3>4.1 Common Validation Errors</h3>
+  <p>Before the CLI uploads your IAM package to Agreement Manager, it performs a validation of your custom extraction manifest and throws an error message if your custom extraction manifest is misconfigured.</p>
+  <p>Here is a list of validation errors, what they mean, and how to resolve them:</p>
+  <table>
+    <tr><th>Error Message</th><th>Description</th><th>Resolution</th></tr>
+    <tr><td>Schema validation errors (e.g., missing required fields, invalid types, invalid name identifiers)</td><td>The manifest JSON does not conform to the expected schema. This can include missing required properties (like version, namespace, fields, etc.), incorrect data types, or name fields that are not valid identifiers.</td><td>Check that your manifest includes all required properties with the correct types. Ensure all name fields start with "C_" prefix (uppercase C) followed by a valid identifier (letter, underscore, or dollar sign, then letters, digits, underscores, or dollar signs).</td></tr>
+    <tr><td>Duplicate custom field labels found: "label1"</td><td>This means that you have defined 2 or more custom fields in your custom extraction manifest with the same label</td><td>Remove duplicate custom field label</td></tr>
+    <tr><td>Duplicate custom agreement type labels found: "label1"</td><td>This means that you have defined 2 or more custom agreement types in your custom extraction manifest with the same label</td><td>Remove duplicate agreement type label</td></tr>
+    <tr><td>Duplicate custom field names found: "name1"</td><td>This means that you have defined 2 or more custom fields in your custom extraction manifest with the same name</td><td>Remove duplicate custom field name</td></tr>
+    <tr><td>Duplicate custom agreement type names found: "name1"</td><td>This means that you have defined 2 or more custom agreement types in your manifest with the same name</td><td>Remove duplicate agreement type name</td></tr>
+    <tr><td>Custom field labels must not match standard field labels</td><td>This means that one or more of your custom field labels match those found in the standard catalog.</td><td>Update the custom field label in your custom extraction manifest to not match the standard field, or remove the field completely as its most likely a duplicate</td></tr>
+    <tr><td>Custom agreement type labels must not match standard agreement type labels</td><td>This means that one or more of your custom agreement type labels match those found in the standard catalog.</td><td>Update the custom agreement type label in your custom extraction manifest to not match the standard agreement type, or remove the agreement type completely as its most likely a duplicate</td></tr>
+    <tr><td>Exceeded maximum number of allowed custom fields (100)</td><td>You can only have 100 custom fields defined in your custom extraction manifest</td><td>Reduce the number of custom fields</td></tr>
+    <tr><td>Exceeded maximum number of allowed custom agreement types (200)</td><td>You can only have 200 custom agreement types defined in your custom extraction manifest</td><td>Reduce the number of custom agreement types</td></tr>
+    <tr><td>Exceeded maximum number of allowed custom fields with AI extractions enabled (50)</td><td>You can only have 50 custom fields with AI extractions enabled</td><td>Reduce the number of custom fields with AI extractions enabled via the boolean flag in the custom extraction manifest</td></tr>
+    <tr><td>Exceeded maximum number of allowed custom agreement types with AI extractions enabled (15). <strong>How the 50 Limit Can Be Distributed</strong> The 50 limit can be split between custom fields and custom agreement types. Examples: 50 custom fields with AI extraction enabled, 0 custom types; 35 custom fields + 15 custom types; 40 custom fields + 10 custom types. <strong>Additional Constraint</strong> Even though the total limit is 50, no more than 15 custom agreement types can have AI extraction enabled. Meaning: Distribution: 34 Custom Fields + 16 Custom types, is not allowed.</td><td>You can only have 15 custom agreement types with AI extractions enabled</td><td>Reduce the number of custom agreement types with AI extractions enabled via the boolean flag in the custom extraction manifest</td></tr>
+    <tr><td>Agreement type "Custom Agreement Type 1" has AI extractions enabled but does not reference any training files in the "docs" property</td><td>If you are enabling AI extractions for a custom agreement type, you must provide and reference at least 1 training file in the "docs" property</td><td>Add a training file to your "files/train" folder and reference the file in the "docs" property of the custom agreement type in the custom extraction manifest. <em>If not set the "customExtractionEnabled" to false</em></td></tr>
+    <tr><td>Training file "training.pdf" referenced in agreement type "Custom Agreement Type 1" does not exist in /files/train</td><td>You referenced a file in the "docs" property of the custom agreement type that does not exist in the /files/train folder</td><td>Add that file to the /files/train folder</td></tr>
+    <tr><td>The following custom fields are defined but not referenced by any agreement type: "Field Label"</td><td>You have newly defined a custom field in the manifest's fields array that is not referenced in any agreement type's fields.customFields array (neither standard nor custom) in the manifest. Note: This validation only applies to fields newly created in the manifest, not fields already in your custom catalog.</td><td>Add the custom field label to at least one agreement type's fields.customFields array (standard or custom), or remove the field definition if it is not needed</td></tr>
+    <tr><td>Agreement type "Type Label" references undefined field label "Field Label"</td><td>An agreement type (standard or custom) references a field label in additionalStandardFields or customFields that does not exist in either the standard catalog or your manifest's custom fields</td><td>Ensure the field label matches exactly (case-sensitive) with either a standard field label from the catalog or a custom field label defined in your manifest</td></tr>
+  </table>
+</section>
+
+<div class="divider"></div>
+
+<section id="limits">
+  <div class="section-header"><div class="sec-num" style="font-size:16px;">5</div><h2>Limits and constraints</h2></div>
+  <table>
+    <tr><th style="width:46%;">Limit</th><th>Value / rule</th></tr>
+    <tr><td>Maximum custom fields</td><td><strong>100</strong></td></tr>
+    <tr><td>Maximum custom AI extractions</td><td><strong>50</strong> — Up to <strong>50 custom fields</strong> can have AI extraction enabled, or a combination of <strong>custom fields</strong> and <strong>custom agreement types</strong> can be used (for example, <strong>35 custom fields</strong> and <strong>15 custom types</strong>). <strong>Important:</strong> No more than <strong>15 custom agreement types</strong> can have AI extraction enabled.</td></tr>
+    <tr><td>Maximum custom agreement types</td><td><strong>200</strong></td></tr>
+    <tr><td>Naming</td><td>Custom field names and labels must not duplicate standard field names and labels. Custom agreement type names and labels must not duplicate standard agreement type names and labels.</td></tr>
+    <tr><td>Field references</td><td>Every custom field newly defined in the manifest must be referenced in fields.customFields of at least one agreement type (standard or custom) in the manifest. This validation does not apply to fields already in the custom catalog. All labels in fields.additionalStandardFields must exist in the standard catalog. All labels in fields.customFields must match a custom field label defined in the manifest's fields array.</td></tr>
+    <tr><td>Documents</td><td>Training documents (docs) are required for custom agreement types with customExtractionEnabled set to true. Testing documents must exist in the <code>{workspace}/{project}/agreement-manager/files/test/</code> directory.</td></tr>
+  </table>
+</section>
+
+<div style="height:80px"></div>
+</main>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      document.querySelectorAll('.sidebar nav a').forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
