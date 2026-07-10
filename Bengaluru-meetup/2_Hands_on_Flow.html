@@ -436,10 +436,29 @@ cd PSA</div>
         <li>Enable <strong>generative orchestration</strong>: Settings → Generative AI → set to <strong>"Yes"</strong>.</li>
         <li>Add an agent <strong>description</strong>, e.g.:</li>
       </ol>
-      <div class="prompt"><span class="q">Agent description (procurement-adapted)</span>Procurement agent that uses the Docusign MCP Demo connector to act on agreements, envelopes, templates, and workflows, for procurement teams managing vendor contracts, renewals, and obligations.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">Agent description — paste into the Description field</span>Procurement agent that uses the Docusign MCP Demo connector to act on agreements, envelopes, templates, and workflows, for procurement teams managing vendor contracts, renewals, and obligations.<button class="copy" onclick="cp(this)">Copy</button></div>
       <ol class="steps" start="5">
-        <li>Add <strong>system instructions</strong>: prefer Docusign MCP tools for live state, use Workflow Builder before eSign, and never fabricate agreement data.</li>
+        <li>Add <strong>system instructions</strong>: click Edit on Instructions and paste the block below — these ensure the agent always calls Docusign tools for live data and never fabricates agreement state.</li>
       </ol>
+      <div class="prompt"><span class="q">System instructions — paste into the Instructions field</span>You are the Procurement Agent for Fontara, a B2B company. The procurement team manages a portfolio of vendor contracts — MSAs, SOWs, NDAs, supply agreements, and device contracts.
+
+You help procurement teams complete all agreement tasks — getting insights from agreements, tracking envelopes and recipient information, sending reminders, using templates to create agreements, triggering workflows, etc. — using the Docusign MCP Demo connector. Treat Docusign as the source of truth for any live agreement, envelope, renewal, pricing, or clause question.
+
+Behavior rules
+
+1. Prefer Docusign MCP tools. For any question about envelopes, recipients, templates, signers, agreements, renewals, clauses, or signing status, call the Docusign MCP Demo tool. Never answer from training data or prior chat context for live Docusign state.
+
+2. Use Docusign default account unless otherwise specified.
+
+3. Workflow Builder before eSign. When sending an agreement, always check for an available published Workflow Builder workflow first and use it if one applies.
+
+4. Always call the getWorkflowTriggerRequirements tool before initiating the triggerWorkflow tool. Call List workflows if required to fetch the correct workflow id. Ask the user for all inputs before triggering the workflow.
+
+5. Never fabricate data. If a field is not returned by a Docusign MCP tool, say so explicitly. Do not invent envelope IDs, recipient emails, statuses, dates, dollar amounts, or clause text.
+
+6. Ask one clarifying question when required parameters are missing.
+
+7. Response format. Keep responses brief, accurate, and visually scannable: lead with a one-line summary, then the detail. Use visual indicators — ✅ in place · ⚠️ at-risk · 🔴 missing · 🕐 pending. Use HTML formatting to make responses easy to read.<button class="copy" onclick="cp(this)">Copy</button></div>
 
       <h3>3.3 · Add the Docusign MCP Demo connector</h3>
       <ol class="steps">
@@ -464,6 +483,31 @@ cd PSA</div>
       <div class="prompt"><span class="q">A4 · Vendor comparison</span>Compare SmartFactory Systems and FutureSkills Solutions side-by-side on obligations and clauses. Show me what SmartFactory Systems is missing that FutureSkills Solutions has in place.<button class="copy" onclick="cp(this)">Copy</button></div>
 
       <p class="expect"><b>Scenario A demonstrates:</b> portfolio-wide renewal visibility · Agreement Manager extracting parties/dates/terms/clauses · vendor-to-vendor clause checks (payment terms / price protection) · compliant vs non-compliant contrast.</p>
+
+      <h3>3.6 · Scenario B — Workflow Builder Orchestration</h3>
+      <p class="lead" style="margin:0 0 6px">The procurement team is cleared to proceed with a vendor renewal. Trigger the Workflow Builder renewal workflow and get the order form in front of the vendor signer — all from the agent.</p>
+      <div class="accurate" style="margin-bottom:12px">
+        <strong>Story context:</strong> Procurement needs to renew the Clinical Trial Supply Agreement with a key vendor for an expanded batch size. The renewal will be routed via Workflow Builder for approval before signature.
+      </div>
+      <div class="prompt"><span class="q">B1 · Deal calculation</span>Work out the renewal deal math: 50,000 unit batch size at $45 per unit with a 10% volume discount.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">B2 · Initiate the renewal (core prompt)</span>Initiate a renewal for the Clinical Trial Supply Agreement with [vendor name] for 50,000 units at $45 per unit with 10% discount for a 1-year term starting August 1, 2026. Route it to [recipient email] at the vendor.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="note" style="margin:10px 0">
+        <strong>Tip:</strong> replace <code>[vendor name]</code> and <code>[recipient email]</code> with values from your demo account. If you see a Responsible AI content-filter error, retry with a different recipient email address (e.g. a personal alias in your demo tenant).
+      </div>
+      <p class="expect"><b>Scenario B demonstrates:</b> agent calling <code>getWorkflowTriggerRequirements</code> before triggering · Workflow Builder routing logic · human-in-the-loop approval for high-value renewals · Agreement Prep generating the order form.</p>
+
+      <h3>3.7 · Scenario C — Track Workflow &amp; Agreement Status</h3>
+      <p class="lead" style="margin:0 0 6px">The order form was sent. Check in to see where things stand — track the workflow, see what's pending signature, and nudge the recipient if needed.</p>
+      <div class="accurate" style="margin-bottom:12px">
+        <strong>Story context:</strong> A few minutes after triggering the renewal workflow, procurement needs to confirm status without logging into Docusign — all from the agent in chat.
+      </div>
+      <div class="prompt"><span class="q">C1 · Workflow status</span>What's the status of the [vendor] renewal workflow instance? Which step is it on, who needs to act next, and is anything blocked?<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">C2 · Signature status</span>Has the recipient at [vendor] signed the renewal order form yet? When was it sent and has it been opened?<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">C3 · Send a reminder</span>Send the [vendor] recipient a signing reminder through Docusign — use the existing envelope, don't create a new one. Then tell me when the envelope expires and what happens if it's not signed by then.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="note" style="margin:10px 0">
+        <strong>Human in the Loop:</strong> the workflow has deterministic routing — if the discount exceeds the threshold, it routes to Agreement Desk for a manual review and approval before proceeding to signature.
+      </div>
+      <p class="expect"><b>Scenario C demonstrates:</b> in-flight workflow monitoring · eSign envelope status check · nudging stalled signers without leaving chat · expiry and escalation awareness.</p>
     </div>
 
     <!-- STAGE 4 -->
@@ -474,11 +518,41 @@ cd PSA</div>
       <p class="lead">You ship it. Fontara's procurement team gets a prebuilt Procurement agent running on the structured dataset you just built, answering questions and surfacing risk without anyone touching the underlying platform.</p>
       <ol class="steps">
         <li>Open the prebuilt Procurement agent in <strong>Agent Studio</strong>.</li>
-        <li>Ask <em>"What's in my vendor agreements?"</em>, it summarizes the vendor portfolio.</li>
+        <li>Ask <em>"What's in my vendor agreements?"</em> — it summarizes the vendor portfolio.</li>
         <li>Ask it to <strong>surface risks &amp; obligations</strong> (uncapped liability, off-standard payment terms, imminent renewals).</li>
-        <li>Connect back to MCP: the same agent can surface in third-party tools, <strong>Microsoft Teams</strong> and other AI clients, via the MCP server.</li>
+        <li>Connect back to MCP: the same agent can surface in third-party tools — <strong>Microsoft Teams</strong> and other AI clients — via the MCP server.</li>
       </ol>
-      <div class="accurate">
+
+      <h3>4.1 · Publish to Microsoft Teams &amp; M365 Copilot</h3>
+      <p class="lead" style="margin:0 0 6px">Once the agent works in the test pane, push it to Teams and M365 Copilot so the procurement team can use it from where they already work.</p>
+      <ol class="steps">
+        <li>Open the <strong>Channels</strong> tab in your agent.</li>
+        <li>Select <strong>Microsoft 365 and Microsoft Teams</strong>. Tick <em>Make agent available in Microsoft 365 Copilot</em>, then click <strong>Add channel</strong>.</li>
+        <li>Click <strong>Availability Options</strong> → <em>Show to everyone in my org</em>.</li>
+        <li>Click <strong>Publish</strong> (top-right) and confirm. Wait for publish to complete.</li>
+        <li>From the channel panel, click <strong>See Agent in Teams</strong> or <strong>See Agent in Microsoft 365</strong> to test it in-channel.</li>
+      </ol>
+      <div class="note" style="margin-top:10px">
+        <strong>Tenant note:</strong> publishing to Teams / M365 Copilot may require tenant admin approval depending on your org's Power Platform and app catalog policies. For non-production exploration, a trial environment avoids these gates. Re-publish after every change to instructions, knowledge, or tools.
+      </div>
+
+      <h3>4.2 · Sample prompt library</h3>
+      <p class="lead" style="margin:0 0 6px">Use these prompts to extend the demo beyond the three core scenarios. Replace anything in <code>[BRACKETS]</code> with data from your demo account.</p>
+      <table>
+        <thead><tr><th style="width:50px">#</th><th>Prompt</th><th style="width:200px">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>1.1</td><td>Show me all upcoming renewals across my vendor agreements in the next 90 days.</td><td>Renewal pipeline</td></tr>
+          <tr><td>1.2</td><td>For [vendor], which documents are in place today? MSA, NDA, Supply Agreement, DPA — show status and dates.</td><td>Doc coverage check</td></tr>
+          <tr><td>1.3</td><td>Highlight key terms and clauses from the MSAs with [vendor].</td><td>Key terms across docs</td></tr>
+          <tr><td>2.1</td><td>Scan all active MSAs for MFN, price protection, or non-discrimination clauses.</td><td>Portfolio-wide risk scan</td></tr>
+          <tr><td>2.2</td><td>Which of my vendors are missing a DPA or AI Use Addendum? Order by contract value.</td><td>Compliance gap report</td></tr>
+          <tr><td>3.1</td><td>List available Workflow Builder workflows for renewals.</td><td>Confirm workflow before triggering</td></tr>
+          <tr><td>4.1</td><td>Which vendor contracts are pending signature for more than 7 days?</td><td>Stalled signatures</td></tr>
+          <tr><td>4.2</td><td>Send a reminder to any [vendor] recipient who hasn't signed in 3+ days.</td><td>Nudge stalled signers</td></tr>
+        </tbody>
+      </table>
+
+      <div class="accurate" style="margin-top:16px">
         <strong>The one-line message:</strong> IAM Toolkit + CLI standardized and ingested the corpus → Iris AI extracted structured fields → MCP + Copilot Studio and Agent Studio turned that intelligence into answers, wherever the procurement team already works.
       </div>
     </div>
