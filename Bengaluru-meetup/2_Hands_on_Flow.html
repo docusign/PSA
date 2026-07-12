@@ -280,14 +280,14 @@
         <li>For Stage 3: a <strong>Microsoft 365 / Copilot Studio</strong> environment where you can add a Model Context Protocol tool.</li>
       </ul>
 
-      <h3>0.3 · Clone the workshop repo</h3>
-      <p class="lead" style="margin:0 0 6px">The repo ships the Pharma/Medtech procurement manifest, training documents, and ingest contracts ready to use. All data is synthetic.</p>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>git clone https://github.com/docusign/PSA.git
-cd PSA</div>
-      <ul class="sub" style="margin-top:10px">
-        <li>Manifest: <code>Bengaluru-meetup/lab/manifests/iam-procurement/healthcare-life-sciences/pharma-medtech/agreement-manager-manifest.json</code></li>
-        <li>Training docs (7 sample agreements): <code>…/pharma-medtech/files/train/</code></li>
-        <li>Ingest contracts (4 contracts): <code>…/pharma-medtech/files/ingest/</code></li>
+      <h3>0.3 · Download the workshop resources</h3>
+      <p class="lead" style="margin:0 0 6px">The workshop resource bundle ships the Pharma/Medtech procurement manifest, training documents, and ingest contracts ready to use. All data is synthetic.</p>
+      <p class="lead" style="margin:0 0 8px">Download the ZIP and unzip it into the root of your working directory:</p>
+      <a href="https://github.com/docusign/PSA/raw/main/Bengaluru-meetup/workshop-resources.zip" class="btn-dl" target="_blank" style="display:inline-block;margin:4px 0 12px;padding:8px 18px;background:var(--blue);color:#fff;border-radius:6px;font-size:13px;text-decoration:none;font-weight:600">⬇ Download workshop-resources.zip</a>
+      <ul class="sub" style="margin-top:4px">
+        <li>Manifest: <code>Bengaluru-meetup/workshop-resources/agreement-manager-manifest.json</code></li>
+        <li>Training docs (7 sample agreements): <code>Bengaluru-meetup/workshop-resources/files/train/</code></li>
+        <li>Ingest contracts (4 contracts): <code>Bengaluru-meetup/workshop-resources/files/ingest/</code></li>
       </ul>
 
       <div class="note" style="margin-top:16px">
@@ -335,11 +335,16 @@ cd PSA</div>
       <p class="expect"><b>Creates:</b> <code>demo-workspace/demo-project/agreement-manager/</code> with <code>configs/</code>, <code>files/train/</code>, <code>files/test/</code>, <code>tests/</code>, and more.</p>
 
       <h3>1.3 · Drop in the Pharma/Medtech procurement manifest</h3>
-      <p class="lead" style="margin:0 0 6px">The workshop repo ships a pre-built manifest — 3 custom agreement types (Clinical Trial Supply, CRO Services, Medical Device Supply) and 9 custom pharma fields. Copy it into your workspace configs folder.</p>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cp Bengaluru-meetup/lab/manifests/iam-procurement/healthcare-life-sciences/pharma-medtech/agreement-manager-manifest.json \
+      <p class="lead" style="margin:0 0 6px">The workshop resources ship a pre-built manifest — 3 custom agreement types (Clinical Trial Supply, CRO Services, Medical Device Supply) and 9 custom pharma fields.</p>
+      <div class="note" style="margin:8px 0 10px">
+        💡 <strong>Tip:</strong> If you haven't downloaded the workshop resources yet, grab them now:<br>
+        <a href="https://github.com/docusign/PSA/raw/main/Bengaluru-meetup/workshop-resources.zip" target="_blank" style="color:var(--blue);font-weight:600">Download workshop-resources.zip</a> — unzip into your working directory before running the commands below.
+      </div>
+      <p class="lead" style="margin:8px 0 6px">Copy the manifest into your workspace configs folder:</p>
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cp Bengaluru-meetup/workshop-resources/agreement-manager-manifest.json \
    demo-workspace/demo-project/agreement-manager/configs/agreement-manager-manifest.json</div>
       <p class="lead" style="margin:8px 0 6px">Copy the 7 training documents (sample agreements the AI learns from) into the workspace train folder:</p>
-      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cp Bengaluru-meetup/lab/manifests/iam-procurement/healthcare-life-sciences/pharma-medtech/files/train/* \
+      <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cp Bengaluru-meetup/workshop-resources/files/train/* \
    demo-workspace/demo-project/agreement-manager/files/train/</div>
       <p class="lead" style="margin:8px 0 6px">Pull your account's current catalog (downloads <code>standard-catalog.json</code> + <code>custom-catalog.json</code>):</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cd demo-workspace &amp;&amp; docusign agm get catalog</div>
@@ -359,11 +364,11 @@ cd PSA</div>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cd ..</div>
       <p class="lead" style="margin:8px 0 6px">Preview what will be uploaded without ingesting:</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign agm ingest \
-  --directory Bengaluru-meetup/lab/manifests/iam-procurement/healthcare-life-sciences/pharma-medtech/files/ingest \
+  --directory Bengaluru-meetup/workshop-resources/files/ingest \
   --dry-run</div>
       <p class="lead" style="margin:8px 0 6px">When ready, ingest for real:</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>echo "y" | docusign agm ingest --bypass \
-  --directory Bengaluru-meetup/lab/manifests/iam-procurement/healthcare-life-sciences/pharma-medtech/files/ingest</div>
+  --directory Bengaluru-meetup/workshop-resources/files/ingest</div>
       <p class="expect"><b>Expect:</b> CLI confirms 4 files uploaded. Documents appear in Agreement Manager within a few minutes as Navigator indexes them asynchronously.</p>
 
       <h3>1.6 · Deploy to production</h3>
@@ -373,7 +378,6 @@ cd PSA</div>
 
       <div class="note" style="margin-top:16px">
         <strong>Developer takeaway:</strong> everything in 1.2–1.6 is config-as-code + CLI. A client's <em>entire</em> repository can be standardized, trained, tested, ingested, and promoted to production: repeatable, version-controlled, and partner-deliverable.
-        <br><br><strong>Tip:</strong> if <code>agm upload</code> fails with <em>"Cannot add more than 0 active descriptors"</em>, your Integration Key is not yet on the ART allowlist. Temporarily set <code>"customExtractionEnabled": false</code> on the fields in the manifest — types and fields still get created, just without AI extraction training.
       </div>
     </div>
 
