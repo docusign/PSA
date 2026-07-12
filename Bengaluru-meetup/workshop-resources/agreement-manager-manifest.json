@@ -1,0 +1,355 @@
+{
+  "version": "1.0.0",
+  "defaultLocale": "en",
+  "namespace": "com.docusign.pdh.procurement.pharmaMedtech@1.0.0",
+  "standardAgreementTypes": [
+    {
+      "key": "MsaDocumentData",
+      "displayName": "Master Service Agreement",
+      "fields": {
+        "additionalStandardFields": [],
+        "customFields": [
+          "Pharma - Total Study Budget (USD)",
+          "Pharma - Number of Clinical Sites",
+          "Pharma - Patient Enrollment Target"
+        ]
+      }
+    },
+    {
+      "key": "NdaDocumentData",
+      "displayName": "Non-Disclosure Agreement",
+      "fields": {
+        "additionalStandardFields": [],
+        "customFields": []
+      }
+    },
+    {
+      "key": "LicenseDocumentData",
+      "displayName": "License",
+      "fields": {
+        "additionalStandardFields": [],
+        "customFields": []
+      }
+    },
+    {
+      "key": "DistributionDocumentData",
+      "displayName": "Supply / Distribution",
+      "fields": {
+        "additionalStandardFields": [],
+        "customFields": [
+          "Pharma - Clinical Batch Size (units)",
+          "Pharma - Cost Per Unit (USD)",
+          "Pharma - Required Shelf Life (months)"
+        ]
+      }
+    },
+    {
+      "key": "PurchaseDocumentData",
+      "displayName": "Purchase Agreement",
+      "fields": {
+        "additionalStandardFields": [],
+        "customFields": [
+          "Pharma - Annual Device Purchase Value (USD)",
+          "Pharma - FDA Device Classification",
+          "Pharma - Consignment Inventory Period (days)"
+        ]
+      }
+    }
+  ],
+  "customAgreementTypes": [
+    {
+      "key": "C_ClinicalTrialSupplyAgreement",
+      "displayName": "Clinical Trial Supply Agreement",
+      "category": "BusinessServices",
+      "customExtractionEnabled": true,
+      "aiDefinition": "Agreement for manufacture, packaging, and supply of investigational drug products or clinical trial materials under GMP rules. This document type is specifically a 'Clinical Trial Supply Agreement' and should be classified as such rather than any standard agreement type. Key structural indicators: (1) document title or header explicitly references 'Clinical Trial Supply Agreement' or closely related terminology, (2) the agreement contains industry-specific terms, obligations, and commercial structures unique to this type of arrangement, (3) the parties, roles, and responsibilities described are consistent with a clinical trial supply agreement rather than a generic contract. Typical language found in this document type includes terms directly related to the specific commercial arrangement described above. This type must NOT be confused with generic standard agreement types such as License, Subscription, Miscellaneous, or other broad categories. The distinguishing factor is the specialized nature of the agreement \u2014 it addresses a specific commercial need that general-purpose agreement types do not adequately describe.",
+      "fields": {
+        "additionalStandardFields": [
+          "Payment Terms",
+          "Governing Law"
+        ],
+        "customFields": [
+          "Pharma - Clinical Batch Size (units)",
+          "Pharma - Cost Per Unit (USD)",
+          "Pharma - Required Shelf Life (months)"
+        ]
+      },
+      "docs": [
+        "Clinical Trial Supply Agreement - Sample 1.docx",
+        "Clinical Trial Supply Agreement - Sample 2.docx",
+        "Clinical Trial Supply Agreement - Sample 3.docx"
+      ]
+    },
+    {
+      "key": "C_CROServicesAgreement",
+      "displayName": "Contract Research Organization (CRO) Services Agreement",
+      "category": "BusinessServices",
+      "customExtractionEnabled": true,
+      "aiDefinition": "Contract with a CRO for clinical trial management, patient recruitment, site monitoring, data analysis, and regulatory filings. This document type is specifically a 'Contract Research Organization (CRO) Services Agreement' and should be classified as such rather than any standard agreement type. Key structural indicators: (1) document title or header explicitly references 'Contract Research Organization (CRO) Services Agreement' or closely related terminology, (2) the agreement contains industry-specific terms, obligations, and commercial structures unique to this type of arrangement, (3) the parties, roles, and responsibilities described are consistent with a contract research organization (cro) services agreement rather than a generic contract. Typical language found in this document type includes terms directly related to the specific commercial arrangement described above. This type must NOT be confused with generic standard agreement types such as License, Subscription, Miscellaneous, or other broad categories. The distinguishing factor is the specialized nature of the agreement \u2014 it addresses a specific commercial need that general-purpose agreement types do not adequately describe.",
+      "fields": {
+        "additionalStandardFields": [
+          "Payment Terms",
+          "Termination for Cause - Notice Period"
+        ],
+        "customFields": [
+          "Pharma - Total Study Budget (USD)",
+          "Pharma - Number of Clinical Sites",
+          "Pharma - Patient Enrollment Target"
+        ]
+      },
+      "docs": [
+        "Contract Research Organization (CRO) Services Agreement - Sample 1.docx",
+        "Contract Research Organization (CRO) Services Agreement - Sample 2.docx"
+      ]
+    },
+    {
+      "key": "C_MedicalDeviceSupplyAgreement",
+      "displayName": "Medical Device Supply Agreement",
+      "category": "BusinessServices",
+      "customExtractionEnabled": true,
+      "aiDefinition": "Agreement for supply of medical devices, diagnostic equipment, or surgical instruments with regulatory compliance and warranties. This document type is specifically a 'Medical Device Supply Agreement' and should be classified as such rather than any standard agreement type. Key structural indicators: (1) document title or header explicitly references 'Medical Device Supply Agreement' or closely related terminology, (2) the agreement contains industry-specific terms, obligations, and commercial structures unique to this type of arrangement, (3) the parties, roles, and responsibilities described are consistent with a medical device supply agreement rather than a generic contract. Typical language found in this document type includes terms directly related to the specific commercial arrangement described above. This type must NOT be confused with generic standard agreement types such as License, Subscription, Miscellaneous, or other broad categories. The distinguishing factor is the specialized nature of the agreement \u2014 it addresses a specific commercial need that general-purpose agreement types do not adequately describe.",
+      "fields": {
+        "additionalStandardFields": [
+          "Payment Terms",
+          "Renewal"
+        ],
+        "customFields": [
+          "Pharma - Annual Device Purchase Value (USD)",
+          "Pharma - FDA Device Classification",
+          "Pharma - Consignment Inventory Period (days)"
+        ]
+      },
+      "docs": [
+        "Medical Device Supply Agreement - Sample 1.docx",
+        "Medical Device Supply Agreement - Sample 2.docx"
+      ]
+    }
+  ],
+  "fields": [
+    {
+      "key": "C_PHARMA_BatchSize_Units",
+      "displayName": "Pharma - Clinical Batch Size (units)",
+      "category": "GeneralCategory",
+      "fieldType": "Number",
+      "customExtractionEnabled": true,
+      "aiDefinition": "The number of units per manufacturing batch for the clinical trial supply. Extract the numeric unit count. Look for this numeric count in pricing sections, schedules, exhibits, or defined terms within the agreement. Extract only the raw number without currency symbols, percentage signs, or units. Typical values seen in agreements include 10000 and 50000. If the value is stated in words, convert to digits.",
+      "examples": {
+        "en": [
+          {
+            "exampleText": "Each manufacturing batch shall produce a minimum of ten thousand (10,000) units of investigational product in the agreed-upon dosage form, sufficient to supply twelve clinical sites for one quarter.",
+            "confirmedValue": "10000"
+          },
+          {
+            "exampleText": "Batch size for Phase III clinical supply is fifty thousand (50,000) capsules per lot, with overage of five percent to account for testing, retention samples, and transit losses.",
+            "confirmedValue": "50000"
+          },
+          {
+            "exampleText": "The agreed clinical batch size is twenty-five thousand (25,000) pre-filled syringes per production campaign, with batch records maintained per GMP requirements.",
+            "confirmedValue": "25000"
+          }
+        ]
+      }
+    },
+    {
+      "key": "C_PHARMA_CostPerUnit_USD",
+      "displayName": "Pharma - Cost Per Unit (USD)",
+      "category": "FinancialCategory",
+      "fieldType": "Number",
+      "customExtractionEnabled": true,
+      "aiDefinition": "The manufacturing cost per unit for clinical trial materials. Extract the numeric dollar amount per unit. Look for this dollar amount in pricing sections, schedules, exhibits, or defined terms within the agreement. Extract only the raw number without currency symbols, percentage signs, or units. Typical values seen in agreements include 45 and 12.50. If the value is stated in words, convert to digits.",
+      "examples": {
+        "en": [
+          {
+            "exampleText": "The per-unit manufacturing cost for the investigational product is forty-five dollars ($45.00) including raw materials, manufacturing labor, quality testing, and primary packaging.",
+            "confirmedValue": "45"
+          },
+          {
+            "exampleText": "Cost per finished unit is twelve dollars and fifty cents ($12.50) for the oral solid dosage form, exclusive of secondary packaging and clinical labeling costs.",
+            "confirmedValue": "12.50"
+          },
+          {
+            "exampleText": "The agreed-upon unit price for each pre-filled syringe of study drug is seventy-eight dollars ($78.00) at the specified batch size, inclusive of all quality release testing.",
+            "confirmedValue": "78"
+          }
+        ]
+      }
+    },
+    {
+      "key": "C_PHARMA_StabilityMonths",
+      "displayName": "Pharma - Required Shelf Life (months)",
+      "category": "LifecycleCategory",
+      "fieldType": "Number",
+      "customExtractionEnabled": true,
+      "aiDefinition": "The minimum remaining shelf life required at the time of delivery of clinical trial materials to the sponsor. Extract the numeric month count. Look for this month count in pricing sections, schedules, exhibits, or defined terms within the agreement. Extract only the raw number without currency symbols, percentage signs, or units. Typical values seen in agreements include 18 and 24. If the value is stated in words, convert to digits.",
+      "examples": {
+        "en": [
+          {
+            "exampleText": "All clinical supplies delivered to Sponsor must have a minimum remaining shelf life of eighteen (18) months from the date of delivery to the designated clinical depot.",
+            "confirmedValue": "18"
+          },
+          {
+            "exampleText": "Minimum acceptable shelf life at time of receipt is twenty-four (24) months, based on the stability data supporting the current approved storage conditions.",
+            "confirmedValue": "24"
+          },
+          {
+            "exampleText": "Product must retain at least twelve (12) months of remaining shelf life upon delivery to the distribution center to allow adequate time for site distribution and patient dosing.",
+            "confirmedValue": "12"
+          }
+        ]
+      }
+    },
+    {
+      "key": "C_PHARMA_StudyBudget_USD",
+      "displayName": "Pharma - Total Study Budget (USD)",
+      "category": "FinancialCategory",
+      "fieldType": "Number",
+      "customExtractionEnabled": true,
+      "aiDefinition": "The total budget for CRO services for the clinical study. Extract the numeric dollar amount. Look for this dollar amount in pricing sections, schedules, exhibits, or defined terms within the agreement. Extract only the raw number without currency symbols, percentage signs, or units. Typical values seen in agreements include 12500000 and 4200000. If the value is stated in words, convert to digits.",
+      "examples": {
+        "en": [
+          {
+            "exampleText": "The total contract value for CRO services under this Phase III study is twelve million five hundred thousand dollars ($12,500,000) covering all activities from site selection through database lock.",
+            "confirmedValue": "12500000"
+          },
+          {
+            "exampleText": "Study budget for the Phase II clinical trial is four million two hundred thousand dollars ($4,200,000), allocated across the milestones and deliverables described in Exhibit B.",
+            "confirmedValue": "4200000"
+          },
+          {
+            "exampleText": "The total CRO fee for this bioequivalence study is one million eight hundred thousand dollars ($1,800,000) on a fixed-price basis inclusive of all pass-through costs.",
+            "confirmedValue": "1800000"
+          }
+        ]
+      }
+    },
+    {
+      "key": "C_PHARMA_SiteCount",
+      "displayName": "Pharma - Number of Clinical Sites",
+      "category": "GeneralCategory",
+      "fieldType": "Number",
+      "customExtractionEnabled": true,
+      "aiDefinition": "The number of clinical trial sites to be managed by the CRO. Extract the numeric site count. Look for this numeric count in pricing sections, schedules, exhibits, or defined terms within the agreement. Extract only the raw number without currency symbols, percentage signs, or units. Typical values seen in agreements include 45 and 20. If the value is stated in words, convert to digits.",
+      "examples": {
+        "en": [
+          {
+            "exampleText": "CRO shall identify, qualify, and manage approximately forty-five (45) clinical sites across North America and Europe for this multi-center Phase III registration trial.",
+            "confirmedValue": "45"
+          },
+          {
+            "exampleText": "The study will be conducted at up to twenty (20) investigational sites in the United States, with CRO responsible for all site management and monitoring activities.",
+            "confirmedValue": "20"
+          },
+          {
+            "exampleText": "CRO is responsible for activating and managing one hundred twenty (120) sites globally across fifteen countries for this pivotal oncology trial.",
+            "confirmedValue": "120"
+          }
+        ]
+      }
+    },
+    {
+      "key": "C_PHARMA_PatientTarget",
+      "displayName": "Pharma - Patient Enrollment Target",
+      "category": "GeneralCategory",
+      "fieldType": "Number",
+      "customExtractionEnabled": true,
+      "aiDefinition": "The target number of patients to be enrolled in the clinical trial. Extract the numeric patient count. Look for this numeric count in pricing sections, schedules, exhibits, or defined terms within the agreement. Extract only the raw number without currency symbols, percentage signs, or units. Typical values seen in agreements include 500 and 1200. If the value is stated in words, convert to digits.",
+      "examples": {
+        "en": [
+          {
+            "exampleText": "CRO commits to enrolling five hundred (500) evaluable patients within the enrollment window specified in the protocol, with a screen-to-randomization ratio not exceeding 1.5:1.",
+            "confirmedValue": "500"
+          },
+          {
+            "exampleText": "The patient enrollment target for this study is one thousand two hundred (1,200) subjects randomized across all sites within an eighteen-month enrollment period.",
+            "confirmedValue": "1200"
+          },
+          {
+            "exampleText": "Target enrollment is one hundred fifty (150) patients meeting all inclusion and exclusion criteria, with CRO responsible for recruitment strategy and site-level enrollment tracking.",
+            "confirmedValue": "150"
+          }
+        ]
+      }
+    },
+    {
+      "key": "C_PHARMA_DeviceValue_USD",
+      "displayName": "Pharma - Annual Device Purchase Value (USD)",
+      "category": "FinancialCategory",
+      "fieldType": "Number",
+      "customExtractionEnabled": true,
+      "aiDefinition": "The annual committed purchase value for medical devices under the supply agreement. Extract the numeric dollar amount. Look for this dollar amount in pricing sections, schedules, exhibits, or defined terms within the agreement. Extract only the raw number without currency symbols, percentage signs, or units. Typical values seen in agreements include 3000000 and 1500000. If the value is stated in words, convert to digits.",
+      "examples": {
+        "en": [
+          {
+            "exampleText": "Buyer commits to an annual purchase volume of three million dollars ($3,000,000) in surgical devices and associated disposables across all contracted product categories.",
+            "confirmedValue": "3000000"
+          },
+          {
+            "exampleText": "The estimated annual device spend under this agreement is one million five hundred thousand dollars ($1,500,000) based on projected procedure volumes at the contracted facilities.",
+            "confirmedValue": "1500000"
+          },
+          {
+            "exampleText": "Minimum annual purchase commitment is eight hundred thousand dollars ($800,000) to maintain preferred pricing and dedicated field clinical support.",
+            "confirmedValue": "800000"
+          }
+        ]
+      }
+    },
+    {
+      "key": "C_PHARMA_FDAClass",
+      "displayName": "Pharma - FDA Device Classification",
+      "category": "LegalAndComplianceCategory",
+      "fieldType": "String",
+      "customExtractionEnabled": true,
+      "aiDefinition": "The FDA regulatory classification of the medical device (Class I, Class II with 510(k), or Class III with PMA). Extract the classification. Look for this information in the main body, schedules, exhibits, or appendices of the agreement. Examples of expected values include \"Class II (510(k))\". Extract the most specific and complete value as stated in the document text. If not explicitly stated in the document, return an empty value.",
+      "examples": {
+        "en": [
+          {
+            "exampleText": "All devices supplied under this agreement are FDA Class II medical devices with current 510(k) clearances. Supplier shall provide copies of all clearance letters and product labeling upon request.",
+            "confirmedValue": "Class II (510(k))"
+          },
+          {
+            "exampleText": "The implantable cardiac device system is classified as an FDA Class III device, with Pre-Market Approval (PMA) P190045 and all applicable supplements currently in effect.",
+            "confirmedValue": "Class III (PMA)"
+          },
+          {
+            "exampleText": "Products covered under this supply agreement are Class I exempt devices not requiring pre-market notification, registered with FDA under establishment number 3012345678.",
+            "confirmedValue": "Class I (Exempt)"
+          }
+        ]
+      }
+    },
+    {
+      "key": "C_PHARMA_ConsignmentDays",
+      "displayName": "Pharma - Consignment Inventory Period (days)",
+      "category": "LifecycleCategory",
+      "fieldType": "Number",
+      "customExtractionEnabled": true,
+      "aiDefinition": "The number of days devices may remain on consignment at the healthcare facility before requiring purchase or return. Extract the numeric day count. Look for this day count in pricing sections, schedules, exhibits, or defined terms within the agreement. Extract only the raw number without currency symbols, percentage signs, or units. Typical values seen in agreements include 180 and 90. If the value is stated in words, convert to digits.",
+      "examples": {
+        "en": [
+          {
+            "exampleText": "Consigned inventory shall remain at Buyer's facility for a maximum of one hundred eighty (180) days from the date of delivery. Unused devices must be returned or purchased at the end of this period.",
+            "confirmedValue": "180"
+          },
+          {
+            "exampleText": "The consignment period for surgical implants is ninety (90) days from placement at the hospital site, after which devices are invoiced at the contracted unit price.",
+            "confirmedValue": "90"
+          },
+          {
+            "exampleText": "Devices held on consignment at the facility are subject to a one hundred twenty (120) day rotation, with expired or near-expiry stock replaced at no charge to Buyer.",
+            "confirmedValue": "120"
+          }
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "createdAt": "2026-05-30T06:03:57.000Z",
+    "updatedAt": "2026-05-30T06:03:57.000Z",
+    "version": "1.0.0",
+    "author": "Partner Demo Hub",
+    "description": "Custom agreement types and fields for Procurement / Pharmamedtech",
+    "tags": [],
+    "lastManifestHash": "75248ef3c1328d91f272736b122ac036926bb9ebb8ecb2178a15816f3b823c5e"
+  }
+}
