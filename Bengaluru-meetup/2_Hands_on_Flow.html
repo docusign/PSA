@@ -160,6 +160,39 @@
   .howto table td:first-child{font-weight:600;color:var(--ink);white-space:nowrap;width:130px}
   .expect{font-size:14.5px;color:var(--ok);margin:6px 0 0;padding-left:2px}
   .expect b{color:var(--ok)}
+
+  /* Locked stage buttons */
+  .rail-btn.locked{opacity:.38;cursor:not-allowed;pointer-events:none}
+  .rail-btn.locked .t,.rail-btn.locked .s{color:#aaa}
+
+  /* Prerequisite checkboxes */
+  .prereq-chk{appearance:none;-webkit-appearance:none;width:17px;height:17px;border:2px solid #ccc7d9;
+        border-radius:4px;background:#fff;cursor:pointer;vertical-align:middle;
+        margin-right:8px;position:relative;display:inline-block;top:-1px;transition:background .15s,border-color .15s;flex-shrink:0}
+  .prereq-chk:hover{border-color:var(--blue)}
+  .prereq-chk:checked{background:var(--ok);border-color:var(--ok)}
+  .prereq-chk:checked::after{content:"";display:block;width:4px;height:8px;border:2px solid #fff;
+        border-top:none;border-left:none;transform:rotate(45deg);position:absolute;top:1px;left:4px}
+
+  /* Complete prerequisites button */
+  #prereq-complete-btn{display:none;margin:20px 0 0;padding:12px 24px;background:var(--ok);
+        color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;
+        width:100%;transition:background .15s}
+  #prereq-complete-btn:hover{background:#176040}
+  #prereq-complete-btn.visible{display:block}
+
+  /* Prerequisites completed modal */
+  #prereq-modal{display:none;position:fixed;inset:0;background:rgba(19,0,50,.45);z-index:200;
+        align-items:center;justify-content:center}
+  #prereq-modal.show{display:flex}
+  #prereq-modal .modal-box{background:#fff;border-radius:16px;padding:36px 32px;max-width:440px;
+        width:90%;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.18)}
+  #prereq-modal .modal-icon{font-size:48px;margin-bottom:12px}
+  #prereq-modal h3{font-size:21px;color:var(--ink);margin:0 0 10px;font-weight:700}
+  #prereq-modal p{font-size:15px;color:var(--muted);margin:0 0 24px}
+  #prereq-modal .modal-cta{background:var(--blue);color:#fff;border:none;border-radius:8px;
+        padding:12px 28px;font-size:15px;font-weight:600;cursor:pointer;width:100%}
+  #prereq-modal .modal-cta:hover{background:#3900cc}
 </style>
 </head>
 <body>
@@ -188,46 +221,44 @@
     <!-- LEFT SIDEBAR -->
     <div class="sidebar">
       <div class="rail-v">
-        <button class="rail-btn" onclick="toggleStage(0)"><span class="n">0</span><div><span class="t">Prerequisites</span><span class="s">Install &amp; access · before you start</span></div></button>
-        <button class="rail-btn" onclick="toggleStage(1)"><span class="n ring-n" id="ring-1"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#e5e1f0" stroke-width="2"/><circle class="ring-fg" cx="12" cy="12" r="9" fill="none" stroke="#4C00FF" stroke-width="2" stroke-dasharray="56.55" stroke-dashoffset="56.55" stroke-linecap="round"/></svg><span class="ring-num">1</span></span><div><span class="t">IAM Toolkit</span><span class="s">Login &amp; bulk-upload · 15 min</span></div></button>
-        <button class="rail-btn" onclick="toggleStage(2)"><span class="n ring-n" id="ring-2"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#e5e1f0" stroke-width="2"/><circle class="ring-fg" cx="12" cy="12" r="9" fill="none" stroke="#4C00FF" stroke-width="2" stroke-dasharray="56.55" stroke-dashoffset="56.55" stroke-linecap="round"/></svg><span class="ring-num">2</span></span><div><span class="t">AI Extraction</span><span class="s">Agreement Manager · Iris</span></div></button>
-        <button class="rail-btn" onclick="toggleStage(3)"><span class="n ring-n" id="ring-3"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#e5e1f0" stroke-width="2"/><circle class="ring-fg" cx="12" cy="12" r="9" fill="none" stroke="#4C00FF" stroke-width="2" stroke-dasharray="56.55" stroke-dashoffset="56.55" stroke-linecap="round"/></svg><span class="ring-num">3</span></span><div><span class="t">MCP · Copilot Studio</span><span class="s">Connect + Insights · 30 min</span></div></button>
-        <button class="rail-btn" onclick="toggleStage(4)"><span class="n">4</span><div><span class="t">Agent Studio</span><span class="s">Procurement agent demo · 10 min</span></div></button>
+        <button class="rail-btn" id="btn-0" onclick="toggleStage(0)"><span class="n">0</span><div><span class="t">Before you begin</span><span class="s">Scenario · Objectives · Setup</span></div></button>
+        <button class="rail-btn locked" id="btn-1" onclick="toggleStage(1)"><span class="n ring-n" id="ring-1"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#e5e1f0" stroke-width="2"/><circle class="ring-fg" cx="12" cy="12" r="9" fill="none" stroke="#4C00FF" stroke-width="2" stroke-dasharray="56.55" stroke-dashoffset="56.55" stroke-linecap="round"/></svg><span class="ring-num">1</span></span><div><span class="t">IAM Toolkit</span><span class="s">Login &amp; bulk-upload · 15 min</span></div></button>
+        <button class="rail-btn locked" id="btn-2" onclick="toggleStage(2)"><span class="n ring-n" id="ring-2"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#e5e1f0" stroke-width="2"/><circle class="ring-fg" cx="12" cy="12" r="9" fill="none" stroke="#4C00FF" stroke-width="2" stroke-dasharray="56.55" stroke-dashoffset="56.55" stroke-linecap="round"/></svg><span class="ring-num">2</span></span><div><span class="t">AI Extraction</span><span class="s">Agreement Manager · Iris</span></div></button>
+        <button class="rail-btn locked" id="btn-3" onclick="toggleStage(3)"><span class="n ring-n" id="ring-3"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#e5e1f0" stroke-width="2"/><circle class="ring-fg" cx="12" cy="12" r="9" fill="none" stroke="#4C00FF" stroke-width="2" stroke-dasharray="56.55" stroke-dashoffset="56.55" stroke-linecap="round"/></svg><span class="ring-num">3</span></span><div><span class="t">MCP · Copilot Studio</span><span class="s">Connect + Insights · 30 min</span></div></button>
+        <button class="rail-btn locked" id="btn-4" onclick="toggleStage(4)"><span class="n">4</span><div><span class="t">Agent Studio</span><span class="s">Procurement agent demo · 10 min</span></div></button>
       </div>
     </div>
 
     <!-- MAIN CONTENT -->
     <div class="content">
 
-    <!-- STORY / SCENARIO -->
-    <div class="story">
-      <div class="eyebrow">The scenario</div>
-      <h2>At Fontara, procurement is buried in vendor contracts and PDFs and you're here to change that.</h2>
-      <p>Today, the procurement team owns thousands of vendor agreements, MSAs, SOWs, and NDAs, all stored as flat PDFs across shared drives and inboxes. The documents are signed and safe, but the agreement data the business cares about is locked inside.</p>
-      <p>That means nobody can answer the questions leaders actually ask: <span class="qs">Which contracts auto&#8209;renew next quarter? Which vendors are on payment terms longer than 45 days? Where are we missing a price&#8209;increase cap? What is our total committed spend with this supplier?</span> Today, every question means a human opening files one by one and reading them manually.</p>
-      <p>Over the next hour, you are going to change that with <strong>Docusign, AI, and MCP</strong>. You will treat agreements as data, not just documents, and you will do it the way developers fix things: <strong>automated, repeatable, and scalable</strong> — not by hand.</p>
-      <div class="mission">
-        <div class="mlbl">What you are building — and why it matters</div>
-        <ol>
-          <li><b>Stage 1 · IAM Toolkit + Agreement CLI</b>: define Fontara's pharma/medtech agreement types and fields as code, then bulk-ingest the legacy contract repository — all from the terminal. One-time setup that makes everything else possible.</li>
-          <li><b>Stage 2 · Extraction surfaces in Agreement Manager</b>: Iris AI reads every ingested contract and populates structured fields — batch size, CRO budget, FDA classification, renewal dates, payment terms. Static files become queryable data.</li>
-          <li><b>Stage 3 · MCP via Microsoft Copilot Studio</b>: create a blank agent in Copilot Studio, connect the Docusign MCP Demo connector to it, and query Fontara's whole vendor corpus in plain English — renewals, obligations, risk scan, workflow trigger, signature status. Deploy to Teams and M365 Copilot.</li>
-          <li><b>Stage 4 · Agent Studio, quick demo</b>: ship the prebuilt Procurement agent in Agent Studio so Fontara's team gets answers about vendor risk and renewals without opening a single file.</li>
-        </ol>
-      </div>
-      <p class="kicker-line">The pattern: <strong>ingest once → extract with AI → expose via MCP → deploy agents everywhere.</strong></p>
-    </div>
+    <!-- BEFORE YOU BEGIN (Stage 0) -->
+    <div class="stage open" id="s0">
+      <h2>Before you begin
+        <span class="badge b-acc">Start here</span>
+      </h2>
 
-    <!-- LEARNING OBJECTIVES -->
-    <div class="objectives">
-      <div class="sec-head">
-        <span class="icon">🎯</span>
-        <div>
-          <h2>Learning Objectives</h2>
-          <p>By the end of this workshop you will be able to:</p>
+      <h3 style="border-color:var(--indigo)">0.1 · The Scenario</h3>
+      <div class="story" style="margin-top:8px">
+        <div class="eyebrow">The scenario</div>
+        <h2>At Fontara, procurement is buried in vendor contracts and PDFs and you're here to change that.</h2>
+        <p>Today, the procurement team owns thousands of vendor agreements, MSAs, SOWs, and NDAs, all stored as flat PDFs across shared drives and inboxes. The documents are signed and safe, but the agreement data the business cares about is locked inside.</p>
+        <p>That means nobody can answer the questions leaders actually ask: <span class="qs">Which contracts auto&#8209;renew next quarter? Which vendors are on payment terms longer than 45 days? Where are we missing a price&#8209;increase cap? What is our total committed spend with this supplier?</span> Today, every question means a human opening files one by one and reading them manually.</p>
+        <p>Over the next hour, you are going to change that with <strong>Docusign, AI, and MCP</strong>. You will treat agreements as data, not just documents, and you will do it the way developers fix things: <strong>automated, repeatable, and scalable</strong> — not by hand.</p>
+        <div class="mission">
+          <div class="mlbl">What you are building — and why it matters</div>
+          <ol>
+            <li><b>Stage 1 · IAM Toolkit + Agreement CLI</b>: define Fontara's pharma/medtech agreement types and fields as code, then bulk-ingest the legacy contract repository — all from the terminal. One-time setup that makes everything else possible.</li>
+            <li><b>Stage 2 · Extraction surfaces in Agreement Manager</b>: Iris AI reads every ingested contract and populates structured fields — batch size, CRO budget, FDA classification, renewal dates, payment terms. Static files become queryable data.</li>
+            <li><b>Stage 3 · MCP via Microsoft Copilot Studio</b>: create a blank agent in Copilot Studio, connect the Docusign MCP Demo connector to it, and query Fontara's whole vendor corpus in plain English — renewals, obligations, risk scan, workflow trigger, signature status. Deploy to Teams and M365 Copilot.</li>
+            <li><b>Stage 4 · Agent Studio, quick demo</b>: ship the prebuilt Procurement agent in Agent Studio so Fontara's team gets answers about vendor risk and renewals without opening a single file.</li>
+          </ol>
         </div>
+        <p class="kicker-line">The pattern: <strong>ingest once → extract with AI → expose via MCP → deploy agents everywhere.</strong></p>
       </div>
-      <div class="obj-grid">
+
+      <h3 style="border-color:var(--indigo)">0.2 · Learning Objectives</h3>
+      <div class="obj-grid" style="margin-top:10px">
         <div class="obj-card">
           <div class="num">Objective 1</div>
           <strong>Standardize and ingest agreements in bulk</strong>
@@ -249,17 +280,9 @@
           <p>Ship a prebuilt Agent Studio agent that surfaces renewals, off-standard terms, and obligations.</p>
         </div>
       </div>
-    </div>
 
-    <!-- HOW TO USE -->
-    <div class="howto">
-      <div class="sec-head">
-        <span class="icon">📖</span>
-        <div>
-          <h2>How to Use This Handbook</h2>
-          <p>Self-paced and self-contained — follow it in a facilitated session or work through it independently.</p>
-        </div>
-      </div>
+      <h3 style="border-color:var(--indigo)">0.3 · How to Use This Handbook</h3>
+      <p class="lead" style="margin:6px 0 8px">Self-paced and self-contained — follow it in a facilitated session or work through it independently.</p>
       <table>
         <thead><tr><th>Element</th><th>What it means</th></tr></thead>
         <tbody>
@@ -267,19 +290,16 @@
           <tr><td>Scenario</td><td>A hands-on exercise. Read the story, then run the prompts in order.</td></tr>
           <tr><td>Prompt block</td><td>Copy-paste-ready prompt. Click the Copy button in the top-right.</td></tr>
           <tr><td>Step checkbox</td><td>Small checkbox at the start of each section heading (1.1, 1.2 … 3.9). Tick it when you complete the step.</td></tr>
-          <tr><td>Progress ring</td><td>The circular ring next to stages 1, 2, and 3 in the left sidebar fills as you tick steps. It turns green and shows ✓ when every step in that stage is done. Untick a step to revert.</td></tr>
+          <tr><td>Progress ring</td><td>The circular ring next to stages 1, 2, and 3 in the left sidebar fills as you tick steps. It turns green and shows ✓ when every step in that stage is done.</td></tr>
+          <tr><td>Stage lock</td><td>Stages 1–4 are locked until you tick all three prerequisite sections below and click <strong>Mark prerequisites complete</strong>.</td></tr>
         </tbody>
       </table>
-    </div>
 
-    <!-- PREREQUISITES -->
-    <div class="stage" id="s0">
-      <h2>Prerequisites, set up before the session
-        <span class="badge b-acc">Do this first</span>
-      </h2>
+      <h3 style="border-color:var(--gold)">0.4 · Prerequisites — set up before the session</h3>
       <p class="lead">Get every developer's machine ready before Stage 1 so the 15-minute CLI slot is spent on the workflow, not on installs. Everything here uses the demo environment and synthetic data only, no production accounts or real vendor data.</p>
+      <p class="lead" style="margin:0 0 14px">Tick each section as you complete it. Once all three are checked you can mark prerequisites complete and unlock the lab stages.</p>
 
-      <h3>0.1 · Tooling on each machine</h3>
+      <h3 id="prereq-h-1"><input type="checkbox" class="prereq-chk" id="pchk-1" onchange="checkPrereqs()"> 0.4.1 · Tooling on each machine</h3>
       <ol class="steps">
         <li><strong>Node.js LTS + npm</strong> installed (the Agreement CLI is distributed on npm).</li>
         <li><strong>Docusign Agreement CLI</strong> installed globally:
@@ -290,14 +310,14 @@
         </li>
       </ol>
 
-      <h3>0.2 · Accounts &amp; access</h3>
+      <h3 id="prereq-h-2"><input type="checkbox" class="prereq-chk" id="pchk-2" onchange="checkPrereqs()"> 0.4.2 · Accounts &amp; access</h3>
       <ul class="sub">
         <li>A <strong>Docusign developer / demo account</strong> with <strong>IAM Toolkit (open beta)</strong> access enabled.</li>
         <li>Permissions to configure <strong>Agreement Manager</strong> (agreement types, fields, ingestion) in that account.</li>
         <li>For Stage 3: a <strong>Microsoft 365 / Copilot Studio</strong> environment where you can create agents and add Model Context Protocol tools. Use your existing environment, or provision a trial via <a href="https://microsoft.github.io/agent-academy/recruit/00-course-setup/" target="_blank" style="color:var(--blue)">Trial Environment Setup, Steps 1–4</a>.</li>
       </ul>
 
-      <h3>0.3 · Download the workshop resources</h3>
+      <h3 id="prereq-h-3"><input type="checkbox" class="prereq-chk" id="pchk-3" onchange="checkPrereqs()"> 0.4.3 · Download the workshop resources</h3>
       <p class="lead" style="margin:0 0 6px">The workshop resource bundle ships the Pharma/Medtech procurement manifest, training documents, and ingest contracts ready to use. All data is synthetic.</p>
       <p class="lead" style="margin:0 0 8px">Download the ZIP and unzip it into the root of your working directory:</p>
       <a href="https://github.com/docusign/PSA/raw/main/Bengaluru-meetup/workshop-resources.zip" class="btn-dl" target="_blank" style="display:inline-block;margin:4px 0 12px;padding:8px 18px;background:var(--blue);color:#fff;border-radius:6px;font-size:15px;text-decoration:none;font-weight:600">⬇ Download workshop-resources.zip</a>
@@ -306,10 +326,11 @@
         <li>Training docs (7 sample agreements): <code>Bengaluru-meetup/workshop-resources/files/train/</code></li>
         <li>Ingest contracts (4 contracts): <code>Bengaluru-meetup/workshop-resources/files/ingest/</code></li>
       </ul>
-
       <div class="note" style="margin-top:16px">
         <strong>Ground rule:</strong> use <strong>synthetic / non-production data</strong> only.
       </div>
+
+      <button id="prereq-complete-btn" onclick="showPrereqModal()">✅ Mark prerequisites complete — unlock Stage 1–4</button>
     </div>
 
     <!-- STAGE 1 -->
@@ -719,15 +740,51 @@ Behavior rules
   </div>
   <div style="position:fixed;bottom:0;right:0;padding:8px 16px;font-size:13px;color:#615a75;background:rgba(255,255,255,0.92);border-top:1px solid #e5e1f0;border-left:1px solid #e5e1f0;border-radius:8px 0 0 0;z-index:99">For questions or feedback: <a href="mailto:amrit.prakash@docusign.com" style="color:#4C00FF;text-decoration:none">amrit.prakash@docusign.com</a></div>
 
+<!-- Prerequisites completed modal -->
+<div id="prereq-modal">
+  <div class="modal-box">
+    <div class="modal-icon">🎉</div>
+    <h3>Prerequisites complete!</h3>
+    <p>You've set up your environment and downloaded the workshop resources. Stages 1–4 are now unlocked. Head to Stage 1 to start building.</p>
+    <button class="modal-cta" onclick="unlockStages()">Start Stage 1 →</button>
+  </div>
+</div>
+
 <script>
+  var prereqsUnlocked = false;
+
   function toggleStage(n){
+    if(n > 0 && !prereqsUnlocked) return; // locked stages
     var el = document.getElementById('s'+n);
     var btns = document.querySelectorAll('.rail-btn');
     var isOpen = el.classList.contains('open');
     document.querySelectorAll('.stage').forEach(function(s){s.classList.remove('open');});
     btns.forEach(function(b){b.classList.remove('active');});
-    if(!isOpen){el.classList.add('open');btns[n].classList.add('active');el.scrollIntoView({behavior:'smooth',block:'nearest'});}
+    if(!isOpen){el.classList.add('open');document.getElementById('btn-'+n).classList.add('active');el.scrollIntoView({behavior:'smooth',block:'nearest'});}
   }
+
+  function checkPrereqs(){
+    var all = document.querySelectorAll('.prereq-chk');
+    var allChecked = Array.from(all).every(function(c){ return c.checked; });
+    var btn = document.getElementById('prereq-complete-btn');
+    if(allChecked){ btn.classList.add('visible'); }
+    else { btn.classList.remove('visible'); }
+  }
+
+  function showPrereqModal(){
+    document.getElementById('prereq-modal').classList.add('show');
+  }
+
+  function unlockStages(){
+    prereqsUnlocked = true;
+    document.getElementById('prereq-modal').classList.remove('show');
+    [1,2,3,4].forEach(function(n){
+      document.getElementById('btn-'+n).classList.remove('locked');
+    });
+    // open stage 1 automatically
+    toggleStage(1);
+  }
+
   function cp(btn){
     var box = btn.parentElement;
     var txt = box.cloneNode(true);
