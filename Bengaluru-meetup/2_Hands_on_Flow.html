@@ -22,24 +22,24 @@
   /* ---- Docusign-style top navigation ---- */
   .util{background:#1a0040}
   .util .in{max-width:none;margin:0;padding:9px 32px;display:flex;justify-content:flex-end;gap:22px;flex-wrap:wrap}
-  .util a{color:#e6e0f5;text-decoration:none;font-size:12.5px}
+  .util a{color:#e6e0f5;text-decoration:none;font-size:14.5px}
   .util a:hover{color:#fff}
   .nav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
   .nav .in{max-width:none;margin:0;padding:0 32px;display:flex;align-items:center;gap:26px}
   .nav .brand{display:flex;align-items:center;padding:14px 0}
   .nav .brand img{height:24px;display:block}
   .tabs{display:flex;gap:24px;flex:1;flex-wrap:wrap}
-  .tabs a{position:relative;text-decoration:none;color:var(--ink);font-weight:500;font-size:15px;padding:20px 0}
+  .tabs a{position:relative;text-decoration:none;color:var(--ink);font-weight:500;font-size:17px;padding:20px 0}
   .tabs a:hover{color:var(--indigo)}
   .tabs a.active{color:var(--indigo);font-weight:600}
   .tabs a.active:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:var(--indigo)}
-  .nav-cta{background:var(--indigo);color:#fff;text-decoration:none;font-weight:600;font-size:13px;padding:11px 20px;border-radius:8px;white-space:nowrap}
+  .nav-cta{background:var(--indigo);color:#fff;text-decoration:none;font-weight:600;font-size:15px;padding:11px 20px;border-radius:8px;white-space:nowrap}
   .nav-cta:hover{background:var(--indigo-d)}
   .bar{background:linear-gradient(100deg,#4C00FF 0%,#7A1FD0 42%,#C0207E 72%,#FF5252 100%);color:#fff}
   .bar .in{max-width:none;margin:0;padding:30px 32px 34px 268px}
-  .bar .kicker{color:#fff;opacity:.9;font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:600}
-  .bar h1{margin:8px 0 4px;font-size:26px;font-weight:600}
-  .bar p{margin:0;color:#f3edff;font-size:14px}
+  .bar .kicker{color:#fff;opacity:.9;font-size:14px;letter-spacing:.18em;text-transform:uppercase;font-weight:600}
+  .bar h1{margin:8px 0 4px;font-size:28px;font-weight:600}
+  .bar p{margin:0;color:#f3edff;font-size:16px}
   .wrap{max-width:none;margin:0;padding:24px 32px 64px 268px}
   .layout{display:block}
 
@@ -54,14 +54,14 @@
   .rail-btn:hover{border-color:var(--blue2);box-shadow:0 2px 8px rgba(76,0,255,.1)}
   .rail-btn.active{border-color:var(--blue);background:#f0ecff}
   .rail-btn .n{flex-shrink:0;display:inline-flex;width:22px;height:22px;align-items:center;justify-content:center;
-        border-radius:50%;background:var(--blue);color:#fff;font-size:12px;font-weight:bold;margin-top:1px}
+        border-radius:50%;background:var(--blue);color:#fff;font-size:14px;font-weight:bold;margin-top:1px}
   .rail-btn.active .n{background:var(--indigo)}
-  .rail-btn .t{font-size:13px;font-weight:600;color:var(--ink);display:block}
-  .rail-btn .s{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+  .rail-btn .t{font-size:15px;font-weight:600;color:var(--ink);display:block}
+  .rail-btn .s{display:block;font-size:13px;color:var(--muted);margin-top:2px}
   /* Progress ring for stages 1-3 */
   .ring-n{background:transparent!important;width:24px!important;height:24px!important;position:relative;display:inline-flex!important;align-items:center;justify-content:center}
   .ring-n svg{position:absolute;inset:0;width:24px;height:24px;transform:rotate(-90deg)}
-  .ring-n .ring-num{position:relative;z-index:1;font-size:11px;font-weight:bold;color:var(--muted);line-height:1}
+  .ring-n .ring-num{position:relative;z-index:1;font-size:13px;font-weight:bold;color:var(--muted);line-height:1}
   .ring-n.done .ring-num{color:var(--ok)}
   /* Step checkboxes injected into stage h3s */
   .step-chk{appearance:none;-webkit-appearance:none;width:15px;height:15px;border:2px solid #ccc7d9;
@@ -75,90 +75,90 @@
   .content{flex:1;min-width:0}
 
   .note{background:var(--warnbg);border:1px solid #f0d68a;border-left:5px solid var(--gold);
-        border-radius:8px;padding:12px 16px;margin:18px 0;font-size:13.5px;color:#5c4a12}
+        border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15.5px;color:#5c4a12}
   .accurate{background:var(--okbg);border:1px solid #b7e3c7;border-left:5px solid var(--ok);
-        border-radius:8px;padding:12px 16px;margin:18px 0;font-size:13.5px;color:#1c5138}
+        border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15.5px;color:#1c5138}
 
   /* narrative / scenario card */
   .story{position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:22px 0;overflow:hidden}
   .story:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;
         background:linear-gradient(180deg,#4C00FF 0%,#C0207E 60%,#FF5252 100%)}
-  .story .eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);font-weight:600;margin-bottom:6px}
-  .story h2{font-size:19px;color:var(--ink);margin:0 0 10px;font-weight:600;border:0;padding:0}
-  .story p{font-size:14px;color:var(--txt);margin:0 0 12px}
+  .story .eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);font-weight:600;margin-bottom:6px}
+  .story h2{font-size:21px;color:var(--ink);margin:0 0 10px;font-weight:600;border:0;padding:0}
+  .story p{font-size:16px;color:var(--txt);margin:0 0 12px}
   .story .qs{color:var(--muted);font-style:italic}
   .story .mission{background:var(--lt);border-radius:10px;padding:14px 18px;margin-top:4px}
-  .story .mission .mlbl{font-size:12px;font-weight:600;color:var(--ink);letter-spacing:.03em;margin-bottom:6px}
+  .story .mission .mlbl{font-size:14px;font-weight:600;color:var(--ink);letter-spacing:.03em;margin-bottom:6px}
   .story .mission ol{margin:0;padding-left:18px}
-  .story .mission li{font-size:13.5px;margin:5px 0}
+  .story .mission li{font-size:15.5px;margin:5px 0}
   .story .mission li b{color:var(--indigo)}
-  .story .kicker-line{margin:12px 0 0;font-size:13px;color:var(--muted)}
+  .story .kicker-line{margin:12px 0 0;font-size:15px;color:var(--muted)}
 
   .stage{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:20px 0;
         scroll-margin-top:16px;display:none}
   .stage.open{display:block}
-  .stage h2{font-size:19px;color:var(--blue);margin:0 0 2px}
-  .stage .lead{color:var(--muted);font-size:13.5px;margin:0 0 14px}
-  .stage h3{font-size:14.5px;color:var(--ink);margin:18px 0 6px;border-left:3px solid var(--gold);padding-left:10px}
+  .stage h2{font-size:21px;color:var(--blue);margin:0 0 2px}
+  .stage .lead{color:var(--muted);font-size:15.5px;margin:0 0 14px}
+  .stage h3{font-size:16.5px;color:var(--ink);margin:18px 0 6px;border-left:3px solid var(--gold);padding-left:10px}
 
-  .badge{display:inline-block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:bold;
+  .badge{display:inline-block;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:bold;
         border-radius:999px;padding:3px 9px;margin-left:8px;vertical-align:middle}
   .b-ill{background:var(--warnbg);color:var(--warn);border:1px solid #f0d68a}
   .b-acc{background:var(--okbg);color:var(--ok);border:1px solid #b7e3c7}
   .b-dur{background:var(--lt);color:var(--blue);border:1px solid var(--line)}
 
   ol.steps{margin:8px 0 0;padding-left:20px}
-  ol.steps li{margin:7px 0;font-size:13.5px}
+  ol.steps li{margin:7px 0;font-size:15.5px}
   ul.sub{margin:5px 0 0;padding-left:18px}
-  ul.sub li{margin:3px 0;font-size:13px;color:var(--muted)}
+  ul.sub li{margin:3px 0;font-size:15px;color:var(--muted)}
 
   .cmd{position:relative;background:var(--code);color:var(--codetxt);border-radius:9px;padding:14px 46px 14px 16px;
-        margin:10px 0;font-family:"SF Mono",Consolas,Menlo,monospace;font-size:12.5px;line-height:1.6;
+        margin:10px 0;font-family:"SF Mono",Consolas,Menlo,monospace;font-size:14.5px;line-height:1.6;
         white-space:pre-wrap;word-break:break-word}
   .cmd .copy{position:absolute;top:8px;right:8px;background:#26324a;color:#c7d2e6;border:1px solid #3a4a68;
-        border-radius:6px;font-size:11px;padding:4px 9px;cursor:pointer;font-family:Arial}
+        border-radius:6px;font-size:13px;padding:4px 9px;cursor:pointer;font-family:Arial}
   .cmd .copy:hover{background:#33425f;color:#fff}
   .cmd .copy.done{background:var(--ok);border-color:var(--ok);color:#fff}
   .prompt{background:#fff;border:1px solid var(--line);border-left:4px solid var(--blue2);border-radius:8px;
-        padding:11px 44px 11px 15px;margin:9px 0;font-size:13.5px;color:var(--ink);position:relative}
+        padding:11px 44px 11px 15px;margin:9px 0;font-size:15.5px;color:var(--ink);position:relative}
   .prompt .copy{position:absolute;top:8px;right:8px;background:var(--lt);color:var(--blue);border:1px solid var(--line);
-        border-radius:6px;font-size:11px;padding:4px 9px;cursor:pointer}
+        border-radius:6px;font-size:13px;padding:4px 9px;cursor:pointer}
   .prompt .copy:hover{background:#e7edf3}
   .prompt .copy.done{background:var(--ok);border-color:var(--ok);color:#fff}
-  .prompt .q{color:var(--muted);font-size:11px;font-weight:bold;letter-spacing:.05em;display:block;margin-bottom:3px}
+  .prompt .q{color:var(--muted);font-size:13px;font-weight:bold;letter-spacing:.05em;display:block;margin-bottom:3px}
 
   table{width:100%;border-collapse:collapse;margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
-  thead th{background:var(--blue);color:#fff;text-align:left;font-size:12px;padding:10px 13px}
-  tbody td{padding:10px 13px;border-top:1px solid var(--line);font-size:13px;vertical-align:top}
+  thead th{background:var(--blue);color:#fff;text-align:left;font-size:14px;padding:10px 13px}
+  tbody td{padding:10px 13px;border-top:1px solid var(--line);font-size:15px;vertical-align:top}
   tbody tr:nth-child(even){background:var(--lt)}
-  code{background:var(--lt);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12.5px}
-  .foot{margin-top:34px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+  code{background:var(--lt);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:14.5px}
+  .foot{margin-top:34px;font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
 
   /* learning objectives */
   .objectives{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:20px 0}
   .objectives .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-  .objectives .sec-head .icon{font-size:20px;line-height:1}
-  .objectives .sec-head h2{font-size:17px;color:var(--ink);margin:0;font-weight:600}
-  .objectives .sec-head p{font-size:13px;color:var(--muted);margin:4px 0 0}
+  .objectives .sec-head .icon{font-size:22px;line-height:1}
+  .objectives .sec-head h2{font-size:19px;color:var(--ink);margin:0;font-weight:600}
+  .objectives .sec-head p{font-size:15px;color:var(--muted);margin:4px 0 0}
   .obj-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   @media(max-width:640px){.obj-grid{grid-template-columns:1fr}}
   .obj-card{background:var(--lt);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
-  .obj-card .num{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--indigo);margin-bottom:6px}
-  .obj-card strong{display:block;font-size:13.5px;color:var(--ink);margin-bottom:4px;font-weight:600}
-  .obj-card p{font-size:12.5px;color:var(--muted);margin:0}
+  .obj-card .num{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--indigo);margin-bottom:6px}
+  .obj-card strong{display:block;font-size:15.5px;color:var(--ink);margin-bottom:4px;font-weight:600}
+  .obj-card p{font-size:14.5px;color:var(--muted);margin:0}
 
   /* how to use */
   .howto{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:20px 0}
   .howto .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-  .howto .sec-head .icon{font-size:20px;line-height:1}
-  .howto .sec-head h2{font-size:17px;color:var(--ink);margin:0;font-weight:600}
-  .howto .sec-head p{font-size:13px;color:var(--muted);margin:4px 0 0}
+  .howto .sec-head .icon{font-size:22px;line-height:1}
+  .howto .sec-head h2{font-size:19px;color:var(--ink);margin:0;font-weight:600}
+  .howto .sec-head p{font-size:15px;color:var(--muted);margin:4px 0 0}
   .howto table{margin-top:0;border:none;background:transparent}
-  .howto table thead th{background:var(--lt);color:var(--ink);font-size:11.5px;padding:9px 13px;border-bottom:1px solid var(--line)}
-  .howto table tbody td{font-size:13px;padding:10px 13px;border-top:1px solid var(--line);background:#fff}
+  .howto table thead th{background:var(--lt);color:var(--ink);font-size:13.5px;padding:9px 13px;border-bottom:1px solid var(--line)}
+  .howto table tbody td{font-size:15px;padding:10px 13px;border-top:1px solid var(--line);background:#fff}
   .howto table tbody tr:nth-child(even) td{background:var(--lt)}
   .howto table td:first-child{font-weight:600;color:var(--ink);white-space:nowrap;width:130px}
-  .expect{font-size:12.5px;color:var(--ok);margin:6px 0 0;padding-left:2px}
+  .expect{font-size:14.5px;color:var(--ok);margin:6px 0 0;padding-left:2px}
   .expect b{color:var(--ok)}
 </style>
 </head>
@@ -300,7 +300,7 @@
       <h3>0.3 · Download the workshop resources</h3>
       <p class="lead" style="margin:0 0 6px">The workshop resource bundle ships the Pharma/Medtech procurement manifest, training documents, and ingest contracts ready to use. All data is synthetic.</p>
       <p class="lead" style="margin:0 0 8px">Download the ZIP and unzip it into the root of your working directory:</p>
-      <a href="https://github.com/docusign/PSA/raw/main/Bengaluru-meetup/workshop-resources.zip" class="btn-dl" target="_blank" style="display:inline-block;margin:4px 0 12px;padding:8px 18px;background:var(--blue);color:#fff;border-radius:6px;font-size:13px;text-decoration:none;font-weight:600">⬇ Download workshop-resources.zip</a>
+      <a href="https://github.com/docusign/PSA/raw/main/Bengaluru-meetup/workshop-resources.zip" class="btn-dl" target="_blank" style="display:inline-block;margin:4px 0 12px;padding:8px 18px;background:var(--blue);color:#fff;border-radius:6px;font-size:15px;text-decoration:none;font-weight:600">⬇ Download workshop-resources.zip</a>
       <ul class="sub" style="margin-top:4px">
         <li>Manifest: <code>Bengaluru-meetup/workshop-resources/agreement-manager-manifest.json</code></li>
         <li>Training docs (7 sample agreements): <code>Bengaluru-meetup/workshop-resources/files/train/</code></li>
@@ -329,7 +329,7 @@
           <li><b>Multi-account portability</b>, deploy validated configs dev → prod, or replicate across accounts.</li>
           <li><b>Scalable, partner-led implementations</b>, a repeatable, version-controlled asset developers hand to each client.</li>
         </ul>
-        <div style="margin-top:8px;font-size:12.5px">
+        <div style="margin-top:8px;font-size:14.5px">
           Refs:
           <a href="https://developers.docusign.com/iam-toolkit/implement-at-scale/">implement-at-scale</a> ·
           <a href="https://developers.docusign.com/iam-toolkit/command-line/configure-agreement-types-and-fields/">configure types &amp; fields</a> ·
@@ -356,7 +356,7 @@
       <ul class="sub" style="margin:0 0 10px">
         <li>Create a new folder anywhere on your machine (e.g. <code>docusign-workshop</code> on your Desktop).</li>
         <li>Open a terminal window and <code>cd</code> into it:<br>
-          <span style="font-family:monospace;font-size:12.5px;background:#1e1e2e;color:#a6e3a1;padding:2px 8px;border-radius:4px">cd ~/Desktop/docusign-workshop</span>
+          <span style="font-family:monospace;font-size:14.5px;background:#1e1e2e;color:#a6e3a1;padding:2px 8px;border-radius:4px">cd ~/Desktop/docusign-workshop</span>
         </li>
       </ul>
       <div class="note" style="margin:0 0 12px">
@@ -407,7 +407,7 @@
   --directory workshop-resources/files/ingest</div>
       <p class="expect"><b>Expect:</b> CLI confirms 4 files uploaded. Documents appear in Agreement Manager within a few minutes as Navigator indexes them asynchronously.</p>
 
-      <h3>1.6 · Deploy to production <span style="font-size:12px;font-weight:400;color:#615a75;background:#f0edf8;border-radius:4px;padding:2px 8px;margin-left:6px;vertical-align:middle">Informational</span></h3>
+      <h3>1.6 · Deploy to production <span style="font-size:14px;font-weight:400;color:#615a75;background:#f0edf8;border-radius:4px;padding:2px 8px;margin-left:6px;vertical-align:middle">Informational</span></h3>
       <p class="lead" style="margin:0 0 6px">The same validated config promotes demo → production (or replicates across client accounts) — just re-auth and re-upload. The manifest is the portable asset you hand to each client.</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign auth login -e production</div>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cd demo-workspace &amp;&amp; docusign agm upload --bypass</div>
@@ -443,7 +443,7 @@
         <thead><tr><th style="width:45px">Type</th><th style="width:260px">Custom field extracted</th><th>Why procurement cares</th></tr></thead>
         <tbody>
           <tr>
-            <td rowspan="3" style="vertical-align:middle;font-size:11.5px;color:var(--muted)">Clinical Trial Supply</td>
+            <td rowspan="3" style="vertical-align:middle;font-size:13.5px;color:var(--muted)">Clinical Trial Supply</td>
             <td><code>Pharma - Clinical Batch Size (units)</code></td>
             <td>Batch volume commitments — spot under- or over-supply risk at a glance.</td>
           </tr>
@@ -456,7 +456,7 @@
             <td>Delivery quality gate — contracts with short shelf life create distribution risk.</td>
           </tr>
           <tr>
-            <td rowspan="3" style="vertical-align:middle;font-size:11.5px;color:var(--muted)">CRO Services</td>
+            <td rowspan="3" style="vertical-align:middle;font-size:13.5px;color:var(--muted)">CRO Services</td>
             <td><code>Pharma - Total Study Budget (USD)</code></td>
             <td>Full CRO spend visibility in one view — no more digging through Exhibit B.</td>
           </tr>
@@ -469,7 +469,7 @@
             <td>Enrollment obligations — know which CRO is behind on commitments.</td>
           </tr>
           <tr>
-            <td rowspan="3" style="vertical-align:middle;font-size:11.5px;color:var(--muted)">Medical Device Supply</td>
+            <td rowspan="3" style="vertical-align:middle;font-size:13.5px;color:var(--muted)">Medical Device Supply</td>
             <td><code>Pharma - Annual Device Purchase Value (USD)</code></td>
             <td>Annual spend commitments — track vs. actuals for preferred pricing triggers.</td>
           </tr>
@@ -646,7 +646,7 @@ Behavior rules
       <table>
         <thead><tr><th style="width:50px">#</th><th>Prompt</th><th style="width:220px">Purpose</th></tr></thead>
         <tbody>
-          <tr><td colspan="3" style="background:var(--lt);font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">1. Agreement insights — discovery</td></tr>
+          <tr><td colspan="3" style="background:var(--lt);font-size:13.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">1. Agreement insights — discovery</td></tr>
           <tr><td>1.1</td><td>Show me all upcoming renewals across my vendor agreements in the next 90 days.</td><td>Surface the renewal pipeline</td></tr>
           <tr><td>1.2</td><td>What's renewing for [VENDOR] in the next 6 months?</td><td>Vendor-level renewal view</td></tr>
           <tr><td>1.3</td><td>List all active agreements with [VENDOR] — group by document type.</td><td>Full vendor footprint</td></tr>
@@ -654,20 +654,20 @@ Behavior rules
           <tr><td>1.5</td><td>Highlight key terms and clauses from the agreements with [VENDOR].</td><td>Pull key terms across docs</td></tr>
           <tr><td>1.6</td><td>Categorise contracts based on highest contract value in 2026.</td><td>Rank by value</td></tr>
           <tr><td>1.7</td><td>How many contracts were signed last quarter?</td><td>Period-over-period volume</td></tr>
-          <tr><td colspan="3" style="background:var(--lt);font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">2. Clause &amp; risk analysis</td></tr>
+          <tr><td colspan="3" style="background:var(--lt);font-size:13.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">2. Clause &amp; risk analysis</td></tr>
           <tr><td>2.1</td><td>Pull the payment terms, renewal notice period, and termination-for-cause notice from all active [VENDOR] agreements. Flag anything outside standard — payment terms beyond 30 days or renewal notice under 90 days.</td><td>Payment terms &amp; renewal risk scan</td></tr>
           <tr><td>2.2</td><td>Scan all active vendor MSAs for MFN, price-protection, or non-discrimination clauses.</td><td>Portfolio-wide risk scan</td></tr>
           <tr><td>2.3</td><td>What is the highest liability coverage across our vendor portfolio? Rank in order.</td><td>Liability coverage ranking</td></tr>
           <tr><td>2.4</td><td>Are there any uplift caps, auto-renewal commitments, or related provisions in [VENDOR]'s MSA?</td><td>Vendor-specific guardrails</td></tr>
           <tr><td>2.5</td><td>Which of my vendors are missing a DPA or AI Use Addendum? Order by contract value.</td><td>Compliance gap report</td></tr>
           <tr><td>2.6</td><td>Which agreements have non-standard terms that expose Fontara to risk?</td><td>Surface risk across portfolio</td></tr>
-          <tr><td colspan="3" style="background:var(--lt);font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">3. Workflow Builder orchestration</td></tr>
+          <tr><td colspan="3" style="background:var(--lt);font-size:13.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">3. Workflow Builder orchestration</td></tr>
           <tr><td>3.1</td><td>List available workflows for renewals.</td><td>Confirm workflow exists before triggering</td></tr>
           <tr><td>3.2</td><td>Initiate a renewal for [VENDOR] for [N] units at $[PRICE] per unit with [X]% discount, 1-year term starting [DATE]. Route it to [EMAIL] at the vendor.</td><td>Core renewal trigger</td></tr>
           <tr><td>3.3</td><td>Generate a new MSA with DPA addendum for [VENDOR].</td><td>Generate net-new agreement</td></tr>
           <tr><td>3.4</td><td>Status check on the [VENDOR] renewal workflow — where is it?</td><td>In-flight monitoring</td></tr>
           <tr><td>3.5</td><td>Identify workflows that have not been triggered even once in the past 30 days.</td><td>Workflow usage audit</td></tr>
-          <tr><td colspan="3" style="background:var(--lt);font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">4. eSign envelopes &amp; templates</td></tr>
+          <tr><td colspan="3" style="background:var(--lt);font-size:13.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">4. eSign envelopes &amp; templates</td></tr>
           <tr><td>4.1</td><td>Which vendor contracts are pending signature for more than 7 days?</td><td>Spot stalled signatures</td></tr>
           <tr><td>4.2</td><td>Has [VENDOR] signed the latest supply agreement, and if not, who is it currently pending with?</td><td>Signature status by recipient</td></tr>
           <tr><td>4.3</td><td>Send a reminder to any [VENDOR] recipient who hasn't signed in 3+ days.</td><td>Nudge stalled signers</td></tr>
@@ -717,7 +717,7 @@ Behavior rules
     </div><!-- end .content -->
   </div><!-- end .layout -->
   </div>
-  <div style="position:fixed;bottom:0;right:0;padding:8px 16px;font-size:11px;color:#615a75;background:rgba(255,255,255,0.92);border-top:1px solid #e5e1f0;border-left:1px solid #e5e1f0;border-radius:8px 0 0 0;z-index:99">For questions or feedback: <a href="mailto:amrit.prakash@docusign.com" style="color:#4C00FF;text-decoration:none">amrit.prakash@docusign.com</a></div>
+  <div style="position:fixed;bottom:0;right:0;padding:8px 16px;font-size:13px;color:#615a75;background:rgba(255,255,255,0.92);border-top:1px solid #e5e1f0;border-left:1px solid #e5e1f0;border-radius:8px 0 0 0;z-index:99">For questions or feedback: <a href="mailto:amrit.prakash@docusign.com" style="color:#4C00FF;text-decoration:none">amrit.prakash@docusign.com</a></div>
 
 <script>
   function toggleStage(n){
