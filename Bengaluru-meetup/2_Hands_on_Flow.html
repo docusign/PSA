@@ -841,7 +841,12 @@ Behavior rules
     }
   }
 
-  document.addEventListener('DOMContentLoaded', initProgress);
+  document.addEventListener('DOMContentLoaded', function(){
+    initProgress();
+    // ensure stage 0 is open and active on initial load
+    document.getElementById('s0').classList.add('open');
+    document.getElementById('btn-0').classList.add('active');
+  });
 </script>
 </body>
 </html>
