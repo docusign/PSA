@@ -24,7 +24,8 @@
   .util .in{max-width:none;margin:0;padding:9px 32px;display:flex;justify-content:flex-end;gap:22px;flex-wrap:wrap}
   .util a{color:#e6e0f5;text-decoration:none;font-size:14.5px}
   .util a:hover{color:#fff}
-  .nav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+  .header-wrap{position:sticky;top:0;z-index:20}
+  .nav{background:#fff;border-bottom:1px solid var(--line)}
   .nav .in{max-width:none;margin:0;padding:0 32px;display:flex;align-items:center;gap:26px}
   .nav .brand{display:flex;align-items:center;padding:14px 0}
   .nav .brand img{height:24px;display:block}
@@ -44,7 +45,7 @@
   .layout{display:block}
 
   /* left sidebar rail */
-  .sidebar{width:228px;position:fixed;left:0;top:52px;height:calc(100vh - 52px);overflow-y:auto;background:#fff;border-right:1px solid var(--line);padding:16px 10px;z-index:10;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+  .sidebar{width:228px;position:fixed;left:0;top:90px;height:calc(100vh - 90px);overflow-y:auto;background:#fff;border-right:1px solid var(--line);padding:16px 10px;z-index:10;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
   .sidebar::-webkit-scrollbar{width:4px}
   .sidebar::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
   .rail-v{display:flex;flex-direction:column;gap:6px}
@@ -196,20 +197,22 @@
 </style>
 </head>
 <body>
-  <div class="util"><div class="in">
-    <a href="https://developers.docusign.com/iam-toolkit/" target="_blank" rel="noopener">IAM Toolkit Docs</a>
-    <a href="https://www.npmjs.com/package/@docusign/agreement-cli" target="_blank" rel="noopener">Agreement CLI</a>
-    <a href="https://developers.docusign.com/" target="_blank" rel="noopener">Developer Center</a>
-  </div></div>
-  <nav class="nav"><div class="in">
-    <a class="brand" href="index.html"><img src="assets/img/docusign-horizontal-black.svg" alt="Docusign"></a>
-    <div class="tabs">
-      <a href="index.html">Overview</a>
-      <a href="1_Run_of_Show.html">Run of Show(Internal)</a>
-      <a href="2_Hands_on_Flow.html" class="active">Hands-on Lab(WIP)</a>
-    </div>
-    <a class="nav-cta" href="https://www.docusign.com/intelligent-agreement-management" target="_blank" rel="noopener">Docusign IAM ↗</a>
-  </div></nav>
+  <header class="header-wrap">
+    <div class="util"><div class="in">
+      <a href="https://developers.docusign.com/iam-toolkit/" target="_blank" rel="noopener">IAM Toolkit Docs</a>
+      <a href="https://www.npmjs.com/package/@docusign/agreement-cli" target="_blank" rel="noopener">Agreement CLI</a>
+      <a href="https://developers.docusign.com/" target="_blank" rel="noopener">Developer Center</a>
+    </div></div>
+    <nav class="nav"><div class="in">
+      <a class="brand" href="index.html"><img src="assets/img/docusign-horizontal-black.svg" alt="Docusign"></a>
+      <div class="tabs">
+        <a href="index.html">Overview</a>
+        <a href="1_Run_of_Show.html">Run of Show(Internal)</a>
+        <a href="2_Hands_on_Flow.html" class="active">Hands-on Lab(WIP)</a>
+      </div>
+      <a class="nav-cta" href="https://www.docusign.com/intelligent-agreement-management" target="_blank" rel="noopener">Docusign IAM ↗</a>
+    </div></nav>
+  </header>
   <div class="bar"><div class="in">
     <div class="kicker">Docusign Manage · Bengaluru Meetup</div>
     <h1>Hands-on Lab <span style="font-weight:400;opacity:.75">(WIP)</span></h1>
@@ -779,10 +782,11 @@ Behavior rules
     if(n > 0 && !prereqsUnlocked) return; // locked stages
     var el = document.getElementById('s'+n);
     var btns = document.querySelectorAll('.rail-btn');
-    var isOpen = el.classList.contains('open');
     document.querySelectorAll('.stage').forEach(function(s){s.classList.remove('open');});
     btns.forEach(function(b){b.classList.remove('active');});
-    if(!isOpen){el.classList.add('open');document.getElementById('btn-'+n).classList.add('active');el.scrollIntoView({behavior:'smooth',block:'nearest'});}
+    el.classList.add('open');
+    document.getElementById('btn-'+n).classList.add('active');
+    el.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
 
   function checkPrereqs(){
