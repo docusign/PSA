@@ -559,9 +559,9 @@ Behavior rules
         <strong>Story context:</strong> Procurement needs to renew the Clinical Trial Supply Agreement with a key vendor for an expanded batch size. The renewal will be routed via Workflow Builder for approval before signature.
       </div>
       <div class="prompt"><span class="q">B1 · Deal calculation</span>Work out the renewal deal math: 50,000 unit batch size at $45 per unit with a 10% volume discount.<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">B2 · Initiate the renewal (core prompt)</span>Initiate a renewal for the Clinical Trial Supply Agreement with [vendor name] for 50,000 units at $45 per unit with 10% discount for a 1-year term starting August 1, 2026. Route it to [recipient email] at the vendor.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">B2 · Initiate the renewal (core prompt)</span>Initiate a renewal for the Clinical Trial Supply Agreement with SmartFactory Systems for 50,000 units at $45 per unit with 10% discount for a 1-year term starting August 1, 2026. Route it to [recipient email] at the vendor.<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="note" style="margin:10px 0">
-        <strong>Tip:</strong> replace <code>[vendor name]</code> and <code>[recipient email]</code> with values from your demo account. If you see a Responsible AI content-filter error, retry with a different recipient email address (e.g. a personal alias in your demo tenant).
+        <strong>Tip:</strong> replace <code>[recipient email]</code> with a real email address from your demo account. If you see a Responsible AI content-filter error, retry with a different recipient email address (e.g. a personal alias in your demo tenant).
       </div>
       <p class="expect"><b>Scenario B demonstrates:</b> agent calling <code>getWorkflowTriggerRequirements</code> before triggering · Workflow Builder routing logic · human-in-the-loop approval for high-value renewals · Agreement Prep generating the order form.</p>
 
@@ -570,9 +570,9 @@ Behavior rules
       <div class="accurate" style="margin-bottom:12px">
         <strong>Story context:</strong> A few minutes after triggering the renewal workflow, procurement needs to confirm status without logging into Docusign — all from the agent in chat.
       </div>
-      <div class="prompt"><span class="q">C1 · Workflow status</span>What's the status of the [vendor] renewal workflow instance? Which step is it on, who needs to act next, and is anything blocked?<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">C2 · Signature status</span>Has the recipient at [vendor] signed the renewal order form yet? When was it sent and has it been opened?<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">C3 · Send a reminder</span>Send the [vendor] recipient a signing reminder through Docusign — use the existing envelope, don't create a new one. Then tell me when the envelope expires and what happens if it's not signed by then.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">C1 · Workflow status</span>What's the status of the SmartFactory Systems renewal workflow instance? Which step is it on, who needs to act next, and is anything blocked?<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">C2 · Signature status</span>Has the recipient at SmartFactory Systems signed the renewal order form yet? When was it sent and has it been opened?<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">C3 · Send a reminder</span>Send the SmartFactory Systems recipient a signing reminder through Docusign — use the existing envelope, don't create a new one. Then tell me when the envelope expires and what happens if it's not signed by then.<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="note" style="margin:10px 0">
         <strong>Human in the Loop:</strong> the workflow has deterministic routing — if the discount exceeds the threshold, it routes to Agreement Desk for a manual review and approval before proceeding to signature.
       </div>
@@ -597,13 +597,13 @@ Behavior rules
         <thead><tr><th style="width:50px">#</th><th>Prompt</th><th style="width:200px">Purpose</th></tr></thead>
         <tbody>
           <tr><td>1.1</td><td>Show me all upcoming renewals across my vendor agreements in the next 90 days.</td><td>Renewal pipeline</td></tr>
-          <tr><td>1.2</td><td>For [vendor], which documents are in place today? MSA, NDA, Supply Agreement, DPA — show status and dates.</td><td>Doc coverage check</td></tr>
-          <tr><td>1.3</td><td>Highlight key terms and clauses from the MSAs with [vendor].</td><td>Key terms across docs</td></tr>
+          <tr><td>1.2</td><td>For SmartFactory Systems, which documents are in place today? MSA, NDA, Supply Agreement, DPA — show status and dates.</td><td>Doc coverage check</td></tr>
+          <tr><td>1.3</td><td>Highlight key terms and clauses from the MSAs with FutureSkills Solutions.</td><td>Key terms across docs</td></tr>
           <tr><td>2.1</td><td>Scan all active MSAs for MFN, price protection, or non-discrimination clauses.</td><td>Portfolio-wide risk scan</td></tr>
           <tr><td>2.2</td><td>Which of my vendors are missing a DPA or AI Use Addendum? Order by contract value.</td><td>Compliance gap report</td></tr>
           <tr><td>3.1</td><td>List available Workflow Builder workflows for renewals.</td><td>Confirm workflow before triggering</td></tr>
           <tr><td>4.1</td><td>Which vendor contracts are pending signature for more than 7 days?</td><td>Stalled signatures</td></tr>
-          <tr><td>4.2</td><td>Send a reminder to any [vendor] recipient who hasn't signed in 3+ days.</td><td>Nudge stalled signers</td></tr>
+          <tr><td>4.2</td><td>Send a reminder to any SmartFactory Systems recipient who hasn't signed in 3+ days.</td><td>Nudge stalled signers</td></tr>
         </tbody>
       </table>
     </div>
