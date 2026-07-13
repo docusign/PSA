@@ -502,7 +502,7 @@
       <h2>Stage 3 · MCP via Microsoft Copilot Studio
         <span class="badge b-dur">30 min</span>
       </h2>
-      <p class="lead">Now the payoff for Fontara's procurement team: they stop hunting through files and just ask. You'll connect the Docusign MCP server to Copilot Studio and query Fontara's corpus in plain English, including agreements with vendors like SmartFactory Systems and FutureSkills Solutions from the sample set.</p>
+      <p class="lead">Now the payoff for Fontara's procurement team: they stop hunting through files and just ask. You'll connect the Docusign MCP server to Copilot Studio and query Fontara's corpus in plain English, including agreements with vendors like MarketPulse Dynamics and Momentum Driver from the sample set.</p>
 
       <div class="accurate">
         <strong>Prerequisites:</strong> a Microsoft 365 / Copilot Studio environment; a Docusign developer account; the demo environment at <code>apps-d.docusign.com</code>; and the workshop kit (sample agreements + workflow) from the GitHub repo. Use synthetic data only, no production accounts.
@@ -565,9 +565,9 @@ Behavior rules
       <h3>3.5 · Scenario A, Vendor Agreement Insights</h3>
       <p class="lead" style="margin:0 0 6px">The questions Fontara's procurement team actually asks, now answerable in plain English across the whole vendor corpus.</p>
       <div class="prompt"><span class="q">A1 · Renewal exposure</span>Show me all Fontara vendor agreements with auto-renewals in the next 90 days.<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">A2 · Vendor overview</span>For SmartFactory Systems, which agreements are active today? List key terms: value, renewal date, payment terms, and notice period.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">A2 · Vendor overview</span>For MarketPulse Dynamics, which agreements are active today? List key terms: value, renewal date, payment terms, and notice period.<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="prompt"><span class="q">A3 · Off-standard terms</span>Which vendors sit on payment terms greater than 45 days, and which MSAs are missing a price-increase cap?<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">A4 · Vendor comparison</span>Compare SmartFactory Systems and FutureSkills Solutions side-by-side on obligations and clauses. Show me what SmartFactory Systems is missing that FutureSkills Solutions has in place.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">A4 · Vendor comparison</span>Compare MarketPulse Dynamics and Momentum Driver side-by-side on obligations and clauses. Show me what MarketPulse Dynamics is missing that Momentum Driver has in place.<button class="copy" onclick="cp(this)">Copy</button></div>
 
       <p class="expect"><b>Scenario A demonstrates:</b> portfolio-wide renewal visibility · Agreement Manager extracting parties/dates/terms/clauses · vendor-to-vendor clause checks (payment terms / price protection) · compliant vs non-compliant contrast.</p>
 
@@ -577,7 +577,7 @@ Behavior rules
         <strong>Story context:</strong> Procurement needs to renew the Clinical Trial Supply Agreement with a key vendor for an expanded batch size. The renewal will be routed via Workflow Builder for approval before signature.
       </div>
       <div class="prompt"><span class="q">B1 · Deal calculation</span>Work out the renewal deal math: 50,000 unit batch size at $45 per unit with a 10% volume discount.<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">B2 · Initiate the renewal (core prompt)</span>Initiate a renewal for the Clinical Trial Supply Agreement with SmartFactory Systems for 50,000 units at $45 per unit with 10% discount for a 1-year term starting August 1, 2026. Route it to [recipient email] at the vendor.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">B2 · Initiate the renewal (core prompt)</span>Initiate a renewal for the Clinical Trial Supply Agreement with MarketPulse Dynamics for 50,000 units at $45 per unit with 10% discount for a 1-year term starting August 1, 2026. Route it to [recipient email] at the vendor.<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="note" style="margin:10px 0">
         <strong>Tip:</strong> replace <code>[recipient email]</code> with a real email address from your demo account. If you see a Responsible AI content-filter error, retry with a different recipient email address (e.g. a personal alias in your demo tenant).
       </div>
@@ -588,9 +588,9 @@ Behavior rules
       <div class="accurate" style="margin-bottom:12px">
         <strong>Story context:</strong> A few minutes after triggering the renewal workflow, procurement needs to confirm status without logging into Docusign — all from the agent in chat.
       </div>
-      <div class="prompt"><span class="q">C1 · Workflow status</span>What's the status of the SmartFactory Systems renewal workflow instance? Which step is it on, who needs to act next, and is anything blocked?<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">C2 · Signature status</span>Has the recipient at SmartFactory Systems signed the renewal order form yet? When was it sent and has it been opened?<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">C3 · Send a reminder</span>Send the SmartFactory Systems recipient a signing reminder through Docusign — use the existing envelope, don't create a new one. Then tell me when the envelope expires and what happens if it's not signed by then.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">C1 · Workflow status</span>What's the status of the MarketPulse Dynamics renewal workflow instance? Which step is it on, who needs to act next, and is anything blocked?<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">C2 · Signature status</span>Has the recipient at MarketPulse Dynamics signed the renewal order form yet? When was it sent and has it been opened?<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">C3 · Send a reminder</span>Send the MarketPulse Dynamics recipient a signing reminder through Docusign — use the existing envelope, don't create a new one. Then tell me when the envelope expires and what happens if it's not signed by then.<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="note" style="margin:10px 0">
         <strong>Human in the Loop:</strong> the workflow has deterministic routing — if the discount exceeds the threshold, it routes to Agreement Desk for a manual review and approval before proceeding to signature.
       </div>
@@ -615,13 +615,13 @@ Behavior rules
         <thead><tr><th style="width:50px">#</th><th>Prompt</th><th style="width:200px">Purpose</th></tr></thead>
         <tbody>
           <tr><td>1.1</td><td>Show me all upcoming renewals across my vendor agreements in the next 90 days.</td><td>Renewal pipeline</td></tr>
-          <tr><td>1.2</td><td>For SmartFactory Systems, which documents are in place today? MSA, NDA, Supply Agreement, DPA — show status and dates.</td><td>Doc coverage check</td></tr>
-          <tr><td>1.3</td><td>Highlight key terms and clauses from the MSAs with FutureSkills Solutions.</td><td>Key terms across docs</td></tr>
+          <tr><td>1.2</td><td>For MarketPulse Dynamics, which documents are in place today? MSA, NDA, Supply Agreement, DPA — show status and dates.</td><td>Doc coverage check</td></tr>
+          <tr><td>1.3</td><td>Highlight key terms and clauses from the agreements with Momentum Driver.</td><td>Key terms across docs</td></tr>
           <tr><td>2.1</td><td>Scan all active MSAs for MFN, price protection, or non-discrimination clauses.</td><td>Portfolio-wide risk scan</td></tr>
           <tr><td>2.2</td><td>Which of my vendors are missing a DPA or AI Use Addendum? Order by contract value.</td><td>Compliance gap report</td></tr>
           <tr><td>3.1</td><td>List available Workflow Builder workflows for renewals.</td><td>Confirm workflow before triggering</td></tr>
           <tr><td>4.1</td><td>Which vendor contracts are pending signature for more than 7 days?</td><td>Stalled signatures</td></tr>
-          <tr><td>4.2</td><td>Send a reminder to any SmartFactory Systems recipient who hasn't signed in 3+ days.</td><td>Nudge stalled signers</td></tr>
+          <tr><td>4.2</td><td>Send a reminder to any MarketPulse Dynamics recipient who hasn't signed in 3+ days.</td><td>Nudge stalled signers</td></tr>
         </tbody>
       </table>
     </div>
