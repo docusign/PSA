@@ -56,6 +56,19 @@
   .rail-btn.active .n{background:var(--indigo)}
   .rail-btn .t{font-size:13px;font-weight:600;color:var(--ink);display:block}
   .rail-btn .s{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+  /* Progress ring for stages 1-3 */
+  .ring-n{background:transparent!important;width:24px!important;height:24px!important;position:relative;display:inline-flex!important;align-items:center;justify-content:center}
+  .ring-n svg{position:absolute;inset:0;width:24px;height:24px;transform:rotate(-90deg)}
+  .ring-n .ring-num{position:relative;z-index:1;font-size:11px;font-weight:bold;color:var(--muted);line-height:1}
+  .ring-n.done .ring-num{color:var(--ok)}
+  /* Step checkboxes injected into stage h3s */
+  .step-chk{appearance:none;-webkit-appearance:none;width:15px;height:15px;border:2px solid #ccc7d9;
+        border-radius:4px;background:#fff;cursor:pointer;vertical-align:middle;
+        margin-right:7px;position:relative;display:inline-block;top:-1px;transition:background .15s,border-color .15s;flex-shrink:0}
+  .step-chk:hover{border-color:var(--blue)}
+  .step-chk:checked{background:var(--blue);border-color:var(--blue)}
+  .step-chk:checked:after{content:"";display:block;width:4px;height:7px;border:2px solid #fff;
+        border-top:none;border-left:none;transform:rotate(45deg);position:absolute;top:0px;left:3px}
 
   .content{flex:1;min-width:0}
 
@@ -174,9 +187,9 @@
     <div class="sidebar">
       <div class="rail-v">
         <button class="rail-btn" onclick="toggleStage(0)"><span class="n">0</span><div><span class="t">Prerequisites</span><span class="s">Install &amp; access · before you start</span></div></button>
-        <button class="rail-btn" onclick="toggleStage(1)"><span class="n">1</span><div><span class="t">IAM Toolkit</span><span class="s">Login &amp; bulk-upload · 15 min</span></div></button>
-        <button class="rail-btn" onclick="toggleStage(2)"><span class="n">2</span><div><span class="t">AI Extraction</span><span class="s">Agreement Manager · Iris</span></div></button>
-        <button class="rail-btn" onclick="toggleStage(3)"><span class="n">3</span><div><span class="t">MCP · Copilot Studio</span><span class="s">Connect + Insights · 30 min</span></div></button>
+        <button class="rail-btn" onclick="toggleStage(1)"><span class="n ring-n" id="ring-1"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#e5e1f0" stroke-width="2"/><circle class="ring-fg" cx="12" cy="12" r="9" fill="none" stroke="#4C00FF" stroke-width="2" stroke-dasharray="56.55" stroke-dashoffset="56.55" stroke-linecap="round"/></svg><span class="ring-num">1</span></span><div><span class="t">IAM Toolkit</span><span class="s">Login &amp; bulk-upload · 15 min</span></div></button>
+        <button class="rail-btn" onclick="toggleStage(2)"><span class="n ring-n" id="ring-2"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#e5e1f0" stroke-width="2"/><circle class="ring-fg" cx="12" cy="12" r="9" fill="none" stroke="#4C00FF" stroke-width="2" stroke-dasharray="56.55" stroke-dashoffset="56.55" stroke-linecap="round"/></svg><span class="ring-num">2</span></span><div><span class="t">AI Extraction</span><span class="s">Agreement Manager · Iris</span></div></button>
+        <button class="rail-btn" onclick="toggleStage(3)"><span class="n ring-n" id="ring-3"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#e5e1f0" stroke-width="2"/><circle class="ring-fg" cx="12" cy="12" r="9" fill="none" stroke="#4C00FF" stroke-width="2" stroke-dasharray="56.55" stroke-dashoffset="56.55" stroke-linecap="round"/></svg><span class="ring-num">3</span></span><div><span class="t">MCP · Copilot Studio</span><span class="s">Connect + Insights · 30 min</span></div></button>
         <button class="rail-btn" onclick="toggleStage(4)"><span class="n">4</span><div><span class="t">Agent Studio</span><span class="s">Procurement agent demo · 10 min</span></div></button>
       </div>
     </div>
@@ -657,6 +670,51 @@ Behavior rules
       setTimeout(function(){ btn.textContent = old; btn.classList.remove('done'); }, 1400);
     });
   }
+
+  /* ---- Step progress rings ---- */
+  var STAGE_TOTAL = {};
+
+  function initProgress(){
+    [1,2,3].forEach(function(s){
+      var stage = document.getElementById('s'+s);
+      var h3s = stage.querySelectorAll('h3');
+      STAGE_TOTAL[s] = h3s.length;
+      h3s.forEach(function(h3){
+        var cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.className = 'step-chk';
+        cb.dataset.stage = s;
+        cb.addEventListener('change', function(){ updateProgress(s); });
+        h3.insertBefore(cb, h3.firstChild);
+      });
+      updateProgress(s);
+    });
+  }
+
+  function updateProgress(s){
+    var stage = document.getElementById('s'+s);
+    var total = STAGE_TOTAL[s] || 1;
+    var checked = stage.querySelectorAll('.step-chk:checked').length;
+    var pct = checked / total;
+    var C = 56.55;
+    var offset = (C * (1 - pct)).toFixed(2);
+    var ringWrap = document.getElementById('ring-'+s);
+    if(!ringWrap) return;
+    var fg = ringWrap.querySelector('.ring-fg');
+    var numEl = ringWrap.querySelector('.ring-num');
+    if(fg) fg.setAttribute('stroke-dashoffset', offset);
+    if(pct === 1){
+      numEl.textContent = '\u2713';
+      ringWrap.classList.add('done');
+      if(fg) fg.setAttribute('stroke','var(--ok)');
+    } else {
+      numEl.textContent = s;
+      ringWrap.classList.remove('done');
+      if(fg) fg.setAttribute('stroke','#4C00FF');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initProgress);
 </script>
 </body>
 </html>
