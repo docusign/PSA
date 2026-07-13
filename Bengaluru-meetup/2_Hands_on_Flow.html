@@ -573,7 +573,7 @@ Behavior rules
           <ol>
             <li><b>Portfolio-wide renewal view</b> — surface every vendor agreement approaching expiry across Fontara's procurement corpus</li>
             <li><b>Agreement Manager + Iris</b> — extracting party names, dates, obligations, payment terms, and clauses from ingested contracts</li>
-            <li><b>Price-protection clause check</b> — does any existing vendor agreement contain a price-cap or MFN clause that limits what Fontara must accept?</li>
+            <li><b>Payment terms &amp; renewal risk scan</b> — pull payment terms and renewal notice periods across active agreements; flag anything outside standard before accepting a price increase</li>
             <li><b>MarketPulse Dynamics vs Momentum Driver contrast</b> — one vendor with a price-protection clause in place, one without — a natural compliance comparison</li>
           </ol>
         </div>
@@ -582,13 +582,13 @@ Behavior rules
       <p class="lead" style="margin:0 0 6px"><strong>Run these prompts in order</strong></p>
       <div class="prompt"><span class="q">A1 · Portfolio renewal view — Agreement Manager · Iris</span>Show me all upcoming renewals across my vendor agreements in the next 180 days.<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="prompt"><span class="q">A2 · Vendor account overview — Agreement Manager · Iris</span>For MarketPulse Dynamics, which agreements are active and in place today? List key details — value, renewal date, payment terms, and notice period.<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">A3 · Price-protection clause check — Agreement Manager · Iris</span>MarketPulse Dynamics is proposing a 10% price increase on renewal. Do any of our existing vendor agreements contain a price-cap, MFN, or price-protection clause that limits what we can be charged?<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">A3 · Payment terms &amp; renewal risk scan — Agreement Manager · Iris</span>MarketPulse Dynamics is proposing a 10% price increase on renewal. Pull the payment terms, renewal notice period, and termination-for-cause notice period from all active MarketPulse Dynamics agreements. Flag anything that is outside standard — payment terms beyond 30 days, or a renewal notice window under 90 days.<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="prompt"><span class="q">A4 · Cross-vendor compliance comparison — Agreement Manager · Iris</span>Compare MarketPulse Dynamics and Momentum Driver side-by-side on compliance posture and obligations. Show me what MarketPulse Dynamics is missing that Momentum Driver has in place.<button class="copy" onclick="cp(this)">Copy</button></div>
 
       <div class="note" style="margin:10px 0">
         <strong>Verify in the activity map:</strong> each prompt should produce one or more <code>tools/call</code> entries against the Docusign MCP Demo connector in the activity map. If you don't see them, the agent is re-using context or hallucinating — re-run asking it to refresh from Docusign, or tighten the Instructions and republish.
       </div>
-      <p class="expect"><b>Scenario A demonstrates:</b> portfolio-wide renewal visibility · Agreement Manager + Iris extracting parties, dates, obligations, and clauses · price-protection and MFN clause detection · vendor-to-vendor compliance contrast.</p>
+      <p class="expect"><b>Scenario A demonstrates:</b> portfolio-wide renewal visibility · Agreement Manager + Iris extracting parties, dates, payment terms, and renewal notice periods · off-standard terms detection · vendor-to-vendor compliance contrast.</p>
 
       <h3>3.6 · Scenario B — Workflow Builder Orchestration</h3>
 
@@ -655,7 +655,7 @@ Behavior rules
           <tr><td>1.6</td><td>Categorise contracts based on highest contract value in 2026.</td><td>Rank by value</td></tr>
           <tr><td>1.7</td><td>How many contracts were signed last quarter?</td><td>Period-over-period volume</td></tr>
           <tr><td colspan="3" style="background:var(--lt);font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">2. Clause &amp; risk analysis</td></tr>
-          <tr><td>2.1</td><td>[VENDOR] is proposing a price increase of [X]%. Do any of our existing vendor agreements contain a price-cap, MFN, or price-protection clause that limits what we can be charged?</td><td>Price-protection clause check</td></tr>
+          <tr><td>2.1</td><td>Pull the payment terms, renewal notice period, and termination-for-cause notice from all active [VENDOR] agreements. Flag anything outside standard — payment terms beyond 30 days or renewal notice under 90 days.</td><td>Payment terms &amp; renewal risk scan</td></tr>
           <tr><td>2.2</td><td>Scan all active vendor MSAs for MFN, price-protection, or non-discrimination clauses.</td><td>Portfolio-wide risk scan</td></tr>
           <tr><td>2.3</td><td>What is the highest liability coverage across our vendor portfolio? Rank in order.</td><td>Liability coverage ranking</td></tr>
           <tr><td>2.4</td><td>Are there any uplift caps, auto-renewal commitments, or related provisions in [VENDOR]'s MSA?</td><td>Vendor-specific guardrails</td></tr>
