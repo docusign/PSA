@@ -233,7 +233,7 @@
     <div class="content">
 
     <!-- BEFORE YOU BEGIN (Stage 0) -->
-    <div class="stage open" id="s0">
+    <div class="stage" id="s0">
       <h2>Before you begin
         <span class="badge b-acc">Start here</span>
       </h2>
@@ -841,12 +841,10 @@ Behavior rules
     }
   }
 
-  document.addEventListener('DOMContentLoaded', function(){
-    initProgress();
-    // ensure stage 0 is open and active on initial load
-    document.getElementById('s0').classList.add('open');
-    document.getElementById('btn-0').classList.add('active');
-  });
+  // Script is at end of body — DOM is fully parsed, no DOMContentLoaded needed
+  try { initProgress(); } catch(e) { console.warn('initProgress:', e); }
+  document.getElementById('s0').classList.add('open');
+  document.getElementById('btn-0').classList.add('active');
 </script>
 </body>
 </html>
