@@ -562,66 +562,132 @@ Behavior rules
       <div class="prompt"><span class="q">Verify P2</span>List all my agreements.<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="prompt"><span class="q">Verify P3</span>List available Workflow Builder workflows.<button class="copy" onclick="cp(this)">Copy</button></div>
 
-      <h3>3.5 · Scenario A, Vendor Agreement Insights</h3>
-      <p class="lead" style="margin:0 0 6px">The questions Fontara's procurement team actually asks, now answerable in plain English across the whole vendor corpus.</p>
-      <div class="prompt"><span class="q">A1 · Renewal exposure</span>Show me all Fontara vendor agreements with auto-renewals in the next 90 days.<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">A2 · Vendor overview</span>For MarketPulse Dynamics, which agreements are active today? List key terms: value, renewal date, payment terms, and notice period.<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">A3 · Off-standard terms</span>Which vendors sit on payment terms greater than 45 days, and which MSAs are missing a price-increase cap?<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">A4 · Vendor comparison</span>Compare MarketPulse Dynamics and Momentum Driver side-by-side on obligations and clauses. Show me what MarketPulse Dynamics is missing that Momentum Driver has in place.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <h3>3.5 · Scenario A — Vendor Agreement Insights</h3>
 
-      <p class="expect"><b>Scenario A demonstrates:</b> portfolio-wide renewal visibility · Agreement Manager extracting parties/dates/terms/clauses · vendor-to-vendor clause checks (payment terms / price protection) · compliant vs non-compliant contrast.</p>
+      <div class="story">
+        <div class="eyebrow">Agreement Manager · Iris</div>
+        <h2>The story</h2>
+        <p>You're the procurement manager at Fontara. A key vendor — MarketPulse Dynamics — has proposed a 10% price increase on the Clinical Trial Supply Agreement renewal. Before you respond, you need to know what's already in place, what obligations exist, and whether any other vendor agreement constrains what you can accept.</p>
+        <div class="mission">
+          <div class="mlbl">What you'll demonstrate</div>
+          <ol>
+            <li><b>Portfolio-wide renewal view</b> — surface every vendor agreement approaching expiry across Fontara's procurement corpus</li>
+            <li><b>Agreement Manager + Iris</b> — extracting party names, dates, obligations, payment terms, and clauses from ingested contracts</li>
+            <li><b>Price-protection clause check</b> — does any existing vendor agreement contain a price-cap or MFN clause that limits what Fontara must accept?</li>
+            <li><b>MarketPulse Dynamics vs Momentum Driver contrast</b> — one vendor with a price-protection clause in place, one without — a natural compliance comparison</li>
+          </ol>
+        </div>
+      </div>
+
+      <p class="lead" style="margin:0 0 6px"><strong>Run these prompts in order</strong></p>
+      <div class="prompt"><span class="q">A1 · Portfolio renewal view — Agreement Manager · Iris</span>Show me all upcoming renewals across my vendor agreements in the next 180 days.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">A2 · Vendor account overview — Agreement Manager · Iris</span>For MarketPulse Dynamics, which agreements are active and in place today? List key details — value, renewal date, payment terms, and notice period.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">A3 · Price-protection clause check — Agreement Manager · Iris</span>MarketPulse Dynamics is proposing a 10% price increase on renewal. Do any of our existing vendor agreements contain a price-cap, MFN, or price-protection clause that limits what we can be charged?<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">A4 · Cross-vendor compliance comparison — Agreement Manager · Iris</span>Compare MarketPulse Dynamics and Momentum Driver side-by-side on compliance posture and obligations. Show me what MarketPulse Dynamics is missing that Momentum Driver has in place.<button class="copy" onclick="cp(this)">Copy</button></div>
+
+      <div class="note" style="margin:10px 0">
+        <strong>Verify in the activity map:</strong> each prompt should produce one or more <code>tools/call</code> entries against the Docusign MCP Demo connector in the activity map. If you don't see them, the agent is re-using context or hallucinating — re-run asking it to refresh from Docusign, or tighten the Instructions and republish.
+      </div>
+      <p class="expect"><b>Scenario A demonstrates:</b> portfolio-wide renewal visibility · Agreement Manager + Iris extracting parties, dates, obligations, and clauses · price-protection and MFN clause detection · vendor-to-vendor compliance contrast.</p>
 
       <h3>3.6 · Scenario B — Workflow Builder Orchestration</h3>
-      <p class="lead" style="margin:0 0 6px">The procurement team is cleared to proceed with a vendor renewal. Trigger the Workflow Builder renewal workflow and get the order form in front of the vendor signer — all from the agent.</p>
-      <div class="accurate" style="margin-bottom:12px">
-        <strong>Story context:</strong> Procurement needs to renew the Clinical Trial Supply Agreement with a key vendor for an expanded batch size. The renewal will be routed via Workflow Builder for approval before signature.
+
+      <div class="story">
+        <div class="eyebrow">Workflow Builder · Agreement Prep · eSign</div>
+        <h2>The story</h2>
+        <p>Procurement has reviewed the clause analysis. The team is cleared to proceed with renewal — at the current price, rejecting the proposed increase. MarketPulse Dynamics needs to sign a renewed Clinical Trial Supply Agreement for an expanded batch size of 50,000 units. Time to trigger the Workflow Builder renewal workflow and get the order form in front of the vendor signer — all from the agent.</p>
       </div>
-      <div class="prompt"><span class="q">B1 · Deal calculation</span>Work out the renewal deal math: 50,000 unit batch size at $45 per unit with a 10% volume discount.<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">B2 · Initiate the renewal (core prompt)</span>Initiate a renewal for the Clinical Trial Supply Agreement with MarketPulse Dynamics for 50,000 units at $45 per unit with 10% discount for a 1-year term starting August 1, 2026. Route it to [recipient email] at the vendor.<button class="copy" onclick="cp(this)">Copy</button></div>
+
+      <p class="lead" style="margin:0 0 6px"><strong>Run these prompts in order</strong></p>
+      <div class="prompt"><span class="q">B1 · Build the deal math — Calculation</span>Work out the renewal deal math: 50,000 unit batch size at $45 per unit with a 10% volume discount.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">B2 · Initiate the renewal — Workflow Builder (core prompt)</span>Initiate a renewal for the Clinical Trial Supply Agreement with MarketPulse Dynamics for 50,000 units at $45 per unit with 10% discount for a 1-year term starting August 1, 2026. Route it to [recipient email] at the vendor.<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="note" style="margin:10px 0">
-        <strong>Tip:</strong> replace <code>[recipient email]</code> with a real email address from your demo account. If you see a Responsible AI content-filter error, retry with a different recipient email address (e.g. a personal alias in your demo tenant).
+        <strong>If you see a Responsible AI content-filter error:</strong> some recipient addresses can trip Copilot Studio's content filter. Re-run prompt B2 with a different recipient email (e.g. a personal alias or another mailbox in your demo tenant), then continue.
       </div>
-      <p class="expect"><b>Scenario B demonstrates:</b> agent calling <code>getWorkflowTriggerRequirements</code> before triggering · Workflow Builder routing logic · human-in-the-loop approval for high-value renewals · Agreement Prep generating the order form.</p>
+      <p class="expect"><b>Scenario B demonstrates:</b> agent calling <code>getWorkflowTriggerRequirements</code> before triggering · Workflow Builder routing logic · human-in-the-loop approval for high-value renewals · Agreement Prep generating the order form for vendor signature.</p>
 
       <h3>3.7 · Scenario C — Track Workflow &amp; Agreement Status</h3>
-      <p class="lead" style="margin:0 0 6px">The order form was sent. Check in to see where things stand — track the workflow, see what's pending signature, and nudge the recipient if needed.</p>
-      <div class="accurate" style="margin-bottom:12px">
-        <strong>Story context:</strong> A few minutes after triggering the renewal workflow, procurement needs to confirm status without logging into Docusign — all from the agent in chat.
+
+      <div class="story">
+        <div class="eyebrow">Workflow Builder · Agreement Desk · eSign</div>
+        <h2>The story</h2>
+        <p>The order form was sent to the vendor. A few minutes later, procurement checks in — where does the workflow stand, has the vendor signed, and is anything blocked? All from the agent in chat, without logging into Docusign.</p>
       </div>
-      <div class="prompt"><span class="q">C1 · Workflow status</span>What's the status of the MarketPulse Dynamics renewal workflow instance? Which step is it on, who needs to act next, and is anything blocked?<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">C2 · Signature status</span>Has the recipient at MarketPulse Dynamics signed the renewal order form yet? When was it sent and has it been opened?<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">C3 · Send a reminder</span>Send the MarketPulse Dynamics recipient a signing reminder through Docusign — use the existing envelope, don't create a new one. Then tell me when the envelope expires and what happens if it's not signed by then.<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="note" style="margin:10px 0">
-        <strong>Human in the Loop:</strong> the workflow has deterministic routing — if the discount exceeds the threshold, it routes to Agreement Desk for a manual review and approval before proceeding to signature.
+
+      <p class="lead" style="margin:0 0 6px"><strong>Run these prompts in order</strong></p>
+      <div class="prompt"><span class="q">C1 · Workflow status — Workflow Builder</span>What's the status of the MarketPulse Dynamics renewal workflow instance? Which step is it on, who needs to act next, and is anything blocked?<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">C2 · Signature status on the vendor envelope — eSign</span>Has the recipient at MarketPulse Dynamics signed the renewal order form yet? When was it sent and has it been opened?<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">C3 · Send a reminder — eSign</span>Send the MarketPulse Dynamics recipient a signing reminder through Docusign — use the existing envelope, don't create a new one. Then tell me when the envelope expires and what happens if it's not signed by then.<button class="copy" onclick="cp(this)">Copy</button></div>
+
+      <div class="accurate" style="margin-top:12px">
+        <strong>Human in the Loop:</strong> the workflow has deterministic routing — if the discount exceeds the threshold, it routes to Agreement Desk for a manual review and approval before proceeding to vendor signature. The Agreement Desk process can be customised to match Fontara's internal approval structure.
       </div>
-      <p class="expect"><b>Scenario C demonstrates:</b> in-flight workflow monitoring · eSign envelope status check · nudging stalled signers without leaving chat · expiry and escalation awareness.</p>
+      <p class="expect"><b>Scenario C demonstrates:</b> in-flight workflow monitoring · eSign envelope status check · nudging stalled vendor signers without leaving chat · expiry and escalation awareness.</p>
 
       <h3>3.8 · Publish to Microsoft Teams &amp; M365 Copilot</h3>
-      <p class="lead" style="margin:0 0 6px">Once the agent works in the test pane, push it to Teams and M365 Copilot so the procurement team can use it from where they already work.</p>
+      <p class="lead" style="margin:0 0 6px">Always test in Copilot Studio before publishing to channels. Use the <strong>Test your agent</strong> pane with the <strong>activity map</strong> turned on for every iteration. Verify each prompt produces a <code>tools/call</code> against the Docusign MCP Demo connector and that the response is grounded. Only then publish.</p>
       <ol class="steps">
         <li>Open the <strong>Channels</strong> tab in your agent.</li>
         <li>Select <strong>Microsoft 365 and Microsoft Teams</strong>. Tick <em>Make agent available in Microsoft 365 Copilot</em>, then click <strong>Add channel</strong>.</li>
         <li>Click <strong>Availability Options</strong> → <em>Show to everyone in my org</em>.</li>
+        <li>From <strong>Agent Preview</strong>, edit icon, short and long description, then click <strong>Save</strong>.</li>
         <li>Click <strong>Publish</strong> (top-right) and confirm. Wait for publish to complete.</li>
-        <li>From the channel panel, click <strong>See Agent in Teams</strong> or <strong>See Agent in Microsoft 365</strong> to test it in-channel.</li>
+        <li>From the channel panel, click <strong>See Agent in Teams</strong> or <strong>See Agent in Microsoft 365</strong> and test from that surface.</li>
       </ol>
       <div class="note" style="margin-top:10px">
-        <strong>Tenant note:</strong> publishing to Teams / M365 Copilot may require tenant admin approval depending on your org's Power Platform and app catalog policies. For non-production exploration, a trial environment avoids these gates. Re-publish after every change to instructions, knowledge, or tools.
+        <strong>Tenant &amp; propagation note:</strong> publishing channels typically requires tenant admin approval and may depend on Power Platform / Microsoft 365 admin policies. If you are not a tenant admin, work with IT to approve the app. Teams and M365 Copilot channel approvals can take time — allow propagation time after publish. Re-publish after every change to instructions, knowledge, or tools. Reference: <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-add-bot-to-microsoft-teams" target="_blank" style="color:var(--blue)">Microsoft Learn — Add a Copilot Studio agent to Microsoft Teams</a>.
       </div>
 
       <h3>3.9 · Sample prompt library</h3>
-      <p class="lead" style="margin:0 0 6px">Use these prompts to extend the demo beyond the three core scenarios. Replace anything in <code>[BRACKETS]</code> with data from your demo account.</p>
+      <p class="lead" style="margin:0 0 6px">A portable library of prompts to extend the demo beyond the three core scenarios. Replace anything in <code>[BRACKETS]</code> with data from your demo account — vendor names, emails, and contract values.</p>
+      <div class="note" style="margin:0 0 12px">
+        <strong>For reference only:</strong> some prompts require relevant agreements, workflows, templates, and/or envelopes to be in place to function as intended.
+      </div>
       <table>
-        <thead><tr><th style="width:50px">#</th><th>Prompt</th><th style="width:200px">Purpose</th></tr></thead>
+        <thead><tr><th style="width:50px">#</th><th>Prompt</th><th style="width:220px">Purpose</th></tr></thead>
         <tbody>
-          <tr><td>1.1</td><td>Show me all upcoming renewals across my vendor agreements in the next 90 days.</td><td>Renewal pipeline</td></tr>
-          <tr><td>1.2</td><td>For MarketPulse Dynamics, which documents are in place today? MSA, NDA, Supply Agreement, DPA — show status and dates.</td><td>Doc coverage check</td></tr>
-          <tr><td>1.3</td><td>Highlight key terms and clauses from the agreements with Momentum Driver.</td><td>Key terms across docs</td></tr>
-          <tr><td>2.1</td><td>Scan all active MSAs for MFN, price protection, or non-discrimination clauses.</td><td>Portfolio-wide risk scan</td></tr>
-          <tr><td>2.2</td><td>Which of my vendors are missing a DPA or AI Use Addendum? Order by contract value.</td><td>Compliance gap report</td></tr>
-          <tr><td>3.1</td><td>List available Workflow Builder workflows for renewals.</td><td>Confirm workflow before triggering</td></tr>
-          <tr><td>4.1</td><td>Which vendor contracts are pending signature for more than 7 days?</td><td>Stalled signatures</td></tr>
-          <tr><td>4.2</td><td>Send a reminder to any MarketPulse Dynamics recipient who hasn't signed in 3+ days.</td><td>Nudge stalled signers</td></tr>
+          <tr><td colspan="3" style="background:var(--lt);font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">1. Agreement insights — discovery</td></tr>
+          <tr><td>1.1</td><td>Show me all upcoming renewals across my vendor agreements in the next 90 days.</td><td>Surface the renewal pipeline</td></tr>
+          <tr><td>1.2</td><td>What's renewing for [VENDOR] in the next 6 months?</td><td>Vendor-level renewal view</td></tr>
+          <tr><td>1.3</td><td>List all active agreements with [VENDOR] — group by document type.</td><td>Full vendor footprint</td></tr>
+          <tr><td>1.4</td><td>For [VENDOR], which documents are in place today? MSA, NDA, Supply Agreement, DPA — show status and dates.</td><td>Doc coverage check</td></tr>
+          <tr><td>1.5</td><td>Highlight key terms and clauses from the agreements with [VENDOR].</td><td>Pull key terms across docs</td></tr>
+          <tr><td>1.6</td><td>Categorise contracts based on highest contract value in 2026.</td><td>Rank by value</td></tr>
+          <tr><td>1.7</td><td>How many contracts were signed last quarter?</td><td>Period-over-period volume</td></tr>
+          <tr><td colspan="3" style="background:var(--lt);font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">2. Clause &amp; risk analysis</td></tr>
+          <tr><td>2.1</td><td>[VENDOR] is proposing a price increase of [X]%. Do any of our existing vendor agreements contain a price-cap, MFN, or price-protection clause that limits what we can be charged?</td><td>Price-protection clause check</td></tr>
+          <tr><td>2.2</td><td>Scan all active vendor MSAs for MFN, price-protection, or non-discrimination clauses.</td><td>Portfolio-wide risk scan</td></tr>
+          <tr><td>2.3</td><td>What is the highest liability coverage across our vendor portfolio? Rank in order.</td><td>Liability coverage ranking</td></tr>
+          <tr><td>2.4</td><td>Are there any uplift caps, auto-renewal commitments, or related provisions in [VENDOR]'s MSA?</td><td>Vendor-specific guardrails</td></tr>
+          <tr><td>2.5</td><td>Which of my vendors are missing a DPA or AI Use Addendum? Order by contract value.</td><td>Compliance gap report</td></tr>
+          <tr><td>2.6</td><td>Which agreements have non-standard terms that expose Fontara to risk?</td><td>Surface risk across portfolio</td></tr>
+          <tr><td colspan="3" style="background:var(--lt);font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">3. Workflow Builder orchestration</td></tr>
+          <tr><td>3.1</td><td>List available workflows for renewals.</td><td>Confirm workflow exists before triggering</td></tr>
+          <tr><td>3.2</td><td>Initiate a renewal for [VENDOR] for [N] units at $[PRICE] per unit with [X]% discount, 1-year term starting [DATE]. Route it to [EMAIL] at the vendor.</td><td>Core renewal trigger</td></tr>
+          <tr><td>3.3</td><td>Generate a new MSA with DPA addendum for [VENDOR].</td><td>Generate net-new agreement</td></tr>
+          <tr><td>3.4</td><td>Status check on the [VENDOR] renewal workflow — where is it?</td><td>In-flight monitoring</td></tr>
+          <tr><td>3.5</td><td>Identify workflows that have not been triggered even once in the past 30 days.</td><td>Workflow usage audit</td></tr>
+          <tr><td colspan="3" style="background:var(--lt);font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">4. eSign envelopes &amp; templates</td></tr>
+          <tr><td>4.1</td><td>Which vendor contracts are pending signature for more than 7 days?</td><td>Spot stalled signatures</td></tr>
+          <tr><td>4.2</td><td>Has [VENDOR] signed the latest supply agreement, and if not, who is it currently pending with?</td><td>Signature status by recipient</td></tr>
+          <tr><td>4.3</td><td>Send a reminder to any [VENDOR] recipient who hasn't signed in 3+ days.</td><td>Nudge stalled signers</td></tr>
+          <tr><td>4.4</td><td>Update the envelope sent to [VENDOR] this week by replacing recipient [NAME/EMAIL] with [NEW NAME/EMAIL].</td><td>Swap recipient on in-flight envelope</td></tr>
+        </tbody>
+      </table>
+
+      <h3>3.10 · Troubleshooting</h3>
+      <table>
+        <thead><tr><th>Issue</th><th>Likely cause</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td>I don't see any agreements in your account</td><td>Connected to production instead of sandbox, or Agreement Manager extraction not complete</td><td>Reconnect the Docusign MCP Demo connector with sandbox credentials. Ask the agent: <code>What Docusign account am I connected to?</code></td></tr>
+          <tr><td>Agreement Manager fields are blank or partial</td><td>Extraction still running, or unsupported file format</td><td>Click <strong>Re-analyze</strong>. Wait 5 minutes.</td></tr>
+          <tr><td>Workflow Builder workflow doesn't appear when agent queries</td><td>Workflow is in Draft, not Published</td><td>Go to Agreements → Workflows → open the workflow → click <strong>Publish</strong>. Wait 60 seconds.</td></tr>
+          <tr><td>Envelope send fails with an error</td><td>Required template fields not populated, or sandbox email restrictions</td><td>Try with a different email. Try sending manually with the same values.</td></tr>
+          <tr><td>Agent cannot find or list clauses or terms</td><td>Agreement not fully processed, or clause not in Agreement Manager</td><td>Validate the agreement and extraction in Agreement Manager. Create a custom extraction if needed.</td></tr>
+          <tr><td>Workflow errors out in the "Set up an Invite" step</td><td>Invalid or mistyped recipient email</td><td>Confirm the recipient email is correct and valid, then retry.</td></tr>
+          <tr><td>Latest agreements not visible (account is correct)</td><td>Agent is referencing previously fetched data from earlier in the chat</td><td>Ask the agent to refresh: <code>Refresh the list of agreements from Docusign.</code></td></tr>
+          <tr><td>No <code>tools/call</code> appears in the activity map</td><td>Generative orchestration is off, or instructions allow answering from training data</td><td>Confirm <strong>Generative orchestration</strong> is <strong>On</strong>. Tighten instructions to require an MCP tool call for any live Docusign state. Republish.</td></tr>
+          <tr><td>Agent not appearing in Teams or M365 Copilot</td><td>Channel not enabled, agent not published, or tenant admin approval pending</td><td>In <strong>Channels</strong>, confirm Microsoft Teams / Extend Microsoft 365 Copilot is <strong>On</strong> and submitted. Confirm tenant admin approval. Re-publish.</td></tr>
         </tbody>
       </table>
     </div>
