@@ -515,6 +515,12 @@
           <tr><td>Medical Device Supply Agreement</td><td><code>Payment Terms</code>, <code>Renewal</code></td></tr>
         </tbody>
       </table>
+      <div class="note" style="margin:10px 0">
+        <strong>Where to find standard fields in the UI:</strong> open an agreement → in the right-hand details panel, scroll down past the custom fields section. Standard fields appear under a separate <strong>"Standard Fields"</strong> heading. If you don't see them, click <strong>Re-analyze</strong> and wait ~5 min for extraction to complete.
+      </div>
+      <div class="note" style="margin:10px 0">
+        <strong>Known extraction note — Clinical Trial Supply Agreement Contract 1:</strong> this document may only surface <code>Pharma - Cost Per Unit (USD)</code> on first extraction, with batch size and shelf life fields missing. This is normal — the AI extraction confidence threshold was not met for those fields in this particular document. Click <strong>Re-analyze</strong> to retry, or use Contract 2 (which extracts all fields) for the demo walkthrough.
+      </div>
       <p class="expect"><b>Talking point:</b> procurement now has payment terms, governing law, termination notice, and renewal dates extracted automatically — without any manual review — across the entire corpus. This is what feeds the AI agent in Stage 3.</p>
     </div>
 
@@ -533,8 +539,14 @@
       <ol class="steps">
         <li>Log into <code>apps-d.docusign.com</code> with your developer account.</li>
         <li>Upload the sample agreements to <strong>Agreement Manager</strong> (this is the corpus from Stage 1).</li>
-        <li>Import the provided workflow into <strong>Workflow Builder</strong> and confirm it is <strong>Published</strong> (not draft).</li>
-        <li>Validate that the referenced templates exist in the account.</li>
+        <li>Confirm extraction is complete in Agreement Manager (Stage 2) before proceeding.</li>
+        <li>In the <strong>Agreements</strong> tab, go to <strong>Workflows</strong> in the left navigation → click <strong>Import</strong> → upload <code>Fontara Renewal Order Form.zip</code> from <code>workshop-resources/workflow/</code> in the workshop kit. The document template is pre-loaded in the demo account — you do not need to import it separately.</li>
+      </ol>
+      <div class="note" style="margin:8px 0 0">
+        <strong>⚠️ Workflow must be Published, not Draft.</strong> After import, open the workflow and click <strong>Publish</strong>. The agent can only trigger published workflows through the Docusign MCP Demo connector.
+      </div>
+      <ol class="steps" start="5">
+        <li>Validate the workflow appears in the Published state: Agreements → Workflows → confirm status shows <strong>Published</strong>.</li>
       </ol>
 
       <h3>3.2 · Create &amp; configure the agent</h3>
@@ -572,10 +584,13 @@ Behavior rules
       <ol class="steps">
         <li>Open the <strong>Tools</strong> tab → <strong>+ Add a tool</strong> → <strong>Model Context Protocol</strong>.</li>
         <li>Search for and select <strong>"Docusign MCP Demo"</strong>.</li>
-        <li><strong>Create a new connection</strong>: authenticate with your Docusign demo credentials and allow access.</li>
+        <li><strong>Create a new connection</strong> — when prompted for authentication, select <strong>OAuth 2.0</strong> and sign in with your <strong>Docusign demo account credentials</strong> (<code>apps-d.docusign.com</code>). Allow the requested access. Do not use NoAuth or API key — the connector requires OAuth.</li>
         <li><strong>Add and configure</strong> the tool, then review the available tools (all enabled by default).</li>
         <li><strong>Publish</strong> the agent.</li>
       </ol>
+      <div class="note" style="margin:8px 0 0">
+        <strong>Connection tip:</strong> if the connection fails, confirm you are signing into the <strong>demo (sandbox) environment</strong>, not production. The connector is scoped to <code>apps-d.docusign.com</code>. If you see a permissions error, disconnect and reconnect from the <strong>Connections</strong> page in Power Apps (<code>make.powerapps.com</code>).
+      </div>
 
       <h3>3.4 · Verify the connection</h3>
       <p class="lead" style="margin:0 0 6px">Each prompt should trigger a <code>tools/call</code> in the activity map.</p>
