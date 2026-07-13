@@ -364,8 +364,9 @@
       <p class="lead" style="margin:8px 0 6px">Copy the 7 training documents (sample agreements the AI learns from) into the workspace train folder:</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cp workshop-resources/files/train/* \
    demo-workspace/demo-project/agreement-manager/files/train/</div>
-      <p class="lead" style="margin:8px 0 6px">Pull your account's current catalog (downloads <code>standard-catalog.json</code> + <code>custom-catalog.json</code>):</p>
+      <p class="lead" style="margin:8px 0 6px">Pull your account's current catalog — <code>agm upload</code> needs this to know which standard fields and agreement types already exist before it can add your custom ones:</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cd demo-workspace &amp;&amp; docusign agm get catalog</div>
+      <p class="expect"><b>Creates:</b> <code>standard-catalog.json</code> (Docusign's built-in types/fields) and <code>custom-catalog.json</code> (any existing customizations in your account). The upload step reads both to avoid conflicts.</p>
       <p class="lead" style="margin:8px 0 6px">Upload the manifest — creates all fields, creates all agreement types, maps fields to types, uploads training docs, and triggers AI training in one command:</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign agm upload --bypass</div>
       <p class="expect"><b>Expect:</b> CLI walks through each step and confirms fields created, types created, training uploaded. AI training runs asynchronously — extraction results appear in the UI after a few minutes.</p>
