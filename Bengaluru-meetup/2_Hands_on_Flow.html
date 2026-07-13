@@ -75,9 +75,9 @@
   .content{flex:1;min-width:0}
 
   .note{background:var(--warnbg);border:1px solid #f0d68a;border-left:5px solid var(--gold);
-        border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15.5px;color:#5c4a12}
+        border-radius:8px;padding:14px 18px;margin:20px 0;font-size:15.5px;color:#5c4a12;line-height:1.6}
   .accurate{background:var(--okbg);border:1px solid #b7e3c7;border-left:5px solid var(--ok);
-        border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15.5px;color:#1c5138}
+        border-radius:8px;padding:14px 18px;margin:20px 0;font-size:15.5px;color:#1c5138;line-height:1.6}
 
   /* narrative / scenario card */
   .story{position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:22px 0;overflow:hidden}
@@ -94,12 +94,12 @@
   .story .mission li b{color:var(--indigo)}
   .story .kicker-line{margin:12px 0 0;font-size:15px;color:var(--muted)}
 
-  .stage{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:20px 0;
+  .stage{background:#fff;border:1px solid var(--line);border-radius:12px;padding:28px 28px;margin:24px 0;
         scroll-margin-top:16px;display:none}
   .stage.open{display:block}
-  .stage h2{font-size:21px;color:var(--blue);margin:0 0 2px}
-  .stage .lead{color:var(--muted);font-size:15.5px;margin:0 0 14px}
-  .stage h3{font-size:16.5px;color:var(--ink);margin:18px 0 6px;border-left:3px solid var(--gold);padding-left:10px}
+  .stage h2{font-size:21px;color:var(--blue);margin:0 0 6px}
+  .stage .lead{color:var(--muted);font-size:15.5px;margin:0 0 18px;line-height:1.65}
+  .stage h3{font-size:16.5px;color:var(--ink);margin:28px 0 10px;border-left:3px solid var(--gold);padding-left:10px}
 
   .badge{display:inline-block;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:bold;
         border-radius:999px;padding:3px 9px;margin-left:8px;vertical-align:middle}
@@ -107,20 +107,20 @@
   .b-acc{background:var(--okbg);color:var(--ok);border:1px solid #b7e3c7}
   .b-dur{background:var(--lt);color:var(--blue);border:1px solid var(--line)}
 
-  ol.steps{margin:8px 0 0;padding-left:20px}
-  ol.steps li{margin:7px 0;font-size:15.5px}
-  ul.sub{margin:5px 0 0;padding-left:18px}
-  ul.sub li{margin:3px 0;font-size:15px;color:var(--muted)}
+  ol.steps{margin:10px 0 0;padding-left:20px}
+  ol.steps li{margin:11px 0;font-size:15.5px;line-height:1.6}
+  ul.sub{margin:7px 0 0;padding-left:18px}
+  ul.sub li{margin:6px 0;font-size:15px;color:var(--muted);line-height:1.55}
 
   .cmd{position:relative;background:var(--code);color:var(--codetxt);border-radius:9px;padding:14px 46px 14px 16px;
-        margin:10px 0;font-family:"SF Mono",Consolas,Menlo,monospace;font-size:14.5px;line-height:1.6;
+        margin:14px 0;font-family:"SF Mono",Consolas,Menlo,monospace;font-size:14.5px;line-height:1.6;
         white-space:pre-wrap;word-break:break-word}
   .cmd .copy{position:absolute;top:8px;right:8px;background:#26324a;color:#c7d2e6;border:1px solid #3a4a68;
         border-radius:6px;font-size:13px;padding:4px 9px;cursor:pointer;font-family:Arial}
   .cmd .copy:hover{background:#33425f;color:#fff}
   .cmd .copy.done{background:var(--ok);border-color:var(--ok);color:#fff}
   .prompt{background:#fff;border:1px solid var(--line);border-left:4px solid var(--blue2);border-radius:8px;
-        padding:11px 44px 11px 15px;margin:9px 0;font-size:15.5px;color:var(--ink);position:relative}
+        padding:13px 44px 13px 15px;margin:12px 0;font-size:15.5px;color:var(--ink);position:relative;line-height:1.6}
   .prompt .copy{position:absolute;top:8px;right:8px;background:var(--lt);color:var(--blue);border:1px solid var(--line);
         border-radius:6px;font-size:13px;padding:4px 9px;cursor:pointer}
   .prompt .copy:hover{background:#e7edf3}
@@ -158,7 +158,7 @@
   .howto table tbody td{font-size:15px;padding:10px 13px;border-top:1px solid var(--line);background:#fff}
   .howto table tbody tr:nth-child(even) td{background:var(--lt)}
   .howto table td:first-child{font-weight:600;color:var(--ink);white-space:nowrap;width:130px}
-  .expect{font-size:14.5px;color:var(--ok);margin:6px 0 0;padding-left:2px}
+  .expect{font-size:14.5px;color:var(--ok);margin:10px 0 18px;padding-left:2px;line-height:1.55}
   .expect b{color:var(--ok)}
 
   /* Locked stage buttons */
@@ -361,6 +361,10 @@
           <a href="https://developers.docusign.com/iam-toolkit/command-line/deploy-agreement-customizations/">deploy</a> ·
           <a href="https://developers.docusign.com/iam-toolkit/command-line/bulk-ingest-agreements/">bulk-ingest</a>
         </div>
+      </div>
+
+      <div class="note" style="margin:0 0 20px">
+        <strong>Running terminal commands in this stage:</strong> on <strong>Mac</strong>, use the <strong>Terminal</strong> app (Applications → Utilities, or Spotlight). On <strong>Windows</strong>, use <strong>Command Prompt</strong> or <strong>PowerShell</strong> (search in the Start menu).
       </div>
 
       <h3>1.1 · Authenticate</h3>
