@@ -743,22 +743,78 @@ Behavior rules
 
     <!-- STAGE 4 -->
     <div class="stage" id="s4">
-      <h2>Stage 4 · Agent Studio, quick demo
+      <h2>Stage 4 &middot; Agent Studio &mdash; Procurement Agent
         <span class="badge b-dur">10 min</span>
       </h2>
-      <p class="lead">You ship it. Fontara's procurement team gets a prebuilt Procurement agent running on the structured dataset you just built, answering questions and surfacing risk without anyone touching the underlying platform.</p>
+      <p class="lead">Agent Studio is Docusign's native agent builder &mdash; an alternative path to Stage 3's Copilot Studio approach. Instead of connecting an external AI platform via MCP, you build the Procurement agent directly inside Docusign, grounded on the same Agreement Manager corpus. The result: Fontara's team gets contract intelligence without leaving the Docusign platform.</p>
+
+      <div class="accurate">
+        <strong>Stage 3 vs Stage 4 &mdash; two paths, same outcome.</strong>
+        Stage 3 (MCP + Copilot Studio) is the integration story: bring Docusign intelligence into Microsoft 365, Teams, and any MCP-compatible AI client. Stage 4 (Agent Studio) is the native story: build and deploy directly inside Docusign, no external platform required. Both approaches query the same Agreement Manager corpus built in Stages 1 &amp; 2.
+      </div>
+
+      <h3>4.1 &middot; Create the Procurement Agent</h3>
       <ol class="steps">
-        <li>Open the prebuilt Procurement agent in <strong>Agent Studio</strong>.</li>
-        <li>Ask <em>"What's in my vendor agreements?"</em> — it summarizes the vendor portfolio.</li>
-        <li>Ask it to <strong>surface risks &amp; obligations</strong> (uncapped liability, off-standard payment terms, imminent renewals).</li>
-        <li>Connect back to MCP: the same agent can surface in third-party tools — <strong>Microsoft Teams</strong> and other AI clients — via the MCP server.</li>
+        <li>In your Docusign developer account, navigate to <strong>Agent Studio</strong>.</li>
+        <li>Click <strong>Create a draft agent</strong>.</li>
+        <li>In the description box, paste the following and click <strong>Create Agent</strong>:</li>
       </ol>
+      <div class="prompt"><span class="q">Agent description &mdash; paste into the draft agent box</span>Procurement agent for Fontara that answers questions about vendor agreements, surfaces renewal risks, flags off-standard payment terms and liability gaps, and triggers renewal workflows. Uses Docusign Agreement Manager as the source of truth for all contract data.<button class="copy" onclick="cp(this)">Copy</button></div>
+
+      <h3>4.2 &middot; Name &amp; configure the agent</h3>
+      <ol class="steps">
+        <li>Set the agent name to <strong>Fontara Procurement Agent</strong>.</li>
+        <li>Under <strong>Define what starts this agent</strong>, confirm both <strong>In chat</strong> and <strong>In a workflow</strong> are enabled.</li>
+        <li>Paste the instructions below into the <strong>Instructions</strong> field:</li>
+      </ol>
+      <div class="prompt"><span class="q">Agent instructions &mdash; paste into the Instructions field</span>You are the Procurement Agent for Fontara, a B2B company. The procurement team manages a portfolio of vendor contracts &mdash; MSAs, SOWs, NDAs, supply agreements, and device contracts.
+
+You help procurement teams:
+1. Surface upcoming renewals and expiring agreements across the vendor portfolio
+2. Extract and summarize key terms &mdash; payment terms, renewal notice periods, liability caps, termination clauses
+3. Flag off-standard terms (payment terms beyond 30 days, renewal notice under 90 days, missing price-protection clauses)
+4. Compare vendors side-by-side on compliance posture and obligations
+5. Identify agreements missing standard documents (DPA, AI Use Addendum, MFN clause)
+6. Rank contracts by value and surface the highest-risk agreements first
+
+Behavior rules:
+- Always use Docusign Agreement Manager as the source of truth. Never fabricate agreement data, dates, dollar amounts, or clause text.
+- Lead responses with a one-line summary, then the detail.
+- Use visual indicators: &#x2705; in place &middot; &#x26A0;&#xFE0F; at-risk &middot; &#x1F534; missing &middot; &#x1F550; pending
+- If a field is not in the data, say so explicitly &mdash; do not guess.<button class="copy" onclick="cp(this)">Copy</button></div>
+
+      <h3>4.3 &middot; Add Agreement Manager as a capability</h3>
+      <ol class="steps">
+        <li>Under <strong>Capabilities</strong>, click <strong>+ Add</strong>.</li>
+        <li>Select <strong>Docusign Agreement Manager</strong> &mdash; this connects the agent directly to the corpus ingested in Stage 1 and extracted in Stage 2.</li>
+        <li>Click <strong>Save draft</strong>.</li>
+      </ol>
+      <div class="note">
+        <strong>Why this matters:</strong> the Capability wires the agent to Iris's extracted fields &mdash; party names, renewal dates, payment terms, liability caps, and custom pharma fields &mdash; so every answer is grounded in the actual agreement data, not the model's training data.
+      </div>
+
+      <h3>4.4 &middot; Test the agent</h3>
+      <p class="lead" style="margin:0 0 6px">Click <strong>Test</strong> (top right) and run these prompts in order. Each should return grounded data from your Agreement Manager corpus.</p>
+      <div class="prompt"><span class="q">T1 &middot; Portfolio overview</span>What vendor agreements does Fontara have in place? Summarise by agreement type and supplier.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">T2 &middot; Renewal risk</span>Which agreements are coming up for renewal in the next 180 days? Flag anything with a renewal notice period under 90 days.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">T3 &middot; Off-standard terms</span>Pull the payment terms across all active vendor agreements. Flag any that are beyond 30 days and show the supplier name alongside.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">T4 &middot; Vendor risk comparison</span>Compare MarketPulse Dynamics and Momentum Driver on compliance posture &mdash; payment terms, renewal notice, and any price-protection or MFN clauses. What does MarketPulse Dynamics have that Momentum Driver is missing?<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">T5 &middot; Missing coverage gaps</span>Which vendors are missing a DPA or AI Use Addendum? Order by contract value.<button class="copy" onclick="cp(this)">Copy</button></div>
+
+      <h3>4.5 &middot; Connect back to MCP (optional extension)</h3>
+      <p class="lead" style="margin:0 0 6px">The same agreement intelligence surfaced in Agent Studio can be exposed to any MCP-compatible client &mdash; Microsoft Teams, M365 Copilot, or a custom app &mdash; via the Docusign MCP server. This makes Agent Studio and Stage 3's Copilot Studio approach complementary, not competing: one corpus, multiple surfaces.</p>
+      <ol class="steps">
+        <li>In Agent Studio, go to <strong>Channels</strong> &rarr; enable <strong>MCP endpoint</strong> if available in your account.</li>
+        <li>Point your external MCP client (Teams, M365 Copilot) at the endpoint to query the same agent from any surface.</li>
+      </ol>
+      <div class="note">
+        This step is informational for the demo &mdash; the MCP endpoint availability depends on your account tier. The core demo value is already shown in T1&ndash;T5 above.
+      </div>
 
       <div class="accurate" style="margin-top:16px">
-        <strong>The one-line message:</strong> Docusign CLI standardized and ingested the corpus → Iris AI extracted structured fields → MCP + Copilot Studio and Agent Studio turned that intelligence into answers, wherever the procurement team already works.
+        <strong>The one-line message:</strong> Docusign CLI standardized and ingested the corpus &rarr; Iris AI extracted structured fields &rarr; MCP + Copilot Studio (Stage 3) <em>and</em> Agent Studio (Stage 4) turn that intelligence into answers, wherever the procurement team already works.
       </div>
     </div>
-
     <div class="foot">
       Page 2 of 2, Hands-on Flow. See <strong>1_Run_of_Show.html</strong> for the agenda &amp; timings.<br>
       Prerequisites and Stage 1 use the official Docusign Agreement CLI (<code>docusign</code> command, npm: <code>@docusign/agreement-cli@1.1.0-beta</code>). Stage 2 extraction steps follow the current Agreement Manager UI — confirm exact labels against your account.
