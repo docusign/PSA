@@ -38,10 +38,12 @@ Attendees do ingestion (Stage 1), extraction (Stage 2), and agent setup (Stage 3
 
 **Goal:** Show that agreement configuration and bulk ingestion is code — repeatable, version-controlled, partner-deliverable.
 
-### Key talking points
-- "The CLI lets partners configure Agreement Manager programmatically — no clicking through the UI for every client."
-- "This manifest defines 3 custom agreement types and 9 custom pharma fields. We wrote it once. We can deploy it to any account."
-- "Reduces implementation time by 40%+ vs manual configuration."
+### Talk track — opening (say this before running the first command)
+> "Right now, if you want to set up Agreement Manager for a client — define their agreement types, their custom fields, map everything together — you'd click through the UI, manually, for every account. That doesn't scale.
+>
+> What we're going to do instead is define all of that as a JSON manifest. Three agreement types, nine custom pharma fields, training documents, all of it. One file. And then we'll deploy it with a single CLI command.
+>
+> The same manifest you test in a dev account today? You hand it to the client, point it at production, run the same command. Done. No re-clicking, no re-configuring, no human error."
 
 ### Step by step
 
@@ -81,8 +83,12 @@ echo "y" | docusign agm ingest --bypass --directory workshop-resources/files/ing
 ```
 - 4 contracts uploaded at once. "This is the legacy repository moment — not one file at a time."
 
-### What to emphasise
-> "Everything in Stage 1 is config-as-code. A client's entire repository can be standardised, trained, tested, ingested, and promoted to production — repeatable, version-controlled, partner-deliverable."
+### Talk track — what to emphasise (say this after `docusign agm upload` completes)
+> "Everything you just saw — fields created, agreement types created, training uploaded, AI kicked off — that was one command. Not a ticket to the PS team, not an afternoon in the UI.
+>
+> This is the developer value story. Implementation time drops by over 40% compared to manual configuration. You can version-control this manifest in Git, run it through CI, promote it from dev to prod, replicate it across client accounts.
+>
+> What you're handing a client isn't just a configured Docusign account — it's a repeatable, auditable asset. That's the difference between a one-time implementation and a scalable practice."
 
 ---
 
@@ -116,9 +122,11 @@ Also point out: Payment Terms, Governing Law, Renewal, Termination Notice — ex
 **Goal:** Natural language queries against the whole vendor corpus. Show the "agent as procurement analyst" moment.
 
 ### Setup check before starting
-- Agent is live in Copilot Studio, Docusign MCP Demo connector connected via OAuth
-- Workflow "Fontara Renewal Order Form" is Published in Agreement Manager
-- Activity map is ON in the Test pane
+You're running Stage 3 live alongside attendees — no pre-built agent. Everyone creates the blank agent and connects the Docusign MCP Demo connector together. Make sure before starting:
+- Everyone has access to `copilotstudio.microsoft.com`
+- Everyone is authenticated to their Docusign demo account (`apps-d.docusign.com`)
+- The Fontara Renewal Order Form workflow was imported and **Published** at the end of 3.1
+- Activity map is ON in the Test pane before running any prompts
 
 ---
 
