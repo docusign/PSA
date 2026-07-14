@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Docusign IAM Toolkit — Hands-On Workshop</title>
+<title>Docusign IAM Toolkit — User Manual (Closed Beta)</title>
 <style>
 :root {
   --teal:        #0A5C47;
@@ -146,6 +146,8 @@ ul.flist li::before { content:'✓'; position:absolute; left:4px; color:var(--te
 .plainlist { padding-left:22px; margin:6px 0 16px; }
 .plainlist li { margin-bottom:6px; }
 .divider { height:1px; background:var(--gray-border); margin:40px 0; }
+.shot { max-width:100%; height:auto; display:block; margin:10px 0 20px;
+  border:1px solid var(--gray-border); border-radius:8px; }
 .chips { display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 22px; }
 .chip { display:inline-flex; align-items:center; gap:9px; padding:8px 16px 8px 10px;
   background:var(--gray-bg); border:1px solid var(--gray-border); border-radius:22px;
@@ -200,7 +202,7 @@ details.collapsible > table { margin-top:0; }
     <a class="sub" href="#uc2"><span class="num">3.1</span> Bulk modify a config</a>
     <a class="sub" href="#uc3"><span class="num">3.2</span> Move config between accounts</a>
     <a class="sub" href="#uc4"><span class="num">3.3</span> Bulk ingest with metadata</a>
-    <a class="top" href="#reference"><span class="num">4</span> Troubleshooting</a>
+    <a class="top" href="#reference"><span class="num">4</span> Common Validation Errors</a>
     <a class="top" href="#limits"><span class="num">5</span> Limits &amp; Constraints</a>
   </nav>
 </aside>
@@ -524,6 +526,9 @@ Feature Availability:
   <div class="section-header"><div class="sec-num" style="font-size:12px;">2.4</div><h2>Agreement Manager Catalog</h2></div>
   <h3>Get Catalog Command</h3>
   <p>First, run the <strong>Get Catalog</strong> command to verify that the IAM Toolkit is successfully connected to Agreement Manager. This command retrieves the existing agreement types and fields from your account and generates a catalog that serves as the reference when building your Agreement Manager IAM package. This is a representation of the "Is-State" of your current Agreement Manager configuration.</p>
+  <p>First, navigate into your workspace directory so the catalog files are written to the right place:</p>
+  <pre><code>$ cd my-docusign-workspace/fontara</code></pre>
+  <p>Then run:</p>
   <pre><code>$ docusign agm get catalog</code></pre>
   <p>This command fetches your existing Agreement Manager configuration into two files, <strong>"standard-catalog.json"</strong> and <strong>"custom-catalog.json"</strong>.</p>
 
@@ -779,18 +784,18 @@ Feature Availability:
 
   <h4>Check your workspace</h4>
   <p>It should look like this:</p>
-  <p><em>(screenshot to be added)</em></p>
+  <img class="shot" src="https://raw.githubusercontent.com/docusign/PSA/main/EMEA_CLI_Workshop/screenshots/cli_toolkit_0_vscode_workspace_empty.png" alt="Empty workspace in VS Code">
 
   <h4>Remove the sample files from the train and test folders</h4>
   <p>Delete the sample files that were created in the <code>files/train/</code> and <code>files/test/</code> folders.</p>
-  <p><em>(screenshot to be added)</em></p>
+  <img class="shot" src="https://raw.githubusercontent.com/docusign/PSA/main/EMEA_CLI_Workshop/screenshots/cli_toolkit_2_deletedfiles_vscode.png" alt="Sample files removed from train and test folders in VS Code">
 
   <h4>Download the sample agreements</h4>
-  <p>Download the sample agreements here: <em>[link to be added]</em>.</p>
+  <p>Download the sample agreements here (2 zip folders called <code>train</code> and <code>test</code>): <a href="https://github.com/docusign/PSA/tree/main/EMEA_CLI_Workshop/Workshop-Kit" target="_blank">Workshop Kit (GitHub)</a>.</p>
 
   <h4>Add the files into the corresponding folders</h4>
   <p>Place the downloaded agreements into the matching <code>files/train/</code> and <code>files/test/</code> folders.</p>
-  <p><em>(screenshot to be added)</em></p>
+  <img class="shot" src="https://raw.githubusercontent.com/docusign/PSA/main/EMEA_CLI_Workshop/screenshots/cli_toolkit_1_files_vscode.png" alt="Downloaded agreement files added to the folders in VS Code">
 
   <h4>Copy the completed manifest file</h4>
   <p>Copy the sample manifest below into <code>{workspace}/{project}/agreement-manager/configs/agreement-manager-manifest.json</code>:</p>
@@ -917,9 +922,7 @@ Feature Availability:
 
 <section id="upload-package">
   <div class="section-header"><div class="sec-num" style="font-size:12px;">2.7</div><h2>Upload your Agreement Manager IAM Package</h2></div>
-  <p>Now that you have copied the manifest and the agreements for <code>test</code> and <code>train</code>, your workspace should look like this:</p>
-  <p><em>(screenshot to be added)</em></p>
-  <p>To upload your Agreement Manager package, run the following command:</p>
+  <p>Now that you have copied the manifest and the agreements for <code>test</code> and <code>train</code>, you can upload your Agreement Manager package with the following command:</p>
   <pre><code>$ docusign agm upload</code></pre>
   <p>Output:</p>
   <pre><code>Common Usage:
@@ -953,7 +956,7 @@ Computing file hashes and checking for duplicates...
 
   <h4>Verify the agreements in Docusign</h4>
   <p>In Docusign, you can check that the agreements have been ingested into Agreement Manager.</p>
-  <p><em>(screenshot to be added)</em></p>
+  <img class="shot" src="https://raw.githubusercontent.com/docusign/PSA/main/EMEA_CLI_Workshop/screenshots/cli_toolkit_2_agm.png" alt="Ingested agreements shown in Agreement Manager">
 
   <h4>What Happens After the Agreement Manager IAM Package is Uploaded?</h4>
   <p>After successfully uploading your Agreement Manager IAM package:</p>
@@ -1015,15 +1018,7 @@ Computing file hashes and checking for duplicates...
     <div class="callout-icon">💡</div>
     <div>
       <strong>For this exercise</strong>
-      <p>To save time, we have prepared a sample testing CSV with the ground truth values already filled in for the custom fields of the Film Production Agreements we are evaluating. Download it here (<em>link to be added</em>) and replace the CSV you just generated with it, so you don't have to fill in the truth values yourself.</p>
-    </div>
-  </div>
-
-  <div class="callout callout-blue">
-    <div class="callout-icon">📝</div>
-    <div>
-      <strong>Important Notes</strong>
-      <p>For standard duration fields (for example, <em>Liability Cap Duration</em>, <em>Renewal Notice Period</em>, <em>Renewal Term</em>), enter values in the following format: # {days/months/years} Examples: 30 days, 90 days, 6 months, 3 years. DateTime values can be entered in either ISO format or MM/DD/YYYY format. The CLI uses only one testing.csv file. Each time you run the generate-test-template command, the existing testing.csv file will be overwritten.</p>
+      <p>To save time, we have prepared a sample testing CSV with the ground truth values already filled in for the custom fields of the Film Production Agreements we are evaluating. <strong>Download it here (<a href="https://github.com/docusign/PSA/blob/main/EMEA_CLI_Workshop/Workshop-Kit/testing.csv" target="_blank">testing.csv on GitHub</a>) and replace the CSV you just generated with it, so you don't have to fill in the truth values yourself.</strong></p>
     </div>
   </div>
 
@@ -1074,7 +1069,7 @@ Computing file hashes and checking for duplicates...
     <div class="callout-icon">⚠️</div>
     <div>
       <strong>Watch-out in your customer projects</strong>
-      <p>Test in a demo account before touching production. Only <strong>custom</strong> extractions can be tuned — improving standard-field accuracy is not supported at this time. Respect the package limits (100 custom fields, 200 custom types, 50 AI extractions, max 15 custom types with AI enabled) and provide 3–10 quality training agreements per AI-enabled type. See <a href="#create-package">Manifest &amp; schema</a>, <a href="#test-package">Testing reference</a>, and <a href="#validation-errors">Validation errors</a>.</p>
+      <p>Test in a demo account before touching production. Only <strong>custom</strong> extractions can be tuned — improving standard-field accuracy is not supported at this time. Respect the package limits (100 custom fields, 200 custom types, 50 AI extractions, max 15 custom types with AI enabled) and provide 3–10 quality training agreements per AI-enabled type. See <a href="#create-package">Manifest &amp; schema</a>, <a href="#test-package">Testing reference</a>, and <a href="#reference">Validation errors</a>.</p>
     </div>
   </div>
 
@@ -1183,17 +1178,49 @@ Computing file hashes and checking for duplicates...
 
 <section id="uc4">
   <div class="section-header"><div class="sec-num" style="font-size:12px;">3.3</div><h2>Bulk ingest agreements with metadata</h2></div>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;">
+    <span class="badge badge-green">Bulk ingest</span>
+    <span class="badge badge-blue">Metadata file</span>
+    <span class="badge badge-purple">Field population</span>
+  </div>
+
+  <p><strong>The scenario.</strong> This workflow uploads agreements along with a metadata file that supplies missing or corrected information for the agreement fields. It assumes you have already completed the deployment of your configuration, including all standard and custom fields that will be populated with metadata.</p>
+
+  <div class="callout callout-teal">
+    <div class="callout-icon">🎯</div>
+    <div>
+      <strong>Partner Opportunity</strong>
+      <p>Agreements land in Agreement Manager with their fields already populated from a metadata file — no manual field entry and no reliance on extraction alone for values you already hold in another system. Docusign recommends testing with a subset of documents in your developer account before uploading the full set with metadata in production; the steps below reflect this process.</p>
+    </div>
+  </div>
+
+  <h3>Walkthrough</h3>
+  <table>
+    <tr><th style="width:44px;">Step</th><th>Action</th><th>Command or location</th></tr>
+    <tr><td>1</td><td>Connect the toolkit to your developer account.</td><td><code>ds auth login</code></td></tr>
+    <tr><td>2</td><td>Place a subset of your production agreements in a directory for ingestion.</td><td></td></tr>
+    <tr><td>3</td><td>Generate a template CSV file for the metadata.</td><td><code>ds agm ingest --directory &lt;directory path&gt; --generate-metadata-template</code></td></tr>
+    <tr><td>4</td><td>Populate the CSV file with metadata values for the files to be ingested.</td><td><code>{workspace}/{project}/agreement-manager/metadata/metadata.csv</code></td></tr>
+    <tr><td>5</td><td>Ingest the agreements with the metadata.</td><td><code>ds agm ingest --directory &lt;directory path&gt; --with-metadata</code></td></tr>
+    <tr><td>6</td><td>Spot check in the Agreement Manager UI that the metadata you supplied appears as expected.</td><td></td></tr>
+    <tr><td>7</td><td>Connect the toolkit to the production account.</td><td><code>ds auth login -e production</code></td></tr>
+    <tr><td>8</td><td>Repeat steps 2–5 in production with the full set of agreements.</td><td></td></tr>
+  </table>
+
+  <div class="callout callout-amber">
+    <div class="callout-icon">⚠️</div>
+    <div>
+      <strong>Watch-out in your customer projects</strong>
+      <p>This use case assumes your configuration is already deployed, including every standard and custom field the metadata will populate. Test with a subset in a developer account and spot-check the Agreement Manager UI before running the full set with metadata in production.</p>
+    </div>
+  </div>
 </section>
 
 <div class="divider"></div>
 
 <section id="reference">
-  <div class="section-header"><div class="sec-num" style="font-size:16px;">4</div><h2>Troubleshooting</h2></div>
-  <p>Common validation errors you may hit when uploading your package, and how to resolve them.</p>
-</section>
-
-<section id="validation-errors">
-  <h3>Common Validation Errors</h3>
+  <div class="section-header"><div class="sec-num" style="font-size:16px;">4</div><h2>Common Validation Errors</h2></div>
   <p>Before the CLI uploads your IAM package to Agreement Manager, it performs a validation of your custom extraction manifest and throws an error message if your custom extraction manifest is misconfigured.</p>
   <p>Here is a list of validation errors, what they mean, and how to resolve them:</p>
   <table>
