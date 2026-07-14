@@ -5,15 +5,16 @@
 
 ## Before the session
 
-- Confirm all 4 contracts are ingested in `apps-d.docusign.com` → Agreement Manager → Completed
-- Confirm extraction has run (fields populated on at least Contract 2 of Clinical Trial Supply)
-- Confirm the Fontara Renewal Order Form workflow is **Published** (not Draft) in Agreements → Workflows
-- Copilot Studio agent built, Docusign MCP Demo connector connected via OAuth, agent **Published**
+Attendees do ingestion (Stage 1), extraction (Stage 2), and agent setup (Stage 3) live — nothing to pre-run. Your checklist is just access and tools.
+
+- **Your machine:** Node + npm installed, `@docusign/agreement-cli@1.1.0-beta` installed globally — run `docusign` to confirm it's on PATH
+- **Demo account:** logged into `apps-d.docusign.com`, Agreement Manager enabled, CLI (open beta) access on the account
+- **Workshop resources:** downloaded and unzipped — `workshop-resources/` folder ready with the manifest, training docs, and ingest contracts
+- **Copilot Studio access:** Microsoft 365 / Copilot Studio environment ready to create a blank agent in Stage 3
 - Have the lab page open: https://docusign.github.io/PSA/Bengaluru-meetup/2_Hands_on_Flow.html
-- Have `apps-d.docusign.com` open in another tab
+- Have `apps-d.docusign.com` open in a second tab
 
 ---
-
 ## Stage 0 · Before you begin (5 min)
 
 **Goal:** Set the scene — why agreements matter as data, not just documents.
