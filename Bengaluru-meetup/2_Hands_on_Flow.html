@@ -176,11 +176,7 @@
         border-top:none;border-left:none;transform:rotate(45deg);position:absolute;top:1px;left:4px}
 
   /* Complete prerequisites button */
-  #prereq-complete-btn{display:none;margin:20px 0 0;padding:12px 24px;background:var(--ok);
-        color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;
-        width:100%;transition:background .15s}
-  #prereq-complete-btn:hover{background:#176040}
-  #prereq-complete-btn.visible{display:block}
+
 
   /* Prerequisites completed modal */
   #prereq-modal{display:none;position:fixed;inset:0;background:rgba(19,0,50,.45);z-index:200;
@@ -339,7 +335,6 @@
         <strong>Ground rule:</strong> use <strong>synthetic / non-production data</strong> only.
       </div>
 
-      <button id="prereq-complete-btn" onclick="showPrereqModal()">✅ Mark prerequisites complete — unlock Stage 1–4</button>
     </div>
 
     <!-- STAGE 1 -->
@@ -787,16 +782,6 @@ Behavior rules:
 - Use visual indicators: &#x2705; in place &middot; &#x26A0;&#xFE0F; at-risk &middot; &#x1F534; missing &middot; &#x1F550; pending
 - If a field is not in the data, say so explicitly &mdash; do not guess.<button class="copy" onclick="cp(this)">Copy</button></div>
 
-      <h3>4.3 &middot; Add Agreement Manager as a capability</h3>
-      <ol class="steps">
-        <li>Under <strong>Capabilities</strong>, click <strong>+ Add</strong>.</li>
-        <li>Select <strong>Docusign Agreement Manager</strong> &mdash; this connects the agent directly to the corpus ingested in Stage 1 and extracted in Stage 2.</li>
-        <li>Click <strong>Save draft</strong>.</li>
-      </ol>
-      <div class="note">
-        <strong>Why this matters:</strong> the Capability wires the agent to Iris's extracted fields &mdash; party names, renewal dates, payment terms, liability caps, and custom pharma fields &mdash; so every answer is grounded in the actual agreement data, not the model's training data.
-      </div>
-
       <h3>4.4 &middot; Test the agent</h3>
       <p class="lead" style="margin:0 0 6px">Click <strong>Test</strong> (top right) and run these prompts in order. Each should return grounded data from your Agreement Manager corpus.</p>
       <div class="prompt"><span class="q">T1 &middot; Portfolio overview</span>What vendor agreements does Fontara have in place? Summarise by agreement type and supplier.<button class="copy" onclick="cp(this)">Copy</button></div>
@@ -804,16 +789,6 @@ Behavior rules:
       <div class="prompt"><span class="q">T3 &middot; Off-standard terms</span>Pull the payment terms across all active vendor agreements. Flag any that are beyond 30 days and show the supplier name alongside.<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="prompt"><span class="q">T4 &middot; Vendor risk comparison</span>Compare MarketPulse Dynamics and Momentum Driver on compliance posture &mdash; payment terms, renewal notice, and any price-protection or MFN clauses. What does MarketPulse Dynamics have that Momentum Driver is missing?<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="prompt"><span class="q">T5 &middot; Missing coverage gaps</span>Which vendors are missing a DPA or AI Use Addendum? Order by contract value.<button class="copy" onclick="cp(this)">Copy</button></div>
-
-      <h3>4.5 &middot; Connect back to MCP (optional extension)</h3>
-      <p class="lead" style="margin:0 0 6px">The same agreement intelligence surfaced in Agent Studio can be exposed to any MCP-compatible client &mdash; Microsoft Teams, M365 Copilot, or a custom app &mdash; via the Docusign MCP server. This makes Agent Studio and Stage 3's Copilot Studio approach complementary, not competing: one corpus, multiple surfaces.</p>
-      <ol class="steps">
-        <li>In Agent Studio, go to <strong>Channels</strong> &rarr; enable <strong>MCP endpoint</strong> if available in your account.</li>
-        <li>Point your external MCP client (Teams, M365 Copilot) at the endpoint to query the same agent from any surface.</li>
-      </ol>
-      <div class="note">
-        This step is informational for the demo &mdash; the MCP endpoint availability depends on your account tier. The core demo value is already shown in T1&ndash;T5 above.
-      </div>
 
       <div class="accurate" style="margin-top:16px">
         <strong>The one-line message:</strong> Docusign CLI standardized and ingested the corpus &rarr; Iris AI extracted structured fields &rarr; MCP + Copilot Studio (Stage 3) <em>and</em> Agent Studio (Stage 4) turn that intelligence into answers, wherever the procurement team already works.
@@ -855,9 +830,7 @@ Behavior rules:
   function checkPrereqs(){
     var all = document.querySelectorAll('.prereq-chk');
     var allChecked = Array.from(all).every(function(c){ return c.checked; });
-    var btn = document.getElementById('prereq-complete-btn');
-    if(allChecked){ btn.classList.add('visible'); }
-    else { btn.classList.remove('visible'); }
+    if(allChecked){ showPrereqModal(); }
   }
 
   function showPrereqModal(){
