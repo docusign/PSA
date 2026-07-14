@@ -307,7 +307,10 @@
 
       <h3 id="prereq-h-1"><input type="checkbox" class="prereq-chk" id="pchk-1" onchange="checkPrereqs()"> 0.4.1 · Tooling on each machine</h3>
       <ol class="steps">
-        <li><strong>Node.js LTS + npm</strong> installed (the Agreement CLI is distributed on npm).</li>
+        <li><strong>Check if Node.js + npm are already installed</strong> — open your terminal and run:
+          <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>node -v &amp;&amp; npm -v</div>
+          <p class="expect" style="margin:6px 0 0"><b>If you see two version numbers</b> (e.g. <code>v20.x.x</code> and <code>10.x.x</code>), Node and npm are installed — skip to step 2. <b>If you get "command not found"</b>, download and install Node.js LTS from <a href="https://nodejs.org" target="_blank" style="color:var(--blue)">nodejs.org</a>, then re-run the check before continuing.</p>
+        </li>
         <li><strong>Docusign Agreement CLI</strong> installed globally:
           <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>npm i -g @docusign/agreement-cli@1.1.0-beta</div>
         </li>
