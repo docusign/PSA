@@ -779,7 +779,7 @@ Behavior rules
 </div>
 
 <script>
-  var prereqsUnlocked = false;
+  var prereqsUnlocked = localStorage.getItem('prereqsUnlocked') === 'true';
 
   function toggleStage(n){
     if(n > 0 && !prereqsUnlocked) return; // locked stages
@@ -806,6 +806,7 @@ Behavior rules
 
   function unlockStages(){
     prereqsUnlocked = true;
+    localStorage.setItem('prereqsUnlocked', 'true');
     document.getElementById('prereq-modal').classList.remove('show');
     [1,2,3,4].forEach(function(n){
       document.getElementById('btn-'+n).classList.remove('locked');
@@ -874,6 +875,11 @@ Behavior rules
   try { initProgress(); } catch(e) { console.warn('initProgress:', e); }
   document.getElementById('s0').classList.add('open');
   document.getElementById('btn-0').classList.add('active');
+  if(prereqsUnlocked){
+    [1,2,3,4].forEach(function(n){
+      document.getElementById('btn-'+n).classList.remove('locked');
+    });
+  }
 </script>
 </body>
 </html>
