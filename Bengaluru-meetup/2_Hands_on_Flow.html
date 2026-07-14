@@ -199,7 +199,7 @@
 <body>
   <header class="header-wrap">
     <div class="util"><div class="in">
-      <a href="https://developers.docusign.com/iam-toolkit/" target="_blank" rel="noopener">IAM Toolkit Docs</a>
+      <a href="https://developers.docusign.com/iam-toolkit/" target="_blank" rel="noopener">Docusign CLI Docs</a>
       <a href="https://www.npmjs.com/package/@docusign/agreement-cli" target="_blank" rel="noopener">Agreement CLI</a>
       <a href="https://developers.docusign.com/" target="_blank" rel="noopener">Developer Center</a>
     </div></div>
@@ -225,7 +225,7 @@
     <div class="sidebar">
       <div class="rail-v">
         <button class="rail-btn" id="btn-0" onclick="toggleStage(0)"><span class="n">0</span><div><span class="t">Before you begin</span><span class="s">Scenario · Objectives · Setup</span></div></button>
-        <button class="rail-btn locked" id="btn-1" onclick="toggleStage(1)"><span class="n ring-n" id="ring-1"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#e5e1f0" stroke-width="2"/><circle class="ring-fg" cx="12" cy="12" r="9" fill="none" stroke="#4C00FF" stroke-width="2" stroke-dasharray="56.55" stroke-dashoffset="56.55" stroke-linecap="round"/></svg><span class="ring-num">1</span></span><div><span class="t">IAM Toolkit</span><span class="s">Login &amp; bulk-upload · 15 min</span></div></button>
+        <button class="rail-btn locked" id="btn-1" onclick="toggleStage(1)"><span class="n ring-n" id="ring-1"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#e5e1f0" stroke-width="2"/><circle class="ring-fg" cx="12" cy="12" r="9" fill="none" stroke="#4C00FF" stroke-width="2" stroke-dasharray="56.55" stroke-dashoffset="56.55" stroke-linecap="round"/></svg><span class="ring-num">1</span></span><div><span class="t">Docusign CLI</span><span class="s">Login &amp; bulk-upload · 15 min</span></div></button>
         <button class="rail-btn locked" id="btn-2" onclick="toggleStage(2)"><span class="n ring-n" id="ring-2"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#e5e1f0" stroke-width="2"/><circle class="ring-fg" cx="12" cy="12" r="9" fill="none" stroke="#4C00FF" stroke-width="2" stroke-dasharray="56.55" stroke-dashoffset="56.55" stroke-linecap="round"/></svg><span class="ring-num">2</span></span><div><span class="t">AI Extraction</span><span class="s">Agreement Manager · Iris</span></div></button>
         <button class="rail-btn locked" id="btn-3" onclick="toggleStage(3)"><span class="n ring-n" id="ring-3"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#e5e1f0" stroke-width="2"/><circle class="ring-fg" cx="12" cy="12" r="9" fill="none" stroke="#4C00FF" stroke-width="2" stroke-dasharray="56.55" stroke-dashoffset="56.55" stroke-linecap="round"/></svg><span class="ring-num">3</span></span><div><span class="t">MCP · Copilot Studio</span><span class="s">Connect + Insights · 30 min</span></div></button>
         <button class="rail-btn locked" id="btn-4" onclick="toggleStage(4)"><span class="n">4</span><div><span class="t">Agent Studio</span><span class="s">Procurement agent demo · 10 min</span></div></button>
@@ -251,7 +251,7 @@
         <div class="mission">
           <div class="mlbl">What you are building — and why it matters</div>
           <ol>
-            <li><b>Stage 1 · IAM Toolkit + Agreement CLI</b>: define Fontara's pharma/medtech agreement types and fields as code, then bulk-ingest the legacy contract repository — all from the terminal. One-time setup that makes everything else possible.</li>
+            <li><b>Stage 1 · Docusign CLI + Agreement CLI</b>: define Fontara's pharma/medtech agreement types and fields as code, then bulk-ingest the legacy contract repository — all from the terminal. One-time setup that makes everything else possible.</li>
             <li><b>Stage 2 · Extraction surfaces in Agreement Manager</b>: Iris AI reads every ingested contract and populates structured fields — batch size, CRO budget, FDA classification, renewal dates, payment terms. Static files become queryable data.</li>
             <li><b>Stage 3 · MCP via Microsoft Copilot Studio</b>: create a blank agent in Copilot Studio, connect the Docusign MCP Demo connector to it, and query Fontara's whole vendor corpus in plain English — renewals, obligations, risk scan, workflow trigger, signature status. Deploy to Teams and M365 Copilot.</li>
             <li><b>Stage 4 · Agent Studio, quick demo</b>: ship the prebuilt Procurement agent in Agent Studio so Fontara's team gets answers about vendor risk and renewals without opening a single file.</li>
@@ -265,7 +265,7 @@
         <div class="obj-card">
           <div class="num">Objective 1</div>
           <strong>Standardize and ingest agreements in bulk</strong>
-          <p>Use the IAM Toolkit and Agreement CLI to model procurement agreement types and fields (MSAs, SOWs, NDAs) and bulk-ingest a legacy vendor repository — all from the CLI.</p>
+          <p>Use the Docusign CLI and Agreement CLI to model procurement agreement types and fields (MSAs, SOWs, NDAs) and bulk-ingest a legacy vendor repository — all from the CLI.</p>
         </div>
         <div class="obj-card">
           <div class="num">Objective 2</div>
@@ -321,7 +321,7 @@
 
       <h3 id="prereq-h-2"><input type="checkbox" class="prereq-chk" id="pchk-2" onchange="checkPrereqs()"> 0.4.2 · Accounts &amp; access</h3>
       <ul class="sub">
-        <li>A <strong>Docusign developer / demo account</strong> with <strong>IAM Toolkit (open beta)</strong> access enabled.</li>
+        <li>A <strong>Docusign developer / demo account</strong> with <strong>Docusign CLI (open beta)</strong> access enabled.</li>
         <li>Permissions to configure <strong>Agreement Manager</strong> (agreement types, fields, ingestion) in that account.</li>
         <li>For Stage 3: a <strong>Microsoft 365 / Copilot Studio</strong> environment where you can create agents and add Model Context Protocol tools. Use your existing environment, or provision a trial via <a href="https://microsoft.github.io/agent-academy/recruit/00-course-setup/" target="_blank" style="color:var(--blue)">Trial Environment Setup, Steps 1–4</a>.</li>
       </ul>
@@ -344,14 +344,14 @@
 
     <!-- STAGE 1 -->
     <div class="stage" id="s1">
-      <h2>Stage 1 · IAM Toolkit + Agreement CLI
+      <h2>Stage 1 · Docusign CLI + Agreement CLI
         <span class="badge b-dur">15 min</span>
       </h2>
-      <p class="lead">This is where you start Fontara's build. You log in with the Docusign Agreement CLI, define Fontara's procurement agreement types &amp; fields as code, then bulk-ingest their sample repository. The pattern to emphasize: <em>export legacy repository → standardize via IAM Toolkit → ingest via API at scale.</em></p>
+      <p class="lead">This is where you start Fontara's build. You log in with the Docusign Agreement CLI, define Fontara's procurement agreement types &amp; fields as code, then bulk-ingest their sample repository. The pattern to emphasize: <em>export legacy repository → standardize via Docusign CLI → ingest via API at scale.</em></p>
 
       <div class="accurate">
-        <strong>Why IAM Toolkit, the developer value story.</strong>
-        The IAM Toolkit lets implementation partners and enterprise developers configure, test, and deploy
+        <strong>Why Docusign CLI, the developer value story.</strong>
+        The Docusign CLI lets implementation partners and enterprise developers configure, test, and deploy
         <em>Docusign Agreement Manager</em>, the searchable, AI-powered agreement repository, programmatically, accelerating time-to-value. Talking points to land in this stage:
         <ul class="sub" style="color:#1c5138">
           <li><b>Faster deployments</b>, reduces implementation time by <b>over 40%</b> vs. manual configuration.</li>
@@ -755,7 +755,7 @@ Behavior rules
       </ol>
 
       <div class="accurate" style="margin-top:16px">
-        <strong>The one-line message:</strong> IAM Toolkit + CLI standardized and ingested the corpus → Iris AI extracted structured fields → MCP + Copilot Studio and Agent Studio turned that intelligence into answers, wherever the procurement team already works.
+        <strong>The one-line message:</strong> Docusign CLI standardized and ingested the corpus → Iris AI extracted structured fields → MCP + Copilot Studio and Agent Studio turned that intelligence into answers, wherever the procurement team already works.
       </div>
     </div>
 
