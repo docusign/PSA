@@ -160,7 +160,7 @@ docusign agm ingest --directory workshop-resources/files/ingest --dry-run
 echo "y" | docusign agm ingest --bypass --directory workshop-resources/files/ingest
 ```
 - `--dry-run` first: shows which files will be uploaded and what types they'll be classified as, without touching the account.
-- Real ingest: 4 contracts uploaded. They appear in Agreement Manager → Completed within a few minutes as Navigator indexes them.
+- Real ingest: 11 contracts uploaded (train + ingest folders combined). They appear in Agreement Manager → Completed within a few minutes as Iris indexes them.
 - "This is the legacy repository moment - not one file at a time."
 
 ### Talk track - what to emphasise (say this after `docusign agm upload` completes)
@@ -181,7 +181,7 @@ echo "y" | docusign agm ingest --bypass --directory workshop-resources/files/ing
 
 ### What to show
 - Navigate to `apps-d.docusign.com` → Agreements → Completed
-- Show the 4 ingested contracts with their agreement types auto-applied (not "Miscellaneous")
+- Show the 11 ingested contracts with their agreement types auto-applied (not "Miscellaneous")
 - Open one → show the right-hand extraction panel side-by-side with the PDF
 - Point at a custom field and its extracted value - "the manifest defined this, Iris filled it in"
 
