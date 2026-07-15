@@ -45,6 +45,14 @@ Attendees do ingestion (Stage 1), extraction (Stage 2), and agent setup (Stage 3
 >
 > The same manifest you test in a dev account today? You hand it to the client, point it at production, run the same command. Done. No re-clicking, no re-configuring, no human error."
 
+### The four IAM Toolkit value points (land at least two of these)
+- **Custom configuration** - extend Agreement Manager with custom agreement types and fields, defined as code in the manifest
+- **Extraction testing** - validate Iris extraction accuracy against ground-truth values *before* deploying to production (`ds agm test`)
+- **Multi-account deployment** - build the configuration package once, deploy it to multiple production accounts
+- **Bulk ingestion via CLI** - ingest agreements plus metadata at scale from a local or network directory
+
+> "This is the IAM Toolkit - it is in open beta. The command prefix is `docusign agm` or the short form `ds agm`. Everything we run today is one of those commands."
+
 ### How the manifest works — what to explain while running 1.3
 
 The manifest (`agreement-manager-manifest.json`) is a single JSON file that describes everything Agreement Manager needs to understand Fontara's procurement contracts. Walk through these three concepts as you copy it in:
@@ -168,11 +176,16 @@ echo "y" | docusign agm ingest --bypass --directory workshop-resources/files/ing
 
 **Goal:** Show static PDFs becoming structured, queryable data.
 
-### What to say
-- "Iris reads every ingested contract and populates the fields we defined in Stage 1."
+### Talk track - opening (say this as you switch to Agreement Manager)
+> "The contracts we just ingested are no longer flat PDFs. Docusign Iris - our agreement AI - has read every one of them and extracted structured data: the custom fields we defined in the manifest, plus standard fields like payment terms, governing law, and renewal dates. Iris also pulls out parties, obligations, key dates, and clause history. This all happens in the background, once, at ingestion time. Nobody opened a single file."
+
+### What to show
 - Navigate to `apps-d.docusign.com` → Agreements → Completed
-- Show the 4 ingested contracts with their agreement types auto-applied
+- Show the 4 ingested contracts with their agreement types auto-applied (not "Miscellaneous")
 - Open one → show the right-hand extraction panel side-by-side with the PDF
+- Point at a custom field and its extracted value - "the manifest defined this, Iris filled it in"
+
+> "Point to remember: this pre-processing is what makes Stage 3 fast. When the agent answers a question in a minute, it is not re-reading the contracts. It is querying structured data Iris already extracted. Faster, more token-efficient, and it respects the same permissions you have in Docusign.
 
 ### Fields to highlight
 | Agreement type | Show this field | Why it matters |
@@ -184,8 +197,8 @@ echo "y" | docusign agm ingest --bypass --directory workshop-resources/files/ing
 ### Standard fields
 Also point out: Payment Terms, Governing Law, Renewal, Termination Notice — extracted automatically on top of custom fields.
 
-### What to emphasise
-> "Procurement now has payment terms, governing law, termination notice, and renewal dates extracted automatically — without any manual review — across the entire corpus. This feeds the agent in Stage 3."
+### Talk track - what to emphasise
+> "Procurement now has payment terms, governing law, termination notice, and renewal dates extracted automatically - without any manual review - across the entire corpus. Every contract is now queryable data. This is exactly what feeds the agent in Stage 3. And because Iris governs access at the Docusign layer, an agent built on this data can only ever surface agreements the user is already permissioned to see."
 
 ---
 
@@ -316,19 +329,24 @@ Each should produce a `tools/call` in the activity map. If any prompt returns an
 
 ## Stage 4 · Agent Studio — Procurement Agent (10 min)
 
-> ⚠️ **Agent Studio is coming soon** — not yet available in developer/demo accounts. Walk through this as a preview of what the native Docusign experience will look like.
+> ⚠️ **Agent Studio is in Early Access** - not yet enabled in the developer/demo accounts used for this workshop. Walk through this as a preview of the native Docusign agent experience. Announced at Momentum '26.
 
-### What to say
-- "Stage 3 was the integration story — bring Docusign into Microsoft. Stage 4 is the native story — build the agent directly inside Docusign, no external platform needed."
-- "Same corpus, same extracted data, different surface."
+### Talk track - opening
+> "Everything so far - Stage 3 - was the integration story: we brought Docusign into Microsoft Copilot Studio through MCP. Stage 4 is the native story. Agent Studio is Docusign's own builder and governance layer for agents, built directly inside IAM. Same agreement corpus, same Iris-extracted data, but the agent lives natively in Docusign and can be governed there."
 
-### Walk through the flow
+### What Agent Studio adds (Momentum '26, Early Access)
+- **Pre-built agents** for common agreement tasks: intake and triage, drafting and redlining, renewal management - you do not always start from a blank agent
+- **Grounded in your context** - agents are built with natural language, grounded in agreement history, business policies, and internal playbooks
+- **Deployed where work happens** - agents can be added as a step inside a Workflow Builder workflow, or run through Iris, with logged actions and human-in-the-loop approvals
+- **Governance built in** - you control who can build an agent, what agreement data it can access, where it participates in the lifecycle, and how its actions are audited
+
+### Walk through the flow (preview)
 1. Agent Studio → Create a draft agent → paste the description
-2. Name it **Fontara Procurement Agent**, paste system instructions
-3. Show the 5 test prompts (T1–T5) — same questions as Stage 3, native UI
+2. Name it **Fontara Procurement Agent**, paste the instructions
+3. Show the test prompts - same procurement questions as Stage 3, running natively in Docusign
 
-### What to emphasise
-> "One corpus. Two deployment paths. Copilot Studio for the Microsoft-first team. Agent Studio for the Docusign-native team. The agreement data built in Stages 1 and 2 powers both."
+### Talk track - what to emphasise
+> "One corpus, two paths. Stage 3 showed MCP - expose Docusign to any external AI client: Claude, Gemini, Microsoft Copilot, a custom app. Stage 4 is Agent Studio - build and govern the agent natively inside Docusign, with the approvals and audit trail enterprises need. Most teams will use both: MCP for reach into the tools people already use, Agent Studio for governed agents inside the agreement lifecycle. The agreement data you built in Stages 1 and 2 powers all of it."
 
 ---
 
@@ -341,7 +359,7 @@ Each should produce a `tools/call` in the activity map. If any prompt returns an
 1. **Agreement Manager + CLI** = configuration as code. Repeatable across any client account.
 2. **Iris extraction** = static PDFs become structured, queryable data. No manual review.
 3. **MCP + Copilot Studio** = procurement answers in Teams and M365 Copilot, in plain English.
-4. **Agent Studio** = coming soon — native Docusign agent builder, same corpus, no external platform.
+4. **Agent Studio** (Early Access) = native Docusign agent builder with governance and human-in-the-loop approvals, same corpus, no external platform.
 
 ---
 
