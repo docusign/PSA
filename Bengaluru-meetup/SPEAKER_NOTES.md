@@ -61,7 +61,7 @@ docusign
 **0.4.4 - Import and Publish the Workflow**
 - Go to `apps-d.docusign.com` → Agreements → Workflows → **Import**
 - Upload `Fontara Renewal Order Form.zip` from `workshop-resources/workflow/`
-- Open the imported workflow → update the **Agreement Desk routing email** to a valid mailbox → **Save** → **Review** → **Publish**
+- Open the imported workflow → **Save** → **Review** → **Publish**
 - **Must be Published, not Draft** - the MCP agent in Stage 3 can only trigger Published workflows. If it's in Draft when they reach Scenario B, nothing will work.
 
 **Unlock the stages**

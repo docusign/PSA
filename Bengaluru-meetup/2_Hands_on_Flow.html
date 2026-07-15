@@ -304,7 +304,7 @@
       <ol class="steps">
         <li><strong>Check if Node.js + npm are already installed</strong> - open your terminal and run:
           <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>node -v &amp;&amp; npm -v</div>
-          <p class="expect" style="margin:6px 0 0"><b>If you see two version numbers</b> (e.g. <code>v20.x.x</code> and <code>10.x.x</code>), Node and npm are installed - skip to step 2. <b>If you get "command not found"</b>, download and install Node.js LTS from <a href="https://nodejs.org" target="_blank" style="color:var(--blue)">nodejs.org</a>, then re-run the check before continuing.</p>
+          <p class="expect" style="margin:6px 0 0"><b>If you see two version numbers</b> (e.g. <code>v20.x.x</code> and <code>10.x.x</code>), Node and npm are installed - skip to step 2. <b>If you get "command not found"</b>, install Node.js LTS from the terminal:<br><br><b>Mac:</b> <code>brew install node</code><br><b>Windows:</b> <code>winget install OpenJS.NodeJS.LTS</code><br><br>Then re-run the check before continuing.</p>
         </li>
         <li><strong>Docusign Agreement CLI</strong> installed globally:
           <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>npm i -g @docusign/agreement-cli@1.1.0-beta</div>
@@ -339,7 +339,6 @@
       <ol class="steps">
         <li>In your Docusign demo account (<code>apps-d.docusign.com</code>), go to the <strong>Agreements</strong> tab and click <strong>Workflows</strong> in the left navigation.</li>
         <li>Click <strong>Import</strong> and upload <code>Fontara Renewal Order Form.zip</code> from <code>workshop-resources/workflow/</code> in the workshop kit.</li>
-        <li>Once imported, open the workflow and update the <strong>Agreement Desk routing email</strong> to your own address (or a valid mailbox in your demo environment).</li>
         <li>Click <strong>Save</strong>, then <strong>Review</strong>, then <strong>Publish</strong>.</li>
       </ol>
       <div class="note">
