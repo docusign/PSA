@@ -194,7 +194,7 @@ Also point out: Payment Terms, Governing Law, Renewal, Termination Notice — ex
 **Goal:** Natural language queries against the whole vendor corpus. Show the "agent as procurement analyst" moment.
 
 ### Setup check before starting
-You're running Stage 3 live alongside attendees — no pre-built agent. Everyone creates the blank agent and connects the Docusign MCP Demo connector together. Make sure before starting:
+You're running Stage 3 live alongside attendees - no pre-built agent. Everyone creates the blank agent and connects the Docusign MCP Demo connector together. Make sure before starting:
 - Everyone has access to `copilotstudio.microsoft.com`
 - Everyone is authenticated to their Docusign demo account (`apps-d.docusign.com`)
 - The Fontara Renewal Order Form workflow was imported and **Published** at the end of 3.1
@@ -202,13 +202,52 @@ You're running Stage 3 live alongside attendees — no pre-built agent. Everyone
 
 ---
 
-### 3.1–3.3 · Setup (already done — just verify)
+### 3.3 · Adding the MCP tool - what to say and watch for
+
+**The path to add it:**
+Tools tab → **+ Add a tool** → select the **Model Context Protocol** tab (not the default tab) → search **"Docusign Demo MCP"** → select **Docusign MCP Demo** → Add and Configure.
+
+**Demo vs Production - explain this explicitly:**
+> "There are two servers: Docusign MCP Demo, which connects to `apps-d.docusign.com`, and Docusign MCP, which connects to production. For this workshop, always use the Demo server. If you connect to production by mistake, you will not see the agreements we just ingested."
+
+**What attendees see after adding:**
+They should see 30+ tools listed - envelopes, templates, agreements, workflows, users. Point out the key ones:
+- `getAgreementDetails` and `getAgreements` - these are what power the agreement intelligence in the next 30 minutes
+- `triggerWorkflow` and `getWorkflowTriggerRequirements` - used in Scenario B
+- `sendReminder`, `updateEnvelope` - used in Scenario C
+
+**Common blocker: "Not Connected"**
+If an attendee sees "Not Connected" next to the connector:
+1. Click the dropdown next to Connection → **Create a new connection**
+2. Log in with Docusign demo account credentials
+3. Allow the requested access
+
+If they run a prompt and get a Microsoft default connection error:
+1. Click **Open Connection Manager**
+2. Find the entry showing "Not Connected" → click **Connect** → Submit
+3. Status changes to Connected → come back to the agent tab → click **Retry**
+
+**Multiple accounts - check the default:**
+Some attendees will have multiple Docusign accounts. The agent connects to the default. The first verify prompt ("List all my Docusign accounts") surfaces this. If they are on the wrong account, have them prompt: "Switch to account [account name/ID]."
+
+**Activity map - how to use it:**
+> "Turn the activity map on in the Test pane and keep it on for every prompt. It shows you which tool was called, what the inputs were, and what came back. If you run a prompt and there is no `tools/call` in the activity map, the agent answered from training data, not from Docusign. That is a problem - tighten the instructions and republish."
+
+**Permissions - talking point:**
+> "MCP does not give the agent any extra access. It respects the same permissions the user has in Docusign. If you cannot see a document in the Agreement Manager UI, the agent will not surface it either. Same access model, just a better interface."
+
+**Iris does the heavy lifting - talking point:**
+> "The agreement intelligence is not being generated at query time. Iris already extracted and structured all of this in Stage 2 - party names, renewal dates, payment terms, liability caps. The agent is just surfacing what Iris pre-processed. That is why it is fast, token-efficient, and consistent."
+
+---
+
+### 3.1–3.3 · Setup - verify before running scenarios
 Run the 3 verification prompts to confirm the connection is live:
 - "List all my Docusign accounts."
 - "List all my agreements."
 - "List available Workflow Builder workflows."
 
-Each should produce a `tools/call` in the activity map.
+Each should produce a `tools/call` in the activity map. If any prompt returns an answer with no `tools/call`, the connection is not live - debug before moving to Scenario A.
 
 ---
 
