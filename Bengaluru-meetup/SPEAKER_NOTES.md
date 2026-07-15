@@ -27,10 +27,42 @@ Attendees do ingestion (Stage 1), extraction (Stage 2), and agent setup (Stage 3
 ### Pattern to land
 > Ingest once → Extract with AI → Expose via MCP → Deploy agents everywhere
 
-### Prereqs check
-- Audience should have Node + npm installed and the Agreement CLI ready
-- If anyone is missing it: `npm i -g @docusign/agreement-cli@1.1.0-beta`
-- Tick all 3 prereq checkboxes on the lab page - modal will auto-pop to unlock stages
+### Prereqs check - step by step (attendees do this, you verify)
+
+**0.4.1 - Node + npm + CLI**
+```
+node -v && npm -v
+```
+- Two version numbers (e.g. `v20.x.x` and `10.x.x`)? Good, skip the install.
+- "command not found"? Install Node.js LTS from nodejs.org first, then re-run.
+```
+npm i -g @docusign/agreement-cli@1.1.0-beta
+```
+```
+docusign
+```
+- `docusign` with no arguments should print the help/command list - confirms the CLI is on PATH. If it errors, the install didn't complete.
+
+**0.4.2 - Accounts and access**
+- Each attendee needs a Docusign developer/demo account with Agreement Manager and CLI (open beta) access enabled
+- For Stage 3: a Microsoft 365 / Copilot Studio environment where they can create agents and add MCP tools
+
+**0.4.3 - Download workshop resources**
+- Download and unzip `workshop-resources.zip` into their working directory
+- Confirm they have:
+  - `workshop-resources/agreement-manager-manifest.json`
+  - `workshop-resources/files/train/` (7 sample agreements)
+  - `workshop-resources/files/ingest/` (4 contracts)
+
+**0.4.4 - Import and Publish the Workflow**
+- Go to `apps-d.docusign.com` → Agreements → Workflows → **Import**
+- Upload `Fontara Renewal Order Form.zip` from `workshop-resources/workflow/`
+- Open the imported workflow → update the **Agreement Desk routing email** to a valid mailbox → **Save** → **Review** → **Publish**
+- **Must be Published, not Draft** - the MCP agent in Stage 3 can only trigger Published workflows. If it's in Draft when they reach Scenario B, nothing will work.
+
+**Unlock the stages**
+- Tick all 4 prereq checkboxes on the lab page - the modal auto-pops and unlocks Stages 1-4
+- If the modal doesn't appear: confirm all 4 checkboxes are ticked (scroll up to check)
 
 ---
 
