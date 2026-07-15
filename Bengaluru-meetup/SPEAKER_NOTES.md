@@ -123,45 +123,101 @@ The `--dry-run` flag is worth showing first - it previews what will be uploaded 
 
 ### Step by step
 
+**Pre-session: install and confirm the CLI (do this before the room fills)**
+```
+npm i -g @docusign/agreement-cli@1.1.0-beta
+```
+```
+docusign
+```
+- `docusign` with no arguments prints the help/command list - confirms the CLI is on PATH
+- Attendees run the same install in prereq step 0.2, so they arrive with this done
+
+---
+
 **1.1 - Authenticate**
 ```
 docusign auth login
+```
+```
 docusign auth test
 ```
-- Browser-based OAuth. Each attendee logs into their own demo account.
+- Opens browser-based OAuth (PKCE). Each attendee uses their own Docusign demo account - no shared credentials
+- On a headless machine: `docusign auth login --no-browser` prints a URL to open manually
 - Expect: `Authentication is valid`
 
-**1.2 - Scaffold the workspace**
+---
+
+**1.2 - Create a working folder and scaffold the workspace**
 ```
 mkdir ~/docusign-workshop && cd ~/docusign-workshop
+```
+```
 docusign scaffold -w demo-workspace -p demo-project -f agreement-manager
 ```
-- Creates the folder structure: `configs/`, `files/train/`, `files/test/`
-- The CLI scaffolds the exact directory layout `agm upload` expects - you drop the manifest into `configs/` and training docs into `files/train/`, then run upload.
+- **Must `cd` first** - scaffold creates `demo-workspace/` inside whatever directory the terminal is currently in. Skip this and it lands in home directory
+- Creates: `demo-workspace/demo-project/agreement-manager/` with `configs/`, `files/train/`, `files/test/`, `tests/`
+- Say: "This is the project layout the CLI expects. `configs/` holds the manifest. `files/train/` holds the sample docs Iris learns from."
 
-**1.3 - Drop in the manifest & training docs**
+---
+
+**1.3 - Download workshop resources and copy into the scaffold**
 ```
 curl -L https://github.com/docusign/PSA/raw/main/Bengaluru-meetup/workshop-resources.zip -o workshop-resources.zip && unzip -q workshop-resources.zip && rm workshop-resources.zip
+```
+```
 cp workshop-resources/agreement-manager-manifest.json demo-workspace/demo-project/agreement-manager/configs/agreement-manager-manifest.json
+```
+```
 cp workshop-resources/files/train/* demo-workspace/demo-project/agreement-manager/files/train/
 ```
+- Copies 1 manifest + 7 training docs into the scaffold
+- Say: "The manifest is the spec - 3 agreement types, 9 custom fields, training examples. The 7 docs are what Iris learns from."
+
+---
+
+**1.4 - Get catalog and upload the manifest**
 ```
 cd demo-workspace && docusign agm get catalog
+```
+```
 docusign agm upload --bypass
 ```
-- `agm get catalog` pulls the account's current standard and custom catalog before upload - `agm upload` reads both to avoid conflicts with existing types or fields.
-- `agm upload` creates fields → creates agreement types → maps fields to types → uploads training docs → triggers AI training. All in one command.
-- AI training runs async - extraction results appear in the UI after a few minutes.
+- `agm get catalog` creates `standard-catalog.json` and `custom-catalog.json`. Upload reads both to avoid conflicts with existing types/fields already in the account
+- `agm upload --bypass` does everything in one command: creates custom fields → creates agreement types → maps fields to types → uploads 7 training docs → kicks off AI training
+- AI training runs async. Fields and types appear in the UI immediately; extraction confidence improves as Iris processes the training docs
+- Say: "Fields created, types created, training uploaded, AI kicked off. One command. Not a PS ticket, not an afternoon in the UI."
 
-**1.5 - Bulk ingest**
+---
+
+**1.5 - Test Iris extraction accuracy against ground truth**
+```
+docusign agm test generate-test-template --prefill-extractions
+```
+```
+docusign agm test run
+```
+- `generate-test-template --prefill-extractions` creates a test file pre-filled with Iris extraction results from the 7 training docs - your ground-truth baseline to validate against
+- `agm test run` uploads the 7 training docs to Agreement Manager, runs Iris extraction on each, and compares results against the ground-truth values. Prints a pass/fail accuracy report per field
+- **Why 7 agreements appear in Agreement Manager after this step:** `agm test run` sends training docs to Iris for a live extraction pass - they land in Agreement Manager as part of the test. This is expected and correct
+- Say: "Before we hand this manifest to any client, we verify Iris is actually finding the right values. Green per field means the manifest and training docs are working."
+
+---
+
+**1.6 - Bulk ingest the real contracts**
 ```
 cd ..
+```
+```
 docusign agm ingest --directory workshop-resources/files/ingest --dry-run
+```
+```
 echo "y" | docusign agm ingest --bypass --directory workshop-resources/files/ingest
 ```
-- `--dry-run` first: shows which files will be uploaded and what types they'll be classified as, without touching the account.
-- Real ingest: 11 contracts uploaded (train + ingest folders combined). They appear in Agreement Manager → Completed within a few minutes as Iris indexes them.
-- "This is the legacy repository moment - not one file at a time."
+- `--dry-run` first: previews which 4 files will be uploaded and what types they will map to - show this output before running the real ingest
+- Real ingest: uploads the 4 contracts from `files/ingest/` to Agreement Manager. Iris reads each, matches to the correct custom type using `aiDefinition`, and populates all custom and standard fields
+- **After this step: 11 agreements total in Agreement Manager** - 7 from `agm test run` in step 1.5 + 4 from ingest here. Both sets are expected and correct
+- Say: "Four files, one command. In production this is 4,000 files from Salesforce, SharePoint, or a legacy document repository. Same command."
 
 ### Talk track - what to emphasise (say this after `docusign agm upload` completes)
 > "Everything you just saw - fields created, agreement types created, training uploaded, AI kicked off - that was one command. Not a ticket to the PS team, not an afternoon in the UI.
@@ -179,13 +235,33 @@ echo "y" | docusign agm ingest --bypass --directory workshop-resources/files/ing
 ### Talk track - opening (say this as you switch to Agreement Manager)
 > "The contracts we just ingested are no longer flat PDFs. Docusign Iris - our agreement AI - has read every one of them and extracted structured data: the custom fields we defined in the manifest, plus standard fields like payment terms, governing law, and renewal dates. Iris also pulls out parties, obligations, key dates, and clause history. This all happens in the background, once, at ingestion time. Nobody opened a single file."
 
-### What to show
-- Navigate to `apps-d.docusign.com` → Agreements → Completed
-- Show the 11 ingested contracts with their agreement types auto-applied (not "Miscellaneous")
-- Open one → show the right-hand extraction panel side-by-side with the PDF
-- Point at a custom field and its extracted value - "the manifest defined this, Iris filled it in"
+### Step by step
 
-> "Point to remember: this pre-processing is what makes Stage 3 fast. When the agent answers a question in a minute, it is not re-reading the contracts. It is querying structured data Iris already extracted. Faster, more token-efficient, and it respects the same permissions you have in Docusign.
+**2.1 - Navigate to Agreement Manager**
+- Go to `apps-d.docusign.com` → **Agreements** tab → **Completed** in the left nav
+- You should see **11 agreements**: 7 from `agm test run` in Stage 1 (training docs Iris ran live extraction on) + 4 from the real ingest
+- Say: "Eleven total. Seven are the training samples Iris used to verify extraction accuracy in Stage 1. Four are the real vendor contracts we ingested. All processed by Iris in the background - nobody opened a single file."
+
+**2.2 - Verify agreement types are correctly applied**
+- Each agreement should show its custom type - **Clinical Trial Supply Agreement**, **CRO Services Agreement**, or **Medical Device Supply Agreement** - NOT "Miscellaneous"
+- If any shows as Miscellaneous: the `aiDefinition` in the manifest is the tuning lever
+- Say: "The manifest defined these types and told Iris what language distinguishes a Clinical Trial Supply from a CRO Services agreement. That is why nothing landed in Miscellaneous."
+
+**2.3 - Open a contract and show the extraction panel**
+- Open any agreement → right-hand details panel shows extracted fields alongside the PDF
+- Spotlight one custom field per agreement type:
+  - **Clinical Trial Supply** - `Pharma - Clinical Batch Size (units)`: batch volume commitment at a glance
+  - **CRO Services** - `Pharma - Total Study Budget (USD)`: full CRO spend visibility without digging through Exhibit B
+  - **Medical Device Supply** - `Pharma - FDA Device Classification`: regulatory classification extracted, no manual tagging
+- Also point out standard fields: **Payment Terms**, **Governing Law**, **Renewal**, **Termination Notice** - extracted automatically on every contract, no custom definition needed
+- Say: "Every field came from either the manifest or Docusign's standard field library. Iris found the value in the contract text and populated it."
+
+**2.4 - If a field is blank**
+- Click **Re-analyze** on that document and wait up to 5 minutes
+- Blank means extraction is still running or that clause genuinely is not present in this contract
+- Say: "Re-analyze re-runs Iris on this document. If the clause is not there, the field stays blank - which is also accurate information."
+
+> "This pre-processing is what makes Stage 3 fast. When the agent answers a question in 10 seconds, it is not re-reading the PDFs. It is querying structured data Iris already extracted - faster, token-efficient, and permission-aware."
 
 ### Fields to highlight
 | Agreement type | Show this field | Why it matters |
@@ -222,6 +298,52 @@ You're running Stage 3 live alongside attendees - no pre-built agent. Everyone c
 - Everyone is authenticated to their Docusign demo account (`apps-d.docusign.com`)
 - The Fontara Renewal Order Form workflow was imported and **Published** at the end of 3.1
 - Activity map is ON in the Test pane before running any prompts
+
+---
+
+### Step by step - creating the agent
+
+**3.1 - Sign in to Copilot Studio and create a blank agent**
+1. Go to `copilotstudio.microsoft.com`
+2. Click **Create** → **Agent** (from blank)
+3. Name it: **Fontara Procurement Agent**
+
+**3.2 - Paste the description**
+
+Copy-paste into the **Description** field:
+```
+Procurement agent that uses the Docusign MCP Demo connector to act on agreements, envelopes, templates, and workflows, for procurement teams managing vendor contracts, renewals, and obligations.
+```
+
+**3.2b - Enable Generative AI orchestration**
+- In the agent settings, confirm **Generative orchestration** is turned **On**
+- Without this: the agent ignores MCP tools and answers from its training data only - every prompt will show no `tools/call` in the activity map
+
+**3.3 - Paste the system instructions**
+
+Copy-paste into the **Instructions** field:
+```
+You are the Procurement Agent for Fontara, a B2B company. The procurement team manages a portfolio of vendor contracts - MSAs, SOWs, NDAs, supply agreements, and device contracts.
+
+You help procurement teams complete all agreement tasks - getting insights from agreements, tracking envelopes and recipient information, sending reminders, using templates to create agreements, triggering workflows, etc. - using the Docusign MCP Demo connector. Treat Docusign as the source of truth for any live agreement, envelope, renewal, pricing, or clause question.
+
+Behavior rules
+
+1. Prefer Docusign MCP tools. For any question about envelopes, recipients, templates, signers, agreements, renewals, clauses, or signing status, call the Docusign MCP Demo tool. Never answer from training data or prior chat context for live Docusign state.
+
+2. Use Docusign default account unless otherwise specified.
+
+3. Workflow Builder before eSign. When sending an agreement, always check for an available published Workflow Builder workflow first and use it if one applies.
+
+4. Always call the getWorkflowTriggerRequirements tool before initiating the triggerWorkflow tool. Call List workflows if required to fetch the correct workflow id. Ask the user for all inputs before triggering the workflow.
+
+5. Never fabricate data. If a field is not returned by a Docusign MCP tool, say so explicitly. Do not invent envelope IDs, recipient emails, statuses, dates, dollar amounts, or clause text.
+
+6. Ask one clarifying question when required parameters are missing.
+
+7. Response format. Keep responses brief, accurate, and visually scannable: lead with a one-line summary, then the detail. Use visual indicators - in place, at-risk, missing, pending.
+```
+- Say: "These instructions define the agent's operating rules. Rule 3: always check for a Workflow Builder workflow before sending an envelope. Rule 4: always call `getWorkflowTriggerRequirements` before `triggerWorkflow`. You will see both of these in action in Scenario B."
 
 ---
 
@@ -264,59 +386,106 @@ Some attendees will have multiple Docusign accounts. The agent connects to the d
 
 ---
 
-### 3.1–3.3 · Setup - verify before running scenarios
-Run the 3 verification prompts to confirm the connection is live:
-- "List all my Docusign accounts."
-- "List all my agreements."
-- "List available Workflow Builder workflows."
+### Verify the connection - run before any scenario
 
-Each should produce a `tools/call` in the activity map. If any prompt returns an answer with no `tools/call`, the connection is not live - debug before moving to Scenario A.
+Turn the **activity map On** in the Test pane first - keep it on for every prompt.
+
+**P1:**
+```
+List all my Docusign accounts.
+```
+- Confirms OAuth is live and which account is active. Multiple accounts? Check which is default. Prompt: "Switch to account [name/ID]" to change.
+
+**P2:**
+```
+List all my agreements.
+```
+- Should return the 11 agreements from Agreement Manager. Zero returned? Wrong environment (production instead of sandbox) or extraction still running.
+
+**P3:**
+```
+List available Workflow Builder workflows.
+```
+- Should return the Fontara Renewal Order Form workflow. Not there? Workflow is in Draft - go to Agreements → Workflows → open → **Publish**.
+
+Each prompt must show a `tools/call` entry in the activity map. No `tools/call` means the connection is not live - do not proceed to Scenario A until all three are green.
 
 ---
 
 ### Scenario A · Vendor Agreement Insights (~10 min)
 
-**The story:** MarketPulse Dynamics wants a 10% price increase. Before responding, procurement needs to know what's in place.
+**The story:** MarketPulse Dynamics wants a 10% price increase. Before responding, procurement needs to know exactly what's in place.
 
-**Run in order:**
+**A1 - Portfolio renewal view:**
+```
+Show me all upcoming renewals across my vendor agreements in the next 180 days.
+```
+- Portfolio-wide view across all vendors in one prompt - no spreadsheet, no paralegal
 
-| Prompt | What to point out |
-|---|---|
-| A1: Renewals in 180 days | Portfolio-wide view - no spreadsheet needed |
-| A2: MarketPulse Dynamics overview | Active agreements, value, renewal date, payment terms |
-| A3: Payment terms & renewal risk scan | Flag anything off-standard - >30 day terms, <90 day notice |
-| A4: Cross-vendor comparison | MarketPulse vs Momentum Driver - what's missing |
+**A2 - Vendor account overview:**
+```
+For MarketPulse Dynamics, which agreements are active and in place today? List key details - value, renewal date, payment terms, and notice period.
+```
+- Iris extracted all of these in Stage 2 - the agent is surfacing structured data, not reading PDFs live
 
-> "This is what used to take a paralegal 2 days. The agent just did it in 10 seconds - and it's grounded in the actual extracted clause text, not a guess."
+**A3 - Payment terms and renewal risk scan:**
+```
+MarketPulse Dynamics is proposing a 10% price increase on renewal. Pull the payment terms, renewal notice period, and termination-for-cause notice period from all active MarketPulse Dynamics agreements. Flag anything that is outside standard - payment terms beyond 30 days, or a renewal notice window under 90 days.
+```
+- "Flag anything outside standard" is a business rule in plain English - point out the agent applied it against extracted data
+
+**A4 - Cross-vendor comparison:**
+```
+Compare MarketPulse Dynamics and Momentum Driver side-by-side on compliance posture and obligations. Show me what MarketPulse Dynamics is missing that Momentum Driver has in place.
+```
+- Two vendors, entire corpus, one prompt
+
+> "This is what used to take a paralegal 2 days. The agent just did it in 10 seconds - grounded in the actual extracted clause text, not a guess."
 
 ---
 
 ### Scenario B · Workflow Builder Orchestration (~10 min)
 
-**The story:** Procurement is cleared to renew - at current price. Need to get the order form signed by the vendor.
+**The story:** Procurement is cleared to renew at current price. They need the order form signed by the vendor.
 
-**Run in order:**
+**B1 - Build the deal math:**
+```
+Work out the renewal deal math: 50,000 unit batch size at $45 per unit with a 10% volume discount.
+```
+- Agent can calculate before triggering - good sanity check before committing to a workflow
 
-| Prompt | What to point out |
-|---|---|
-| B1: Deal math | Agent can calculate before triggering |
-| B2: Initiate renewal | Calls `getWorkflowTriggerRequirements` first, then `triggerWorkflow` - correct sequencing |
+**B2 - Initiate the renewal:**
 
-> "Notice the agent called `getWorkflowTriggerRequirements` before triggering. That's the instruction at work - it never fires a workflow blind."
+Replace `[recipient email]` with a real email before running.
+```
+Initiate a renewal for the Clinical Trial Supply Agreement with MarketPulse Dynamics for 50,000 units at $45 per unit with 10% discount for a 1-year term starting August 1, 2026. Route it to [recipient email] at the vendor.
+```
+- Watch the activity map: agent calls `getWorkflowTriggerRequirements` before `triggerWorkflow` - that sequencing comes from instruction rule 4
+- Content-filter error on B2: use a different recipient email (sandbox restriction) and retry
 
-- If content-filter error on B2: use a different recipient email and retry
+> "The agent called `getWorkflowTriggerRequirements` before triggering. That is instruction rule 4 at work - it never fires a workflow blind."
 
 ---
 
 ### Scenario C · Track Status (~5 min)
 
-| Prompt | What to point out |
-|---|---|
-| C1: Workflow status | Which step, who needs to act, anything blocked |
-| C2: Signature status | Has the vendor opened/signed the envelope |
-| C3: Send reminder | Nudges stalled signer - without leaving chat |
+**C1 - Workflow status:**
+```
+What's the status of the MarketPulse Dynamics renewal workflow instance? Which step is it on, who needs to act next, and is anything blocked?
+```
 
-> "Procurement never left the chat interface. They kicked off the renewal, tracked it, and nudged the vendor - all through natural language."
+**C2 - Signature status on the vendor envelope:**
+```
+Has the recipient at MarketPulse Dynamics signed the renewal order form yet? When was it sent and has it been opened?
+```
+
+**C3 - Send a signing reminder:**
+```
+Send the MarketPulse Dynamics recipient a signing reminder through Docusign - use the existing envelope, don't create a new one. Then tell me when the envelope expires and what happens if it's not signed by then.
+```
+- Procurement never left the chat interface
+
+> "They kicked off the renewal, tracked it, and nudged the vendor - all through natural language."
 
 ---
 
