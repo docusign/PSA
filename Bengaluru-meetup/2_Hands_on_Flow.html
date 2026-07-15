@@ -242,13 +242,13 @@
         <h2>At Fontara, procurement is buried in vendor contracts and PDFs and you're here to change that.</h2>
         <p>Today, the procurement team owns thousands of vendor agreements, MSAs, SOWs, and NDAs, all stored as flat PDFs across shared drives and inboxes. The documents are signed and safe, but the agreement data the business cares about is locked inside.</p>
         <p>That means nobody can answer the questions leaders actually ask: <span class="qs">Which contracts auto&#8209;renew next quarter? Which vendors are on payment terms longer than 45 days? Where are we missing a price&#8209;increase cap? What is our total committed spend with this supplier?</span> Today, every question means a human opening files one by one and reading them manually.</p>
-        <p>Over the next hour, you are going to change that with <strong>Docusign, AI, and MCP</strong>. You will treat agreements as data, not just documents, and you will do it the way developers fix things: <strong>automated, repeatable, and scalable</strong> — not by hand.</p>
+        <p>Over the next hour, you are going to change that with <strong>Docusign, AI, and MCP</strong>. You will treat agreements as data, not just documents, and you will do it the way developers fix things: <strong>automated, repeatable, and scalable</strong> - not by hand.</p>
         <div class="mission">
-          <div class="mlbl">What you are building — and why it matters</div>
+          <div class="mlbl">What you are building - and why it matters</div>
           <ol>
-            <li><b>Stage 1 · Docusign CLI + Agreement CLI</b>: define Fontara's pharma/medtech agreement types and fields as code, then bulk-ingest the legacy contract repository — all from the terminal. One-time setup that makes everything else possible.</li>
-            <li><b>Stage 2 · Extraction surfaces in Agreement Manager</b>: Iris AI reads every ingested contract and populates structured fields — batch size, CRO budget, FDA classification, renewal dates, payment terms. Static files become queryable data.</li>
-            <li><b>Stage 3 · MCP via Microsoft Copilot Studio</b>: create a blank agent in Copilot Studio, connect the Docusign MCP Demo connector to it, and query Fontara's whole vendor corpus in plain English — renewals, obligations, risk scan, workflow trigger, signature status. Deploy to Teams and M365 Copilot.</li>
+            <li><b>Stage 1 · Docusign CLI + Agreement CLI</b>: define Fontara's pharma/medtech agreement types and fields as code, then bulk-ingest the legacy contract repository - all from the terminal. One-time setup that makes everything else possible.</li>
+            <li><b>Stage 2 · Extraction surfaces in Agreement Manager</b>: Iris AI reads every ingested contract and populates structured fields - batch size, CRO budget, FDA classification, renewal dates, payment terms. Static files become queryable data.</li>
+            <li><b>Stage 3 · MCP via Microsoft Copilot Studio</b>: create a blank agent in Copilot Studio, connect the Docusign MCP Demo connector to it, and query Fontara's whole vendor corpus in plain English - renewals, obligations, risk scan, workflow trigger, signature status. Deploy to Teams and M365 Copilot.</li>
             <li><b>Stage 4 · Agent Studio, quick demo</b>: ship the prebuilt Procurement agent in Agent Studio so Fontara's team gets answers about vendor risk and renewals without opening a single file.</li>
           </ol>
         </div>
@@ -260,17 +260,17 @@
         <div class="obj-card">
           <div class="num">Objective 1</div>
           <strong>Standardize and ingest agreements in bulk</strong>
-          <p>Use the Docusign CLI and Agreement CLI to model procurement agreement types and fields (MSAs, SOWs, NDAs) and bulk-ingest a legacy vendor repository — all from the CLI.</p>
+          <p>Use the Docusign CLI and Agreement CLI to model procurement agreement types and fields (MSAs, SOWs, NDAs) and bulk-ingest a legacy vendor repository - all from the CLI.</p>
         </div>
         <div class="obj-card">
           <div class="num">Objective 2</div>
           <strong>Unlock contract intelligence on demand</strong>
-          <p>Let Iris extract the terms procurement cares about — supplier, renewal dates, payment terms, liability caps, and clauses — turning static PDFs into structured, queryable data.</p>
+          <p>Let Iris extract the terms procurement cares about - supplier, renewal dates, payment terms, liability caps, and clauses - turning static PDFs into structured, queryable data.</p>
         </div>
         <div class="obj-card">
           <div class="num">Objective 3</div>
           <strong>Build and test an agent in Copilot Studio with Docusign MCP</strong>
-          <p>Connect the Docusign MCP Server to Microsoft Copilot Studio, then query your whole vendor corpus in natural language — "which agreements auto-renew in the next 90 days?"</p>
+          <p>Connect the Docusign MCP Server to Microsoft Copilot Studio, then query your whole vendor corpus in natural language - "which agreements auto-renew in the next 90 days?"</p>
         </div>
         <div class="obj-card">
           <div class="num">Objective 4</div>
@@ -280,7 +280,7 @@
       </div>
 
       <h3 style="border-color:var(--indigo)">0.3 · How to Use This Handbook</h3>
-      <p class="lead" style="margin:6px 0 8px">Self-paced and self-contained — follow it in a facilitated session or work through it independently.</p>
+      <p class="lead" style="margin:6px 0 8px">Self-paced and self-contained - follow it in a facilitated session or work through it independently.</p>
       <table>
         <thead><tr><th>Element</th><th>What it means</th></tr></thead>
         <tbody>
@@ -293,7 +293,7 @@
         </tbody>
       </table>
 
-      <h3 style="border-color:var(--gold)">0.4 · Prerequisites — set up before the session</h3>
+      <h3 style="border-color:var(--gold)">0.4 · Prerequisites - set up before the session</h3>
       <p class="lead">Get every developer's machine ready before Stage 1 so the 15-minute CLI slot is spent on the workflow, not on installs. Everything here uses the demo environment and synthetic data only, no production accounts or real vendor data.</p>
       <div class="note" style="margin:0 0 12px">
         <strong>Running the terminal commands below:</strong> on <strong>Mac</strong>, use the <strong>Terminal</strong> app (find it in Applications → Utilities, or search with Spotlight). On <strong>Windows</strong>, use <strong>Command Prompt</strong> or <strong>PowerShell</strong> (search for either in the Start menu). Both work for the npm and docusign commands in this lab.
@@ -302,9 +302,9 @@
 
       <h3 id="prereq-h-1"><input type="checkbox" class="prereq-chk" id="pchk-1" onchange="checkPrereqs()"> 0.4.1 · Tooling on each machine</h3>
       <ol class="steps">
-        <li><strong>Check if Node.js + npm are already installed</strong> — open your terminal and run:
+        <li><strong>Check if Node.js + npm are already installed</strong> - open your terminal and run:
           <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>node -v &amp;&amp; npm -v</div>
-          <p class="expect" style="margin:6px 0 0"><b>If you see two version numbers</b> (e.g. <code>v20.x.x</code> and <code>10.x.x</code>), Node and npm are installed — skip to step 2. <b>If you get "command not found"</b>, download and install Node.js LTS from <a href="https://nodejs.org" target="_blank" style="color:var(--blue)">nodejs.org</a>, then re-run the check before continuing.</p>
+          <p class="expect" style="margin:6px 0 0"><b>If you see two version numbers</b> (e.g. <code>v20.x.x</code> and <code>10.x.x</code>), Node and npm are installed - skip to step 2. <b>If you get "command not found"</b>, download and install Node.js LTS from <a href="https://nodejs.org" target="_blank" style="color:var(--blue)">nodejs.org</a>, then re-run the check before continuing.</p>
         </li>
         <li><strong>Docusign Agreement CLI</strong> installed globally:
           <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>npm i -g @docusign/agreement-cli@1.1.0-beta</div>
@@ -368,19 +368,19 @@
       </div>
 
       <h3>1.1 · Authenticate</h3>
-      <p class="lead" style="margin:0 0 6px">Browser-based OAuth (PKCE). Each developer logs in with their own Docusign developer account — no shared or production credentials. On a headless machine add <code>--no-browser</code> to get a printed URL.</p>
+      <p class="lead" style="margin:0 0 6px">Browser-based OAuth (PKCE). Each developer logs in with their own Docusign developer account - no shared or production credentials. On a headless machine add <code>--no-browser</code> to get a printed URL.</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign auth login</div>
       <p class="expect"><b>Expect:</b> a browser tab opens, you grant access, CLI prints the authenticated account ID. Then verify:</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign auth test</div>
-      <p class="expect"><b>Expect:</b> <code>Authentication is valid</code> — confirms the token is live before continuing.</p>
+      <p class="expect"><b>Expect:</b> <code>Authentication is valid</code> - confirms the token is live before continuing.</p>
 
       <h3>1.2 · Scaffold the workspace &amp; project</h3>
-      <p class="lead" style="margin:0 0 6px">Before scaffolding, create a dedicated working folder so all CLI output lands in one place. <strong>Pick either option below — you only need one.</strong></p>
+      <p class="lead" style="margin:0 0 6px">Before scaffolding, create a dedicated working folder so all CLI output lands in one place. <strong>Pick either option below - you only need one.</strong></p>
 
-      <p class="lead" style="margin:6px 0 4px"><strong>Option A — Terminal (recommended):</strong></p>
+      <p class="lead" style="margin:6px 0 4px"><strong>Option A - Terminal (recommended):</strong></p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>mkdir ~/docusign-workshop &amp;&amp; cd ~/docusign-workshop</div>
 
-      <p class="lead" style="margin:10px 0 4px"><strong>Option B — Manually:</strong></p>
+      <p class="lead" style="margin:10px 0 4px"><strong>Option B - Manually:</strong></p>
       <ul class="sub" style="margin:0 0 10px">
         <li>Create a new folder anywhere on your machine (e.g. <code>docusign-workshop</code> on your Desktop).</li>
         <li>Open a terminal window and <code>cd</code> into it:<br>
@@ -396,11 +396,11 @@
       <p class="expect"><b>Creates:</b> <code>demo-workspace/demo-project/agreement-manager/</code> with <code>configs/</code>, <code>files/train/</code>, <code>files/test/</code>, <code>tests/</code>, and more.</p>
 
       <h3>1.3 · Drop in the Pharma/Medtech procurement manifest</h3>
-      <p class="lead" style="margin:0 0 6px">The workshop resources ship a pre-built manifest — 3 custom agreement types (Clinical Trial Supply, CRO Services, Medical Device Supply) and 9 custom pharma fields.</p>
+      <p class="lead" style="margin:0 0 6px">The workshop resources ship a pre-built manifest - 3 custom agreement types (Clinical Trial Supply, CRO Services, Medical Device Supply) and 9 custom pharma fields.</p>
       <div class="note" style="margin:8px 0 10px">
         💡 <strong>Before running the commands below:</strong> download the workshop resources ZIP and unzip it <strong>into your working folder</strong> (<code>~/docusign-workshop</code>). This creates a <code>workshop-resources/</code> folder right next to <code>demo-workspace/</code>.<br><br>
         <a href="https://github.com/docusign/PSA/raw/main/Bengaluru-meetup/workshop-resources.zip" target="_blank" style="color:var(--blue);font-weight:600">⬇ Download workshop-resources.zip</a><br><br>
-        Terminal shortcut — download &amp; unzip in one step (run from <code>~/docusign-workshop</code>):
+        Terminal shortcut - download &amp; unzip in one step (run from <code>~/docusign-workshop</code>):
         <div class="cmd" style="margin-top:6px"><button class="copy" onclick="cp(this)">Copy</button>curl -L https://github.com/docusign/PSA/raw/main/Bengaluru-meetup/workshop-resources.zip -o workshop-resources.zip &amp;&amp; unzip -q workshop-resources.zip &amp;&amp; rm workshop-resources.zip</div>
       </div>
       <p class="lead" style="margin:8px 0 6px">Copy the manifest into your workspace configs folder:</p>
@@ -409,22 +409,22 @@
       <p class="lead" style="margin:8px 0 6px">Copy the 7 training documents (sample agreements the AI learns from) into the workspace train folder:</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cp workshop-resources/files/train/* \
    demo-workspace/demo-project/agreement-manager/files/train/</div>
-      <p class="lead" style="margin:8px 0 6px">Pull your account's current catalog — <code>agm upload</code> needs this to know which standard fields and agreement types already exist before it can add your custom ones:</p>
+      <p class="lead" style="margin:8px 0 6px">Pull your account's current catalog - <code>agm upload</code> needs this to know which standard fields and agreement types already exist before it can add your custom ones:</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cd demo-workspace &amp;&amp; docusign agm get catalog</div>
       <p class="expect"><b>Creates:</b> <code>standard-catalog.json</code> (Docusign's built-in types/fields) and <code>custom-catalog.json</code> (any existing customizations in your account). The upload step reads both to avoid conflicts.</p>
-      <p class="lead" style="margin:8px 0 6px">Upload the manifest — creates all fields, creates all agreement types, maps fields to types, uploads training docs, and triggers AI training in one command:</p>
+      <p class="lead" style="margin:8px 0 6px">Upload the manifest - creates all fields, creates all agreement types, maps fields to types, uploads training docs, and triggers AI training in one command:</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign agm upload --bypass</div>
-      <p class="expect"><b>Expect:</b> CLI walks through each step and confirms fields created, types created, training uploaded. AI training runs asynchronously — extraction results appear in the UI after a few minutes.</p>
+      <p class="expect"><b>Expect:</b> CLI walks through each step and confirms fields created, types created, training uploaded. AI training runs asynchronously - extraction results appear in the UI after a few minutes.</p>
 
       <h3>1.4 · (Optional) Test the customizations</h3>
-      <p class="lead" style="margin:0 0 6px">Generate a test template pre-filled with what the AI actually extracted, then compare against known ground-truth values. Skip in the interest of time — revisit after the session.</p>
+      <p class="lead" style="margin:0 0 6px">Generate a test template pre-filled with what the AI actually extracted, then compare against known ground-truth values. Skip in the interest of time - revisit after the session.</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign agm test generate-test-template --prefill-extractions</div>
       <p class="lead" style="margin:8px 0 6px">Edit the generated template to set expected (ground-truth) values, then score accuracy:</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign agm test run</div>
       <p class="expect"><b>Expect:</b> a pass/fail comparison of extracted vs. expected values per field. Use this to tune your manifest before promoting to production.</p>
 
       <h3>1.5 · Bulk-ingest the Pharma/Medtech contract set</h3>
-      <p class="lead" style="margin:0 0 6px">Ingest 4 real-world-style pharma contracts at once — the "entire legacy repository, not one file at a time" moment. Go back to the repo root first.</p>
+      <p class="lead" style="margin:0 0 6px">Ingest 4 real-world-style pharma contracts at once - the "entire legacy repository, not one file at a time" moment. Go back to the repo root first.</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cd ..</div>
       <p class="lead" style="margin:8px 0 6px">Preview what will be uploaded without ingesting:</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign agm ingest \
@@ -436,7 +436,7 @@
       <p class="expect"><b>Expect:</b> CLI confirms 4 files uploaded. Documents appear in Agreement Manager within a few minutes as Navigator indexes them asynchronously.</p>
 
       <h3>1.6 · Deploy to production <span style="font-size:14px;font-weight:400;color:#615a75;background:#f0edf8;border-radius:4px;padding:2px 8px;margin-left:6px;vertical-align:middle">Informational</span></h3>
-      <p class="lead" style="margin:0 0 6px">The same validated config promotes demo → production (or replicates across client accounts) — just re-auth and re-upload. The manifest is the portable asset you hand to each client.</p>
+      <p class="lead" style="margin:0 0 6px">The same validated config promotes demo → production (or replicates across client accounts) - just re-auth and re-upload. The manifest is the portable asset you hand to each client.</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign auth login -e production</div>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cd demo-workspace &amp;&amp; docusign agm upload --bypass</div>
 
@@ -449,7 +449,7 @@
     <div class="stage" id="s2">
       <h2>Stage 2 · Extraction surfaces in Agreement Manager
       </h2>
-      <p class="lead">Now Fontara's agreements stop being flat documents. Once the corpus is ingested, Docusign's AI (Iris) reads each one and populates the fields you defined in Stage 1. This is where the "static file → structured data" moment lands for the room — procurement sees answers instead of files.</p>
+      <p class="lead">Now Fontara's agreements stop being flat documents. Once the corpus is ingested, Docusign's AI (Iris) reads each one and populates the fields you defined in Stage 1. This is where the "static file → structured data" moment lands for the room - procurement sees answers instead of files.</p>
 
       <h3>2.1 · Open Agreement Manager and confirm the corpus</h3>
       <ol class="steps">
@@ -461,7 +461,7 @@
             <li>2 × <strong>Medical Device Supply Agreement</strong></li>
           </ul>
         </li>
-        <li>Open one document and show the auto-extracted fields panel side-by-side with the source PDF — this is the "Iris read the contract" moment.</li>
+        <li>Open one document and show the auto-extracted fields panel side-by-side with the source PDF - this is the "Iris read the contract" moment.</li>
       </ol>
       <p class="expect"><b>Expect:</b> each document lands in the correct custom type (not Miscellaneous or generic). If a document lands in the wrong type, the manifest's <code>aiDefinition</code> is the tuning lever.</p>
 
@@ -473,41 +473,41 @@
           <tr>
             <td rowspan="3" style="vertical-align:middle;font-size:13.5px;color:var(--muted)">Clinical Trial Supply</td>
             <td><code>Pharma - Clinical Batch Size (units)</code></td>
-            <td>Batch volume commitments — spot under- or over-supply risk at a glance.</td>
+            <td>Batch volume commitments: spot under- or over-supply risk at a glance.</td>
           </tr>
           <tr>
             <td><code>Pharma - Cost Per Unit (USD)</code></td>
-            <td>Unit economics across suppliers — flag off-market pricing instantly.</td>
+            <td>Unit economics across suppliers: flag off-market pricing instantly.</td>
           </tr>
           <tr>
             <td><code>Pharma - Required Shelf Life (months)</code></td>
-            <td>Delivery quality gate — contracts with short shelf life create distribution risk.</td>
+            <td>Delivery quality gate: contracts with short shelf life create distribution risk.</td>
           </tr>
           <tr>
             <td rowspan="3" style="vertical-align:middle;font-size:13.5px;color:var(--muted)">CRO Services</td>
             <td><code>Pharma - Total Study Budget (USD)</code></td>
-            <td>Full CRO spend visibility in one view — no more digging through Exhibit B.</td>
+            <td>Full CRO spend visibility in one view: no more digging through Exhibit B.</td>
           </tr>
           <tr>
             <td><code>Pharma - Number of Clinical Sites</code></td>
-            <td>Site count commitments — CRO accountability and capacity planning.</td>
+            <td>Site count commitments: CRO accountability and capacity planning.</td>
           </tr>
           <tr>
             <td><code>Pharma - Patient Enrollment Target</code></td>
-            <td>Enrollment obligations — know which CRO is behind on commitments.</td>
+            <td>Enrollment obligations: know which CRO is behind on commitments.</td>
           </tr>
           <tr>
             <td rowspan="3" style="vertical-align:middle;font-size:13.5px;color:var(--muted)">Medical Device Supply</td>
             <td><code>Pharma - Annual Device Purchase Value (USD)</code></td>
-            <td>Annual spend commitments — track vs. actuals for preferred pricing triggers.</td>
+            <td>Annual spend commitments: track vs. actuals for preferred pricing triggers.</td>
           </tr>
           <tr>
             <td><code>Pharma - FDA Device Classification</code></td>
-            <td>Regulatory classification (Class I / II / III) — surface compliance gaps across the device portfolio.</td>
+            <td>Regulatory classification (Class I / II / III): surface compliance gaps across the device portfolio.</td>
           </tr>
           <tr>
             <td><code>Pharma - Consignment Inventory Period (days)</code></td>
-            <td>Consignment window — flag devices close to the purchase-or-return deadline.</td>
+            <td>Consignment window: flag devices close to the purchase-or-return deadline.</td>
           </tr>
         </tbody>
       </table>
@@ -526,7 +526,7 @@
         <strong>Where to find standard fields in the UI:</strong> open an agreement → in the right-hand details panel, scroll down past the custom fields section. Standard fields appear under a separate <strong>"Standard Fields"</strong> heading. If you don't see them, click <strong>Re-analyze</strong> and wait ~5 min for extraction to complete.
       </div>
 
-      <p class="expect"><b>Talking point:</b> procurement now has payment terms, governing law, termination notice, and renewal dates extracted automatically — without any manual review — across the entire corpus. This is what feeds the AI agent in Stage 3.</p>
+      <p class="expect"><b>Talking point:</b> procurement now has payment terms, governing law, termination notice, and renewal dates extracted automatically - without any manual review - across the entire corpus. This is what feeds the AI agent in Stage 3.</p>
     </div>
 
     <!-- STAGE 3 -->
@@ -545,7 +545,7 @@
         <li>Log into <code>apps-d.docusign.com</code> with your developer account.</li>
         <li>Upload the sample agreements to <strong>Agreement Manager</strong> (this is the corpus from Stage 1).</li>
         <li>Confirm extraction is complete in Agreement Manager (Stage 2) before proceeding.</li>
-        <li>In the <strong>Agreements</strong> tab, go to <strong>Workflows</strong> in the left navigation → click <strong>Import</strong> → upload <code>Fontara Renewal Order Form.zip</code> from <code>workshop-resources/workflow/</code> in the workshop kit. The document template is pre-loaded in the demo account — you do not need to import it separately.</li>
+        <li>In the <strong>Agreements</strong> tab, go to <strong>Workflows</strong> in the left navigation → click <strong>Import</strong> → upload <code>Fontara Renewal Order Form.zip</code> from <code>workshop-resources/workflow/</code> in the workshop kit. The document template is pre-loaded in the demo account - you do not need to import it separately.</li>
       </ol>
       <div class="note" style="margin:8px 0 0">
         <strong>⚠️ Workflow must be Published, not Draft.</strong> After import, open the workflow and click <strong>Publish</strong>. The agent can only trigger published workflows through the Docusign MCP Demo connector.
@@ -561,13 +561,13 @@
         <li>Enable <strong>generative orchestration</strong>: Settings → Generative AI → set to <strong>"Yes"</strong>.</li>
         <li>Add an agent <strong>description</strong>, e.g.:</li>
       </ol>
-      <div class="prompt"><span class="q">Agent description — paste into the Description field</span>Procurement agent that uses the Docusign MCP Demo connector to act on agreements, envelopes, templates, and workflows, for procurement teams managing vendor contracts, renewals, and obligations.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">Agent description - paste into the Description field</span>Procurement agent that uses the Docusign MCP Demo connector to act on agreements, envelopes, templates, and workflows, for procurement teams managing vendor contracts, renewals, and obligations.<button class="copy" onclick="cp(this)">Copy</button></div>
       <ol class="steps" start="5">
-        <li>Add <strong>system instructions</strong>: click Edit on Instructions and paste the block below — these ensure the agent always calls Docusign tools for live data and never fabricates agreement state.</li>
+        <li>Add <strong>system instructions</strong>: click Edit on Instructions and paste the block below - these ensure the agent always calls Docusign tools for live data and never fabricates agreement state.</li>
       </ol>
-      <div class="prompt"><span class="q">System instructions — paste into the Instructions field</span>You are the Procurement Agent for Fontara, a B2B company. The procurement team manages a portfolio of vendor contracts — MSAs, SOWs, NDAs, supply agreements, and device contracts.
+      <div class="prompt"><span class="q">System instructions - paste into the Instructions field</span>You are the Procurement Agent for Fontara, a B2B company. The procurement team manages a portfolio of vendor contracts - MSAs, SOWs, NDAs, supply agreements, and device contracts.
 
-You help procurement teams complete all agreement tasks — getting insights from agreements, tracking envelopes and recipient information, sending reminders, using templates to create agreements, triggering workflows, etc. — using the Docusign MCP Demo connector. Treat Docusign as the source of truth for any live agreement, envelope, renewal, pricing, or clause question.
+You help procurement teams complete all agreement tasks - getting insights from agreements, tracking envelopes and recipient information, sending reminders, using templates to create agreements, triggering workflows, etc. - using the Docusign MCP Demo connector. Treat Docusign as the source of truth for any live agreement, envelope, renewal, pricing, or clause question.
 
 Behavior rules
 
@@ -583,13 +583,13 @@ Behavior rules
 
 6. Ask one clarifying question when required parameters are missing.
 
-7. Response format. Keep responses brief, accurate, and visually scannable: lead with a one-line summary, then the detail. Use visual indicators — ✅ in place · ⚠️ at-risk · 🔴 missing · 🕐 pending. Use HTML formatting to make responses easy to read.<button class="copy" onclick="cp(this)">Copy</button></div>
+7. Response format. Keep responses brief, accurate, and visually scannable: lead with a one-line summary, then the detail. Use visual indicators - ✅ in place · ⚠️ at-risk · 🔴 missing · 🕐 pending. Use HTML formatting to make responses easy to read.<button class="copy" onclick="cp(this)">Copy</button></div>
 
       <h3>3.3 · Add the Docusign MCP Demo connector</h3>
       <ol class="steps">
         <li>Open the <strong>Tools</strong> tab → <strong>+ Add a tool</strong> → <strong>Model Context Protocol</strong>.</li>
         <li>Search for and select <strong>"Docusign MCP Demo"</strong>.</li>
-        <li><strong>Create a new connection</strong> — when prompted for authentication, select <strong>OAuth 2.0</strong> and sign in with your <strong>Docusign demo account credentials</strong> (<code>apps-d.docusign.com</code>). Allow the requested access. Do not use NoAuth or API key — the connector requires OAuth.</li>
+        <li><strong>Create a new connection</strong> - when prompted for authentication, select <strong>OAuth 2.0</strong> and sign in with your <strong>Docusign demo account credentials</strong> (<code>apps-d.docusign.com</code>). Allow the requested access. Do not use NoAuth or API key - the connector requires OAuth.</li>
         <li><strong>Add and configure</strong> the tool, then review the available tools (all enabled by default).</li>
         <li><strong>Publish</strong> the agent.</li>
       </ol>
@@ -603,65 +603,65 @@ Behavior rules
       <div class="prompt"><span class="q">Verify P2</span>List all my agreements.<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="prompt"><span class="q">Verify P3</span>List available Workflow Builder workflows.<button class="copy" onclick="cp(this)">Copy</button></div>
 
-      <h3>3.5 · Scenario A — Vendor Agreement Insights</h3>
+      <h3>3.5 · Scenario A - Vendor Agreement Insights</h3>
 
       <div class="story">
         <div class="eyebrow">Agreement Manager · Iris</div>
         <h2>The story</h2>
-        <p>You're the procurement manager at Fontara. A key vendor — MarketPulse Dynamics — has proposed a 10% price increase on the Clinical Trial Supply Agreement renewal. Before you respond, you need to know what's already in place, what obligations exist, and whether any other vendor agreement constrains what you can accept.</p>
+        <p>You're the procurement manager at Fontara. A key vendor - MarketPulse Dynamics - has proposed a 10% price increase on the Clinical Trial Supply Agreement renewal. Before you respond, you need to know what's already in place, what obligations exist, and whether any other vendor agreement constrains what you can accept.</p>
         <div class="mission">
           <div class="mlbl">What you'll demonstrate</div>
           <ol>
-            <li><b>Portfolio-wide renewal view</b> — surface every vendor agreement approaching expiry across Fontara's procurement corpus</li>
-            <li><b>Agreement Manager + Iris</b> — extracting party names, dates, obligations, payment terms, and clauses from ingested contracts</li>
-            <li><b>Payment terms &amp; renewal risk scan</b> — pull payment terms and renewal notice periods across active agreements; flag anything outside standard before accepting a price increase</li>
-            <li><b>MarketPulse Dynamics vs Momentum Driver contrast</b> — one vendor with a price-protection clause in place, one without — a natural compliance comparison</li>
+            <li><b>Portfolio-wide renewal view</b> - surface every vendor agreement approaching expiry across Fontara's procurement corpus</li>
+            <li><b>Agreement Manager + Iris</b> - extracting party names, dates, obligations, payment terms, and clauses from ingested contracts</li>
+            <li><b>Payment terms &amp; renewal risk scan</b> - pull payment terms and renewal notice periods across active agreements; flag anything outside standard before accepting a price increase</li>
+            <li><b>MarketPulse Dynamics vs Momentum Driver contrast</b> - one vendor with a price-protection clause in place, one without - a natural compliance comparison</li>
           </ol>
         </div>
       </div>
 
       <p class="lead" style="margin:0 0 6px"><strong>Run these prompts in order</strong></p>
-      <div class="prompt"><span class="q">A1 · Portfolio renewal view — Agreement Manager · Iris</span>Show me all upcoming renewals across my vendor agreements in the next 180 days.<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">A2 · Vendor account overview — Agreement Manager · Iris</span>For MarketPulse Dynamics, which agreements are active and in place today? List key details — value, renewal date, payment terms, and notice period.<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">A3 · Payment terms &amp; renewal risk scan — Agreement Manager · Iris</span>MarketPulse Dynamics is proposing a 10% price increase on renewal. Pull the payment terms, renewal notice period, and termination-for-cause notice period from all active MarketPulse Dynamics agreements. Flag anything that is outside standard — payment terms beyond 30 days, or a renewal notice window under 90 days.<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">A4 · Cross-vendor compliance comparison — Agreement Manager · Iris</span>Compare MarketPulse Dynamics and Momentum Driver side-by-side on compliance posture and obligations. Show me what MarketPulse Dynamics is missing that Momentum Driver has in place.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">A1 · Portfolio renewal view - Agreement Manager · Iris</span>Show me all upcoming renewals across my vendor agreements in the next 180 days.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">A2 · Vendor account overview - Agreement Manager · Iris</span>For MarketPulse Dynamics, which agreements are active and in place today? List key details - value, renewal date, payment terms, and notice period.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">A3 · Payment terms &amp; renewal risk scan - Agreement Manager · Iris</span>MarketPulse Dynamics is proposing a 10% price increase on renewal. Pull the payment terms, renewal notice period, and termination-for-cause notice period from all active MarketPulse Dynamics agreements. Flag anything that is outside standard - payment terms beyond 30 days, or a renewal notice window under 90 days.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">A4 · Cross-vendor compliance comparison - Agreement Manager · Iris</span>Compare MarketPulse Dynamics and Momentum Driver side-by-side on compliance posture and obligations. Show me what MarketPulse Dynamics is missing that Momentum Driver has in place.<button class="copy" onclick="cp(this)">Copy</button></div>
 
       <div class="note" style="margin:10px 0">
-        <strong>Verify in the activity map:</strong> each prompt should produce one or more <code>tools/call</code> entries against the Docusign MCP Demo connector in the activity map. If you don't see them, the agent is re-using context or hallucinating — re-run asking it to refresh from Docusign, or tighten the Instructions and republish.
+        <strong>Verify in the activity map:</strong> each prompt should produce one or more <code>tools/call</code> entries against the Docusign MCP Demo connector in the activity map. If you don't see them, the agent is re-using context or hallucinating - re-run asking it to refresh from Docusign, or tighten the Instructions and republish.
       </div>
       <p class="expect"><b>Scenario A demonstrates:</b> portfolio-wide renewal visibility · Agreement Manager + Iris extracting parties, dates, payment terms, and renewal notice periods · off-standard terms detection · vendor-to-vendor compliance contrast.</p>
 
-      <h3>3.6 · Scenario B — Workflow Builder Orchestration</h3>
+      <h3>3.6 · Scenario B - Workflow Builder Orchestration</h3>
 
       <div class="story">
         <div class="eyebrow">Workflow Builder · Agreement Prep · eSign</div>
         <h2>The story</h2>
-        <p>Procurement has reviewed the clause analysis. The team is cleared to proceed with renewal — at the current price, rejecting the proposed increase. MarketPulse Dynamics needs to sign a renewed Clinical Trial Supply Agreement for an expanded batch size of 50,000 units. Time to trigger the Workflow Builder renewal workflow and get the order form in front of the vendor signer — all from the agent.</p>
+        <p>Procurement has reviewed the clause analysis. The team is cleared to proceed with renewal - at the current price, rejecting the proposed increase. MarketPulse Dynamics needs to sign a renewed Clinical Trial Supply Agreement for an expanded batch size of 50,000 units. Time to trigger the Workflow Builder renewal workflow and get the order form in front of the vendor signer - all from the agent.</p>
       </div>
 
       <p class="lead" style="margin:0 0 6px"><strong>Run these prompts in order</strong></p>
-      <div class="prompt"><span class="q">B1 · Build the deal math — Calculation</span>Work out the renewal deal math: 50,000 unit batch size at $45 per unit with a 10% volume discount.<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">B2 · Initiate the renewal — Workflow Builder (core prompt)</span>Initiate a renewal for the Clinical Trial Supply Agreement with MarketPulse Dynamics for 50,000 units at $45 per unit with 10% discount for a 1-year term starting August 1, 2026. Route it to [recipient email] at the vendor.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">B1 · Build the deal math - Calculation</span>Work out the renewal deal math: 50,000 unit batch size at $45 per unit with a 10% volume discount.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">B2 · Initiate the renewal - Workflow Builder (core prompt)</span>Initiate a renewal for the Clinical Trial Supply Agreement with MarketPulse Dynamics for 50,000 units at $45 per unit with 10% discount for a 1-year term starting August 1, 2026. Route it to [recipient email] at the vendor.<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="note" style="margin:10px 0">
         <strong>If you see a Responsible AI content-filter error:</strong> some recipient addresses can trip Copilot Studio's content filter. Re-run prompt B2 with a different recipient email (e.g. a personal alias or another mailbox in your demo tenant), then continue.
       </div>
       <p class="expect"><b>Scenario B demonstrates:</b> agent calling <code>getWorkflowTriggerRequirements</code> before triggering · Workflow Builder routing logic · human-in-the-loop approval for high-value renewals · Agreement Prep generating the order form for vendor signature.</p>
 
-      <h3>3.7 · Scenario C — Track Workflow &amp; Agreement Status</h3>
+      <h3>3.7 · Scenario C - Track Workflow &amp; Agreement Status</h3>
 
       <div class="story">
         <div class="eyebrow">Workflow Builder · Agreement Desk · eSign</div>
         <h2>The story</h2>
-        <p>The order form was sent to the vendor. A few minutes later, procurement checks in — where does the workflow stand, has the vendor signed, and is anything blocked? All from the agent in chat, without logging into Docusign.</p>
+        <p>The order form was sent to the vendor. A few minutes later, procurement checks in - where does the workflow stand, has the vendor signed, and is anything blocked? All from the agent in chat, without logging into Docusign.</p>
       </div>
 
       <p class="lead" style="margin:0 0 6px"><strong>Run these prompts in order</strong></p>
-      <div class="prompt"><span class="q">C1 · Workflow status — Workflow Builder</span>What's the status of the MarketPulse Dynamics renewal workflow instance? Which step is it on, who needs to act next, and is anything blocked?<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">C2 · Signature status on the vendor envelope — eSign</span>Has the recipient at MarketPulse Dynamics signed the renewal order form yet? When was it sent and has it been opened?<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">C3 · Send a reminder — eSign</span>Send the MarketPulse Dynamics recipient a signing reminder through Docusign — use the existing envelope, don't create a new one. Then tell me when the envelope expires and what happens if it's not signed by then.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">C1 · Workflow status - Workflow Builder</span>What's the status of the MarketPulse Dynamics renewal workflow instance? Which step is it on, who needs to act next, and is anything blocked?<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">C2 · Signature status on the vendor envelope - eSign</span>Has the recipient at MarketPulse Dynamics signed the renewal order form yet? When was it sent and has it been opened?<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">C3 · Send a reminder - eSign</span>Send the MarketPulse Dynamics recipient a signing reminder through Docusign - use the existing envelope, don't create a new one. Then tell me when the envelope expires and what happens if it's not signed by then.<button class="copy" onclick="cp(this)">Copy</button></div>
 
       <div class="accurate" style="margin-top:12px">
-        <strong>Human in the Loop:</strong> the workflow has deterministic routing — if the discount exceeds the threshold, it routes to Agreement Desk for a manual review and approval before proceeding to vendor signature. The Agreement Desk process can be customised to match Fontara's internal approval structure.
+        <strong>Human in the Loop:</strong> the workflow has deterministic routing - if the discount exceeds the threshold, it routes to Agreement Desk for a manual review and approval before proceeding to vendor signature. The Agreement Desk process can be customised to match Fontara's internal approval structure.
       </div>
       <p class="expect"><b>Scenario C demonstrates:</b> in-flight workflow monitoring · eSign envelope status check · nudging stalled vendor signers without leaving chat · expiry and escalation awareness.</p>
 
@@ -676,27 +676,27 @@ Behavior rules
         <li>From the channel panel, click <strong>See Agent in Teams</strong> or <strong>See Agent in Microsoft 365</strong> and test from that surface.</li>
       </ol>
       <div class="note" style="margin-top:10px">
-        <strong>Tenant &amp; propagation note:</strong> publishing channels typically requires tenant admin approval and may depend on Power Platform / Microsoft 365 admin policies. If you are not a tenant admin, work with IT to approve the app. Teams and M365 Copilot channel approvals can take time — allow propagation time after publish. Re-publish after every change to instructions, knowledge, or tools. Reference: <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-add-bot-to-microsoft-teams" target="_blank" style="color:var(--blue)">Microsoft Learn — Add a Copilot Studio agent to Microsoft Teams</a>.
+        <strong>Tenant &amp; propagation note:</strong> publishing channels typically requires tenant admin approval and may depend on Power Platform / Microsoft 365 admin policies. If you are not a tenant admin, work with IT to approve the app. Teams and M365 Copilot channel approvals can take time - allow propagation time after publish. Re-publish after every change to instructions, knowledge, or tools. Reference: <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-add-bot-to-microsoft-teams" target="_blank" style="color:var(--blue)">Microsoft Learn - Add a Copilot Studio agent to Microsoft Teams</a>.
       </div>
 
       <h3>3.9 · Sample prompt library</h3>
-      <p class="lead" style="margin:0 0 6px">A portable library of prompts to extend the demo beyond the three core scenarios. Replace anything in <code>[BRACKETS]</code> with data from your demo account — vendor names, emails, and contract values.</p>
+      <p class="lead" style="margin:0 0 6px">A portable library of prompts to extend the demo beyond the three core scenarios. Replace anything in <code>[BRACKETS]</code> with data from your demo account - vendor names, emails, and contract values.</p>
       <div class="note" style="margin:0 0 12px">
         <strong>For reference only:</strong> some prompts require relevant agreements, workflows, templates, and/or envelopes to be in place to function as intended.
       </div>
       <table>
         <thead><tr><th style="width:50px">#</th><th>Prompt</th><th style="width:220px">Purpose</th></tr></thead>
         <tbody>
-          <tr><td colspan="3" style="background:var(--lt);font-size:13.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">1. Agreement insights — discovery</td></tr>
+          <tr><td colspan="3" style="background:var(--lt);font-size:13.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">1. Agreement insights - discovery</td></tr>
           <tr><td>1.1</td><td>Show me all upcoming renewals across my vendor agreements in the next 90 days.</td><td>Surface the renewal pipeline</td></tr>
           <tr><td>1.2</td><td>What's renewing for [VENDOR] in the next 6 months?</td><td>Vendor-level renewal view</td></tr>
-          <tr><td>1.3</td><td>List all active agreements with [VENDOR] — group by document type.</td><td>Full vendor footprint</td></tr>
-          <tr><td>1.4</td><td>For [VENDOR], which documents are in place today? MSA, NDA, Supply Agreement, DPA — show status and dates.</td><td>Doc coverage check</td></tr>
+          <tr><td>1.3</td><td>List all active agreements with [VENDOR]: group by document type.</td><td>Full vendor footprint</td></tr>
+          <tr><td>1.4</td><td>For [VENDOR], which documents are in place today? MSA, NDA, Supply Agreement, DPA: show status and dates.</td><td>Doc coverage check</td></tr>
           <tr><td>1.5</td><td>Highlight key terms and clauses from the agreements with [VENDOR].</td><td>Pull key terms across docs</td></tr>
           <tr><td>1.6</td><td>Categorise contracts based on highest contract value in 2026.</td><td>Rank by value</td></tr>
           <tr><td>1.7</td><td>How many contracts were signed last quarter?</td><td>Period-over-period volume</td></tr>
           <tr><td colspan="3" style="background:var(--lt);font-size:13.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">2. Clause &amp; risk analysis</td></tr>
-          <tr><td>2.1</td><td>Pull the payment terms, renewal notice period, and termination-for-cause notice from all active [VENDOR] agreements. Flag anything outside standard — payment terms beyond 30 days or renewal notice under 90 days.</td><td>Payment terms &amp; renewal risk scan</td></tr>
+          <tr><td>2.1</td><td>Pull the payment terms, renewal notice period, and termination-for-cause notice from all active [VENDOR] agreements. Flag anything outside standard: payment terms beyond 30 days or renewal notice under 90 days.</td><td>Payment terms &amp; renewal risk scan</td></tr>
           <tr><td>2.2</td><td>Scan all active vendor MSAs for MFN, price-protection, or non-discrimination clauses.</td><td>Portfolio-wide risk scan</td></tr>
           <tr><td>2.3</td><td>What is the highest liability coverage across our vendor portfolio? Rank in order.</td><td>Liability coverage ranking</td></tr>
           <tr><td>2.4</td><td>Are there any uplift caps, auto-renewal commitments, or related provisions in [VENDOR]'s MSA?</td><td>Vendor-specific guardrails</td></tr>
@@ -706,7 +706,7 @@ Behavior rules
           <tr><td>3.1</td><td>List available workflows for renewals.</td><td>Confirm workflow exists before triggering</td></tr>
           <tr><td>3.2</td><td>Initiate a renewal for [VENDOR] for [N] units at $[PRICE] per unit with [X]% discount, 1-year term starting [DATE]. Route it to [EMAIL] at the vendor.</td><td>Core renewal trigger</td></tr>
           <tr><td>3.3</td><td>Generate a new MSA with DPA addendum for [VENDOR].</td><td>Generate net-new agreement</td></tr>
-          <tr><td>3.4</td><td>Status check on the [VENDOR] renewal workflow — where is it?</td><td>In-flight monitoring</td></tr>
+          <tr><td>3.4</td><td>Status check on the [VENDOR] renewal workflow: where is it?</td><td>In-flight monitoring</td></tr>
           <tr><td>3.5</td><td>Identify workflows that have not been triggered even once in the past 30 days.</td><td>Workflow usage audit</td></tr>
           <tr><td colspan="3" style="background:var(--lt);font-size:13.5px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase">4. eSign envelopes &amp; templates</td></tr>
           <tr><td>4.1</td><td>Which vendor contracts are pending signature for more than 7 days?</td><td>Spot stalled signatures</td></tr>
@@ -735,17 +735,17 @@ Behavior rules
 
     <!-- STAGE 4 -->
     <div class="stage" id="s4">
-      <h2>Stage 4 &middot; Agent Studio &mdash; Procurement Agent
+      <h2>Stage 4 &middot; Agent Studio  -  Procurement Agent
         <span class="badge b-dur">10 min</span>
       </h2>
       <div class="note" style="border-left-color:#FF5252;background:#fff0f0;border-color:#ffb3b3;color:#7a1a1a">
         <strong>&#x26A0;&#xFE0F; Agent Studio is coming soon.</strong> This feature is on the Docusign product roadmap and is not yet available in developer / demo accounts. The steps below show what the experience will look like once it is enabled.
       </div>
 
-      <p class="lead">Agent Studio is Docusign's native agent builder &mdash; an alternative path to Stage 3's Copilot Studio approach. Instead of connecting an external AI platform via MCP, you build the Procurement agent directly inside Docusign, grounded on the same Agreement Manager corpus. The result: Fontara's team gets contract intelligence without leaving the Docusign platform.</p>
+      <p class="lead">Agent Studio is Docusign's native agent builder  -  an alternative path to Stage 3's Copilot Studio approach. Instead of connecting an external AI platform via MCP, you build the Procurement agent directly inside Docusign, grounded on the same Agreement Manager corpus. The result: Fontara's team gets contract intelligence without leaving the Docusign platform.</p>
 
       <div class="accurate">
-        <strong>Stage 3 vs Stage 4 &mdash; two paths, same outcome.</strong>
+        <strong>Stage 3 vs Stage 4  -  two paths, same outcome.</strong>
         Stage 3 (MCP + Copilot Studio) is the integration story: bring Docusign intelligence into Microsoft 365, Teams, and any MCP-compatible AI client. Stage 4 (Agent Studio) is the native story: build and deploy directly inside Docusign, no external platform required. Both approaches query the same Agreement Manager corpus built in Stages 1 &amp; 2.
       </div>
 
@@ -755,7 +755,7 @@ Behavior rules
         <li>Click <strong>Create a draft agent</strong>.</li>
         <li>In the description box, paste the following and click <strong>Create Agent</strong>:</li>
       </ol>
-      <div class="prompt"><span class="q">Agent description &mdash; paste into the draft agent box</span>Procurement agent for Fontara that answers questions about vendor agreements, surfaces renewal risks, flags off-standard payment terms and liability gaps, and triggers renewal workflows. Uses Docusign Agreement Manager as the source of truth for all contract data.<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">Agent description  -  paste into the draft agent box</span>Procurement agent for Fontara that answers questions about vendor agreements, surfaces renewal risks, flags off-standard payment terms and liability gaps, and triggers renewal workflows. Uses Docusign Agreement Manager as the source of truth for all contract data.<button class="copy" onclick="cp(this)">Copy</button></div>
 
       <h3>4.2 &middot; Name &amp; configure the agent</h3>
       <ol class="steps">
@@ -763,11 +763,11 @@ Behavior rules
         <li>Under <strong>Define what starts this agent</strong>, confirm both <strong>In chat</strong> and <strong>In a workflow</strong> are enabled.</li>
         <li>Paste the instructions below into the <strong>Instructions</strong> field:</li>
       </ol>
-      <div class="prompt"><span class="q">Agent instructions &mdash; paste into the Instructions field</span>You are the Procurement Agent for Fontara, a B2B company. The procurement team manages a portfolio of vendor contracts &mdash; MSAs, SOWs, NDAs, supply agreements, and device contracts.
+      <div class="prompt"><span class="q">Agent instructions  -  paste into the Instructions field</span>You are the Procurement Agent for Fontara, a B2B company. The procurement team manages a portfolio of vendor contracts  -  MSAs, SOWs, NDAs, supply agreements, and device contracts.
 
 You help procurement teams:
 1. Surface upcoming renewals and expiring agreements across the vendor portfolio
-2. Extract and summarize key terms &mdash; payment terms, renewal notice periods, liability caps, termination clauses
+2. Extract and summarize key terms  -  payment terms, renewal notice periods, liability caps, termination clauses
 3. Flag off-standard terms (payment terms beyond 30 days, renewal notice under 90 days, missing price-protection clauses)
 4. Compare vendors side-by-side on compliance posture and obligations
 5. Identify agreements missing standard documents (DPA, AI Use Addendum, MFN clause)
@@ -777,14 +777,14 @@ Behavior rules:
 - Always use Docusign Agreement Manager as the source of truth. Never fabricate agreement data, dates, dollar amounts, or clause text.
 - Lead responses with a one-line summary, then the detail.
 - Use visual indicators: &#x2705; in place &middot; &#x26A0;&#xFE0F; at-risk &middot; &#x1F534; missing &middot; &#x1F550; pending
-- If a field is not in the data, say so explicitly &mdash; do not guess.<button class="copy" onclick="cp(this)">Copy</button></div>
+- If a field is not in the data, say so explicitly  -  do not guess.<button class="copy" onclick="cp(this)">Copy</button></div>
 
       <h3>4.4 &middot; Test the agent</h3>
       <p class="lead" style="margin:0 0 6px">Click <strong>Test</strong> (top right) and run these prompts in order. Each should return grounded data from your Agreement Manager corpus.</p>
       <div class="prompt"><span class="q">T1 &middot; Portfolio overview</span>What vendor agreements does Fontara have in place? Summarise by agreement type and supplier.<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="prompt"><span class="q">T2 &middot; Renewal risk</span>Which agreements are coming up for renewal in the next 180 days? Flag anything with a renewal notice period under 90 days.<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="prompt"><span class="q">T3 &middot; Off-standard terms</span>Pull the payment terms across all active vendor agreements. Flag any that are beyond 30 days and show the supplier name alongside.<button class="copy" onclick="cp(this)">Copy</button></div>
-      <div class="prompt"><span class="q">T4 &middot; Vendor risk comparison</span>Compare MarketPulse Dynamics and Momentum Driver on compliance posture &mdash; payment terms, renewal notice, and any price-protection or MFN clauses. What does MarketPulse Dynamics have that Momentum Driver is missing?<button class="copy" onclick="cp(this)">Copy</button></div>
+      <div class="prompt"><span class="q">T4 &middot; Vendor risk comparison</span>Compare MarketPulse Dynamics and Momentum Driver on compliance posture  -  payment terms, renewal notice, and any price-protection or MFN clauses. What does MarketPulse Dynamics have that Momentum Driver is missing?<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="prompt"><span class="q">T5 &middot; Missing coverage gaps</span>Which vendors are missing a DPA or AI Use Addendum? Order by contract value.<button class="copy" onclick="cp(this)">Copy</button></div>
 
       <div class="accurate" style="margin-top:16px">
@@ -793,7 +793,7 @@ Behavior rules:
     </div>
     <div class="foot">
       Page 2 of 2, Hands-on Flow.
-      Prerequisites and Stage 1 use the official Docusign Agreement CLI (<code>docusign</code> command, npm: <code>@docusign/agreement-cli@1.1.0-beta</code>). Stage 2 extraction steps follow the current Agreement Manager UI — confirm exact labels against your account.
+      Prerequisites and Stage 1 use the official Docusign Agreement CLI (<code>docusign</code> command, npm: <code>@docusign/agreement-cli@1.1.0-beta</code>). Stage 2 extraction steps follow the current Agreement Manager UI - confirm exact labels against your account.
     </div>
     </div><!-- end .content -->
   </div><!-- end .layout -->
@@ -901,7 +901,7 @@ Behavior rules:
     }
   }
 
-  // Script is at end of body — DOM is fully parsed, no DOMContentLoaded needed
+  // Script is at end of body - DOM is fully parsed, no DOMContentLoaded needed
   try { initProgress(); } catch(e) { console.warn('initProgress:', e); }
   document.getElementById('s0').classList.add('open');
   document.getElementById('btn-0').classList.add('active');
