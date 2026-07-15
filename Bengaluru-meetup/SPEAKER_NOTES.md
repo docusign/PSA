@@ -20,10 +20,14 @@ Attendees do ingestion (Stage 1), extraction (Stage 2), and agent setup (Stage 3
 **Goal:** Set the scene - why agreements matter as data, not just documents.
 
 ### What to say
-- "Fontara is a pharma/medtech company. Their procurement team manages hundreds of vendor contracts - MSAs, SOWs, NDAs - all sitting as flat PDFs."
-- "Today nobody can answer: which contracts auto-renew next quarter? Which vendors have payment terms beyond 45 days? Every question means a human opening files one by one."
-- "Over the next hour you'll change that. We're going to treat agreements as data - ingest them, extract intelligence from them with AI, and then query the whole corpus in plain English through an agent."
 
+> "At Fontara, procurement is buried in vendor contracts and PDFs - and you're here to change that.
+>
+> The procurement team owns thousands of vendor agreements, MSAs, SOWs, and NDAs, all stored as flat PDFs across shared drives and inboxes. The documents are signed and safe, but the agreement data the business cares about is locked inside.
+>
+> That means nobody can answer the questions leaders actually ask: Which contracts auto-renew next quarter? Which vendors are on payment terms longer than 45 days? Where are we missing a price-increase cap? What is our total committed spend with this supplier? Today, every question means a human opening files one by one and reading them manually.
+>
+> Over the next hour, you are going to change that with Docusign, AI, and MCP. You will treat agreements as data, not just documents - automated, repeatable, and scalable. Not by hand."
 ### Pattern to land
 > Ingest once → Extract with AI → Expose via MCP → Deploy agents everywhere
 
