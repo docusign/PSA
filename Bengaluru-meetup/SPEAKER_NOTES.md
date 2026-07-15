@@ -193,6 +193,16 @@ Also point out: Payment Terms, Governing Law, Renewal, Termination Notice — ex
 
 **Goal:** Natural language queries against the whole vendor corpus. Show the "agent as procurement analyst" moment.
 
+### Opening talk track - say this before anyone opens Copilot Studio
+
+> "We are going to use Copilot Studio for this exercise because it gives everyone a fast, no-code way to build and test an agent. But I want to be clear - Copilot Studio is just one surface. The Docusign MCP server is a standard MCP endpoint. That means you can connect it to any MCP-compatible client: Claude, Cursor, VS Code, a custom-built internal tool, anything your team is already using. If you are building a custom application and you want it to have Docusign intelligence, you point it at the same MCP server and the same 30+ tools are available to you. What we are building today is the pattern. The surface you deploy it on is your choice."
+
+Key points to land:
+- Copilot Studio is the demo vehicle, not the only option
+- MCP is an open standard - works with any MCP-compatible host (Claude Desktop, Cursor, custom apps, etc.)
+- Docusign also has a production MCP server for when you are ready to go live
+- The agreement intelligence comes from Iris pre-processing in Agreement Manager - the MCP server just exposes it
+
 ### Setup check before starting
 You're running Stage 3 live alongside attendees - no pre-built agent. Everyone creates the blank agent and connects the Docusign MCP Demo connector together. Make sure before starting:
 - Everyone has access to `copilotstudio.microsoft.com`
