@@ -1,15 +1,15 @@
-# Speaker Notes — Bengaluru Meetup: Docusign Manage Workshop
+# Speaker Notes - Bengaluru Meetup: Docusign Manage Workshop
 **Runtime:** ~65–75 min | **Audience:** Implementation-partner architects & developers + cross-functional business stakeholders
 
 ---
 
 ## Before the session
 
-Attendees do ingestion (Stage 1), extraction (Stage 2), and agent setup (Stage 3) live — nothing to pre-run. Your checklist is just access and tools.
+Attendees do ingestion (Stage 1), extraction (Stage 2), and agent setup (Stage 3) live - nothing to pre-run. Your checklist is just access and tools.
 
-- **Your machine:** Node + npm installed, `@docusign/agreement-cli@1.1.0-beta` installed globally — run `docusign` to confirm it's on PATH
+- **Your machine:** Node + npm installed, `@docusign/agreement-cli@1.1.0-beta` installed globally - run `docusign` to confirm it's on PATH
 - **Demo account:** logged into `apps-d.docusign.com`, Agreement Manager enabled, CLI (open beta) access on the account
-- **Workshop resources:** downloaded and unzipped — `workshop-resources/` folder ready with the manifest, training docs, and ingest contracts
+- **Workshop resources:** downloaded and unzipped - `workshop-resources/` folder ready with the manifest, training docs, and ingest contracts
 - **Copilot Studio access:** Microsoft 365 / Copilot Studio environment ready to create a blank agent in Stage 3
 - Have the lab page open: https://docusign.github.io/PSA/Bengaluru-meetup/2_Hands_on_Flow.html
 - Have `apps-d.docusign.com` open in a second tab
@@ -17,12 +17,12 @@ Attendees do ingestion (Stage 1), extraction (Stage 2), and agent setup (Stage 3
 ---
 ## Stage 0 · Before you begin (5 min)
 
-**Goal:** Set the scene — why agreements matter as data, not just documents.
+**Goal:** Set the scene - why agreements matter as data, not just documents.
 
 ### What to say
-- "Fontara is a pharma/medtech company. Their procurement team manages hundreds of vendor contracts — MSAs, SOWs, NDAs — all sitting as flat PDFs."
+- "Fontara is a pharma/medtech company. Their procurement team manages hundreds of vendor contracts - MSAs, SOWs, NDAs - all sitting as flat PDFs."
 - "Today nobody can answer: which contracts auto-renew next quarter? Which vendors have payment terms beyond 45 days? Every question means a human opening files one by one."
-- "Over the next hour you'll change that. We're going to treat agreements as data — ingest them, extract intelligence from them with AI, and then query the whole corpus in plain English through an agent."
+- "Over the next hour you'll change that. We're going to treat agreements as data - ingest them, extract intelligence from them with AI, and then query the whole corpus in plain English through an agent."
 
 ### Pattern to land
 > Ingest once → Extract with AI → Expose via MCP → Deploy agents everywhere
@@ -30,16 +30,16 @@ Attendees do ingestion (Stage 1), extraction (Stage 2), and agent setup (Stage 3
 ### Prereqs check
 - Audience should have Node + npm installed and the Agreement CLI ready
 - If anyone is missing it: `npm i -g @docusign/agreement-cli@1.1.0-beta`
-- Tick all 3 prereq checkboxes on the lab page — modal will auto-pop to unlock stages
+- Tick all 3 prereq checkboxes on the lab page - modal will auto-pop to unlock stages
 
 ---
 
 ## Stage 1 · Docusign CLI + Agreement CLI (15 min)
 
-**Goal:** Show that agreement configuration and bulk ingestion is code — repeatable, version-controlled, partner-deliverable.
+**Goal:** Show that agreement configuration and bulk ingestion is code - repeatable, version-controlled, partner-deliverable.
 
-### Talk track — opening (say this before running the first command)
-> "Right now, if you want to set up Agreement Manager for a client — define their agreement types, their custom fields, map everything together — you'd click through the UI, manually, for every account. That doesn't scale.
+### Talk track - opening (say this before running the first command)
+> "Right now, if you want to set up Agreement Manager for a client - define their agreement types, their custom fields, map everything together - you'd click through the UI, manually, for every account. That doesn't scale.
 >
 > What we're going to do instead is define all of that as a JSON manifest. Three agreement types, nine custom pharma fields, training documents, all of it. One file. And then we'll deploy it with a single CLI command.
 >
@@ -53,21 +53,21 @@ Attendees do ingestion (Stage 1), extraction (Stage 2), and agent setup (Stage 3
 
 > "This is the IAM Toolkit - it is in open beta. The command prefix is `docusign agm` or the short form `ds agm`. Everything we run today is one of those commands."
 
-### How the manifest works — what to explain while running 1.3
+### How the manifest works - what to explain while running 1.3
 
 The manifest (`agreement-manager-manifest.json`) is a single JSON file that describes everything Agreement Manager needs to understand Fontara's procurement contracts. Walk through these three concepts as you copy it in:
 
-**1. Custom agreement types** — three types defined, each with an `aiDefinition`:
-- `Clinical Trial Supply Agreement` — manufacture/supply of investigational drug products under GMP. Trained on 3 sample documents.
-- `CRO Services Agreement` — contract research org for trial management, patient recruitment, site monitoring. Trained on 2 sample documents.
-- `Medical Device Supply Agreement` — supply of medical devices with regulatory compliance. Trained on 2 sample documents.
+**1. Custom agreement types** - three types defined, each with an `aiDefinition`:
+- `Clinical Trial Supply Agreement` - manufacture/supply of investigational drug products under GMP. Trained on 3 sample documents.
+- `CRO Services Agreement` - contract research org for trial management, patient recruitment, site monitoring. Trained on 2 sample documents.
+- `Medical Device Supply Agreement` - supply of medical devices with regulatory compliance. Trained on 2 sample documents.
 
-The `aiDefinition` is the instruction to Iris — it tells the model exactly what language, structure, and roles distinguish this agreement type from generic categories like "Miscellaneous". This is why it says "must NOT be confused with License, Subscription, or other broad categories" — without that, Iris would bucket pharma contracts into generic types and extraction accuracy drops.
+The `aiDefinition` is the instruction to Iris - it tells the model exactly what language, structure, and roles distinguish this agreement type from generic categories like "Miscellaneous". This is why it says "must NOT be confused with License, Subscription, or other broad categories" - without that, Iris would bucket pharma contracts into generic types and extraction accuracy drops.
 
-**2. Custom fields** — 9 fields across the 3 types, each with:
+**2. Custom fields** - 9 fields across the 3 types, each with:
 - A `fieldType` (Number, in all 9 cases here)
 - An `aiDefinition` telling Iris exactly what to look for and where (pricing sections, schedules, exhibits)
-- `examples` — 3 ground-truth examples per field showing real clause text and the confirmed extracted value. This is the training signal.
+- `examples` - 3 ground-truth examples per field showing real clause text and the confirmed extracted value. This is the training signal.
 
 | Field | Type | Mapped to |
 |---|---|---|
@@ -81,15 +81,15 @@ The `aiDefinition` is the instruction to Iris — it tells the model exactly wha
 | `Pharma - FDA Device Classification` | Number | Medical Device Supply |
 | `Pharma - Consignment Inventory Period (days)` | Number | Medical Device Supply |
 
-**3. Standard fields** — on top of custom fields, each type also enables built-in Docusign fields: Payment Terms, Governing Law, Renewal, Termination Notice. These come free — no custom definition needed.
+**3. Standard fields** - on top of custom fields, each type also enables built-in Docusign fields: Payment Terms, Governing Law, Renewal, Termination Notice. These come free - no custom definition needed.
 
-> "The manifest is the complete specification of what Fontara's Agreement Manager should know. Agreement types, custom fields, training examples, standard field mappings — all in one file. That's what `agm upload` reads and deploys."
+> "The manifest is the complete specification of what Fontara's Agreement Manager should know. Agreement types, custom fields, training examples, standard field mappings - all in one file. That's what `agm upload` reads and deploys."
 
 ---
 
-### How training docs work — what to explain while copying `files/train/`
+### How training docs work - what to explain while copying `files/train/`
 
-The `files/train/` folder contains 7 sample agreements — representative documents for each type (3 Clinical Trial Supply, 2 CRO Services, 2 Medical Device Supply). These are what Iris uses to learn the extraction patterns defined in the manifest.
+The `files/train/` folder contains 7 sample agreements - representative documents for each type (3 Clinical Trial Supply, 2 CRO Services, 2 Medical Device Supply). These are what Iris uses to learn the extraction patterns defined in the manifest.
 
 The link between training docs and the manifest is in the `docs` array on each agreement type:
 ```json
@@ -101,13 +101,13 @@ The link between training docs and the manifest is in the `docs` array on each a
 ```
 `agm upload` reads this, finds the matching files in `files/train/`, and uploads them as the AI training corpus for that type. More representative training docs = higher extraction confidence on real contracts.
 
-> "Think of these as the ground truth. You're showing Iris what a Clinical Trial Supply Agreement looks like — the language, the structure, the clause patterns — before you ask it to read Fontara's real vendor contracts."
+> "Think of these as the ground truth. You're showing Iris what a Clinical Trial Supply Agreement looks like - the language, the structure, the clause patterns - before you ask it to read Fontara's real vendor contracts."
 
 ---
 
-### How ingest works — what to explain during 1.5
+### How ingest works - what to explain during 1.5
 
-The `files/ingest/` folder contains 4 real-world-style contracts — the "legacy repository":
+The `files/ingest/` folder contains 4 real-world-style contracts - the "legacy repository":
 - `Clinical Trial Supply Agreement - Contract 1.docx`
 - `Clinical Trial Supply Agreement - Contract 2.docx`
 - `Contract Research Organization (CRO) Services Agreement - Contract 1.docx`
@@ -115,7 +115,7 @@ The `files/ingest/` folder contains 4 real-world-style contracts — the "legacy
 
 These are the documents you want to turn into structured data. `docusign agm ingest` uploads them to Agreement Manager, where Iris reads each one, matches it to the correct custom agreement type using the `aiDefinition`, and populates the custom and standard fields.
 
-The `--dry-run` flag is worth showing first — it previews what will be uploaded without touching the account. Then the real ingest runs with `--bypass` to skip interactive confirmation.
+The `--dry-run` flag is worth showing first - it previews what will be uploaded without touching the account. Then the real ingest runs with `--bypass` to skip interactive confirmation.
 
 > "This is the moment the legacy repository becomes structured data. Four files, one command. In production, this could be 400 files. Same command."
 
@@ -123,7 +123,7 @@ The `--dry-run` flag is worth showing first — it previews what will be uploade
 
 ### Step by step
 
-**1.1 — Authenticate**
+**1.1 - Authenticate**
 ```
 docusign auth login
 docusign auth test
@@ -131,15 +131,15 @@ docusign auth test
 - Browser-based OAuth. Each attendee logs into their own demo account.
 - Expect: `Authentication is valid`
 
-**1.2 — Scaffold the workspace**
+**1.2 - Scaffold the workspace**
 ```
 mkdir ~/docusign-workshop && cd ~/docusign-workshop
 docusign scaffold -w demo-workspace -p demo-project -f agreement-manager
 ```
 - Creates the folder structure: `configs/`, `files/train/`, `files/test/`
-- The CLI scaffolds the exact directory layout `agm upload` expects — you drop the manifest into `configs/` and training docs into `files/train/`, then run upload.
+- The CLI scaffolds the exact directory layout `agm upload` expects - you drop the manifest into `configs/` and training docs into `files/train/`, then run upload.
 
-**1.3 — Drop in the manifest & training docs**
+**1.3 - Drop in the manifest & training docs**
 ```
 curl -L https://github.com/docusign/PSA/raw/main/Bengaluru-meetup/workshop-resources.zip -o workshop-resources.zip && unzip -q workshop-resources.zip && rm workshop-resources.zip
 cp workshop-resources/agreement-manager-manifest.json demo-workspace/demo-project/agreement-manager/configs/agreement-manager-manifest.json
@@ -149,11 +149,11 @@ cp workshop-resources/files/train/* demo-workspace/demo-project/agreement-manage
 cd demo-workspace && docusign agm get catalog
 docusign agm upload --bypass
 ```
-- `agm get catalog` pulls the account's current standard and custom catalog before upload — `agm upload` reads both to avoid conflicts with existing types or fields.
+- `agm get catalog` pulls the account's current standard and custom catalog before upload - `agm upload` reads both to avoid conflicts with existing types or fields.
 - `agm upload` creates fields → creates agreement types → maps fields to types → uploads training docs → triggers AI training. All in one command.
-- AI training runs async — extraction results appear in the UI after a few minutes.
+- AI training runs async - extraction results appear in the UI after a few minutes.
 
-**1.5 — Bulk ingest**
+**1.5 - Bulk ingest**
 ```
 cd ..
 docusign agm ingest --directory workshop-resources/files/ingest --dry-run
@@ -161,14 +161,14 @@ echo "y" | docusign agm ingest --bypass --directory workshop-resources/files/ing
 ```
 - `--dry-run` first: shows which files will be uploaded and what types they'll be classified as, without touching the account.
 - Real ingest: 4 contracts uploaded. They appear in Agreement Manager → Completed within a few minutes as Navigator indexes them.
-- "This is the legacy repository moment — not one file at a time."
+- "This is the legacy repository moment - not one file at a time."
 
-### Talk track — what to emphasise (say this after `docusign agm upload` completes)
-> "Everything you just saw — fields created, agreement types created, training uploaded, AI kicked off — that was one command. Not a ticket to the PS team, not an afternoon in the UI.
+### Talk track - what to emphasise (say this after `docusign agm upload` completes)
+> "Everything you just saw - fields created, agreement types created, training uploaded, AI kicked off - that was one command. Not a ticket to the PS team, not an afternoon in the UI.
 >
 > This is the developer value story. Implementation time drops by over 40% compared to manual configuration. You can version-control this manifest in Git, run it through CI, promote it from dev to prod, replicate it across client accounts.
 >
-> What you're handing a client isn't just a configured Docusign account — it's a repeatable, auditable asset. That's the difference between a one-time implementation and a scalable practice."
+> What you're handing a client isn't just a configured Docusign account - it's a repeatable, auditable asset. That's the difference between a one-time implementation and a scalable practice."
 
 ---
 
@@ -195,7 +195,7 @@ echo "y" | docusign agm ingest --bypass --directory workshop-resources/files/ing
 | Medical Device Supply | `Pharma - FDA Device Classification` | Regulatory compliance at a glance |
 
 ### Standard fields
-Also point out: Payment Terms, Governing Law, Renewal, Termination Notice — extracted automatically on top of custom fields.
+Also point out: Payment Terms, Governing Law, Renewal, Termination Notice - extracted automatically on top of custom fields.
 
 ### Talk track - what to emphasise
 > "Procurement now has payment terms, governing law, termination notice, and renewal dates extracted automatically - without any manual review - across the entire corpus. Every contract is now queryable data. This is exactly what feeds the agent in Stage 3. And because Iris governs access at the Docusign layer, an agent built on this data can only ever surface agreements the user is already permissioned to see."
@@ -282,27 +282,27 @@ Each should produce a `tools/call` in the activity map. If any prompt returns an
 
 | Prompt | What to point out |
 |---|---|
-| A1: Renewals in 180 days | Portfolio-wide view — no spreadsheet needed |
+| A1: Renewals in 180 days | Portfolio-wide view - no spreadsheet needed |
 | A2: MarketPulse Dynamics overview | Active agreements, value, renewal date, payment terms |
-| A3: Payment terms & renewal risk scan | Flag anything off-standard — >30 day terms, <90 day notice |
-| A4: Cross-vendor comparison | MarketPulse vs Momentum Driver — what's missing |
+| A3: Payment terms & renewal risk scan | Flag anything off-standard - >30 day terms, <90 day notice |
+| A4: Cross-vendor comparison | MarketPulse vs Momentum Driver - what's missing |
 
-> "This is what used to take a paralegal 2 days. The agent just did it in 10 seconds — and it's grounded in the actual extracted clause text, not a guess."
+> "This is what used to take a paralegal 2 days. The agent just did it in 10 seconds - and it's grounded in the actual extracted clause text, not a guess."
 
 ---
 
 ### Scenario B · Workflow Builder Orchestration (~10 min)
 
-**The story:** Procurement is cleared to renew — at current price. Need to get the order form signed by the vendor.
+**The story:** Procurement is cleared to renew - at current price. Need to get the order form signed by the vendor.
 
 **Run in order:**
 
 | Prompt | What to point out |
 |---|---|
 | B1: Deal math | Agent can calculate before triggering |
-| B2: Initiate renewal | Calls `getWorkflowTriggerRequirements` first, then `triggerWorkflow` — correct sequencing |
+| B2: Initiate renewal | Calls `getWorkflowTriggerRequirements` first, then `triggerWorkflow` - correct sequencing |
 
-> "Notice the agent called `getWorkflowTriggerRequirements` before triggering. That's the instruction at work — it never fires a workflow blind."
+> "Notice the agent called `getWorkflowTriggerRequirements` before triggering. That's the instruction at work - it never fires a workflow blind."
 
 - If content-filter error on B2: use a different recipient email and retry
 
@@ -314,20 +314,20 @@ Each should produce a `tools/call` in the activity map. If any prompt returns an
 |---|---|
 | C1: Workflow status | Which step, who needs to act, anything blocked |
 | C2: Signature status | Has the vendor opened/signed the envelope |
-| C3: Send reminder | Nudges stalled signer — without leaving chat |
+| C3: Send reminder | Nudges stalled signer - without leaving chat |
 
-> "Procurement never left the chat interface. They kicked off the renewal, tracked it, and nudged the vendor — all through natural language."
+> "Procurement never left the chat interface. They kicked off the renewal, tracked it, and nudged the vendor - all through natural language."
 
 ---
 
 ### 3.8 · Publish to Teams / M365 Copilot
 - Channels → Microsoft 365 and Teams → Add channel → Publish
-- "Now the same agent appears in Teams — wherever procurement already works."
+- "Now the same agent appears in Teams - wherever procurement already works."
 - Note: tenant admin approval may be needed; allow propagation time
 
 ---
 
-## Stage 4 · Agent Studio — Procurement Agent (10 min)
+## Stage 4 · Agent Studio - Procurement Agent (10 min)
 
 > ⚠️ **Agent Studio is in Early Access** - not yet enabled in the developer/demo accounts used for this workshop. Walk through this as a preview of the native Docusign agent experience. Announced at Momentum '26.
 
