@@ -298,7 +298,7 @@
       <div class="note" style="margin:0 0 12px">
         <strong>Running the terminal commands below:</strong> on <strong>Mac</strong>, use the <strong>Terminal</strong> app (find it in Applications → Utilities, or search with Spotlight). On <strong>Windows</strong>, use <strong>Command Prompt</strong> or <strong>PowerShell</strong> (search for either in the Start menu). Both work for the npm and docusign commands in this lab.
       </div>
-      <p class="lead" style="margin:0 0 14px">Tick each section as you complete it. Once all three are checked you can mark prerequisites complete and unlock the lab stages.</p>
+      <p class="lead" style="margin:0 0 14px">Tick each section as you complete it. Once all four are checked the lab stages unlock automatically.</p>
 
       <h3 id="prereq-h-1"><input type="checkbox" class="prereq-chk" id="pchk-1" onchange="checkPrereqs()"> 0.4.1 · Tooling on each machine</h3>
       <ol class="steps">
@@ -332,6 +332,18 @@
       </ul>
       <div class="note" style="margin-top:16px">
         <strong>Ground rule:</strong> use <strong>synthetic / non-production data</strong> only.
+      </div>
+
+      <h3 id="prereq-h-4"><input type="checkbox" class="prereq-chk" id="pchk-4" onchange="checkPrereqs()"> 0.4.4 · Import the Workflow</h3>
+      <p class="lead" style="margin:0 0 6px">The workshop kit includes a pre-built Workflow Builder workflow for the Stage 3 renewal exercise. Import it now so it is ready before you reach Stage 3.</p>
+      <ol class="steps">
+        <li>In your Docusign demo account (<code>apps-d.docusign.com</code>), go to the <strong>Agreements</strong> tab and click <strong>Workflows</strong> in the left navigation.</li>
+        <li>Click <strong>Import</strong> and upload <code>Fontara Renewal Order Form.zip</code> from <code>workshop-resources/workflow/</code> in the workshop kit.</li>
+        <li>Once imported, open the workflow and update the <strong>Agreement Desk routing email</strong> to your own address (or a valid mailbox in your demo environment).</li>
+        <li>Click <strong>Save</strong>, then <strong>Review</strong>, then <strong>Publish</strong>.</li>
+      </ol>
+      <div class="note">
+        <strong>Must be Published, not Draft.</strong> The MCP agent in Stage 3 can only trigger Published workflows. If the workflow shows as Draft when you reach Stage 3, go back here and click Publish before running Scenario B.
       </div>
 
     </div>
