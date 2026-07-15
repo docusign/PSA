@@ -81,13 +81,13 @@ docusign
 >
 > The same manifest you test in a dev account today? You hand it to the client, point it at production, run the same command. Done. No re-clicking, no re-configuring, no human error."
 
-### The four IAM Toolkit value points (land at least two of these)
+### The four Docusign CLI value points (land at least two of these)
 - **Custom configuration** - extend Agreement Manager with custom agreement types and fields, defined as code in the manifest
 - **Extraction testing** - validate Iris extraction accuracy against ground-truth values *before* deploying to production (`ds agm test`)
 - **Multi-account deployment** - build the configuration package once, deploy it to multiple production accounts
 - **Bulk ingestion via CLI** - ingest agreements plus metadata at scale from a local or network directory
 
-> "This is the IAM Toolkit - it is in open beta. The command prefix is `docusign agm` or the short form `ds agm`. Everything we run today is one of those commands."
+> "This is the Docusign CLI - it is in open beta. The command prefix is `docusign agm` or the short form `ds agm`. Everything we run today is one of those commands."
 
 ### How the manifest works - what to explain while running 1.3
 
