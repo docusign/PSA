@@ -193,7 +193,7 @@ docusign scaffold -w demo-workspace -p demo-project -f agreement-manager
 ```
 - **Must `cd` first** - scaffold creates `demo-workspace/` inside whatever directory the terminal is currently in. Skip this and it lands in home directory
 - Creates: `demo-workspace/demo-project/agreement-manager/` with `configs/`, `files/train/`, `files/test/`, `tests/`
-- Say: "This is the project layout the CLI expects. `configs/` holds the manifest. `files/train/` holds the sample docs Iris learns from."
+> 🗣 **Say:** "This is the project layout the CLI expects. `configs/` holds the manifest. `files/train/` holds the sample docs Iris learns from."
 
 ---
 
@@ -208,7 +208,7 @@ cp workshop-resources/agreement-manager-manifest.json demo-workspace/demo-projec
 cp workshop-resources/files/train/* demo-workspace/demo-project/agreement-manager/files/train/
 ```
 - Copies 1 manifest + 7 training docs into the scaffold
-- Say: "The manifest is the spec - 3 agreement types, 9 custom fields, training examples. The 7 docs are what Iris learns from."
+> 🗣 **Say:** "The manifest is the spec - 3 agreement types, 9 custom fields, training examples. The 7 docs are what Iris learns from."
 
 ---
 
@@ -222,7 +222,7 @@ docusign agm upload --bypass
 - `agm get catalog` creates `standard-catalog.json` and `custom-catalog.json`. Upload reads both to avoid conflicts with existing types/fields already in the account
 - `agm upload --bypass` does everything in one command: creates custom fields → creates agreement types → maps fields to types → uploads 7 training docs → kicks off AI training
 - AI training runs async. Fields and types appear in the UI immediately; extraction confidence improves as Iris processes the training docs
-- Say: "Fields created, types created, training uploaded, AI kicked off. One command. Not a PS ticket, not an afternoon in the UI."
+> 🗣 **Say:** "Fields created, types created, training uploaded, AI kicked off. One command. Not a PS ticket, not an afternoon in the UI."
 
 ---
 
@@ -236,7 +236,7 @@ docusign agm test run
 - `generate-test-template --prefill-extractions` creates a test file pre-filled with Iris extraction results from the 7 training docs - your ground-truth baseline to validate against
 - `agm test run` uploads the 7 training docs to Agreement Manager, runs Iris extraction on each, and compares results against the ground-truth values. Prints a pass/fail accuracy report per field
 - **Why 7 agreements appear in Agreement Manager after this step:** `agm test run` sends training docs to Iris for a live extraction pass - they land in Agreement Manager as part of the test. This is expected and correct
-- Say: "Before we hand this manifest to any client, we verify Iris is actually finding the right values. Green per field means the manifest and training docs are working."
+> 🗣 **Say:** "Before we hand this manifest to any client, we verify Iris is actually finding the right values. Green per field means the manifest and training docs are working."
 
 ---
 
@@ -253,7 +253,7 @@ echo "y" | docusign agm ingest --bypass --directory workshop-resources/files/ing
 - `--dry-run` first: previews which 4 files will be uploaded and what types they will map to - show this output before running the real ingest
 - Real ingest: uploads the 4 contracts from `files/ingest/` to Agreement Manager. Iris reads each, matches to the correct custom type using `aiDefinition`, and populates all custom and standard fields
 - **After this step: 11 agreements total in Agreement Manager** - 7 from `agm test run` in step 1.5 + 4 from ingest here. Both sets are expected and correct
-- Say: "Four files, one command. In production this is 4,000 files from Salesforce, SharePoint, or a legacy document repository. Same command."
+> 🗣 **Say:** "Four files, one command. In production this is 4,000 files from Salesforce, SharePoint, or a legacy document repository. Same command."
 
 ### Talk track - what to emphasise (say this after `docusign agm upload` completes)
 > "Everything you just saw - fields created, agreement types created, training uploaded, AI kicked off - that was one command. Not a ticket to the PS team, not an afternoon in the UI.
@@ -276,12 +276,12 @@ echo "y" | docusign agm ingest --bypass --directory workshop-resources/files/ing
 **2.1 - Navigate to Agreement Manager**
 - Go to `apps-d.docusign.com` → **Agreements** tab → **Completed** in the left nav
 - You should see **11 agreements**: 7 from `agm test run` in Stage 1 (training docs Iris ran live extraction on) + 4 from the real ingest
-- Say: "Eleven total. Seven are the training samples Iris used to verify extraction accuracy in Stage 1. Four are the real vendor contracts we ingested. All processed by Iris in the background - nobody opened a single file."
+> 🗣 **Say:** "Eleven total. Seven are the training samples Iris used to verify extraction accuracy in Stage 1. Four are the real vendor contracts we ingested. All processed by Iris in the background - nobody opened a single file."
 
 **2.2 - Verify agreement types are correctly applied**
 - Each agreement should show its custom type - **Clinical Trial Supply Agreement**, **CRO Services Agreement**, or **Medical Device Supply Agreement** - NOT "Miscellaneous"
 - If any shows as Miscellaneous: the `aiDefinition` in the manifest is the tuning lever
-- Say: "The manifest defined these types and told Iris what language distinguishes a Clinical Trial Supply from a CRO Services agreement. That is why nothing landed in Miscellaneous."
+> 🗣 **Say:** "The manifest defined these types and told Iris what language distinguishes a Clinical Trial Supply from a CRO Services agreement. That is why nothing landed in Miscellaneous."
 
 **2.3 - Open a contract and show the extraction panel**
 - Open any agreement → right-hand details panel shows extracted fields alongside the PDF
@@ -290,12 +290,12 @@ echo "y" | docusign agm ingest --bypass --directory workshop-resources/files/ing
   - **CRO Services** - `Pharma - Total Study Budget (USD)`: full CRO spend visibility without digging through Exhibit B
   - **Medical Device Supply** - `Pharma - FDA Device Classification`: regulatory classification extracted, no manual tagging
 - Also point out standard fields: **Payment Terms**, **Governing Law**, **Renewal**, **Termination Notice** - extracted automatically on every contract, no custom definition needed
-- Say: "Every field came from either the manifest or Docusign's standard field library. Iris found the value in the contract text and populated it."
+> 🗣 **Say:** "Every field came from either the manifest or Docusign's standard field library. Iris found the value in the contract text and populated it."
 
 **2.4 - If a field is blank**
 - Click **Re-analyze** on that document and wait up to 5 minutes
 - Blank means extraction is still running or that clause genuinely is not present in this contract
-- Say: "Re-analyze re-runs Iris on this document. If the clause is not there, the field stays blank - which is also accurate information."
+> 🗣 **Say:** "Re-analyze re-runs Iris on this document. If the clause is not there, the field stays blank - which is also accurate information."
 
 > "This pre-processing is what makes Stage 3 fast. When the agent answers a question in 10 seconds, it is not re-reading the PDFs. It is querying structured data Iris already extracted - faster, token-efficient, and permission-aware."
 
@@ -379,7 +379,7 @@ Behavior rules
 
 7. Response format. Keep responses brief, accurate, and visually scannable: lead with a one-line summary, then the detail. Use visual indicators - in place, at-risk, missing, pending.
 ```
-- Say: "These instructions define the agent's operating rules. Rule 3: always check for a Workflow Builder workflow before sending an envelope. Rule 4: always call `getWorkflowTriggerRequirements` before `triggerWorkflow`. You will see both of these in action in Scenario B."
+> 🗣 **Say:** "These instructions define the agent's operating rules. Rule 3: always check for a Workflow Builder workflow before sending an envelope. Rule 4: always call `getWorkflowTriggerRequirements` before `triggerWorkflow`. You will see both of these in action in Scenario B."
 
 ---
 
