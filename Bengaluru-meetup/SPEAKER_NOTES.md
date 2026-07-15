@@ -45,6 +45,74 @@ Attendees do ingestion (Stage 1), extraction (Stage 2), and agent setup (Stage 3
 >
 > The same manifest you test in a dev account today? You hand it to the client, point it at production, run the same command. Done. No re-clicking, no re-configuring, no human error."
 
+### How the manifest works — what to explain while running 1.3
+
+The manifest (`agreement-manager-manifest.json`) is a single JSON file that describes everything Agreement Manager needs to understand Fontara's procurement contracts. Walk through these three concepts as you copy it in:
+
+**1. Custom agreement types** — three types defined, each with an `aiDefinition`:
+- `Clinical Trial Supply Agreement` — manufacture/supply of investigational drug products under GMP. Trained on 3 sample documents.
+- `CRO Services Agreement` — contract research org for trial management, patient recruitment, site monitoring. Trained on 2 sample documents.
+- `Medical Device Supply Agreement` — supply of medical devices with regulatory compliance. Trained on 2 sample documents.
+
+The `aiDefinition` is the instruction to Iris — it tells the model exactly what language, structure, and roles distinguish this agreement type from generic categories like "Miscellaneous". This is why it says "must NOT be confused with License, Subscription, or other broad categories" — without that, Iris would bucket pharma contracts into generic types and extraction accuracy drops.
+
+**2. Custom fields** — 9 fields across the 3 types, each with:
+- A `fieldType` (Number, in all 9 cases here)
+- An `aiDefinition` telling Iris exactly what to look for and where (pricing sections, schedules, exhibits)
+- `examples` — 3 ground-truth examples per field showing real clause text and the confirmed extracted value. This is the training signal.
+
+| Field | Type | Mapped to |
+|---|---|---|
+| `Pharma - Clinical Batch Size (units)` | Number | Clinical Trial Supply |
+| `Pharma - Cost Per Unit (USD)` | Number | Clinical Trial Supply |
+| `Pharma - Required Shelf Life (months)` | Number | Clinical Trial Supply |
+| `Pharma - Total Study Budget (USD)` | Number | CRO Services |
+| `Pharma - Number of Clinical Sites` | Number | CRO Services |
+| `Pharma - Patient Enrollment Target` | Number | CRO Services |
+| `Pharma - Annual Device Purchase Value (USD)` | Number | Medical Device Supply |
+| `Pharma - FDA Device Classification` | Number | Medical Device Supply |
+| `Pharma - Consignment Inventory Period (days)` | Number | Medical Device Supply |
+
+**3. Standard fields** — on top of custom fields, each type also enables built-in Docusign fields: Payment Terms, Governing Law, Renewal, Termination Notice. These come free — no custom definition needed.
+
+> "The manifest is the complete specification of what Fontara's Agreement Manager should know. Agreement types, custom fields, training examples, standard field mappings — all in one file. That's what `agm upload` reads and deploys."
+
+---
+
+### How training docs work — what to explain while copying `files/train/`
+
+The `files/train/` folder contains 7 sample agreements — representative documents for each type (3 Clinical Trial Supply, 2 CRO Services, 2 Medical Device Supply). These are what Iris uses to learn the extraction patterns defined in the manifest.
+
+The link between training docs and the manifest is in the `docs` array on each agreement type:
+```json
+"docs": [
+  "Clinical Trial Supply Agreement - Sample 1.docx",
+  "Clinical Trial Supply Agreement - Sample 2.docx",
+  "Clinical Trial Supply Agreement - Sample 3.docx"
+]
+```
+`agm upload` reads this, finds the matching files in `files/train/`, and uploads them as the AI training corpus for that type. More representative training docs = higher extraction confidence on real contracts.
+
+> "Think of these as the ground truth. You're showing Iris what a Clinical Trial Supply Agreement looks like — the language, the structure, the clause patterns — before you ask it to read Fontara's real vendor contracts."
+
+---
+
+### How ingest works — what to explain during 1.5
+
+The `files/ingest/` folder contains 4 real-world-style contracts — the "legacy repository":
+- `Clinical Trial Supply Agreement - Contract 1.docx`
+- `Clinical Trial Supply Agreement - Contract 2.docx`
+- `Contract Research Organization (CRO) Services Agreement - Contract 1.docx`
+- `Medical Device Supply Agreement - Contract 1.docx`
+
+These are the documents you want to turn into structured data. `docusign agm ingest` uploads them to Agreement Manager, where Iris reads each one, matches it to the correct custom agreement type using the `aiDefinition`, and populates the custom and standard fields.
+
+The `--dry-run` flag is worth showing first — it previews what will be uploaded without touching the account. Then the real ingest runs with `--bypass` to skip interactive confirmation.
+
+> "This is the moment the legacy repository becomes structured data. Four files, one command. In production, this could be 400 files. Same command."
+
+---
+
 ### Step by step
 
 **1.1 — Authenticate**
@@ -61,6 +129,7 @@ mkdir ~/docusign-workshop && cd ~/docusign-workshop
 docusign scaffold -w demo-workspace -p demo-project -f agreement-manager
 ```
 - Creates the folder structure: `configs/`, `files/train/`, `files/test/`
+- The CLI scaffolds the exact directory layout `agm upload` expects — you drop the manifest into `configs/` and training docs into `files/train/`, then run upload.
 
 **1.3 — Drop in the manifest & training docs**
 ```
@@ -72,7 +141,8 @@ cp workshop-resources/files/train/* demo-workspace/demo-project/agreement-manage
 cd demo-workspace && docusign agm get catalog
 docusign agm upload --bypass
 ```
-- `agm upload` creates fields, creates agreement types, maps fields, uploads training docs, triggers AI training — all in one command.
+- `agm get catalog` pulls the account's current standard and custom catalog before upload — `agm upload` reads both to avoid conflicts with existing types or fields.
+- `agm upload` creates fields → creates agreement types → maps fields to types → uploads training docs → triggers AI training. All in one command.
 - AI training runs async — extraction results appear in the UI after a few minutes.
 
 **1.5 — Bulk ingest**
@@ -81,7 +151,9 @@ cd ..
 docusign agm ingest --directory workshop-resources/files/ingest --dry-run
 echo "y" | docusign agm ingest --bypass --directory workshop-resources/files/ingest
 ```
-- 4 contracts uploaded at once. "This is the legacy repository moment — not one file at a time."
+- `--dry-run` first: shows which files will be uploaded and what types they'll be classified as, without touching the account.
+- Real ingest: 4 contracts uploaded. They appear in Agreement Manager → Completed within a few minutes as Navigator indexes them.
+- "This is the legacy repository moment — not one file at a time."
 
 ### Talk track — what to emphasise (say this after `docusign agm upload` completes)
 > "Everything you just saw — fields created, agreement types created, training uploaded, AI kicked off — that was one command. Not a ticket to the PS team, not an afternoon in the UI.
