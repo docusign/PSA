@@ -29,7 +29,7 @@ Attendees do ingestion (Stage 1), extraction (Stage 2), and agent setup (Stage 3
 >
 > Over the next hour, you are going to change that with Docusign agreement manager, AI engine iris, and MCP. You will treat agreements as data, not just documents - automated, repeatable, and scalable. Not by hand. Think real estate, manufacturing, healthcare, public care..you will find this pattern eveywhrere and some of you might already be working on this"
 >**
-> ###What you are building - and why it matters**
+> **What you are building - and why it matters****
 Stage 1 · Docusign CLI + Agreement CLI: define Fontara's pharma/medtech agreement types and fields as code, then bulk-ingest the legacy contract repository - all from the terminal. One-time setup that makes everything else possible.
 Stage 2 · Extraction surfaces in Agreement Manager: Iris AI reads every ingested contract and populates structured fields - batch size, CRO budget, FDA classification, renewal dates, payment terms. Static files become queryable data.
 Stage 3 · MCP via Microsoft Copilot Studio: create a blank agent in Copilot Studio, connect the Docusign MCP Demo connector to it, and query Fontara's whole vendor corpus in plain English - renewals, obligations, risk scan, workflow trigger, signature status. Deploy to Teams and M365 Copilot.
