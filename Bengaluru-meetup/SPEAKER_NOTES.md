@@ -21,7 +21,7 @@ Attendees do ingestion (Stage 1), extraction (Stage 2), and agent setup (Stage 3
 
 ### What to say
 
-> "At Fontara, procurement is buried in vendor contracts and PDFs - and you're here to change that.
+> "At Fontara a med tech comapany, procurement is buried in vendor contracts and PDFs - and you're here to change that.
 >
 > The procurement team owns thousands of vendor agreements, MSAs, SOWs, and NDAs, all stored as flat PDFs across shared drives and inboxes. The documents are signed and safe, but the agreement data the business cares about is locked inside.
 >
