@@ -27,7 +27,7 @@ Attendees do ingestion (Stage 1), extraction (Stage 2), and agent setup (Stage 3
 >
 > That means nobody can answer the questions leaders actually ask: Which contracts auto-renew next quarter? Which vendors are on payment terms longer than 45 days? Where are we missing a price-increase cap? What is our total committed spend with this supplier? Today, every question means a human opening files one by one and reading them manually.
 >
-> Over the next hour, you are going to change that with Docusign agreement manager, AI engine iris, and MCP. You will treat agreements as data, not just documents - automated, repeatable, and scalable. Not by hand. Think real estate, manufacturing, healthcare, public care..you will find this pattern eveywhrere and some of you might already be working on this"
+> Over the next hour, you are going to change that with Docusign agreement manager, AI engine iris, and MCP. You will treat agreements as data, not just documents - automated, repeatable, and scalable.  Think real estate, manufacturing, healthcare, public care..you will find this pattern eveywhrere and some of you might already be working on this"
 >**
 
 
