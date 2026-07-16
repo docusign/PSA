@@ -427,14 +427,14 @@
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign agm upload --bypass</div>
       <p class="expect"><b>Expect:</b> CLI walks through each step and confirms fields created, types created, training uploaded. AI training runs asynchronously - extraction results appear in the UI after a few minutes.</p>
 
-      <h3>1.4 · (Optional) Test the customizations</h3>
-      <p class="lead" style="margin:0 0 6px">Generate a test template pre-filled with what the AI actually extracted, then compare against known ground-truth values. Skip in the interest of time - revisit after the session.</p>
+      <h3>1.5 · Test the customizations <span style="font-size:14px;font-weight:400;color:#615a75;background:#f0edf8;border-radius:4px;padding:2px 8px;margin-left:6px;vertical-align:middle">Informational</span></h3>
+      <p class="lead" style="margin:0 0 6px">Generate a test template pre-filled with what Iris actually extracted, then compare against known ground-truth values to validate extraction accuracy before promoting to production.</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign agm test generate-test-template --prefill-extractions</div>
       <p class="lead" style="margin:8px 0 6px">Edit the generated template to set expected (ground-truth) values, then score accuracy:</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>docusign agm test run</div>
       <p class="expect"><b>Expect:</b> a pass/fail comparison of extracted vs. expected values per field. Use this to tune your manifest before promoting to production.</p>
 
-      <h3>1.5 · Bulk-ingest the Pharma/Medtech contract set</h3>
+      <h3>1.4 · Bulk-ingest the Pharma/Medtech contract set</h3>
       <p class="lead" style="margin:0 0 6px">Ingest 4 real-world-style pharma contracts at once - the "entire legacy repository, not one file at a time" moment. Go back to the repo root first.</p>
       <div class="cmd"><button class="copy" onclick="cp(this)">Copy</button>cd ..</div>
       <p class="lead" style="margin:8px 0 6px">Preview what will be uploaded without ingesting:</p>
