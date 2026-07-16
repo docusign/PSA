@@ -551,21 +551,7 @@
         <strong>Prerequisites:</strong> a Microsoft 365 / Copilot Studio environment; a Docusign developer account; the demo environment at <code>apps-d.docusign.com</code>; and the workshop kit (sample agreements + workflow) from the GitHub repo. Use synthetic data only, no production accounts.
       </div>
 
-      <h3>3.1 · Set up the Docusign sandbox</h3>
-      <ol class="steps">
-        <li>Log into <code>apps-d.docusign.com</code> with your developer account.</li>
-        <li>Upload the sample agreements to <strong>Agreement Manager</strong> (this is the corpus from Stage 1).</li>
-        <li>Confirm extraction is complete in Agreement Manager (Stage 2) before proceeding.</li>
-        <li>In the <strong>Agreements</strong> tab, go to <strong>Workflows</strong> in the left navigation → click <strong>Import</strong> → upload <code>Fontara Renewal Order Form.zip</code> from <code>workshop-resources/workflow/</code> in the workshop kit. The document template is pre-loaded in the demo account - you do not need to import it separately.</li>
-      </ol>
-      <div class="note" style="margin:8px 0 0">
-        <strong>⚠️ Workflow must be Published, not Draft.</strong> After import, open the workflow and click <strong>Publish</strong>. The agent can only trigger published workflows through the Docusign MCP Demo connector.
-      </div>
-      <ol class="steps" start="5">
-        <li>Validate the workflow appears in the Published state: Agreements → Workflows → confirm status shows <strong>Published</strong>.</li>
-      </ol>
-
-      <h3>3.2 · Create &amp; configure the agent</h3>
+      <h3>3.1 · Create &amp; configure the agent</h3>
       <ol class="steps">
         <li>Sign in at <code>copilotstudio.microsoft.com</code>.</li>
         <li>Create a <strong>blank agent</strong> and name it <strong>"Procurement Agent"</strong>.</li>
@@ -596,7 +582,7 @@ Behavior rules
 
 7. Response format. Keep responses brief, accurate, and visually scannable: lead with a one-line summary, then the detail. Use visual indicators - ✅ in place · ⚠️ at-risk · 🔴 missing · 🕐 pending. Use HTML formatting to make responses easy to read.<button class="copy" onclick="cp(this)">Copy</button></div>
 
-      <h3>3.3 · Add the Docusign MCP Demo connector</h3>
+      <h3>3.2 · Add the Docusign MCP Demo connector</h3>
       <ol class="steps">
         <li>Open the <strong>Tools</strong> tab → <strong>+ Add a tool</strong> → <strong>Model Context Protocol</strong>.</li>
         <li>Search for and select <strong>"Docusign MCP Demo"</strong>.</li>
@@ -608,13 +594,13 @@ Behavior rules
         <strong>Connection tip:</strong> if the connection fails, confirm you are signing into the <strong>demo (sandbox) environment</strong>, not production. The connector is scoped to <code>apps-d.docusign.com</code>. If you see a permissions error, disconnect and reconnect from the <strong>Connections</strong> page in Power Apps (<code>make.powerapps.com</code>).
       </div>
 
-      <h3>3.4 · Verify the connection</h3>
+      <h3>3.3 · Verify the connection</h3>
       <p class="lead" style="margin:0 0 6px">Each prompt should trigger a <code>tools/call</code> in the activity map.</p>
       <div class="prompt"><span class="q">Verify P1</span>List all my Docusign accounts.<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="prompt"><span class="q">Verify P2</span>List all my agreements.<button class="copy" onclick="cp(this)">Copy</button></div>
       <div class="prompt"><span class="q">Verify P3</span>List available Workflow Builder workflows.<button class="copy" onclick="cp(this)">Copy</button></div>
 
-      <h3>3.5 · Scenario A - Vendor Agreement Insights</h3>
+      <h3>3.4 · Scenario A - Vendor Agreement Insights</h3>
 
       <div class="story">
         <div class="eyebrow">Agreement Manager · Iris</div>
@@ -642,7 +628,7 @@ Behavior rules
       </div>
       <p class="expect"><b>Scenario A demonstrates:</b> portfolio-wide renewal visibility · Agreement Manager + Iris extracting parties, dates, payment terms, and renewal notice periods · off-standard terms detection · vendor-to-vendor compliance contrast.</p>
 
-      <h3>3.6 · Scenario B - Workflow Builder Orchestration</h3>
+      <h3>3.5 · Scenario B - Workflow Builder Orchestration</h3>
 
       <div class="story">
         <div class="eyebrow">Workflow Builder · Agreement Prep · eSign</div>
@@ -658,7 +644,7 @@ Behavior rules
       </div>
       <p class="expect"><b>Scenario B demonstrates:</b> agent calling <code>getWorkflowTriggerRequirements</code> before triggering · Workflow Builder routing logic · human-in-the-loop approval for high-value renewals · Agreement Prep generating the order form for vendor signature.</p>
 
-      <h3>3.7 · Scenario C - Track Workflow &amp; Agreement Status</h3>
+      <h3>3.6 · Scenario C - Track Workflow &amp; Agreement Status</h3>
 
       <div class="story">
         <div class="eyebrow">Workflow Builder · Agreement Desk · eSign</div>
@@ -676,7 +662,7 @@ Behavior rules
       </div>
       <p class="expect"><b>Scenario C demonstrates:</b> in-flight workflow monitoring · eSign envelope status check · nudging stalled vendor signers without leaving chat · expiry and escalation awareness.</p>
 
-      <h3>3.8 · Publish to Microsoft Teams &amp; M365 Copilot</h3>
+      <h3>3.7 · Publish to Microsoft Teams &amp; M365 Copilot</h3>
       <p class="lead" style="margin:0 0 6px">Always test in Copilot Studio before publishing to channels. Use the <strong>Test your agent</strong> pane with the <strong>activity map</strong> turned on for every iteration. Verify each prompt produces a <code>tools/call</code> against the Docusign MCP Demo connector and that the response is grounded. Only then publish.</p>
       <ol class="steps">
         <li>Open the <strong>Channels</strong> tab in your agent.</li>
@@ -690,7 +676,7 @@ Behavior rules
         <strong>Tenant &amp; propagation note:</strong> publishing channels typically requires tenant admin approval and may depend on Power Platform / Microsoft 365 admin policies. If you are not a tenant admin, work with IT to approve the app. Teams and M365 Copilot channel approvals can take time - allow propagation time after publish. Re-publish after every change to instructions, knowledge, or tools. Reference: <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-add-bot-to-microsoft-teams" target="_blank" style="color:var(--blue)">Microsoft Learn - Add a Copilot Studio agent to Microsoft Teams</a>.
       </div>
 
-      <h3>3.9 · Sample prompt library</h3>
+      <h3>3.8 · Sample prompt library</h3>
       <p class="lead" style="margin:0 0 6px">A portable library of prompts to extend the demo beyond the three core scenarios. Replace anything in <code>[BRACKETS]</code> with data from your demo account - vendor names, emails, and contract values.</p>
       <div class="note" style="margin:0 0 12px">
         <strong>For reference only:</strong> some prompts require relevant agreements, workflows, templates, and/or envelopes to be in place to function as intended.
@@ -727,7 +713,7 @@ Behavior rules
         </tbody>
       </table>
 
-      <h3>3.10 · Troubleshooting</h3>
+      <h3>3.9 · Troubleshooting</h3>
       <table>
         <thead><tr><th>Issue</th><th>Likely cause</th><th>Fix</th></tr></thead>
         <tbody>
