@@ -823,6 +823,11 @@ Behavior rules:
 
 <script>
   var prereqsUnlocked = localStorage.getItem('prereqsUnlocked') === 'true';
+  // Restore prereq checkbox states on load
+  ['pchk-1','pchk-2','pchk-3','pchk-4'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el && localStorage.getItem('prereq-'+id) === '1') el.checked = true;
+  });
 
   function toggleStage(n){
     if(n > 0 && !prereqsUnlocked) return; // locked stages
@@ -837,6 +842,7 @@ Behavior rules:
 
   function checkPrereqs(){
     var all = document.querySelectorAll('.prereq-chk');
+    all.forEach(function(c){ localStorage.setItem('prereq-'+c.id, c.checked ? '1' : '0'); });
     var allChecked = Array.from(all).every(function(c){ return c.checked; });
     if(allChecked){ showPrereqModal(); }
   }
@@ -877,12 +883,18 @@ Behavior rules:
       var stage = document.getElementById('s'+s);
       var h3s = stage.querySelectorAll('h3');
       STAGE_TOTAL[s] = h3s.length;
-      h3s.forEach(function(h3){
+      h3s.forEach(function(h3, i){
         var cb = document.createElement('input');
         cb.type = 'checkbox';
         cb.className = 'step-chk';
         cb.dataset.stage = s;
-        cb.addEventListener('change', function(){ updateProgress(s); });
+        cb.dataset.idx = i;
+        var lsKey = 'step-' + s + '-' + i;
+        if(localStorage.getItem(lsKey) === '1') cb.checked = true;
+        cb.addEventListener('change', function(){
+          localStorage.setItem(lsKey, cb.checked ? '1' : '0');
+          updateProgress(s);
+        });
         h3.insertBefore(cb, h3.firstChild);
       });
       updateProgress(s);
