@@ -955,13 +955,13 @@ Computing file hashes and checking for duplicates...
 ✔ Upload completed successfully!</code></pre>
 
   <h4>Verify the agreements in Docusign</h4>
-  <p>In Docusign, you can check that the agreements have been ingested into Agreement Manager.</p>
+  <p>In Docusign, you can check that the agreements have been ingested into Agreement Manager. It can take some minutes for Docusign Iris to extract the key datapoints</p>
   <img class="shot" src="https://raw.githubusercontent.com/docusign/PSA/main/EMEA_CLI_Workshop/screenshots/cli_toolkit_2_agm.png" alt="Ingested agreements shown in Agreement Manager">
 
   <h4>What Happens After the Agreement Manager IAM Package is Uploaded?</h4>
   <p>After successfully uploading your Agreement Manager IAM package:</p>
   <ul class="plainlist">
-    <li>Custom fields and custom agreement types are created in Agreement Manager.</li>
+    <li>Custom fields and custom agreement types are created in Agreement Manager. In this case, the custom Film Distribution Agreement type and the three fields we configured: Shooting Location, Production Budget and Distribution Territory.</li>
     <li>Additional standard and custom fields are mapped to the specified agreement types.</li>
     <li>Example agreements are uploaded to train the AI for custom agreement types where customExtractionEnabled is set to true.</li>
     <li>AI extraction is enabled in the Agreement Manager UI for custom agreement types and custom fields where customExtractionEnabled is set to true.</li>
