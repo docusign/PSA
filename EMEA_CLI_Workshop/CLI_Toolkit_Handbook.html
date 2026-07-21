@@ -148,6 +148,12 @@ ul.flist li::before { content:'✓'; position:absolute; left:4px; color:var(--te
 .divider { height:1px; background:var(--gray-border); margin:40px 0; }
 .shot { max-width:100%; height:auto; display:block; margin:10px 0 20px;
   border:1px solid var(--gray-border); border-radius:8px; }
+.code-wrap { position:relative; }
+.code-copy { position:absolute; top:10px; right:10px; background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.25); color:#D8E2F2; font-size:11px; font-weight:600;
+  padding:4px 12px; border-radius:5px; cursor:pointer; font-family:inherit; transition:background .15s; }
+.code-copy:hover { background:rgba(255,255,255,.28); }
+.code-copy.copied { background:rgba(100,220,160,.35); border-color:transparent; color:#fff; }
 .chips { display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 22px; }
 .chip { display:inline-flex; align-items:center; gap:9px; padding:8px 16px 8px 10px;
   background:var(--gray-bg); border:1px solid var(--gray-border); border-radius:22px;
@@ -185,6 +191,7 @@ details.collapsible > table { margin-top:0; }
   <nav>
     <div class="sb-section">Overview</div>
     <a href="#overview"><span class="sb-icon">📋</span> Introduction</a>
+    <a href="#how-to-use"><span class="sb-icon">📖</span> How to use this handbook</a>
 
     <div class="sb-section">Workshop</div>
     <a class="top" href="#setup-install"><span class="num">1</span> Initial Setup &amp; Installation</a>
@@ -236,8 +243,19 @@ details.collapsible > table { margin-top:0; }
   <p>This manual provides a detailed guide for installing and setting up the IAM Toolkit, followed by instructions on how to use its features through the Docusign's Agreement CLI.</p>
 </section>
 
+<section id="how-to-use">
+  <div class="section-header"><div class="sec-num" style="font-size:18px;">📖</div><h2>How to Use This Handbook</h2></div>
+  <p>This handbook is designed to be self-paced and self-contained. You can follow it during a facilitated session or work through it independently. Each section is tagged so you know what to expect:</p>
+  <table>
+    <tr><th>Tag</th><th>What it means</th></tr>
+    <tr><td><span class="badge badge-green">Setup</span></td><td>One-time configuration steps — do these before the exercises.</td></tr>
+    <tr><td><span class="badge badge-purple">Theory</span></td><td>Background and concepts, so you understand what you're doing and why.</td></tr>
+    <tr><td><span class="badge badge-blue">Exercise</span></td><td>A hands-on step. Follow along and run the commands in order.</td></tr>
+  </table>
+</section>
+
 <section id="setup-install">
-  <div class="section-header"><div class="sec-num" style="font-size:16px;">1</div><h2>Initial Setup and Installation</h2></div>
+  <div class="section-header"><div class="sec-num" style="font-size:16px;">1</div><h2>Initial Setup and Installation</h2><span class="badge badge-green" style="margin-left:auto;">Setup</span></div>
 
   <h3>Prerequisites</h3>
 
@@ -295,11 +313,15 @@ PS C:\Users\Tamara.Flores\Documents\cli-toolkit-test\test08072026> npm --version
 
   <h3>Installation</h3>
   <p><strong>Install Docusign Agreement CLI:</strong> Install the npm package globally.</p>
-  <pre><code>$ npm i -g @docusign/agreement-cli --registry https://registry.npmjs.org/
-
-OR
-
-$ sudo npm i -g @docusign/agreement-cli --registry https://registry.npmjs.org/   //If you are not an admin</code></pre>
+  <div class="code-wrap">
+    <button class="code-copy" onclick="copyCode(this)">Copy</button>
+    <pre><code>$ npm i -g @docusign/agreement-cli --registry https://registry.npmjs.org/</code></pre>
+  </div>
+  <p>OR, if you are not an admin:</p>
+  <div class="code-wrap">
+    <button class="code-copy" onclick="copyCode(this)">Copy</button>
+    <pre><code>$ sudo npm i -g @docusign/agreement-cli --registry https://registry.npmjs.org/</code></pre>
+  </div>
   <div class="callout callout-blue">
     <div class="callout-icon">📝</div>
     <div>
@@ -310,7 +332,10 @@ $ sudo npm i -g @docusign/agreement-cli --registry https://registry.npmjs.org/  
 
   <h3>Verify your installation</h3>
   <p>After installation, you can verify the CLI is installed and accessible by running the root command. The help output will be displayed.</p>
-  <pre><code>$ docusign</code></pre>
+  <div class="code-wrap">
+    <button class="code-copy" onclick="copyCode(this)">Copy</button>
+    <pre><code>$ docusign</code></pre>
+  </div>
   <p>For example:</p>
   <pre><code>╔══════════════════════════╗  v1.1.1-beta
 ║  Docusign Agreement CLI  ║  Environment: demo
@@ -360,14 +385,14 @@ Tip: Use 'ds' as a short alias for 'docusign'</code></pre>
   <ul class="plainlist">
     <li>Retrieve existing configurations, including custom fields, custom types, and their AI extraction training datasets</li>
     <li>Retrieve field mappings, including additional standard and custom fields mapped to both standard and custom types</li>
-    <li>Ingest agreements into Agreement Manager</li>
     <li>Create custom fields and custom types in the Agreement Manager</li>
+    <li>Ingest agreements into Agreement Manager</li>
     <li>Test Agreement Manager's AI extraction accuracy</li>
   </ul>
 </section>
 
 <section id="scaffold">
-  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.1</div><h2>Scaffold your workspace</h2></div>
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.1</div><h2>Scaffold your workspace</h2><span class="badge badge-blue" style="margin-left:auto;">Exercise</span></div>
 
   <p>The first step of using the Docusign Agreement CLI is to create a workspace that will be used to store your assets. The <code>docusign scaffold</code> command is used to create a structured workspace and project directory for organizing your Docusign Agreement CLI configurations, tests, and files.</p>
 
@@ -406,7 +431,10 @@ Options:
 
   <h3>Example Execution</h3>
   <p>The following example creates a workspace named <code>my-docusign-workspace</code> and a project named <code>fontara</code>, and sets up one feature: Agreement Manager.</p>
-  <pre><code>$ docusign scaffold -w my-docusign-workspace -p fontara -f Agreement-Manager</code></pre>
+  <div class="code-wrap">
+    <button class="code-copy" onclick="copyCode(this)">Copy</button>
+    <pre><code>$ docusign scaffold -w my-docusign-workspace -p fontara -f Agreement-Manager</code></pre>
+  </div>
 
   <h3>Output and Structure</h3>
   <p>Upon successful execution, the CLI creates the following structure.</p>
@@ -445,7 +473,7 @@ Global config: ~/.docusign/
 </section>
 
 <section id="auth">
-  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.2</div><h2>Authenticate the CLI</h2></div>
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.2</div><h2>Authenticate the CLI</h2><span class="badge badge-blue" style="margin-left:auto;">Exercise</span></div>
 
   <p>The <code>docusign auth login</code> command is the primary method for securely authenticating the Docusign Agreement CLI using the OAuth PKCE (Proof Key for Code Exchange) flow. This command handles the browser-based login, token retrieval, and local storage of credentials.</p>
 
@@ -472,7 +500,10 @@ Options:
   </details>
 
   <h4>Login to the Demo Environment</h4>
-  <pre><code>$ docusign auth login</code></pre>
+  <div class="code-wrap">
+    <button class="code-copy" onclick="copyCode(this)">Copy</button>
+    <pre><code>$ docusign auth login</code></pre>
+  </div>
   <p>After completing the browser login, if your credentials are associated with more than one Docusign account, the CLI will prompt you to <strong>choose the account you want to work with</strong>. Select the account that has Agreement Manager enabled for this exercise. Once selected, the CLI confirms your user, account, token, and feature availability:</p>
   <pre><code>✔ Logging into demo (use -e to change the environment), continue? Yes
 ▌ Logging into Docusign...
@@ -513,7 +544,7 @@ Feature Availability:
 </section>
 
 <section id="iam-package">
-  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.3</div><h2>IAM Package Overview</h2></div>
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.3</div><h2>IAM Package Overview</h2><span class="badge badge-purple" style="margin-left:auto;">Theory</span></div>
   <p>The scaffold command created the structure for you to work with. Your workspace will contain your Agreement Manager package. Let's dive into the different components.</p>
   <p>A Agreement Manager package is a bundle that contains everything needed to configure Agreement Manager programmatically. It includes:</p>
   <ul class="plainlist">
@@ -523,13 +554,16 @@ Feature Availability:
 </section>
 
 <section id="get-catalog">
-  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.4</div><h2>Agreement Manager Catalog</h2></div>
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.4</div><h2>Agreement Manager Catalog</h2><span class="badge badge-blue" style="margin-left:auto;">Exercise</span></div>
   <h3>Get Catalog Command</h3>
   <p>First, run the <strong>Get Catalog</strong> command to verify that the IAM Toolkit is successfully connected to Agreement Manager. This command retrieves the existing agreement types and fields from your account and generates a catalog that serves as the reference when building your Agreement Manager IAM package. This is a representation of the "Is-State" of your current Agreement Manager configuration.</p>
   <p>First, navigate into your workspace directory so the catalog files are written to the right place:</p>
   <pre><code>$ cd my-docusign-workspace/fontara</code></pre>
   <p>Then run:</p>
-  <pre><code>$ docusign agm get catalog</code></pre>
+  <div class="code-wrap">
+    <button class="code-copy" onclick="copyCode(this)">Copy</button>
+    <pre><code>$ docusign agm get catalog</code></pre>
+  </div>
   <p>This command fetches your existing Agreement Manager configuration into two files, <strong>"standard-catalog.json"</strong> and <strong>"custom-catalog.json"</strong>.</p>
 
   <div class="callout callout-amber">
@@ -665,7 +699,7 @@ Feature Availability:
 </section>
 
 <section id="create-package">
-  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.5</div><h2>Understand your Agreement Manager IAM Package</h2></div>
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.5</div><h2>Understand your Agreement Manager IAM Package</h2><span class="badge badge-purple" style="margin-left:auto;">Theory</span></div>
   <p>To create your Agreement Manager IAM package, you need two things: a Agreement Manager-manifest.json file and example agreements added to the <code>{workspaceName}/{projectName}/Agreement Manager/train/</code> directory. Details are provided below.</p>
 
   <h4>1. Agreement Manager-manifest.json</h4>
@@ -771,7 +805,7 @@ Feature Availability:
 </section>
 
 <section id="agreement-sets">
-  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.6</div><h2>Add Example Agreement Sets for training AI on your Custom Agreement Types</h2></div>
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.6</div><h2>Add Example Agreement Sets for training AI on your Custom Agreement Types</h2><span class="badge badge-blue" style="margin-left:auto;">Exercise</span></div>
   <p>For this exercise, the example data centers on <strong>Film and Distribution Agreements</strong>. You will be provided with a set of sample agreements to work through the steps, along with a sample manifest file to get you started.</p>
 
   <h4>Go into your project directory</h4>
@@ -799,6 +833,8 @@ Feature Availability:
 
   <h4>Copy the completed manifest file</h4>
   <p>Copy the sample manifest below into <code>{workspace}/{project}/agreement-manager/configs/agreement-manager-manifest.json</code>:</p>
+  <div class="code-wrap">
+  <button class="code-copy" onclick="copyCode(this)">Copy</button>
   <pre><code>{
   "version": "1.0.0",
   "defaultLocale": "en",
@@ -910,6 +946,7 @@ Feature Availability:
     "lastManifestHash": ""
   }
 }</code></pre>
+  </div>
 
   <div class="callout callout-blue">
     <div class="callout-icon">📐</div>
@@ -921,9 +958,12 @@ Feature Availability:
 </section>
 
 <section id="upload-package">
-  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.7</div><h2>Upload your Agreement Manager IAM Package</h2></div>
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.7</div><h2>Upload your Agreement Manager IAM Package</h2><span class="badge badge-blue" style="margin-left:auto;">Exercise</span></div>
   <p>Now that you have copied the manifest and the agreements for <code>test</code> and <code>train</code>, you can upload your Agreement Manager package with the following command:</p>
-  <pre><code>$ docusign agm upload</code></pre>
+  <div class="code-wrap">
+    <button class="code-copy" onclick="copyCode(this)">Copy</button>
+    <pre><code>$ docusign agm upload</code></pre>
+  </div>
   <p>Output:</p>
   <pre><code>Common Usage:
 
@@ -969,7 +1009,7 @@ Computing file hashes and checking for duplicates...
 </section>
 
 <section id="test-package">
-  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.8</div><h2>Test your Agreement Manager Package</h2></div>
+  <div class="section-header"><div class="sec-num" style="font-size:12px;">2.8</div><h2>Test your Agreement Manager Package</h2><span class="badge badge-blue" style="margin-left:auto;">Exercise</span></div>
   <p>The testing feature allows you to programmatically compare the actual extracted values with the expected values across all test agreements.</p>
 
   <details class="collapsible">
@@ -981,7 +1021,10 @@ Computing file hashes and checking for duplicates...
 
   <h4>1. Generate Testing CSV</h4>
   <p>To programmatically compare your expected values with the actual extracted values, first generate the testing template file, testing.csv, by running:</p>
-  <pre><code>$ docusign agm test generate-test-template</code></pre>
+  <div class="code-wrap">
+    <button class="code-copy" onclick="copyCode(this)">Copy</button>
+    <pre><code>$ docusign agm test generate-test-template</code></pre>
+  </div>
   <details class="collapsible">
     <summary>Click here to view details on the different options</summary>
     <table>
@@ -1024,7 +1067,10 @@ Computing file hashes and checking for duplicates...
 
   <h4>3. Run the test</h4>
   <p>Once the ground truth values have been entered into the testing.csv, you can start the testing by running the following command:</p>
-  <pre><code>$ docusign agm test run</code></pre>
+  <div class="code-wrap">
+    <button class="code-copy" onclick="copyCode(this)">Copy</button>
+    <pre><code>$ docusign agm test run</code></pre>
+  </div>
   <table>
     <tr><th>Option</th><th>Description</th><th>Default Value</th></tr>
     <tr><td>--partial-match</td><td>If true, comparison of string values is done by token (word). If false, comparison of string values is done by exact match</td><td>false</td></tr>
@@ -1273,6 +1319,29 @@ const observer = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.25 });
 document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+function copyCode(btn){
+  const code = btn.parentElement.querySelector('code');
+  const text = code.innerText
+    .split('\n')
+    .map(line => line.replace(/^\s*\$ ?/, ''))
+    .join('\n');
+  const done = () => {
+    const o = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = o; btn.classList.remove('copied'); }, 1600);
+  };
+  const fallback = () => {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.top = '-9999px';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta); done();
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done, fallback);
+  } else { fallback(); }
+}
 </script>
 </body>
 </html>
