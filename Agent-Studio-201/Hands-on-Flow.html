@@ -202,7 +202,6 @@ li{margin:5px 0;}
   <div class="brand">
     <a href="index.html"><img class="logo" src="https://docusign.github.io/PSA/Bengaluru-meetup/assets/img/docusign-horizontal-black.svg" alt="Docusign"></a>
     <nav>
-      <a href="index.html">Overview</a>
       <a href="Hands-on-Flow.html">Hands-on Lab</a>
     </nav>
   </div>
@@ -410,7 +409,7 @@ li{margin:5px 0;}
       <div class="obj"><div class="lab">Objective 3</div><b>Orchestrate the agent inside Workflow Builder</b><br>Start from Agreement Desk, fetch the document, call the agent, capture its structured output into variables, and branch deterministically.</div>
       <div class="obj"><div class="lab">Objective 4</div><b>Keep humans in the loop and fail safely</b><br>Escalate MEDIUM/HIGH to the right approver, and return the request to the submitter when the automation can't do its job - never guess.</div>
 
-      <h3><br></h3><h3>0.6 · Prerequisites</h3>
+      <h3>0.6 · Prerequisites</h3>
       <p>A Docusign IAM (Intelligent Agreement Management) environment - sandbox or non-production - with the features and permissions below. Everything uses synthetic data only, no production accounts or real party data.</p>
 
       <div class="h-check"><input type="checkbox" data-stage="0" id="p1"><div><h3 style="display:inline">0.6.1 · Products enabled</h3><span class="tag">setup</span></div></div>
@@ -472,16 +471,18 @@ li{margin:5px 0;}
 
     <!-- ============ STAGE 1 ============ -->
     <section class="stage" id="stage-1">
-      <div class="stage-head"><h2><br></h2><h2>Stage 1 · Agent Studio</h2><span class="time">Build the Risk Analyst · 15 min</span></div>
+      <div class="stage-head"><h2>Stage 1 · Agent Studio</h2><span class="time">Build the Risk Analyst · 15 min</span></div>
       <p>Build the agent first. It's the only artifact in this lab you create from scratch, it's where the actual skill lives, and the workflow you import in Stage 2 needs to point at it - so it has to exist first.</p>
       <p>One agent serves both motions: it works out from the parties and context whether it's looking at a vendor contract or a customer renewal.</p>
 
       <div class="h-check"><input type="checkbox" data-stage="1" id="chk4"><div><h3 style="display:inline">1.1 · Create the agent &amp; set identity</h3></div></div>
       <ol>
-        <li>Sign in to your Docusign developer account (&nbsp;<code>https://apps-d.docusign.com</code>).</li>
-        <li>Open the <b>Agents tab</b>&nbsp;(under Automation).</li>
-        <li>Click on&nbsp;<b>Create New</b>.</li><li>Click on Use classic editor.</li>
-        <li>Set the core properties by clicking on the pencil icon next to My new agent and then click on Save:</li>
+        <li>Log in to your Docusign account and select <b>Automation</b> from the global header (top navigation).</li>
+        <li>Select <b>Agents</b> from the navigation pane on the left.</li>
+        <li>The Agent Studio opens and the Agents page is displayed. Confirm you can see the <b>Featured</b> agents row, <b>My agents</b> below it, and a <b>Create New</b> button top-right.</li>
+        <li>Click <b>Create New</b>.</li>
+        <li>Click <b>Use classic editor</b>.</li>
+        <li>Set the core properties by clicking the pencil icon next to "My new agent," then click <b>Save</b>:</li>
       </ol>
       <table>
         <tbody><tr><th>Property</th><th>Value</th></tr>
