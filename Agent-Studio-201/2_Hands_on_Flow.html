@@ -202,7 +202,6 @@ li{margin:5px 0;}
   <div class="brand">
     <a href="index.html"><img class="logo" src="https://docusign.github.io/PSA/Bengaluru-meetup/assets/img/docusign-horizontal-black.svg" alt="Docusign"></a>
     <nav>
-      <a href="index.html">Overview</a>
       <a href="2_Hands_on_Flow.html">Hands-on Lab</a>
     </nav>
   </div>
@@ -210,11 +209,7 @@ li{margin:5px 0;}
 </header>
 
 <!-- ===================== CONTENT EDITOR TOOLBAR ===================== -->
-<div id="edit-toolbar" style="position:fixed;bottom:20px;right:20px;z-index:1000;display:flex;gap:8px;align-items:center;background:#1a0040;padding:10px 14px;border-radius:12px;box-shadow:0 8px 24px rgba(19,0,50,.35);font-family:'DSIndigo',Arial,sans-serif;">
-  <span id="edit-status" style="color:#c9bdf0;font-size:12.5px;margin-right:4px;">Edit mode off</span>
-  <button id="edit-toggle" type="button" style="background:#4C00FF;color:#fff;border:none;border-radius:7px;padding:8px 14px;font-size:13px;font-weight:500;cursor:pointer;">Edit Mode</button>
-  <button id="edit-download" type="button" style="background:#0a7d3c;color:#fff;border:none;border-radius:7px;padding:8px 14px;font-size:13px;font-weight:500;cursor:pointer;">Download Updated HTML</button>
-</div>
+
 
 <div class="wrap">
 
@@ -252,8 +247,7 @@ li{margin:5px 0;}
         </div>
       </div>
 
-      <div class="stage-head"><h2><br>Before you begin</h2>
-      <span class="time">Start here</span></div>
+      <div class="stage-head"><h2>Before you begin</h2><span class="time">Start here</span></div>
 
       <h3>0.1 · The scenario</h3>
       <div class="card proc-only">
@@ -396,7 +390,7 @@ li{margin:5px 0;}
         </div>
       </div>
 
-      <h3><br></h3><h3>0.4 · Reading the diagram</h3>
+      <h3>0.4 · Reading the diagram</h3>
       <div class="card tint diagram">
         <div><span class="n">1</span><div><b>Agreement Desk</b>the user submits a request of the imported Request Type and uploads the draft <span class="proc-only">contract</span><span class="sales-only">order form</span> on the request's Documents tab (Stage 3).</div></div>
         <div><span class="n">2</span><div><b>Get Document from a Request</b>the workflow's first step pulls that uploaded document into a workflow document variable (<code>request_document</code>) that later steps can use.</div></div>
@@ -405,7 +399,7 @@ li{margin:5px 0;}
         <div><span class="n">5</span><div><b>eSignature &amp; status</b>Send Documents for Signature uses the same <code>request_document</code>; on completion the workflow sets the Desk request to <span class="proc-only">Onboarded / Signed</span><span class="sales-only">Renewal Signed</span>.</div></div>
       </div>
 
-      <h3><br></h3><h3>0.5 · Learning objectives</h3>
+      <h3>0.5 · Learning objectives</h3>
       <div class="obj"><div class="lab">Objective 1</div><b>Use Agreement Desk as a structured intake surface</b><br>Import a Request Type, submit a request, and attach the document the rest of the flow depends on.</div>
       <div class="obj"><div class="lab">Objective 2</div><b>Build a Risk Analyst agent in Agent Studio</b><br>Write instructions that reliably return valid, machine-parsable JSON, scope its capabilities, and verify with Test before publishing.</div>
       <div class="obj"><div class="lab">Objective 3</div><b>Orchestrate the agent inside Workflow Builder</b><br>Start from Agreement Desk, fetch the document, call the agent, capture its structured output into variables, and branch deterministically.</div>
@@ -479,10 +473,12 @@ li{margin:5px 0;}
 
       <div class="h-check"><input type="checkbox" data-stage="1" id="chk4"><div><h3 style="display:inline">1.1 · Create the agent &amp; set identity</h3></div></div>
       <ol>
-        <li>Sign in to your Docusign developer account (&nbsp;<code>https://apps-d.docusign.com</code>).</li>
-        <li>Open the <b>Agents tab</b>&nbsp;(under Automation).</li>
-        <li>Click on&nbsp;<b>Create New</b>.</li><li>Click on Use classic editor.</li>
-        <li>Set the core properties by clicking on the pencil icon next to My new agent and then click on Save:</li>
+        <li>Log in to your Docusign account and select <b>Automation</b> from the global header (top navigation).</li>
+        <li>Select <b>Agents</b> from the navigation pane on the left.</li>
+        <li>The Agent Studio opens and the Agents page is displayed. Confirm you can see the <b>Featured</b> agents row, <b>My agents</b> below it, and a <b>Create New</b> button top-right.</li>
+        <li>Click <b>Create New</b>.</li>
+        <li>Click <b>Use classic editor</b>.</li>
+        <li>Set the core properties by clicking the pencil icon next to "My new agent," then click <b>Save</b>:</li>
       </ol>
       <table>
         <tbody><tr><th>Property</th><th>Value</th></tr>
