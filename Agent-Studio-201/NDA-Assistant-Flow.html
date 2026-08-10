@@ -434,18 +434,30 @@ li{margin:5px 0;}
         <div class="expect"><b>Checkpoint:</b> the agent shell exists and Agent Studio has pre-selected capabilities for agreement search and text generation.</div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="s13"><div><h3 style="display:inline">1.3 · Choosing how to talk to your agent</h3><span class="tag">build</span></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="1" id="s13"><div><h3 style="display:inline">1.3 · Set the entry method and greeting</h3><span class="tag">build</span></div></div>
       <div class="card">
-        <p style="margin:0 0 8px;">Define how the user interacts with the agent workflow.</p>
-        <ul>
-          <li><b>Select Entry Method:</b> click on the <b>In chat panel</b> option. This enables a conversational layout where users can ask ad-hoc search queries and receive instant real-time document text.</li>
-          <li><b>Configure Greeting:</b> set the primary automated greeting prompt box to output:</li>
-        </ul>
+        <div class="clickpath">
+          <div class="cp-task"><span class="cp-badge">Click path</span>Entry method</div>
+          <ol>
+            <li>On the agent setup page, look for the <b>Entry Method</b> section (below the agent name and description fields).</li>
+            <li>Select <b>In chat panel</b>. This sets the agent to run as a conversation inside Ask Iris rather than as a background workflow step.</li>
+          </ol>
+        </div>
+        <div class="clickpath">
+          <div class="cp-task"><span class="cp-badge">Click path</span>Greeting</div>
+          <ol>
+            <li>Once <b>In chat panel</b> is selected, a <b>Conversation starter prompts</b> section appears below it.</li>
+            <li>Click <b>Add a prompt</b> (or the existing starter prompt field if one was auto-generated).</li>
+            <li>Clear any existing text and enter the greeting below.</li>
+            <li>Click <b>Save</b> inside that box to save the greeting text.</li>
+            <li>Then click the main <b>Save</b> button at the bottom of the full agent setup page. Both saves are required.</li>
+          </ol>
+        </div>
         <div class="lbl">Greeting</div>
         <div class="block prompt">How can I help with your agreement search or NDA drafting?</div>
-        <div class="warn"><b>Save twice.</b> Ensure you click <b>Save</b> at the bottom of the screen too, before exiting this page. Only clicking the Save button from the box with the starter prompt will <em>not</em> save it.</div>
-        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Entry method set to In chat panel, greeting configured, and the Save button at the bottom of the screen</span></div>
-        <div class="expect"><b>Checkpoint:</b> entry method is "In chat panel" and the greeting persists after you leave and re-open the page.</div>
+        <div class="warn"><b>Two separate saves required.</b> Saving inside the starter prompt box only saves the greeting text. You must also click the <b>Save</b> button at the bottom of the full page, or the entry method and greeting will not persist when you leave and return.</div>
+        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Entry method set to In chat panel, Conversation starter prompts section open with the greeting entered, and the page-level Save button at the bottom</span></div>
+        <div class="expect"><b>Checkpoint:</b> entry method shows "In chat panel" and the greeting text is still present after you navigate away and return to the agent setup page.</div>
       </div>
 
       <div class="h-check"><input type="checkbox" data-stage="1" id="s14"><div><h3 style="display:inline">1.4 · Deploying the master instructions</h3><span class="tag">build</span></div></div>
