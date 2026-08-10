@@ -190,7 +190,7 @@ li{margin:5px 0;}
 .foot{margin-top:40px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:16px;}
 </style>
 </head>
-<body data-persona="procurement">
+<body data-persona="sales">
 
 <div class="utility">
   <a href="https://developers.docusign.com/docs/iam/agent-studio/" target="_blank" rel="noopener">Agent Studio Docs ↗</a>
@@ -243,11 +243,11 @@ li{margin:5px 0;}
       </div>
 
       <div class="card tint">
-        <h3>Pick your persona</h3>
-        <p style="margin:4px 0 0;font-size:14px;">We will implement one repeatable architecture, two business motions. Procurement onboards vendors; Sales renews and expands customers. The same agent handles both , the toggle changes the category you select, who reviews escalations, and the closing status.</p><p style="margin:4px 0 0;font-size:14px;"><br></p>
-        <div class="persona" id="persona">
-          <button data-p="procurement" class="on">Procurement / SI</button>
-          <button data-p="sales">Sales / Renewal</button>
+        <h3>Sales · NDA scenario</h3>
+        <p style="margin:4px 0 0;font-size:14px;">This lab follows the <b>Sales / NDA</b> motion. Fontara's Sales team handles NDA requests for new deals, partnerships, and prospect conversations — some arrive as a counterparty's draft to review, others start as a plain ask: <em>"We need an NDA in place before this call."</em> Both paths run through the same architecture.</p>
+        <div class="persona" id="persona" style="display:none">
+          <button data-p="procurement">Procurement / SI</button>
+          <button data-p="sales" class="on">Sales / NDA</button>
         </div>
       </div>
 
@@ -259,8 +259,12 @@ li{margin:5px 0;}
         <p style="margin:0;">A business user emails a draft vendor contract, Legal manually hunts for the liability cap and governing law, then someone routes it for signature. It is slow, inconsistent, and hard to audit.&nbsp;</p><p style="margin:0;">In this lab you replace that with an automated process: an Agreement Desk request starts a workflow that hands the contract to a Risk Analyst agent, which extracts the key terms and classifies risk. LOW risk goes straight to the vendor for signature; MEDIUM or HIGH risk waits for Legal.</p>
       </div>
       <div class="card sales-only">
-        <p style="margin:0 0 10px;font-weight:600;font-size:16px;">At Fontara, Sales and Customer Success process high-value renewals by emailing Legal and Finance.</p>
-        <p style="margin:0;">Reps email draft renewal orders for review, so pricing and clause policy get applied inconsistently, high-value deals stall, and nobody can see where a renewal is stuck. In this lab you replace that with an automated process: an Agreement Desk request starts a workflow that hands the order form to a Risk Analyst agent, which extracts discount, term, and governing law and classifies risk. LOW risk goes straight to the customer for signature; MEDIUM or HIGH risk waits for Finance and Legal.</p>
+        <p style="margin:0 0 10px;font-weight:600;font-size:16px;">At Fontara, Sales handles dozens of NDA requests per quarter — and every one goes through Legal manually.</p>
+        <p style="margin:0 0 10px;">A rep either receives a counterparty's draft NDA and forwards it to Legal, or simply asks Legal to put together an NDA for a new deal. Legal reviews manually, applies policy inconsistently, and nobody can see where a request is stuck. Deals stall waiting for a two-page document.</p>
+        <p style="margin:0;">In this lab you replace that with an automated process: an Agreement Desk request starts a workflow. If the rep uploads a counterparty draft, the Risk Analyst agent reads it, extracts key terms, and classifies risk. LOW risk goes straight to the counterparty for signature; MEDIUM or HIGH risk waits for Legal.</p>
+      </div>
+      <div class="note sales-only">
+        <b>Not every request starts with a document.</b> Many real NDA requests arrive as a plain ask: "We need an NDA before this discovery call" — no draft attached. Agreement Desk handles both. When there's no uploaded document, the <b>Get Document from a Request</b> step returns empty, the fallback branch fires, and Legal receives a task to generate and send Fontara's standard NDA template. The same architecture covers both paths; only the branch outcome differs. Scenario 3 in Stage 3 exercises the no-document fallback.
       </div>
 
       <h3>0.2 · The architecture</h3>
@@ -398,7 +402,7 @@ li{margin:5px 0;}
       <div class="card tint diagram">
         <div><span class="n">1</span><div><b>Agreement Desk</b>the user submits a request of the imported Request Type and uploads the draft <span class="proc-only">contract</span><span class="sales-only">order form</span> on the request's Documents tab (Stage 3).</div></div>
         <div><span class="n">2</span><div><b>Get Document from a Request</b>the workflow's first step pulls that uploaded document into a workflow document variable (<code>request_document</code>) that later steps can use.</div></div>
-        <div><span class="n">3</span><div><b>Risk Analyst agent</b>the agent reads the document and returns a structured response containing <code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, and <code>discount</code>. The step captures those into workflow variables.</div></div>
+        <div><span class="n">3</span><div><b>Risk Analyst agent</b>the agent reads the NDA and returns a structured response containing <code>risk_level</code>, <code>nda_type</code>, <code>governing_law</code>, <code>term</code>, and <code>exclusions</code>. The step captures those into workflow variables.</div></div>
         <div><span class="n">4</span><div><b>Branch on risk_level</b>LOW goes straight to signature; MEDIUM or HIGH waits for a human; empty or invalid falls to the defensive path. The agent scores - the workflow decides.</div></div>
         <div><span class="n">5</span><div><b>eSignature &amp; status</b>Send Documents for Signature uses the same <code>request_document</code>; on completion the workflow sets the Desk request to <span class="proc-only">Onboarded / Signed</span><span class="sales-only">Renewal Signed</span>.</div></div>
       </div>
@@ -440,11 +444,11 @@ li{margin:5px 0;}
           <tbody><tr><th>Asset</th><th>What it's for</th></tr>
           <tr><td><code>risk_lab_request_type.zip</code></td><td>The prebuilt Agreement Desk Request Type you'll import in Stage 2.1.</td></tr>
           <tr><td><code>risk_lab_workflow.zip</code></td><td>The prebuilt Workflow Builder workflow you'll import in Stage 2.2.</td></tr>
-          <tr><td><code>SampleVendorContract_LOW</code></td><td>A contract engineered to score LOW - drives the straight-through path.</td></tr>
-          <tr><td><code>SampleVendorContract_HIGH</code></td><td>A contract engineered to score MEDIUM or HIGH - drives the human review path.</td></tr>
+          <tr><td><code>SampleNDA_LOW</code></td><td>A mutual NDA engineered to score LOW — standard terms, California law, 2-year term. Drives the straight-through path.</td></tr>
+          <tr><td><code>SampleNDA_HIGH</code></td><td>An NDA engineered to score MEDIUM or HIGH — unusual carve-outs or unfavorable one-way obligations. Drives the human review path.</td></tr>
         </tbody></table>
-        <p style="margin:8px 0 0;">Your facilitator supplies the exact filenames, formats, and repo URL. Renewal-flavored equivalents may be provided for the Sales persona.</p>
-        <div class="note">Keep sample documents short. The agent step has request-size and timeout limits, and a 40-page MSA is a slow, flaky way to learn the pattern.</div>
+        <p style="margin:8px 0 0;">Your facilitator supplies the exact filenames, formats, and repo URL.</p>
+        <div class="note">Keep sample documents short — 1 to 3 pages is ideal. The agent step has request-size and execution timeout limits. A 40-page MSA will be slow, may time out, and teaches you nothing about the routing pattern you're building. Short, clean documents make testing fast and results predictable.</div>
       </div>
 
       <div class="h-check"><input type="checkbox" data-stage="0" id="p4"><div><h3 style="display:inline">0.6.4 · Foundational knowledge</h3><span class="tag">setup</span></div></div>
@@ -454,8 +458,26 @@ li{margin:5px 0;}
           <li>IAM basics: agreements, Request Types, how workflows trigger and run, what an agent does.</li>
           <li>Comfortable reading a simple JSON payload and mapping fields between systems.</li>
           <li class="proc-only">A basic vendor risk playbook (for example: minimum liability cap, acceptable governing law list).</li>
-          <li class="sales-only">A basic sales / finance playbook (for example: max discount without approval, minimum renewal term, acceptable governing law list).</li>
+          <li class="sales-only">A basic NDA playbook — defined in section 0.6.5 below. Minimum: acceptable governing law jurisdictions, maximum NDA term without escalation, and whether one-way NDAs require Legal sign-off. The agent cannot score risk consistently until these thresholds exist.</li>
         </ul>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p5"><div><h3 style="display:inline">0.6.5 · Define your contracting standards</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">The agent classifies risk against a policy. Without defined thresholds, every classification is a guess. Before the lab — or before deploying to production — document your NDA playbook. At minimum, answer these questions:</p>
+        <table>
+          <tbody><tr><th>Threshold</th><th>Example value</th><th>Where it lives</th></tr>
+          <tr><td><b>Acceptable governing law</b></td><td>California, New York, Delaware; anything else = MEDIUM or HIGH</td><td>Agent Instructions or Knowledge Source</td></tr>
+          <tr><td><b>Maximum NDA term without escalation</b></td><td>3 years standard; 5 years = MEDIUM; perpetual = HIGH</td><td>Agent Instructions or Knowledge Source</td></tr>
+          <tr><td><b>NDA type policy</b></td><td>Mutual preferred; one-way (Fontara-bound only) = MEDIUM; one-way with no reciprocal = HIGH</td><td>Agent Instructions</td></tr>
+          <tr><td><b>Exclusion carve-outs</b></td><td>Standard exceptions (public domain, prior knowledge) = LOW; unusual carve-outs = MEDIUM or HIGH</td><td>Agent Instructions</td></tr>
+        </tbody></table>
+        <p style="margin:10px 0 6px;font-weight:600;">Two ways to encode your playbook:</p>
+        <ul>
+          <li><b>Inline in Instructions</b> — paste the thresholds directly into the agent's Instructions field (as in Stage 1.2). Simple, readable, good for labs and early production. Change the thresholds by editing the agent and republishing.</li>
+          <li><b>Knowledge Sources</b> — upload a PDF or document containing your NDA playbook to the agent's Knowledge Sources. The agent queries it at runtime. Better for production: Legal can update the playbook document without touching the agent's Instructions, and the source is versioned and auditable separately.</li>
+        </ul>
+        <div class="note">For this lab, the thresholds are embedded in the Instructions prompt in Stage 1.2. For a production deployment, move them to a Knowledge Source so Legal owns the policy without editing the agent.</div>
       </div>
 
       <h3>0.7 · How to use this handbook</h3>
@@ -467,6 +489,32 @@ li{margin:5px 0;}
         <tr><td>Persona toggle</td><td>Switches the page between the Procurement and Sales motions.</td></tr>
       </tbody></table>
       <div class="cp-src">Menu labels and exact click paths vary slightly by tenant and release. Where this handbook and your screen disagree, trust your screen and check the equivalent tab under the same top-level area.</div>
+
+      <h3>0.8 · Best practices &amp; gotchas</h3>
+      <div class="card">
+        <p style="margin:0 0 10px;">These are the issues that reliably burn time in workshops and early production deployments. Read them before you build.</p>
+
+        <h4>Keep your test documents short</h4>
+        <p style="margin:0 0 10px;">The agent step has request-size and execution timeout limits. A 1–3 page NDA processes in seconds; a 40-page MSA may time out or return a degraded response. Use short, clean sample documents in workshops. In production, if you need to handle large documents, test your specific document size against the limits before going live and build the fallback branch to catch timeouts.</p>
+
+        <h4>The agent must be Published — not Draft — before you import the workflow</h4>
+        <p style="margin:0 0 10px;">A Draft agent does not appear in Workflow Builder's agent picker. Publish the agent in Stage 1 before opening the workflow import in Stage 2. If the dropdown is empty, go back and publish first. This is the single most common reason Stage 2.5 gets stuck.</p>
+
+        <h4>The workflow must be Published — not Draft — before you submit a request</h4>
+        <p style="margin:0 0 10px;">Agreement Desk can only trigger a published workflow. "Nothing happens when I submit" almost always means the workflow is still a draft. Publish it before testing in Stage 3.</p>
+
+        <h4>JSON case sensitivity: LOW not Low</h4>
+        <p style="margin:0 0 10px;">The branch step compares <code>risk_level</code> as a literal string. <code>"LOW"</code> matches; <code>"Low"</code> or <code>"low"</code> fall through to the fallback path. Your agent Instructions must say exactly <code>LOW</code>, <code>MEDIUM</code>, <code>HIGH</code> — and you must verify this in the Test panel before moving on (Stage 1.4).</p>
+
+        <h4>One document per request — no more</h4>
+        <p style="margin:0 0 10px;">The <b>Get Document from a Request</b> step retrieves one document. If a request has multiple attachments and no document labels are configured, which one it returns is undefined. Keep it to one document per request in this lab. In production, configure document labels on the Request Type and point the step at the correct label.</p>
+
+        <h4>Re-point tenant references after every import</h4>
+        <p style="margin:0 0 10px;">Imported workflows and Request Types carry references from the source tenant: Request Types, agents, statuses, connected systems, and recipients. None of these survive import cleanly. Work through Stage 2.3–2.6 in order — do not skip ahead to Stage 3 before every step is re-pointed and verified.</p>
+
+        <h4>The one-time agent consent must happen before the first live run</h4>
+        <p style="margin:0;">The agent step runs as a named admin identity in your tenant. That admin user must complete a one-time consent in the Docusign environment before the step will execute. Do this before publishing the workflow. If the workflow publishes successfully but the agent step silently fails on the first run, the missing consent is almost always why.</p>
+      </div>
     </section>
 
     <!-- ============ STAGE 1 ============ -->
@@ -486,41 +534,41 @@ li{margin:5px 0;}
       </ol>
       <table>
         <tbody><tr><th>Property</th><th>Value</th></tr>
-        <tr><td><b>Name</b></td><td><code>Vendor &amp; Renewal Risk Analyst</code></td></tr>
-        <tr><td><b>Role</b></td><td>Risk analyst</td></tr>
-        <tr><td><b>Description&nbsp;</b></td><td>Pre-sign contract review for vendor onboarding and customer renewals. Extracts key terms and classifies risk; does not negotiate or send.</td></tr>
+        <tr><td><b>Name</b></td><td><code>NDA Risk Analyst</code></td></tr>
+        <tr><td><b>Role</b></td><td>NDA risk analyst</td></tr>
+        <tr><td><b>Description&nbsp;</b></td><td>Pre-signature NDA review for Sales. Reads counterparty NDAs, extracts key terms against Fontara's contracting standards, and classifies risk. Does not negotiate or send.</td></tr>
       </tbody></table>
       <div class="warn"><b>Use this exact name.</b> In Stage 2.2 you'll select this agent inside the imported workflow. Matching the name the workbook expects makes that step unambiguous - and makes it much easier for your facilitator to help when something doesn't line up.</div>
 
       <div class="h-check"><input type="checkbox" data-stage="1" id="chk5"><div><h3 style="display:inline">1.2 · Write the instructions</h3></div></div>
       <p>Paste this into the Agent's <b>Instructions</b> field. There is no separate output-schema builder in Agent Studio - the response shape you want is described here, in plain language, so be explicit about field names and allowed values.</p>
       <div class="lbl">Instructions</div>
-      <div class="block prompt">You are a contract risk analyst. You receive one contract at a time.
+      <div class="block prompt">You are an NDA risk analyst for Fontara. You receive one NDA at a time.
 
-1. Determine whether this is a vendor contract or a customer renewal, based on the parties and context.
-
-2. Extract the following fields:
+1. Extract the following fields:
 - risk_level: one of LOW, MEDIUM, HIGH
-- liability_cap: short human-readable description of the limitation of liability
+- nda_type: "Mutual" if both parties are bound equally; "One-way" if only one party bears confidentiality obligations; "Unclear" if the structure is ambiguous
 - governing_law: the governing jurisdiction or venue
-- term: total term or renewal period (for example "1 year" or "3-year initial term with 1-year renewals")
-- discount: any commercial discount (for example "10% discount on list price"), or "none"
+- term: the NDA duration (for example "2 years", "3 years with auto-renewal", "perpetual")
+- exclusions: any unusual carve-outs or restrictions beyond standard public-domain and prior-knowledge exceptions; use "standard only" if none are present
 
-3. Classify risk_level using these rules:
-- HIGH if there is no liability cap, or the cap is clearly nominal relative to the deal.
-- HIGH if a discount exceeds 30%, or the term is shorter than 12 months.
-- MEDIUM if the commercial terms are acceptable but the governing law is non-standard, or if any key term is ambiguous.
-- LOW only if the liability cap, term, discount, and governing law all look standard and unremarkable.
-- If you cannot confidently determine a key term, do not guess - choose MEDIUM or HIGH and say why in the field value.
+2. Classify risk_level using Fontara's contracting standards:
+- HIGH if the NDA is one-way and Fontara bears all obligations with no reciprocal protection.
+- HIGH if the term is perpetual, or if there are unusual carve-outs that could expose Fontara to liability.
+- HIGH if the governing law is outside the United States and no Fontara jurisdiction is specified.
+- MEDIUM if the NDA is one-way but Fontara receives reasonable protections, or if the governing law is a non-standard US state.
+- MEDIUM if the term exceeds 3 years, or if any key term is ambiguous.
+- LOW only if the NDA is mutual, the term is 3 years or less, the governing law is California, New York, or Delaware, and there are no unusual exclusions.
+- If you cannot confidently determine a field, do not guess — choose MEDIUM or HIGH and explain why in that field's value.
 
-4. Return the result as a single valid JSON object in exactly this shape:
+3. Return the result as a single valid JSON object in exactly this shape:
 
 {
   "risk_level": "LOW | MEDIUM | HIGH",
-  "liability_cap": "string",
+  "nda_type": "string",
   "governing_law": "string",
   "term": "string",
-  "discount": "string"
+  "exclusions": "string"
 }
 
 Constraints
@@ -528,7 +576,7 @@ Constraints
 - All five fields must be present on every response. Use "none" or "not specified" rather than omitting a field.
 - Be precise and neutral. This is internal policy evaluation, not legal advice.
 - Do not take external actions. Only analyze and return JSON.<button class="copy">Copy</button></div>
-      <div class="note"><b>Why the strictness matters:</b> the imported workflow branches on <code>risk_level</code> as a literal string. A response wrapped in prose, or one that returns <code>"Low"</code> instead of <code>"LOW"</code>, will fall through the branch conditions into the fallback path. Say "always valid JSON" and "all fields present" explicitly - and then verify it in 1.4.</div>
+      <div class="note"><b>Why the strictness matters:</b> the imported workflow branches on <code>risk_level</code> as a literal string. A response wrapped in prose, or one that returns <code>"Low"</code> instead of <code>"LOW"</code>, will fall through the branch conditions into the fallback path. Say "always valid JSON" and "all fields present" explicitly — and then verify it in 1.4.</div>
 
       <div class="h-check"><input type="checkbox" data-stage="1" id="chk6"><div><h3 style="display:inline">1.3 · Configure capabilities &amp; knowledge</h3></div></div>
       <p>Agent Studio agents don't declare a typed-input schema the way a function does. Context reaches this agent as the document the workflow attaches to the step, plus anything in the step's Chat Message. What you configure here is what the agent is <i>allowed to do</i> and what it <i>already knows</i>.</p>
@@ -606,16 +654,16 @@ Constraints
       <table>
         <tbody><tr><th>Field</th><th>Value</th></tr>
         <tr><td><b>Step Name</b></td><td><code>Analyze contract risk</code> - already set.</td></tr>
-        <tr><td><b>Agent</b> ⚠️</td><td><b>Select your agent:</b> the published <code>Vendor &amp; Renewal Risk Analyst</code> from Stage 1. If the dropdown is empty, your agent is still in Draft - go back and publish it.</td></tr>
+        <tr><td><b>Agent</b> ⚠️</td><td><b>Select your agent:</b> the published <code>NDA Risk Analyst</code> from Stage 1. If the dropdown is empty, your agent is still in Draft - go back and publish it.</td></tr>
         <tr><td><b>Document input</b></td><td>The <code>request_document</code> variable from 2.4 - already wired.</td></tr>
         <tr><td><b>Chat Message</b></td><td>Prefilled. Optional if your Instructions already cover the format; a short reminder is good insurance - see below.</td></tr>
         <tr><td><b>Run agent as</b> ⚠️</td><td><b>Set this</b> to an admin identity in your tenant. That user must complete a <b>one-time consent</b> per environment before the step will run at all.</td></tr>
       </tbody></table>
       <div class="lbl">Chat Message (for reference)</div>
-      <div class="block">Analyze this contract and return JSON with risk_level, liability_cap, governing_law, term, and discount.<button class="copy">Copy</button></div>
+      <div class="block">Analyze this NDA and return JSON with risk_level, nda_type, governing_law, term, and exclusions.<button class="copy">Copy</button></div>
 
       <h4>How the agent's output reaches the branch</h4>
-      <p>The agent returns a structured response - JSON or XML - containing the five fields. The workflow captures those into variables of the same name (<code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>) so the branch can read them. In the imported workflow this mapping is already wired; open it and confirm the five variables are populated from the agent's response, and that nothing shows as unmapped.</p>
+      <p>The agent returns a structured response - JSON or XML - containing the five fields. The workflow captures those into variables of the same name (<code>risk_level</code>, <code>nda_type</code>, <code>governing_law</code>, <code>term</code>, <code>exclusions</code>) so the branch can read them. In the imported workflow this mapping is already wired; open it and confirm the five variables are populated from the agent's response, and that nothing shows as unmapped.</p>
       <div class="note">
         <b>A note on <code>Update Variable From XML</code>:</b> that step is documented for ingesting XML <i>files</i> into workflow variables. It's a legitimate advanced option if you're deliberately working with XML documents, but it is <b>not</b> the standard or required way to read an agent's output. The default path is the agent returning JSON/XML and the step's own mapping capturing it. In CLM's "Use AI Agent" step the response surfaces as <code>AgentFinalResponseRaw</code> and <code>AgentFinalResponseXml</code> for downstream steps - that CLM pattern is covered in 301.
       </div>
@@ -624,8 +672,8 @@ Constraints
       <p>Open the branch step. Confirm three cases, then follow each path so you know what to expect in Stage 3.</p>
       <table>
         <tbody><tr><th>Case</th><th>Condition</th><th>Path</th></tr>
-        <tr><td>1 · Low risk</td><td><code>risk_level == "LOW"</code></td><td><b>Send Documents for Signature</b> using <code>request_document</code>, then set the Desk status to <span class="proc-only">Onboarded / Signed</span><span class="sales-only">Renewal Signed</span>.</td></tr>
-        <tr><td>2 · Medium or high risk</td><td><code>risk_level == "MEDIUM"</code> OR <code>risk_level == "HIGH"</code></td><td><b>Approval</b> step carrying the agent's extracted terms, then into the same send step on approval. Rejection ends in a terminal Rejected status.</td></tr>
+        <tr><td>1 · Low risk</td><td><code>risk_level == "LOW"</code></td><td><b>Send Documents for Signature</b> using <code>request_document</code>, then set the Desk status to <span class="proc-only">Onboarded / Signed</span><span class="sales-only">NDA Signed</span>.</td></tr>
+        <tr><td>2 · Medium or high risk</td><td><code>risk_level == "MEDIUM"</code> OR <code>risk_level == "HIGH"</code></td><td><b>Approval</b> step carrying the agent's extracted NDA terms, then into the same send step on approval. Rejection ends in a terminal Rejected status.</td></tr>
         <tr><td>3 · Fallback</td><td><code>risk_level</code> empty, null, or unexpected - plus the failure paths from Get Document and the agent step</td><td>Set a <b>Returned</b> status and send the requester a message. <b>No envelope.</b></td></tr>
       </tbody></table>
       <p>Two things to set for your own tenant as you walk through:</p>
@@ -673,11 +721,11 @@ Constraints
       </tbody></table>
       <table class="sales-only">
         <tbody><tr><th>Field</th><th>Value</th></tr>
-        <tr><td>Customer name</td><td><code>FutureSkills Solutions</code></td></tr>
+        <tr><td>Counterparty name</td><td><code>Brightpath Technologies</code></td></tr>
         <tr><td>Requester name</td><td>Your own name</td></tr>
-        <tr><td>Estimated annual spend</td><td><code>50000</code></td></tr>
+        <tr><td>Estimated deal value</td><td><code>75000</code></td></tr>
         <tr><td>Jurisdiction</td><td><code>California</code></td></tr>
-        <tr><td>Category</td><td><b>Customer Renewal</b></td></tr>
+        <tr><td>Category</td><td><b>NDA Request</b></td></tr>
       </tbody></table>
       <ol start="4">
         <li><b>Submit</b>, then click <b>View request</b>.</li>
@@ -689,7 +737,7 @@ Constraints
 
       <div class="h-check"><input type="checkbox" data-stage="3" id="chk16"><div><h3 style="display:inline">3.2 · Scenario 2 - MEDIUM/HIGH risk, human review</h3></div></div>
       <p class="proc-only">Create another request; Vendor name <b>DataVault Dynamics</b>, spend <code>1500000</code>, Jurisdiction <code>EMEA</code>, Category <b>Vendor Contract</b>. Submit, then attach the <b>HIGH</b> sample via <b>Upload documents</b>.</p>
-      <p class="sales-only">Create another request; Customer name <b>Keranos Digital Media</b>, spend <code>1500000</code>, Jurisdiction <code>EMEA</code>, Category <b>Customer Renewal</b>. Submit, then attach the <b>HIGH</b> sample via <b>Upload documents</b>.</p>
+      <p class="sales-only">Create another request; Counterparty name <b>Axiom Global Partners</b>, deal value <code>500000</code>, Jurisdiction <code>EMEA</code>, Category <b>NDA Request</b>. Submit, then attach the <b>HIGH</b> sample NDA via <b>Upload documents</b>.</p>
       <div class="expect">
         <b>Expect:</b> the agent returns <code>MEDIUM</code> or <code>HIGH</code> → the review branch runs → an approval task appears for <span class="proc-only">Legal</span><span class="sales-only">Finance / Legal</span> carrying the extracted terms and reasoning → <b>no envelope yet</b>. Approve it, and only then does the send step run through to signature.
       </div>
@@ -705,7 +753,7 @@ Constraints
       <div class="h-check"><input type="checkbox" data-stage="3" id="chk18"><div><h3 style="display:inline">3.4 · Validation checklist</h3></div></div>
       <div class="card">
         <ul>
-          <li><b>Agent</b> - returns valid JSON with all five fields; <code>risk_level</code> is always one of the three literal values; capabilities let it read the document but not send anything.</li>
+          <li><b>Agent</b> - returns valid JSON with all five fields (<code>risk_level</code>, <code>nda_type</code>, <code>governing_law</code>, <code>term</code>, <code>exclusions</code>); <code>risk_level</code> is always one of the three literal uppercase values; capabilities let it read the document but not send anything.</li>
           <li><b>Agreement Desk</b> - the Request Type imported and activated cleanly; requests carry one document; statuses advance at each stage and reviewers can see the AI-determined risk and reasoning.</li>
           <li><b>Get Document</b> - <code>request_document</code> is populated, and the same variable feeds both the agent step and the send step.</li>
           <li><b>Workflow</b> - published, not draft; the trigger fires only for the right Request Type; all three branches are reachable; failure paths route to fallback rather than falling through to signature.</li>
@@ -740,12 +788,12 @@ Constraints
 
       <div class="finale">
         <h3>The message</h3>
-        <p>Agreement Desk captured the request and the document → Workflow Builder fetched it and orchestrated the run → an Agent Studio Risk Analyst read the contract and scored the risk → deterministic branching sent LOW straight to eSignature, MEDIUM/HIGH to a human, and anything broken back to the submitter. Intake once, analyze with an agent, route with Workflow Builder, sign with eSignature: all inside Docusign, all auditable.</p>
+        <p>Agreement Desk captured the NDA request and the document → Workflow Builder fetched it and orchestrated the run → the NDA Risk Analyst read the agreement, scored the risk against Fontara's contracting standards, and returned structured JSON → deterministic branching sent LOW straight to eSignature, MEDIUM/HIGH to Legal for review, and anything without a readable document back to the submitter. Intake once, analyze with an agent, route with Workflow Builder, sign with eSignature: all inside Docusign, all auditable.</p>
       </div>
 
       <div class="card tint">
         <h3>Reuse the pattern</h3>
-        <p style="margin:0;">The same four-surface shape carries directly to other scenarios: NDA triage, customer renewals, procurement inbound review, or any department-specific risk workflow. Swap the agent's instructions and the branch thresholds; the architecture doesn't change.&nbsp;</p>
+        <p style="margin:0;">The same four-surface shape carries directly to other scenarios: vendor onboarding, customer renewals, procurement inbound review, or any department-specific risk workflow. Swap the agent's instructions and the playbook thresholds in Knowledge Sources; the architecture doesn't change.</p>
       </div>
 
       <div class="foot">
