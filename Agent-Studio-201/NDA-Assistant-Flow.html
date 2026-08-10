@@ -587,6 +587,22 @@ Title: __________________________</div>
         <p style="margin:0;">This stage connects the agent to a pre-built <b>Docusign Envelope Template</b> so that when the agent collects the three intake inputs, it fills the template fields and dispatches the envelope directly. The rep confirms intent in the chat; execution happens without leaving Iris.</p>
       </div>
 
+      <div class="h-check"><input type="checkbox" data-stage="3" id="s30"><div><h3 style="display:inline">3.0 · Add the Send Envelopes capability</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 8px;">The agent needs this capability to dispatch envelopes. Do this before touching the instructions or the template.</p>
+        <div class="clickpath">
+          <div class="cp-task"><span class="cp-badge">Click path</span>Add Send Envelopes</div>
+          <ol>
+            <li>Open your agent in Agent Studio.</li>
+            <li>Scroll to the <b>Capabilities</b> section.</li>
+            <li>Click <b>Add capability</b> and select <b>Send Envelopes</b>.</li>
+            <li>Confirm it now appears alongside <b>Find Agreements</b> and <b>Generate Documents</b>.</li>
+            <li>Save the agent.</li>
+          </ol>
+        </div>
+        <div class="expect"><b>Checkpoint:</b> the Capabilities section lists Find Agreements, Generate Documents, and Send Envelopes. The agent is saved but not yet republished — you will republish after updating the instructions in 3.2.</div>
+      </div>
+
       <div class="h-check"><input type="checkbox" data-stage="3" id="s31"><div><h3 style="display:inline">3.1 · Pre-requisite: template sync</h3><span class="tag">setup</span></div></div>
       <div class="card">
         <p style="margin:0 0 8px;">Before instructing the agent to trigger envelopes, ensure your standard NDA template is saved as a reusable <b>Template</b> within your Docusign eSignature account and that it is set up as a <b>Document Template</b>.</p>
@@ -608,10 +624,9 @@ Once all three inputs are confirmed (full legal name, governing state, business 
 - Pre-fill the counterparty name, governing state, and business context into the template fields.
 - Send the envelope to the recipient email the rep provides. If no email was given during intake, ask for it before sending.
 - Confirm to the rep when the envelope has been dispatched: "The NDA has been sent to [Recipient] for signature. You will receive a copy when it is completed."</div>
-        <div class="note">Make sure <b>Send Envelopes</b> is added to the agent's capabilities before republishing. Go to the Capabilities section and add it if it is not already listed alongside Find Agreements and Generate Documents.</div>
         <div class="warn">The template name in the instructions must match the exact name of the template in your eSignature account. If the names do not match, the send step will fail silently at runtime with no error shown to the rep.</div>
         <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Instructions field with Steps 1-3 unchanged and the new Step 4 at the bottom; Send Envelopes visible in the capabilities list</span></div>
-        <div class="expect"><b>Checkpoint:</b> Steps 1, 2, and 3 are unchanged; Step 4 references the envelope template by name; Send Envelopes is in the capability list; the agent is saved and republished.</div>
+        <div class="expect"><b>Checkpoint:</b> Steps 1, 2, and 3 are unchanged; Step 4 references the envelope template by name; the agent is saved and republished.</div>
       </div>
 
       <div class="h-check"><input type="checkbox" data-stage="3" id="s33"><div><h3 style="display:inline">3.3 · Seeing the advanced workflow in action</h3><span class="tag">test</span></div></div>
