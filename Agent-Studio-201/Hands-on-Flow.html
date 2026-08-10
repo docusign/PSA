@@ -222,7 +222,7 @@ li{margin:5px 0;}
     <div class="kicker">Agent Studio · 201</div>
     <ol class="stepper" id="stepper">
       <li class="step active" data-target="stage-0"><span class="ring" data-stage="0"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">0</span></span><span class="txt"><span class="t">Before you begin</span><span class="s">Scenario · Architecture · Setup</span></span></li>
-      <li class="step" data-target="stage-1"><span class="ring" data-stage="1"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">1</span></span><span class="txt"><span class="t">Agent Studio</span><span class="s">Build the Risk Analyst</span></span></li>
+      <li class="step" data-target="stage-1"><span class="ring" data-stage="1"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">1</span></span><span class="txt"><span class="t">Agent Studio</span><span class="s">Build the NDA Gatekeeper</span></span></li>
       <li class="step" data-target="stage-2"><span class="ring" data-stage="2"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">2</span></span><span class="txt"><span class="t">Import &amp; wire up</span><span class="s">Request Type + workflow</span></span></li>
       <li class="step" data-target="stage-3"><span class="ring" data-stage="3"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">Trigger &amp; validate</span><span class="s">Three scenarios</span></span></li>
     </ol>
@@ -260,11 +260,11 @@ li{margin:5px 0;}
       </div>
       <div class="card sales-only">
         <p style="margin:0 0 10px;font-weight:600;font-size:16px;">At Fontara, Sales handles dozens of NDA requests per quarter — and every one goes through Legal manually.</p>
-        <p style="margin:0 0 10px;">A rep either receives a counterparty's draft NDA and forwards it to Legal, or simply asks Legal to put together an NDA for a new deal. Legal reviews manually, applies policy inconsistently, and nobody can see where a request is stuck. Deals stall waiting for a two-page document.</p>
-        <p style="margin:0;">In this lab you replace that with an automated process: an Agreement Desk request starts a workflow. If the rep uploads a counterparty draft, the Risk Analyst agent reads it, extracts key terms, and classifies risk. LOW risk goes straight to the counterparty for signature; MEDIUM or HIGH risk waits for Legal.</p>
+        <p style="margin:0 0 10px;">Sometimes a rep receives a counterparty's draft NDA. More often, they simply need an NDA in place before a call: "Can we get an NDA signed with Brightpath before Thursday?" — no draft attached, no document to review, just a deal waiting to move. Legal processes both types the same slow way.</p>
+        <p style="margin:0;">In this lab you replace that with an automated process using the <b>NDA Gatekeeper</b> pattern. A Sales rep submits an NDA request in Agreement Desk. A Maestro workflow calls the NDA Gatekeeper agent, which first searches Agreement Manager for an existing active NDA with that counterparty. If one already exists, the request closes immediately — no duplicate paperwork. If nothing is found, the agent collects three business inputs and drafts or sends Fontara's standard NDA template directly. Legal only sees the request if the deal warrants it.</p>
       </div>
       <div class="note sales-only">
-        <b>Not every request starts with a document.</b> Many real NDA requests arrive as a plain ask: "We need an NDA before this discovery call" — no draft attached. Agreement Desk handles both. When there's no uploaded document, the <b>Get Document from a Request</b> step returns empty, the fallback branch fires, and Legal receives a task to generate and send Fontara's standard NDA template. The same architecture covers both paths; only the branch outcome differs. Scenario 3 in Stage 3 exercises the no-document fallback.
+        <b>Two paths, one agent.</b> The NDA Gatekeeper is built for both use cases: (1) conversational — a rep invokes it via <b>Ask Iris</b> to check for an existing NDA and get a draft on the spot; (2) automated — Maestro calls it as a workflow step and routes the result deterministically. Same agent, same instructions, two surfaces. This lab builds the agent and wires path (2) through Maestro. Scenario 1 in Stage 3 exercises the "NDA already exists" path; Scenario 2 exercises the "no NDA, draft and send" path.
       </div>
 
       <h3>0.2 · The architecture</h3>
@@ -272,16 +272,20 @@ li{margin:5px 0;}
         <h3>Four surfaces, one loop</h3>
         <table>
           <tbody><tr><th>Docusign Layer</th><th>Role in this lab</th></tr>
-          <tr><td><b>Agreement Desk</b></td><td>Intake and status hub. The business user starts here, uploads the contract, and can always see where the request sits.</td></tr>
-          <tr><td><b>Workflow Builder (Maestro)</b></td><td>The orchestrator. Starts from the Desk request, fetches the document, calls the agent, and owns all the deterministic branching.</td></tr>
-          <tr><td><b>Agent Studio</b></td><td>The governed intelligence layer. Your Risk Analyst agent is a role-based digital team member with natural-language instructions and scoped data access - it reasons, it does not decide the routing.</td></tr>
-          <tr><td><b>eSignature</b></td><td>The commit step. Nothing reaches a signer unless a branch explicitly allows it.</td></tr>
+          <tr><td><b>Agreement Desk</b></td><td>Intake and status hub. The Sales rep submits an NDA request here — no document upload required. Captures counterparty name, deal context, and deal value.</td></tr>
+          <tr><td><b>Agreement Manager</b></td><td>The agreement repository. The NDA Gatekeeper agent searches here first, looking for an existing active NDA with the named counterparty before taking any action.</td></tr>
+          <tr><td><b>Workflow Builder (Maestro)</b></td><td>The orchestrator. Triggers from the Desk request, calls the NDA Gatekeeper agent, and branches deterministically on what the agent found and did.</td></tr>
+          <tr><td><b>Agent Studio</b></td><td>The NDA Gatekeeper. Checks Agreement Manager, then either surfaces the existing NDA (and stops) or collects three business inputs and drafts / sends the standard NDA template. Works both as an Ask Iris conversational agent and as a Maestro workflow step.</td></tr>
+          <tr><td><b>eSignature</b></td><td>The commit step. Nothing reaches a signer unless a branch explicitly routes to it.</td></tr>
         </tbody></table>
-        <p style="margin:12px 0 0;font-weight:600;">Create request → upload contract → Desk request event → Workflow Builder → Get Document from a Request → Risk Analyst agent → branch on risk → Send Documents for Signature → update Desk status.</p>
+        <p style="margin:12px 0 0;font-weight:600;">Create request → Desk request event → Workflow Builder → NDA Gatekeeper agent (search Agreement Manager) → branch: NDA exists → close request / No NDA → draft + send template / High-value deal → Legal review first → send on approval.</p>
       </div>
 
       <div class="note">
-        <b>Where this sits in the bigger picture :</b> Docusign IAM is the governed agreement layer for agentic architectures - Agreement Manager, Agreement Desk, Workflow Builder, and CLM are the surfaces where agents actually live inside customer workflows, pre-sign through post-sign. Agent Studio is the control plane where you design and govern those agents.&nbsp;</div><div class="note">This lab builds one concrete pattern so you can adapt the same shape elsewhere. Embedding agents into CLM workflows via the "Use AI Agent" step is its own pattern, covered in 301.
+        <b>Where this sits in the bigger picture:</b> Agreement Manager is the repository that gives the agent its context — it knows what NDAs already exist, with whom, and whether they're active. Without Agreement Manager, the agent has no memory. Agent Studio is the control plane where you design and govern the agent. Maestro is the deterministic orchestrator that calls the agent and acts on the result. The NDA Gatekeeper pattern demonstrates how all three work together.
+      </div>
+      <div class="note">
+        This lab builds the agent for the Maestro workflow path. The same agent works conversationally in Ask Iris — a rep can type "Do we have an NDA with Brightpath?" and get an answer instantly without submitting a request. That conversational path is demonstrated in Stage 1.4. The Maestro-wired path is what Stages 2 and 3 build and test.
       </div>
 
       <h3>0.3 · Explore the decision tree before you build it</h3>
@@ -325,22 +329,22 @@ li{margin:5px 0;}
           <text x="85" y="192" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">Agreement Desk</text>
           <text x="85" y="209" text-anchor="middle" fill="#e7deff" font-size="10.5">Intake + document</text>
 
-          <!-- Node: Get Document -->
+          <!-- Node: Agreement Manager -->
           <rect x="167" y="165" width="133" height="64" rx="12" fill="#6A17C9"></rect>
-          <text x="233" y="188" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Get Document</text>
-          <text x="233" y="203" text-anchor="middle" fill="#e7deff" font-size="10.5">from a Request</text>
-          <text x="233" y="217" text-anchor="middle" fill="#c9a9ff" font-size="10">→ request_document</text>
+          <text x="233" y="188" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Agreement</text>
+          <text x="233" y="203" text-anchor="middle" fill="#e7deff" font-size="10.5">Manager</text>
+          <text x="233" y="217" text-anchor="middle" fill="#c9a9ff" font-size="10">↔ search NDAs</text>
 
-          <!-- Node: Risk Analyst agent -->
+          <!-- Node: NDA Gatekeeper agent -->
           <rect x="312" y="165" width="143" height="64" rx="12" fill="#9A1FA8"></rect>
-          <text x="383" y="188" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Risk Analyst</text>
+          <text x="383" y="188" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">NDA Gatekeeper</text>
           <text x="383" y="203" text-anchor="middle" fill="#f2ddff" font-size="10.5">Agent Studio</text>
-          <text x="383" y="217" text-anchor="middle" fill="#e3b6ff" font-size="10">→ risk_level + terms</text>
+          <text x="383" y="217" text-anchor="middle" fill="#e3b6ff" font-size="10">→ nda_status</text>
 
           <!-- Node: Branch diamond -->
           <polygon points="510,157 555,197 510,237 465,197" fill="#fff" stroke="#4C00FF" stroke-width="2"></polygon>
-          <text x="510" y="193" text-anchor="middle" fill="#130032" font-size="10.5" font-weight="600">risk</text>
-          <text x="510" y="205" text-anchor="middle" fill="#130032" font-size="10.5" font-weight="600">_level?</text>
+          <text x="510" y="193" text-anchor="middle" fill="#130032" font-size="10.5" font-weight="600">nda</text>
+          <text x="510" y="205" text-anchor="middle" fill="#130032" font-size="10.5" font-weight="600">_status?</text>
 
           <!-- Node: Human review -->
           <rect id="nodeReview" x="430" y="46" width="180" height="56" rx="12" fill="#fff" stroke="#FF5252" stroke-width="2"></rect>
@@ -380,38 +384,38 @@ li{margin:5px 0;}
 
         <div class="explorer-panel">
           <div class="ctrl">
-            <label for="ctrlRisk">Agent returns risk_level</label>
+            <label for="ctrlRisk">Agent returns nda_status</label>
             <select id="ctrlRisk">
-              <option value="low">LOW - within policy</option>
-              <option value="medium">MEDIUM - needs a look</option>
-              <option value="high">HIGH - outside policy</option>
+              <option value="low">exists - NDA found, close request</option>
+              <option value="medium">drafted - no NDA, standard deal</option>
+              <option value="high">drafted - no NDA, high-value deal</option>
             </select>
           </div>
           <div class="ctrl">
-            <label for="ctrlMissing">Missing / unreadable document</label>
+            <label for="ctrlMissing">Agent error / unexpected value</label>
             <button type="button" class="toggle" id="ctrlMissing" role="switch" aria-checked="false" aria-label="Toggle missing document scenario"><span class="knob"></span></button>
           </div>
           <div class="explorer-status">
-            <div><span class="k">Agent status</span><span class="v risk-high" id="statusAgent">HIGH</span></div>
-            <div><span class="k">Routing</span><span class="v risk-high" id="statusRoute">Human review first, then eSignature.</span></div>
+            <div><span class="k">Agent returns</span><span class="v risk-high" id="statusAgent">nda_status: drafted</span></div>
+            <div><span class="k">Routing</span><span class="v risk-high" id="statusRoute">Legal review first, then eSignature.</span></div>
           </div>
         </div>
       </div>
 
       <h3>0.4 · Reading the diagram</h3>
       <div class="card tint diagram">
-        <div><span class="n">1</span><div><b>Agreement Desk</b>the user submits a request of the imported Request Type and uploads the draft <span class="proc-only">contract</span><span class="sales-only">order form</span> on the request's Documents tab (Stage 3).</div></div>
-        <div><span class="n">2</span><div><b>Get Document from a Request</b>the workflow's first step pulls that uploaded document into a workflow document variable (<code>request_document</code>) that later steps can use.</div></div>
-        <div><span class="n">3</span><div><b>Risk Analyst agent</b>the agent reads the NDA and returns a structured response containing <code>risk_level</code>, <code>nda_type</code>, <code>governing_law</code>, <code>term</code>, and <code>exclusions</code>. The step captures those into workflow variables.</div></div>
-        <div><span class="n">4</span><div><b>Branch on risk_level</b>LOW goes straight to signature; MEDIUM or HIGH waits for a human; empty or invalid falls to the defensive path. The agent scores - the workflow decides.</div></div>
-        <div><span class="n">5</span><div><b>eSignature &amp; status</b>Send Documents for Signature uses the same <code>request_document</code>; on completion the workflow sets the Desk request to <span class="proc-only">Onboarded / Signed</span><span class="sales-only">Renewal Signed</span>.</div></div>
+        <div><span class="n">1</span><div><b>Agreement Desk</b>the Sales rep submits an NDA request. No document upload needed — the rep provides the counterparty name, deal context, and estimated deal value. This is the trigger for the Maestro workflow.</div></div>
+        <div><span class="n">2</span><div><b>NDA Gatekeeper agent — search phase</b>the workflow calls the agent. Using its <b>Find Agreements</b> capability, the agent searches Agreement Manager for any active NDA with the named counterparty, checking both exact and partial name matches to prevent false negatives.</div></div>
+        <div><span class="n">3</span><div><b>Branch: NDA exists?</b>if the agent finds an active NDA, the workflow closes the request with a status of <b>NDA Active</b> and returns the existing agreement details to the requester. No duplicate paperwork. If nothing is found, the workflow continues.</div></div>
+        <div><span class="n">4</span><div><b>NDA Gatekeeper agent — draft/send phase</b>the agent collects the three required inputs from the request form (legal entity name, governing state, business purpose) and uses its <b>Generate Documents</b> capability to draft the standard NDA, or triggers the <b>Envelope Template</b> directly. The agent returns a structured result: <code>nda_status</code>, <code>counterparty</code>, <code>action_taken</code>.</div></div>
+        <div><span class="n">5</span><div><b>eSignature &amp; status</b>for standard deals, the NDA goes straight to the counterparty for signature. For high-value deals, the workflow routes to Legal first. On completion the Desk request status advances to <b class="sales-only">NDA Signed</b>.</div></div>
       </div>
 
       <h3>0.5 · Learning objectives</h3>
-      <div class="obj"><div class="lab">Objective 1</div><b>Use Agreement Desk as a structured intake surface</b><br>Import a Request Type, submit a request, and attach the document the rest of the flow depends on.</div>
-      <div class="obj"><div class="lab">Objective 2</div><b>Build a Risk Analyst agent in Agent Studio</b><br>Write instructions that reliably return valid, machine-parsable JSON, scope its capabilities, and verify with Test before publishing.</div>
-      <div class="obj"><div class="lab">Objective 3</div><b>Orchestrate the agent inside Workflow Builder</b><br>Start from Agreement Desk, fetch the document, call the agent, capture its structured output into variables, and branch deterministically.</div>
-      <div class="obj"><div class="lab">Objective 4</div><b>Keep humans in the loop and fail safely</b><br>Escalate MEDIUM/HIGH to the right approver, and return the request to the submitter when the automation can't do its job - never guess.</div>
+      <div class="obj"><div class="lab">Objective 1</div><b>Use Agreement Desk as a structured intake surface — without a document upload</b><br>Import a Request Type, submit a request with counterparty details, and understand how the workflow triggers without a document attachment.</div>
+      <div class="obj"><div class="lab">Objective 2</div><b>Build the NDA Gatekeeper in Agent Studio</b><br>Configure an agent that uses <b>Find Agreements</b> to search Agreement Manager and <b>Generate Documents</b> to draft the NDA. Write instructions that prevent guessing, handle the "no existing NDA" pivot, and return structured JSON for the workflow to act on.</div>
+      <div class="obj"><div class="lab">Objective 3</div><b>Invoke the Gatekeeper from Maestro and branch on its result</b><br>Wire the agent as a workflow step, pass it the counterparty name from the request, capture <code>nda_status</code> and <code>action_taken</code>, and route: NDA exists → close / no NDA → send template / high-value → Legal first.</div>
+      <div class="obj"><div class="lab">Objective 4</div><b>Test the same agent conversationally via Ask Iris</b><br>Invoke the published agent through the Iris chat interface to verify the search-to-draft conversation works end-to-end — this is the rep-facing surface that doesn't require a formal request.</div>
 
       <h3>0.6 · Prerequisites</h3>
       <p>A Docusign IAM (Intelligent Agreement Management) environment - sandbox or non-production - with the features and permissions below. Everything uses synthetic data only, no production accounts or real party data.</p>
@@ -442,13 +446,12 @@ li{margin:5px 0;}
         <p style="margin:0 0 8px;">From the GitHub repo your facilitator provides, download:</p>
         <table>
           <tbody><tr><th>Asset</th><th>What it's for</th></tr>
-          <tr><td><code>risk_lab_request_type.zip</code></td><td>The prebuilt Agreement Desk Request Type you'll import in Stage 2.1.</td></tr>
-          <tr><td><code>risk_lab_workflow.zip</code></td><td>The prebuilt Workflow Builder workflow you'll import in Stage 2.2.</td></tr>
-          <tr><td><code>SampleNDA_LOW</code></td><td>A mutual NDA engineered to score LOW — standard terms, California law, 2-year term. Drives the straight-through path.</td></tr>
-          <tr><td><code>SampleNDA_HIGH</code></td><td>An NDA engineered to score MEDIUM or HIGH — unusual carve-outs or unfavorable one-way obligations. Drives the human review path.</td></tr>
+          <tr><td><code>nda_lab_request_type.zip</code></td><td>The prebuilt Agreement Desk Request Type you'll import in Stage 2.1. Includes fields for counterparty name, deal value, business purpose, and governing state.</td></tr>
+          <tr><td><code>nda_lab_workflow.zip</code></td><td>The prebuilt Maestro workflow you'll import in Stage 2.2. Already wired with the agent step and three-way branch.</td></tr>
+          <tr><td><code>Fontara_NDA_Template</code></td><td>The standard Fontara NDA saved as a Docusign eSignature Envelope Template. The agent sends from this template in Stage 2 and Stage 3. Your facilitator confirms the exact template name in your tenant — you'll reference it by name in the agent's instructions.</td></tr>
         </tbody></table>
-        <p style="margin:8px 0 0;">Your facilitator supplies the exact filenames, formats, and repo URL.</p>
-        <div class="note">Keep sample documents short — 1 to 3 pages is ideal. The agent step has request-size and execution timeout limits. A 40-page MSA will be slow, may time out, and teaches you nothing about the routing pattern you're building. Short, clean documents make testing fast and results predictable.</div>
+        <p style="margin:8px 0 0;">Your facilitator supplies the exact filenames and repo URL. Unlike previous lab versions, there are no sample contracts to upload — the NDA Gatekeeper generates or sends the document itself.</p>
+        <div class="note">Set up the Envelope Template <b>before</b> Stage 1. The agent's instructions reference it by exact name. If the template doesn't exist in your tenant, the agent step will fail at runtime. See the Best Practices section (0.8) for details.</div>
       </div>
 
       <div class="h-check"><input type="checkbox" data-stage="0" id="p4"><div><h3 style="display:inline">0.6.4 · Foundational knowledge</h3><span class="tag">setup</span></div></div>
@@ -503,8 +506,8 @@ li{margin:5px 0;}
         <h4>The workflow must be Published — not Draft — before you submit a request</h4>
         <p style="margin:0 0 10px;">Agreement Desk can only trigger a published workflow. "Nothing happens when I submit" almost always means the workflow is still a draft. Publish it before testing in Stage 3.</p>
 
-        <h4>JSON case sensitivity: LOW not Low</h4>
-        <p style="margin:0 0 10px;">The branch step compares <code>risk_level</code> as a literal string. <code>"LOW"</code> matches; <code>"Low"</code> or <code>"low"</code> fall through to the fallback path. Your agent Instructions must say exactly <code>LOW</code>, <code>MEDIUM</code>, <code>HIGH</code> — and you must verify this in the Test panel before moving on (Stage 1.4).</p>
+        <h4>JSON case sensitivity: "exists" not "Exists"</h4>
+        <p style="margin:0 0 10px;">The branch step compares <code>nda_status</code> as a literal string. <code>"exists"</code> matches; <code>"Exists"</code> or <code>"EXISTS"</code> fall through to the fallback path. Your agent Instructions must specify the exact lowercase values — <code>exists</code>, <code>drafted</code>, <code>sent</code>, <code>error</code> — and you must verify the JSON output in the Test panel before moving on (Stage 1.4).</p>
 
         <h4>One document per request — no more</h4>
         <p style="margin:0 0 10px;">The <b>Get Document from a Request</b> step retrieves one document. If a request has multiple attachments and no document labels are configured, which one it returns is undefined. Keep it to one document per request in this lab. In production, configure document labels on the Request Type and point the step at the correct label.</p>
@@ -519,85 +522,103 @@ li{margin:5px 0;}
 
     <!-- ============ STAGE 1 ============ -->
     <section class="stage" id="stage-1">
-      <div class="stage-head"><h2>Stage 1 · Agent Studio</h2><span class="time">Build the Risk Analyst · 15 min</span></div>
-      <p>Build the agent first. It's the only artifact in this lab you create from scratch, it's where the actual skill lives, and the workflow you import in Stage 2 needs to point at it - so it has to exist first.</p>
-      <p>One agent serves both motions: it works out from the parties and context whether it's looking at a vendor contract or a customer renewal.</p>
+      <div class="stage-head"><h2>Stage 1 · Agent Studio</h2><span class="time">Build the NDA Gatekeeper · 15 min</span></div>
+      <p>Build the agent first — it's the only artifact you create from scratch in this lab, and the workflow you import in Stage 2 needs to point at it. The NDA Gatekeeper works in two modes: conversational (via Ask Iris, for reps who just want to check) and automated (as a Maestro step, for the full workflow). You build it once; it serves both.</p>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="chk4"><div><h3 style="display:inline">1.1 · Create the agent &amp; set identity</h3></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="1" id="chk4"><div><h3 style="display:inline">1.1 · Create the agent using natural language</h3></div></div>
+      <p>Agent Studio can generate the initial framework and capabilities from a plain-language description. Use this to bootstrap the agent, then refine the instructions in the next step.</p>
       <ol>
-        <li>Log in to your Docusign account and select <b>Automation</b> from the global header (top navigation).</li>
-        <li>Select <b>Agents</b> from the navigation pane on the left.</li>
-        <li>The Agent Studio opens and the Agents page is displayed. Confirm you can see the <b>Featured</b> agents row, <b>My agents</b> below it, and a <b>Create New</b> button top-right.</li>
-        <li>Click <b>Create New</b>.</li>
-        <li>Click <b>Use classic editor</b>.</li>
-        <li>Set the core properties by clicking the pencil icon next to "My new agent," then click <b>Save</b>:</li>
+        <li>Log in to your Docusign account and select <b>Automation</b> from the global header.</li>
+        <li>Select <b>Agents</b> from the left navigation pane.</li>
+        <li>Click <b>Create New</b> in the top-right corner.</li>
+        <li>In the "Describe what you want your agent to accomplish" field, paste the initialization string below and click <b>Create Agent</b>.</li>
+      </ol>
+      <div class="lbl">Initialization string</div>
+      <div class="block prompt">Check if we have an existing agreement with a company, and if we do not, offer to gather inputs and draft a standard NDA for them.<button class="copy">Copy</button></div>
+      <p>Agent Studio will generate an initial name, instructions, and capabilities based on this description. Review what it produced — you'll replace the instructions in 1.2 and verify the capabilities in 1.3.</p>
+      <ol start="5">
+        <li>Click the pencil icon next to the agent name and update the core properties:</li>
       </ol>
       <table>
         <tbody><tr><th>Property</th><th>Value</th></tr>
-        <tr><td><b>Name</b></td><td><code>NDA Risk Analyst</code></td></tr>
-        <tr><td><b>Role</b></td><td>NDA risk analyst</td></tr>
-        <tr><td><b>Description&nbsp;</b></td><td>Pre-signature NDA review for Sales. Reads counterparty NDAs, extracts key terms against Fontara's contracting standards, and classifies risk. Does not negotiate or send.</td></tr>
+        <tr><td><b>Name</b></td><td><code>NDA Gatekeeper Assistant</code></td></tr>
+        <tr><td><b>Role</b></td><td>NDA gatekeeper</td></tr>
+        <tr><td><b>Description</b></td><td>Checks Docusign Agreement Manager for an existing active NDA with a named counterparty. If none is found, collects three business inputs and drafts or sends Fontara's standard NDA template. Used by Sales via Ask Iris and as a Maestro workflow step.</td></tr>
       </tbody></table>
-      <div class="warn"><b>Use this exact name.</b> In Stage 2.2 you'll select this agent inside the imported workflow. Matching the name the workbook expects makes that step unambiguous - and makes it much easier for your facilitator to help when something doesn't line up.</div>
+      <ol start="6">
+        <li>Under <b>Entry Method</b>, select <b>In chat panel</b>. This enables the conversational layout for Ask Iris use.</li>
+        <li>Set the <b>Greeting</b> to: <code>How can I help with your agreement search or NDA drafting?</code></li>
+        <li>Click <b>Save</b>.</li>
+      </ol>
+      <div class="warn"><b>Use this exact agent name.</b> In Stage 2.2 you'll select it inside the imported workflow. The name must match exactly.</div>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="chk5"><div><h3 style="display:inline">1.2 · Write the instructions</h3></div></div>
-      <p>Paste this into the Agent's <b>Instructions</b> field. There is no separate output-schema builder in Agent Studio - the response shape you want is described here, in plain language, so be explicit about field names and allowed values.</p>
-      <div class="lbl">Instructions</div>
-      <div class="block prompt">You are an NDA risk analyst for Fontara. You receive one NDA at a time.
+      <div class="h-check"><input type="checkbox" data-stage="1" id="chk5"><div><h3 style="display:inline">1.2 · Replace the instructions with the Gatekeeper prompt</h3></div></div>
+      <p>The initialization in 1.1 generates a starting prompt. Replace it entirely with the tested, curated prompt below. The four steps cover: thorough search, pivot if not found, interactive intake (no guessing), and NDA generation. The final block adds a structured JSON output requirement so the Maestro workflow can branch on the result.</p>
+      <div class="lbl">Instructions — paste this in full, replacing any generated text</div>
+      <div class="block prompt">Role &amp; Core Objective:
+You are an NDA Gatekeeper Assistant for Fontara's Sales team. Your job is to check the Docusign repository for existing agreements with a specified counterparty. If none exist, you guide the user through drafting a new standard NDA. You operate in two modes: conversational (invoked via Ask Iris) and automated (called as a Maestro workflow step). In both modes, the logic is identical.
 
-1. Extract the following fields:
-- risk_level: one of LOW, MEDIUM, HIGH
-- nda_type: "Mutual" if both parties are bound equally; "One-way" if only one party bears confidentiality obligations; "Unclear" if the structure is ambiguous
-- governing_law: the governing jurisdiction or venue
-- term: the NDA duration (for example "2 years", "3 years with auto-renewal", "perpetual")
-- exclusions: any unusual carve-outs or restrictions beyond standard public-domain and prior-knowledge exceptions; use "standard only" if none are present
+Step 1 — The Thorough Search (Preventing False Negatives):
+When given a company name, use the Find Agreements capability to search Agreement Manager.
+- Real-World Guardrail: Look for exact matches AND partial matches. If the user types "Brightpath", check for "Brightpath Technologies" or "Brightpath Inc." before declaring zero results.
+- If you find an active, non-expired NDA with that counterparty, show a quick summary list of what exists and stop. Do not offer to draft a new NDA.
 
-2. Classify risk_level using Fontara's contracting standards:
-- HIGH if the NDA is one-way and Fontara bears all obligations with no reciprocal protection.
-- HIGH if the term is perpetual, or if there are unusual carve-outs that could expose Fontara to liability.
-- HIGH if the governing law is outside the United States and no Fontara jurisdiction is specified.
-- MEDIUM if the NDA is one-way but Fontara receives reasonable protections, or if the governing law is a non-standard US state.
-- MEDIUM if the term exceeds 3 years, or if any key term is ambiguous.
-- LOW only if the NDA is mutual, the term is 3 years or less, the governing law is California, New York, or Delaware, and there are no unusual exclusions.
-- If you cannot confidently determine a field, do not guess — choose MEDIUM or HIGH and explain why in that field's value.
+Step 2 — The Pivot (Handling the Unhappy Path):
+If your search returns ZERO results, or if the only agreements found are "Expired" or "Terminated", trigger this exact response, injecting the company name:
+"I searched our records and could not find an active agreement for '[Company Name]' in Docusign. To protect our company, we need to put an NDA in place before moving forward. Would you like me to draft one for you right now?"
 
-3. Return the result as a single valid JSON object in exactly this shape:
+Step 3 — Interactive Intake (Do Not Guess):
+If the user confirms (conversational) or the inputs are already available from the Maestro workflow request form, collect or confirm these three details:
+1. Official corporate legal name of the counterparty
+2. State for governing law (e.g., "California")
+3. Business purpose of the discussion (e.g., "Evaluating a software integration partnership")
 
+Sausage-Making Rule: Do NOT proceed to Step 4 until all three inputs are explicitly provided. If any are missing, ask for them specifically.
+
+Step 4 — NDA Generation:
+Once all three inputs are confirmed:
+- If called from Maestro: use the Generate Documents capability with the template named Fontara_NDA_Template, pre-filling the counterparty name, state, and business purpose.
+- If invoked conversationally and no template send is configured: output the complete NDA text inside a single Markdown code block so the user can copy the entire document cleanly with one click.
+
+Return a structured result in this exact JSON format:
 {
-  "risk_level": "LOW | MEDIUM | HIGH",
-  "nda_type": "string",
-  "governing_law": "string",
-  "term": "string",
-  "exclusions": "string"
+  "nda_status": "exists | drafted | sent | error",
+  "counterparty": "string",
+  "existing_nda_summary": "string — populated if nda_status is exists, empty otherwise",
+  "action_taken": "string — brief description of what the agent did"
 }
 
-Constraints
-- Always return valid JSON. Return nothing before or after the JSON object.
-- All five fields must be present on every response. Use "none" or "not specified" rather than omitting a field.
-- Be precise and neutral. This is internal policy evaluation, not legal advice.
-- Do not take external actions. Only analyze and return JSON.<button class="copy">Copy</button></div>
-      <div class="note"><b>Why the strictness matters:</b> the imported workflow branches on <code>risk_level</code> as a literal string. A response wrapped in prose, or one that returns <code>"Low"</code> instead of <code>"LOW"</code>, will fall through the branch conditions into the fallback path. Say "always valid JSON" and "all fields present" explicitly — and then verify it in 1.4.</div>
+Constraints:
+- When called from a workflow, always return valid JSON. Return nothing before or after the JSON object.
+- Do not guess missing inputs. Ask.
+- Do not take actions beyond finding agreements, drafting NDAs, and sending the NDA template.
+- Be precise and neutral. This is internal process support, not legal advice.<button class="copy">Copy</button></div>
+      <div class="note"><b>Why the two-mode design:</b> the same prompt works for both Ask Iris (conversational) and Maestro (automated) because the logic is identical in both paths — search first, pivot if not found, collect inputs, generate. The only difference is output format: Maestro needs the JSON block; chat output wraps the NDA text in a code block for clean copy-paste. The prompt handles both.</div>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="chk6"><div><h3 style="display:inline">1.3 · Configure capabilities &amp; knowledge</h3></div></div>
-      <p>Agent Studio agents don't declare a typed-input schema the way a function does. Context reaches this agent as the document the workflow attaches to the step, plus anything in the step's Chat Message. What you configure here is what the agent is <i>allowed to do</i> and what it <i>already knows</i>.</p>
+      <div class="h-check"><input type="checkbox" data-stage="1" id="chk6"><div><h3 style="display:inline">1.3 · Verify capabilities</h3></div></div>
+      <p>These are the tools the agent is allowed to use. Missing a capability means the agent will fail the corresponding step even if the instructions tell it to do it.</p>
       <table>
-        <tbody><tr><th>Setting</th><th>What to configure</th></tr>
-        <tr><td><b>Capabilities</b></td><td>Click <b>Add</b> and enable <code>Find Agreements</code>&nbsp;so the agent can open the contract the workflow passes it. Leave send and signature capabilities <b>off</b> - this agent only analyzes. Click on add one capability.</td></tr>
-        <tr><td><b>Knowledge Sources</b></td><td>Optional for this lab. In production this is where your risk playbook lives, so thresholds can change without editing Instructions.</td></tr>
+        <tbody><tr><th>Capability</th><th>Required for</th><th>Action</th></tr>
+        <tr><td><b>Find Agreements</b></td><td>Step 1 — searching Agreement Manager for existing NDAs</td><td>Must be enabled. This is the core capability that makes the Gatekeeper pattern possible.</td></tr>
+        <tr><td><b>Generate Documents</b></td><td>Step 4 — drafting the NDA from the Fontara template</td><td>Must be enabled for the automated Maestro path.</td></tr>
+        <tr><td><b>Send Envelopes</b></td><td>Advanced: sending the envelope directly from the agent step</td><td>Enable if your workflow has the agent send the NDA rather than a separate Maestro send step. For this lab, the Maestro Send step handles this — leave Send Envelopes off unless your facilitator says otherwise.</td></tr>
+        <tr><td><b>Ask the User</b></td><td>Step 3 — interactive intake in conversational mode</td><td>Enable for the Ask Iris path. Not required for the Maestro path (inputs come from the request form).</td></tr>
       </tbody></table>
+      <div class="note">If the initialization in Step 1.1 auto-selected capabilities, verify the list matches the table above. Agent Studio's auto-selection is a good starting point but check before publishing.</div>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="chk7"><div><h3 style="display:inline">1.4 · Test until the JSON is clean, then publish</h3></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="1" id="chk7"><div><h3 style="display:inline">1.4 · Test conversationally, then publish</h3></div></div>
+      <p>Test the agent via the <b>Ask Iris</b> conversational interface first — this is faster than a full workflow run and immediately shows you whether the search and pivot logic work correctly.</p>
       <ol>
-        <li>Click <b>Test</b> and give the agent a short sample agreement - paste text, or attach one of your sample contracts if the test UI allows.</li>
-        <li>If the response renders as formatted prose, open <b>Output Display</b> and set <b>Test Mode</b> to <b>Raw</b> so you see exactly what the workflow will receive.</li>
-        <li>Verify all five keys are present: <code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>.</li>
-        <li>Verify <code>risk_level</code> is exactly <code>LOW</code>, <code>MEDIUM</code>, or <code>HIGH</code>.</li>
-        <li>Test with <b>both</b> sample contracts and confirm they land on different risk levels - that's what Stage 3 depends on.</li>
+        <li>Click <b>Test</b> to open the test panel.</li>
+        <li>Type: <code>Do we have an NDA with Brightpath Technologies?</code> — this should trigger Step 1 (the search). Verify the agent searches Agreement Manager and reports what it finds.</li>
+        <li>Try a counterparty you know has no agreement: <code>Do we have an NDA with Axiom Global Partners?</code> — this should trigger Step 2 (the pivot script). Verify the agent delivers the word-for-word pivot response.</li>
+        <li>When the agent asks if you want to draft one, say yes. Provide the three intake inputs and verify the agent outputs a complete NDA text in a code block (Step 4).</li>
+        <li>Check that the final response also includes the JSON block: <code>nda_status</code>, <code>counterparty</code>, <code>existing_nda_summary</code>, <code>action_taken</code>. This is what the Maestro workflow will read.</li>
         <li>Click <b>Save draft</b>, then <b>Publish</b> and confirm.</li>
       </ol>
-      <div class="expect"><b>Checkpoint:</b> a <b>published</b> <code>Vendor &amp; Renewal Risk Analyst</code> that reliably returns well-formed JSON, and is selectable from a workflow's agent step.</div>
-      <div class="warn"><b>It must be Published, not Draft.</b> A draft agent will not appear in the workflow's agent picker in Stage 2.2.</div>
-      <div class="note">Spend your time here rather than rushing to Stage 2. Every minute spent making the agent's output boringly predictable saves ten minutes of debugging branch conditions that "randomly" don't fire.</div>
+      <div class="expect"><b>Checkpoint:</b> a <b>published</b> <code>NDA Gatekeeper Assistant</code> that (a) finds existing NDAs in Agreement Manager, (b) pivots and collects inputs when nothing is found, (c) generates the NDA text, and (d) returns valid JSON — selectable from the Maestro workflow's agent step.</div>
+      <div class="warn"><b>It must be Published, not Draft.</b> A draft agent does not appear in the workflow's agent picker in Stage 2.2.</div>
+      <div class="note">The conversational test in 1.4 doubles as a demo-ready experience. Once published, a Sales rep can invoke this agent through Ask Iris from Agreement Manager without ever submitting a formal request — useful for quick checks before a call. The Maestro workflow path (Stages 2–3) is the governed, auditable version for actual NDA execution.</div>
     </section>
 
     <!-- ============ STAGE 2 ============ -->
@@ -653,37 +674,36 @@ Constraints
       <p>Open the agent step (labeled <b>Use AI Agent</b>, <b>Agent</b>, or similar depending on your environment). Agent references often don't survive an import cleanly, so this is the step most likely to need your attention.</p>
       <table>
         <tbody><tr><th>Field</th><th>Value</th></tr>
-        <tr><td><b>Step Name</b></td><td><code>Analyze contract risk</code> - already set.</td></tr>
-        <tr><td><b>Agent</b> ⚠️</td><td><b>Select your agent:</b> the published <code>NDA Risk Analyst</code> from Stage 1. If the dropdown is empty, your agent is still in Draft - go back and publish it.</td></tr>
-        <tr><td><b>Document input</b></td><td>The <code>request_document</code> variable from 2.4 - already wired.</td></tr>
-        <tr><td><b>Chat Message</b></td><td>Prefilled. Optional if your Instructions already cover the format; a short reminder is good insurance - see below.</td></tr>
+        <tr><td><b>Step Name</b></td><td><code>NDA Gatekeeper check</code> - update if the imported step still shows the old name.</td></tr>
+        <tr><td><b>Agent</b> ⚠️</td><td><b>Select your agent:</b> the published <code>NDA Gatekeeper Assistant</code> from Stage 1. If the dropdown is empty, your agent is still in Draft - go back and publish it.</td></tr>
+        <tr><td><b>Chat Message</b></td><td>Prefilled. This is what the workflow passes to the agent alongside the request data. Update it to the string below.</td></tr>
         <tr><td><b>Run agent as</b> ⚠️</td><td><b>Set this</b> to an admin identity in your tenant. That user must complete a <b>one-time consent</b> per environment before the step will run at all.</td></tr>
       </tbody></table>
-      <div class="lbl">Chat Message (for reference)</div>
-      <div class="block">Analyze this NDA and return JSON with risk_level, nda_type, governing_law, term, and exclusions.<button class="copy">Copy</button></div>
+      <div class="lbl">Chat Message</div>
+      <div class="block">Check if we have an active NDA with the counterparty named in this request. If none exists, collect the required inputs and draft the standard NDA. Return JSON with nda_status, counterparty, existing_nda_summary, and action_taken.<button class="copy">Copy</button></div>
 
       <h4>How the agent's output reaches the branch</h4>
-      <p>The agent returns a structured response - JSON or XML - containing the five fields. The workflow captures those into variables of the same name (<code>risk_level</code>, <code>nda_type</code>, <code>governing_law</code>, <code>term</code>, <code>exclusions</code>) so the branch can read them. In the imported workflow this mapping is already wired; open it and confirm the five variables are populated from the agent's response, and that nothing shows as unmapped.</p>
+      <p>The agent returns a JSON object with four fields. The workflow captures <code>nda_status</code>, <code>counterparty</code>, <code>existing_nda_summary</code>, and <code>action_taken</code> into workflow variables so the branch can read them. In the imported workflow this mapping is already wired; open it and confirm the four variables are populated from the agent's response, and that nothing shows as unmapped.</p>
       <div class="note">
-        <b>A note on <code>Update Variable From XML</code>:</b> that step is documented for ingesting XML <i>files</i> into workflow variables. It's a legitimate advanced option if you're deliberately working with XML documents, but it is <b>not</b> the standard or required way to read an agent's output. The default path is the agent returning JSON/XML and the step's own mapping capturing it. In CLM's "Use AI Agent" step the response surfaces as <code>AgentFinalResponseRaw</code> and <code>AgentFinalResponseXml</code> for downstream steps - that CLM pattern is covered in 301.
+        The agent handles the Agreement Manager search internally via the Find Agreements capability. You do not need a separate "Get Document" step for this pattern - the agent does the lookup as part of its Step 1 logic and surfaces the result in <code>nda_status</code>.
       </div>
 
       <div class="h-check"><input type="checkbox" data-stage="2" id="chk13"><div><h3 style="display:inline">2.6 · Walk the branch &amp; the three paths</h3></div></div>
       <p>Open the branch step. Confirm three cases, then follow each path so you know what to expect in Stage 3.</p>
       <table>
         <tbody><tr><th>Case</th><th>Condition</th><th>Path</th></tr>
-        <tr><td>1 · Low risk</td><td><code>risk_level == "LOW"</code></td><td><b>Send Documents for Signature</b> using <code>request_document</code>, then set the Desk status to <span class="proc-only">Onboarded / Signed</span><span class="sales-only">NDA Signed</span>.</td></tr>
-        <tr><td>2 · Medium or high risk</td><td><code>risk_level == "MEDIUM"</code> OR <code>risk_level == "HIGH"</code></td><td><b>Approval</b> step carrying the agent's extracted NDA terms, then into the same send step on approval. Rejection ends in a terminal Rejected status.</td></tr>
-        <tr><td>3 · Fallback</td><td><code>risk_level</code> empty, null, or unexpected - plus the failure paths from Get Document and the agent step</td><td>Set a <b>Returned</b> status and send the requester a message. <b>No envelope.</b></td></tr>
+        <tr><td>1 · NDA exists</td><td><code>nda_status == "exists"</code></td><td>Set the Desk status to <b>NDA Active</b> and send the requester the existing agreement summary. No new NDA is drafted. Request is closed.</td></tr>
+        <tr><td>2 · NDA drafted or sent</td><td><code>nda_status == "drafted"</code> OR <code>nda_status == "sent"</code></td><td>For standard deals: the agent has already generated the NDA via <code>Fontara_NDA_Template</code> — the workflow sends it for signature using the envelope the agent produced. For high-value deals: route to a <b>Legal review Approval</b> step first; send only on approval.</td></tr>
+        <tr><td>3 · Fallback</td><td><code>nda_status == "error"</code>, empty, null, or unexpected value — plus failure paths from the agent step itself</td><td>Set a <b>Returned</b> status and send the requester a message asking them to resubmit. <b>No envelope.</b></td></tr>
       </tbody></table>
       <p>Two things to set for your own tenant as you walk through:</p>
       <ul>
-        <li><b>Send step recipients</b> - for the lab, use yourself as the internal signer and another participant (or the contact from the Desk request fields) as the counterparty.</li>
-        <li><b>Approvers</b> - <span class="proc-only">a Legal approver; use a shared test account.</span><span class="sales-only">a Finance approver and a Legal approver; use shared test accounts.</span></li>
+        <li><b>Send step recipients</b> - for the lab, use yourself as the internal signer and another participant (or the counterparty name from the request fields) as the external signer.</li>
+        <li><b>Legal approver (path 2, high-value branch)</b> - use a shared test account. The approval task will surface the agent's <code>existing_nda_summary</code> and <code>action_taken</code> so the approver sees exactly what the agent found and did.</li>
       </ul>
       <div class="lbl">Message the fallback path sends to the requester</div>
-      <div class="block">We tried to process your request automatically, but could not read the attached contract or generate a valid risk assessment. Please check the document and resubmit this request.<button class="copy">Copy</button></div>
-      <div class="warn"><b>Note how the fallback is a real case, not an afterthought.</b> If an unexpected value silently matched the LOW condition, you'd have built a system that mails contracts to counterparties when the AI has a bad day. The design default is <i>not</i> sending.</div>
+      <div class="block">We tried to process your NDA request automatically but encountered an error. Please check the counterparty name and resubmit. If the problem persists, contact Legal directly.<button class="copy">Copy</button></div>
+      <div class="warn"><b>The fallback is a real case, not an afterthought.</b> An unexpected <code>nda_status</code> value silently matching the "sent" condition would dispatch a blank NDA envelope. The design default is <i>not</i> sending unless <code>nda_status</code> is exactly right.</div>
 
       <div class="h-check"><input type="checkbox" data-stage="2" id="chk14"><div><h3 style="display:inline">2.7 · Publish the workflow</h3></div></div>
       <ol>
@@ -699,65 +719,57 @@ Constraints
     <!-- ============ STAGE 3 ============ -->
     <section class="stage" id="stage-3">
       <div class="stage-head"><h2>Stage 3 · Trigger &amp; validate</h2><span class="time">Three scenarios · 25 min</span></div>
-      <p>Back to Agreement Desk. Submit a request for each of the three scenarios and confirm the flow lands where it should. A flow that only ever gets tested on the happy path is a flow whose behavior you don't actually know.</p>
-      <p>Each run follows the same shape: create the request, submit it, then attach the contract on the <b>Documents</b> tab via <b>Upload documents</b>.</p>
-      <div class="warn">
-        <b>The document is not an intake form field.</b> Agreement Desk's form builder handles data-entry fields - text, number, dropdown, date. The contract attaches to the request itself via <b>Upload documents</b>, and the workflow retrieves it with <b>Get Document from a Request</b>. Keep it to <b>one</b> document per request.
-      </div>
+      <p>Back to Agreement Desk. Submit a request for each of the three scenarios and confirm the Gatekeeper logic routes correctly. Each scenario exercises a different branch: NDA found in Agreement Manager, no NDA on a standard deal, and no NDA on a high-value deal that needs Legal sign-off before sending.</p>
+      <p>Each run follows the same shape: create the request, fill in the counterparty and deal details, and submit. The agent does the Agreement Manager search automatically — no document upload needed for this pattern.</p>
 
-      <div class="h-check"><input type="checkbox" data-stage="3" id="chk15"><div><h3 style="display:inline">3.1 · Scenario 1 - LOW risk, straight through</h3></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="3" id="chk15"><div><h3 style="display:inline">3.1 · Scenario 1 — NDA already exists in Agreement Manager</h3></div></div>
+      <p>This tests the happy path: the agent finds an active NDA and the workflow closes the request without drafting anything new.</p>
       <ol>
         <li>Go to the <b>Requests</b> tab and click <b>New request</b>.</li>
-        <li>Select Request Type <b>Agent Studio - Risk Lab</b>.</li>
+        <li>Select Request Type <b>Agent Studio - NDA Lab</b>.</li>
         <li>Fill out the form:</li>
       </ol>
-      <table class="proc-only">
-        <tbody><tr><th>Field</th><th>Value</th></tr>
-        <tr><td>Vendor name</td><td><code>SmartFactory Systems</code></td></tr>
-        <tr><td>Requester name</td><td>Your own name</td></tr>
-        <tr><td>Estimated annual spend</td><td><code>50000</code></td></tr>
-        <tr><td>Jurisdiction</td><td><code>California</code></td></tr>
-        <tr><td>Category</td><td><b>Vendor Contract</b></td></tr>
-      </tbody></table>
-      <table class="sales-only">
+      <table>
         <tbody><tr><th>Field</th><th>Value</th></tr>
         <tr><td>Counterparty name</td><td><code>Brightpath Technologies</code></td></tr>
         <tr><td>Requester name</td><td>Your own name</td></tr>
         <tr><td>Estimated deal value</td><td><code>75000</code></td></tr>
-        <tr><td>Jurisdiction</td><td><code>California</code></td></tr>
+        <tr><td>Governing state</td><td><code>California</code></td></tr>
         <tr><td>Category</td><td><b>NDA Request</b></td></tr>
+        <tr><td>Business purpose</td><td><code>Evaluating a software integration partnership</code></td></tr>
       </tbody></table>
       <ol start="4">
-        <li><b>Submit</b>, then click <b>View request</b>.</li>
-        <li>On the <b>Documents</b> tab, click <b>Upload documents</b> and attach the <b>LOW</b> sample contract.</li>
+        <li><b>Submit</b> the request.</li>
       </ol>
       <div class="expect">
-        <b>Expect:</b> the workflow triggers → Get Document returns the contract → the agent returns <code>risk_level = LOW</code> → the LOW branch runs → an envelope goes to your configured participants → on completion the Desk status becomes <span class="proc-only"><b>Onboarded / Signed</b></span><span class="sales-only"><b>Renewal Signed</b></span>.
+        <b>Expect:</b> the workflow triggers → the NDA Gatekeeper searches Agreement Manager for "Brightpath Technologies" → finds an active NDA → returns <code>nda_status = "exists"</code> with a summary → the "NDA exists" branch runs → the Desk request status becomes <b>NDA Active</b> → the requester receives the existing agreement details. No new NDA is drafted and no envelope is sent.
       </div>
+      <div class="note">If your test tenant doesn't have a pre-loaded Brightpath agreement, add one in Agreement Manager before this run — a simple placeholder NDA is sufficient. The point is to confirm the search and pivot logic work before testing the draft path.</div>
 
-      <div class="h-check"><input type="checkbox" data-stage="3" id="chk16"><div><h3 style="display:inline">3.2 · Scenario 2 - MEDIUM/HIGH risk, human review</h3></div></div>
-      <p class="proc-only">Create another request; Vendor name <b>DataVault Dynamics</b>, spend <code>1500000</code>, Jurisdiction <code>EMEA</code>, Category <b>Vendor Contract</b>. Submit, then attach the <b>HIGH</b> sample via <b>Upload documents</b>.</p>
-      <p class="sales-only">Create another request; Counterparty name <b>Axiom Global Partners</b>, deal value <code>500000</code>, Jurisdiction <code>EMEA</code>, Category <b>NDA Request</b>. Submit, then attach the <b>HIGH</b> sample NDA via <b>Upload documents</b>.</p>
+      <div class="h-check"><input type="checkbox" data-stage="3" id="chk16"><div><h3 style="display:inline">3.2 · Scenario 2 — No NDA, standard deal, auto-send template</h3></div></div>
+      <p>This tests the "no NDA found, low-value deal" path: the agent searches, finds nothing, collects inputs from the request form, generates the NDA from the template, and sends it for signature without human review.</p>
+      <p>Create another request with counterparty name <b>Axiom Global Partners</b>, deal value <code>80000</code>, governing state <code>Delaware</code>, Category <b>NDA Request</b>, business purpose <code>New software reseller agreement</code>. Ensure there is no existing agreement for Axiom Global Partners in Agreement Manager before submitting.</p>
       <div class="expect">
-        <b>Expect:</b> the agent returns <code>MEDIUM</code> or <code>HIGH</code> → the review branch runs → an approval task appears for <span class="proc-only">Legal</span><span class="sales-only">Finance / Legal</span> carrying the extracted terms and reasoning → <b>no envelope yet</b>. Approve it, and only then does the send step run through to signature.
+        <b>Expect:</b> the agent searches Agreement Manager → finds nothing → returns <code>nda_status = "drafted"</code> or <code>"sent"</code> → the workflow sends <code>Fontara_NDA_Template</code> to the counterparty for signature → the Desk status becomes <b>NDA Sent</b>. No Legal approval required for this deal size.
       </div>
-      <div class="note">Open the approval task and read it as the approver would. The point of this pattern is that the reviewer gets the agent's findings handed to them - they shouldn't have to re-read the contract to know why it escalated.</div>
+      <div class="note">This is the path that eliminates the "contact Legal for every NDA" bottleneck. A rep submits a request, the Gatekeeper checks for an existing agreement, and if none exists the standard NDA goes out automatically — all inside Docusign, fully auditable.</div>
 
-      <div class="h-check"><input type="checkbox" data-stage="3" id="chk17"><div><h3 style="display:inline">3.3 · Scenario 3 - missing or malformed document, fallback</h3></div></div>
-      <p>Create a third request with any valid field values, then either attach nothing at all, or attach a deliberately unusable file - an empty document, or an image with no readable text.</p>
+      <div class="h-check"><input type="checkbox" data-stage="3" id="chk17"><div><h3 style="display:inline">3.3 · Scenario 3 — No NDA, high-value deal, Legal review first</h3></div></div>
+      <p>This tests the escalation path: no existing NDA, but the deal value triggers a Legal review before any NDA is sent.</p>
+      <p>Create a third request; counterparty name <b>Meridian Capital Group</b>, deal value <code>2500000</code>, governing state <code>New York</code>, Category <b>NDA Request</b>, business purpose <code>Strategic acquisition due diligence</code>.</p>
       <div class="expect">
-        <b>Expect:</b> Get Document or the agent step fails → the fallback branch runs → the Desk status becomes a <b>Returned</b> state → the requester receives the explanatory message → <b>no envelope is sent</b>.
+        <b>Expect:</b> the agent searches → finds nothing → returns <code>nda_status = "drafted"</code> → the high-value branch runs → a Legal <b>Approval</b> task is created, surfacing the agent's <code>action_taken</code> and counterparty details → <b>no NDA is sent yet</b>. Approve the task, and only then does the send step dispatch the envelope.
       </div>
-      <div class="note">Optional fourth run: repeat Scenario 2 but <b>reject</b> the approval instead of approving. Confirm it lands in a terminal Rejected status and no envelope is ever created.</div>
+      <div class="note">Optional fourth run: reject the Legal approval instead of approving. Confirm the Desk status becomes <b>Rejected</b> and no envelope is ever dispatched.</div>
 
       <div class="h-check"><input type="checkbox" data-stage="3" id="chk18"><div><h3 style="display:inline">3.4 · Validation checklist</h3></div></div>
       <div class="card">
         <ul>
-          <li><b>Agent</b> - returns valid JSON with all five fields (<code>risk_level</code>, <code>nda_type</code>, <code>governing_law</code>, <code>term</code>, <code>exclusions</code>); <code>risk_level</code> is always one of the three literal uppercase values; capabilities let it read the document but not send anything.</li>
-          <li><b>Agreement Desk</b> - the Request Type imported and activated cleanly; requests carry one document; statuses advance at each stage and reviewers can see the AI-determined risk and reasoning.</li>
-          <li><b>Get Document</b> - <code>request_document</code> is populated, and the same variable feeds both the agent step and the send step.</li>
-          <li><b>Workflow</b> - published, not draft; the trigger fires only for the right Request Type; all three branches are reachable; failure paths route to fallback rather than falling through to signature.</li>
-          <li><b>eSignature</b> - envelopes carry the correct document and recipients; completion updates the Desk request.</li>
+          <li><b>Agent</b> - returns valid JSON with all four fields (<code>nda_status</code>, <code>counterparty</code>, <code>existing_nda_summary</code>, <code>action_taken</code>); <code>nda_status</code> is always one of the four literal values (<code>exists</code>, <code>drafted</code>, <code>sent</code>, <code>error</code>); capabilities include Find Agreements and Generate Documents.</li>
+          <li><b>Agreement Manager search</b> - the agent performs both exact and partial name matching; a partial input like "Brightpath" finds "Brightpath Technologies."</li>
+          <li><b>Agreement Desk</b> - the Request Type imported and activated cleanly; statuses advance correctly for each branch (NDA Active, NDA Sent, Rejected, Returned).</li>
+          <li><b>Workflow</b> - published, not draft; the trigger fires only for the NDA Lab Request Type; all three branches are reachable; the fallback handles <code>error</code> and unexpected values without sending an envelope.</li>
+          <li><b>eSignature</b> - envelopes are dispatched only on the "drafted/sent" path (and only after Legal approval on high-value deals); completion updates the Desk request status.</li>
         </ul>
       </div>
 
@@ -788,12 +800,12 @@ Constraints
 
       <div class="finale">
         <h3>The message</h3>
-        <p>Agreement Desk captured the NDA request and the document → Workflow Builder fetched it and orchestrated the run → the NDA Risk Analyst read the agreement, scored the risk against Fontara's contracting standards, and returned structured JSON → deterministic branching sent LOW straight to eSignature, MEDIUM/HIGH to Legal for review, and anything without a readable document back to the submitter. Intake once, analyze with an agent, route with Workflow Builder, sign with eSignature: all inside Docusign, all auditable.</p>
+        <p>Agreement Desk captured the NDA request → Workflow Builder invoked the NDA Gatekeeper → the agent searched Agreement Manager for an existing agreement with the counterparty, pivoted cleanly when nothing was found, collected the required inputs, and drafted the standard NDA via the envelope template — returning structured JSON the workflow could branch on → NDA already exists: closed the request instantly with zero duplicate paperwork / No NDA, standard deal: sent the template straight to signature / No NDA, high-value deal: queued Legal for approval before anything was sent. One agent, two invocation modes (Ask Iris + Maestro), five surfaces, fully auditable.</p>
       </div>
 
       <div class="card tint">
         <h3>Reuse the pattern</h3>
-        <p style="margin:0;">The same four-surface shape carries directly to other scenarios: vendor onboarding, customer renewals, procurement inbound review, or any department-specific risk workflow. Swap the agent's instructions and the playbook thresholds in Knowledge Sources; the architecture doesn't change.</p>
+        <p style="margin:0;">The Search-to-Draft shape carries directly to other scenarios: checking for existing vendor agreements before onboarding, verifying an MSA is in place before a renewal, or any "check first, create if absent" workflow. Swap the agent's search criteria and the draft template; the five-surface architecture doesn't change.</p>
       </div>
 
       <div class="foot">
