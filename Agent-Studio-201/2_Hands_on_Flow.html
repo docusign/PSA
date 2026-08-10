@@ -912,17 +912,17 @@ Constraints:
       low:{
         edges:BASE.concat(['edge-agent-branch','edge-branch-low','edge-sign-done']),
         nodes:['sign'], particle:'particle-low',
-        agent:'LOW', route:'Straight to eSignature - no human step.'
+        agent:'nda_status: exists', route:'NDA found — request closed, no new NDA drafted.'
       },
       high:{
         edges:BASE.concat(['edge-agent-branch','edge-branch-high','edge-review-sign','edge-sign-done']),
         nodes:['review','sign'], particle:'particle-high',
-        agent:'MEDIUM / HIGH', route:'Human review first, then eSignature.'
+        agent:'nda_status: drafted', route:'No NDA found — Legal review first, then send template.'
       },
       fallback:{
         edges:BASE.concat(['edge-agent-fallback','edge-fallback-loop']),
         nodes:['fallback'], particle:'particle-fallback',
-        agent:'No valid result', route:'Returned to submitter - no envelope.'
+        agent:'nda_status: error', route:'Returned to submitter — no envelope sent.'
       }
     };
 
@@ -956,8 +956,8 @@ Constraints:
       if(missing){ applyRoute('fallback'); return; }
       // MEDIUM and HIGH share the human-review route
       applyRoute(riskSel.value==='low' ? 'low' : 'high');
-      if(riskSel.value==='medium'){ statusAgent.textContent='MEDIUM'; }
-      if(riskSel.value==='high'){ statusAgent.textContent='HIGH'; }
+      if(riskSel.value==='medium'){ statusAgent.textContent='nda_status: drafted (standard)'; }
+      if(riskSel.value==='high'){ statusAgent.textContent='nda_status: drafted (high-value)'; }
     }
 
     riskSel.addEventListener('change',updateExplorer);
