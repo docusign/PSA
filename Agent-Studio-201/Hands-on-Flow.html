@@ -461,26 +461,26 @@ li{margin:5px 0;}
           <li>IAM basics: agreements, Request Types, how workflows trigger and run, what an agent does.</li>
           <li>Comfortable reading a simple JSON payload and mapping fields between systems.</li>
           <li class="proc-only">A basic vendor risk playbook (for example: minimum liability cap, acceptable governing law list).</li>
-          <li class="sales-only">A basic NDA playbook — defined in section 0.6.5 below. Minimum: acceptable governing law jurisdictions, maximum NDA term without escalation, and whether one-way NDAs require Legal sign-off. The agent cannot score risk consistently until these thresholds exist.</li>
+          <li class="sales-only">Your contracting standards documented before Stage 1 (section 0.6.5 below). Minimum: the deal value threshold for auto-send vs. Legal review, acceptable governing states, and the standard NDA term. The agent cannot route or draft consistently without these defined.</li>
         </ul>
       </div>
 
       <div class="h-check"><input type="checkbox" data-stage="0" id="p5"><div><h3 style="display:inline">0.6.5 · Define your contracting standards</h3><span class="tag">setup</span></div></div>
       <div class="card">
-        <p style="margin:0 0 10px;">The agent classifies risk against a policy. Without defined thresholds, every classification is a guess. Before the lab — or before deploying to production — document your NDA playbook. At minimum, answer these questions:</p>
+        <p style="margin:0 0 10px;">The Gatekeeper agent makes two judgment calls: when to auto-send the NDA vs. route to Legal first, and what terms go into the standard NDA it drafts. Without documented standards, those calls are inconsistent. Before the lab (or before deploying to production), answer these four questions and encode the answers in the agent's Instructions.</p>
         <table>
-          <tbody><tr><th>Threshold</th><th>Example value</th><th>Where it lives</th></tr>
-          <tr><td><b>Acceptable governing law</b></td><td>California, New York, Delaware; anything else = MEDIUM or HIGH</td><td>Agent Instructions or Knowledge Source</td></tr>
-          <tr><td><b>Maximum NDA term without escalation</b></td><td>3 years standard; 5 years = MEDIUM; perpetual = HIGH</td><td>Agent Instructions or Knowledge Source</td></tr>
-          <tr><td><b>NDA type policy</b></td><td>Mutual preferred; one-way (Fontara-bound only) = MEDIUM; one-way with no reciprocal = HIGH</td><td>Agent Instructions</td></tr>
-          <tr><td><b>Exclusion carve-outs</b></td><td>Standard exceptions (public domain, prior knowledge) = LOW; unusual carve-outs = MEDIUM or HIGH</td><td>Agent Instructions</td></tr>
+          <tbody><tr><th>Standard</th><th>Example value</th><th>Where it lives</th></tr>
+          <tr><td><b>Auto-send threshold</b></td><td>Deal value under $150,000: agent sends the NDA directly. At or above $150,000: route to Legal for approval first.</td><td>Agent Instructions (Step 4 routing rule)</td></tr>
+          <tr><td><b>Acceptable governing states</b></td><td>California, New York, Delaware. If the requester provides a different state, the agent flags it and routes to Legal regardless of deal value.</td><td>Agent Instructions (Step 3 intake validation)</td></tr>
+          <tr><td><b>NDA type</b></td><td>Standard template is mutual. If the counterparty requests a one-way NDA, escalate to Legal rather than auto-drafting.</td><td>Agent Instructions or Knowledge Source</td></tr>
+          <tr><td><b>Standard NDA term</b></td><td>Two years with a 30-day termination notice. The agent does not deviate from this; requests for a different term go to Legal.</td><td>Fontara_NDA_Template (the envelope template itself)</td></tr>
         </tbody></table>
-        <p style="margin:10px 0 6px;font-weight:600;">Two ways to encode your playbook:</p>
+        <p style="margin:10px 0 6px;font-weight:600;">Two ways to encode your standards:</p>
         <ul>
-          <li><b>Inline in Instructions</b> — paste the thresholds directly into the agent's Instructions field (as in Stage 1.2). Simple, readable, good for labs and early production. Change the thresholds by editing the agent and republishing.</li>
-          <li><b>Knowledge Sources</b> — upload a PDF or document containing your NDA playbook to the agent's Knowledge Sources. The agent queries it at runtime. Better for production: Legal can update the playbook document without touching the agent's Instructions, and the source is versioned and auditable separately.</li>
+          <li><b>Inline in Instructions</b>: paste the thresholds directly into the agent's Instructions field (as in Stage 1.2). Simple and readable, good for labs and early production. Update the thresholds by editing the agent and republishing.</li>
+          <li><b>Knowledge Sources</b>: upload a document containing your NDA playbook to the agent's Knowledge Sources. The agent queries it at runtime. Better for production: Legal can update the playbook without touching the agent's Instructions, and the source is versioned and auditable separately.</li>
         </ul>
-        <div class="note">For this lab, the thresholds are embedded in the Instructions prompt in Stage 1.2. For a production deployment, move them to a Knowledge Source so Legal owns the policy without editing the agent.</div>
+        <div class="note">For this lab, the standards are embedded in the Instructions prompt in Stage 1.2. For a production deployment, move them to a Knowledge Source so Legal owns the policy without editing the agent.</div>
       </div>
 
       <h3>0.7 · How to use this handbook</h3>
