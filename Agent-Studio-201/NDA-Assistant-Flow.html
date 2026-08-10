@@ -104,6 +104,16 @@ section.stage:first-of-type{border-top:none;}
 .h-check input{margin-top:6px;width:17px;height:17px;accent-color:var(--indigo);flex:0 0 auto;cursor:pointer;}
 .h-check h3{margin:0;}
 .h-check .tag{font-size:11px;font-weight:600;color:var(--muted);background:#efeaff;padding:2px 9px;border-radius:14px;margin-left:8px;text-transform:uppercase;letter-spacing:.06em;}
+.h-check .tag.demo{color:#92400e;background:#fef3c7;}
+.demo-banner{background:#fffbeb;border:1.5px solid #f59e0b;border-radius:11px;padding:12px 16px;margin:0 0 18px;font-size:13.5px;display:flex;gap:10px;align-items:flex-start;}
+.demo-banner .icon{font-size:18px;line-height:1;flex:0 0 auto;}
+.demo-prereq{background:#f8f8f8;border:1px solid var(--hairline);border-radius:10px;padding:14px 16px;margin:14px 0;}
+.demo-prereq h4{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);}
+.demo-prereq ul{margin:0;padding-left:18px;}
+.demo-prereq li{margin:5px 0;font-size:13.5px;}
+.xml-var{background:#f0f4ff;border:1px solid #c7d4f5;border-radius:8px;padding:10px 14px;margin:10px 0;font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;}
+.xml-var .vname{color:#4C00FF;font-weight:700;}
+.xml-var .vdesc{color:var(--muted);font-size:12px;margin-left:8px;}
 
 /* prompt / code block */
 .block{position:relative;background:var(--ink);color:#eee6ff;border-radius:11px;padding:16px 46px 16px 18px;margin:12px 0;font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;font-size:13px;white-space:pre-wrap;word-break:break-word;line-height:1.55;}
@@ -229,6 +239,7 @@ li{margin:5px 0;}
       <li class="step" data-target="stage-1"><span class="ring" data-stage="1"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">1</span></span><span class="txt"><span class="t">Build the agent</span><span class="s">Create · Configure · Instruct · Test</span></span></li>
       <li class="step" data-target="stage-2"><span class="ring" data-stage="2"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">2</span></span><span class="txt"><span class="t">Best practices</span><span class="s">Unhappy paths · Ask Iris</span></span></li>
       <li class="step" data-target="stage-3"><span class="ring" data-stage="3"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">Advanced automation</span><span class="s">Direct envelope delivery</span></span></li>
+      <li class="step" data-target="stage-4"><span class="ring" data-stage="4"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">4</span></span><span class="txt"><span class="t">The CLM connection</span><span class="s">Demo only · Maestro workflow step</span></span></li>
     </ol>
     <div class="side-foot">
       Self-paced handbook. Tick each step checkbox to fill the progress rings.<br><br>
@@ -647,6 +658,116 @@ Once all three inputs are confirmed (full legal name, governing state, business 
       </div>
     </section>
 
+    <section class="stage" id="stage-4">
+      <div class="stage-head"><h2>Stage 4 · The CLM connection</h2><span class="time">Demo only</span></div>
+
+      <div class="demo-banner">
+        <span class="icon">&#9654;</span>
+        <div>
+          <strong>Watch, don't build.</strong> This stage is a facilitated demo, not a hands-on exercise. The CLM "Use AI Agent" step requires a CLM license, IAM-CLM interoperability setup, and a per-environment admin consent link that cannot be completed in this lab. The goal is to show where the agent you just built slots into a governed, automated contract workflow.
+        </div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="4" id="s40"><div><h3 style="display:inline">4.1 · Why CLM calls the agent instead of running it in chat</h3><span class="tag demo">concept</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">Ask Iris is conversational: a rep asks a question, the agent responds, the rep acts. That works for one deal at a time. A CLM workflow is deterministic: every inbound NDA request follows the same path, without a human having to remember to ask.</p>
+        <p style="margin:0 0 10px;">The "Use AI Agent" step is the bridge. CLM is the orchestration surface; Agent Studio is the reasoning layer. The CLM workflow handles the structured steps (approvals, merges, signatures, archiving). The agent handles the part that requires judgment: check the repository, evaluate what exists, and return a structured answer the workflow can act on.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;">
+          <div style="background:#f5f3ff;border-radius:10px;padding:14px;">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#4C00FF;margin-bottom:8px;">Agent Studio</div>
+            <ul style="margin:0;padding-left:16px;font-size:13px;">
+              <li>Natural language instructions</li>
+              <li>Capabilities (Find Agreements, etc.)</li>
+              <li>Output format in JSON or XML</li>
+              <li>Knowledge base and governance rules</li>
+            </ul>
+          </div>
+          <div style="background:#f0fff5;border-radius:10px;padding:14px;">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a7d3c;margin-bottom:8px;">CLM Workflow</div>
+            <ul style="margin:0;padding-left:16px;font-size:13px;">
+              <li>Selects the published agent</li>
+              <li>Passes a starting prompt and document</li>
+              <li>Stores the agent response as an XML variable</li>
+              <li>Routes downstream steps based on that variable</li>
+            </ul>
+          </div>
+        </div>
+        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Architecture slide: Agent Studio (reasoning) on the left, CLM Workflow (orchestration) on the right, Trigger and Response arrows between them</span></div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="4" id="s41"><div><h3 style="display:inline">4.2 · What the "Use AI Agent" step looks like for the NDA Gatekeeper</h3><span class="tag demo">demo</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">In a CLM workflow for inbound NDA requests, the "Use AI Agent" step is configured with five fields. Here is how each one maps to the NDA Gatekeeper scenario:</p>
+        <table>
+          <tr><th style="width:30%">Field</th><th>Value for the NDA Gatekeeper</th></tr>
+          <tr><td><b>Agent</b></td><td>Select the published NDA Gatekeeper Assistant from the agent picker.</td></tr>
+          <tr><td><b>Chat Message</b></td><td>The starting prompt the workflow sends, e.g. <em>"Review this NDA request for [Counterparty]. Check the agreement repository and return nda_status as JSON."</em></td></tr>
+          <tr><td><b>Document (optional)</b></td><td>If the inbound NDA has already been uploaded to the CLM record, pass it here so the agent can read it directly.</td></tr>
+          <tr><td><b>Run agent as</b></td><td>An admin user who has completed one-time OAuth consent for this environment. The consent link is per-environment and must be clicked before the first run.</td></tr>
+          <tr><td><b>Output variable</b></td><td>Store the result in <code>AgentResponse</code>. The workflow reads <code>AgentFinalResponseXml</code> from that variable to branch on nda_status.</td></tr>
+        </table>
+        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">CLM workflow canvas: Use AI Agent step selected, step properties panel open on the right showing the five fields filled in for the NDA Gatekeeper</span></div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="4" id="s42"><div><h3 style="display:inline">4.3 · What the output variable contains</h3><span class="tag demo">demo</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">After the agent runs, the step processes the response into a structured XML variable the workflow can reference. The top-level fields are:</p>
+        <div class="xml-var">
+          <div><span class="vname">AgentResponse.ThreadId</span><span class="vdesc">execution thread identifier</span></div>
+          <div><span class="vname">AgentResponse.RunId</span><span class="vdesc">specific run identifier</span></div>
+          <div><span class="vname">AgentResponse.AgentName</span><span class="vdesc">display name of the agent that ran</span></div>
+          <div><span class="vname">AgentResponse.Intent</span><span class="vdesc">extracted intent if present in the response</span></div>
+          <div><span class="vname">AgentResponse.AgentFinalResponseRaw</span><span class="vdesc">the agent's raw text response</span></div>
+          <div><span class="vname">AgentResponse.AgentFinalResponseXml</span><span class="vdesc">XML-normalized version of the response (use this to branch)</span></div>
+        </div>
+        <p style="margin:10px 0 6px;">For the NDA Gatekeeper, <code>AgentFinalResponseXml</code> contains the nda_status value the instructions require the agent to return. The CLM workflow reads it and routes accordingly:</p>
+        <table>
+          <tr><th>nda_status value</th><th>What the CLM workflow does next</th></tr>
+          <tr><td><code>exists</code></td><td>Skip the NDA creation steps. Route to a notification step that informs the requester an active NDA is already on file.</td></tr>
+          <tr><td><code>sent</code></td><td>A new NDA was just dispatched. Route to a waiting step until the envelope is signed, then archive and continue.</td></tr>
+          <tr><td><code>error</code></td><td>The agent could not complete the check. Escalate to a Legal team task step for manual review.</td></tr>
+        </table>
+        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Variables and Values panel showing AgentResponse tree expanded, with AgentFinalResponseXml highlighted and nda_status value visible</span></div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="4" id="s43"><div><h3 style="display:inline">4.4 · What must be in place before a customer can use this</h3><span class="tag demo">prereqs</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">The "Use AI Agent" step is available in CLM workflows but requires setup that goes beyond Agent Studio alone. Partners and customers need to confirm these items before the pattern goes live.</p>
+        <div class="demo-prereq">
+          <h4>Licensing</h4>
+          <ul>
+            <li>An active IAM license is required to use agents at all: IAM Professional, IAM Enterprise, IAM for Sales, or IAM Platform.</li>
+            <li>Agent Studio must be available for the customer's IAM site and segment (currently: NA, non-FedRamp, non-HLS, English UI).</li>
+          </ul>
+        </div>
+        <div class="demo-prereq">
+          <h4>CLM-IAM interoperability</h4>
+          <ul>
+            <li>CLM documents must be migrated into Agreement Manager and properly indexed before the agent can search them.</li>
+            <li>Agreement Manager must be enabled for the relevant agreement types (e.g. NDAs) if the pattern involves post-sign repository checks.</li>
+          </ul>
+        </div>
+        <div class="demo-prereq">
+          <h4>Consent link (the step most often missed)</h4>
+          <ul>
+            <li>The "Run agent as" admin user must click a one-time OAuth consent link per environment before the first CLM workflow run.</li>
+            <li>This consent link is environment-specific. Sandbox consent does not carry over to production.</li>
+            <li>Without it, the step fails silently at runtime with no visible error in the workflow log.</li>
+          </ul>
+        </div>
+        <div class="warn"><b>Why this is demo-only today:</b> CLM-IAM interoperability and the consent link cannot be completed in a shared lab environment. In a real customer engagement, these are discovery and setup items that happen before agent configuration begins.</div>
+      </div>
+
+      <div class="finale">
+        <h3>The full picture</h3>
+        <p>You started this lab with a conversational agent that a Sales rep can invoke in a chat window. That same agent, without any changes to its instructions or capabilities, can be called as a step inside a CLM workflow that triggers automatically on every inbound NDA request. The agent handles the judgment layer; the CLM workflow handles the process layer. The combination gives you auditable, repeatable NDA handling at scale, without building two separate systems.</p>
+      </div>
+
+      <div class="foot">
+        Agent Studio 201 · Search-to-Draft NDA Assistant hands-on lab · Synthetic data only. Menu labels vary by tenant and release, so trust your screen.
+      </div>
+    </section>
+
   </main>
 </div>
 
@@ -684,7 +805,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
     if(li) li.classList.toggle('done',done);
   }
   function refresh(){
-    for(var s=0;s<=3;s++){
+    for(var s=0;s<=4;s++){
       var group=checks.filter(function(c){return c.getAttribute('data-stage')==String(s);});
       var total=group.length, on=group.filter(function(c){return c.checked;}).length;
       ring(s, total?on/total:0, total>0 && on===total);
