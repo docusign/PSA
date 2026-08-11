@@ -593,19 +593,27 @@ Title: __________________________</div>
       <div class="card">
         <p style="margin:0 0 10px;">This is the rep-facing surface. From Ask Iris, a Sales rep can check NDA status or generate a new agreement without submitting a formal request or leaving the conversation. Run both paths to confirm the published agent behaves identically to the Test panel.</p>
         <div class="clickpath">
-          <div class="cp-task"><span class="cp-badge">Click path</span>Invoke the agent from Ask Iris</div>
+          <div class="cp-task"><span class="cp-badge">Click path</span>Navigate to Ask Iris</div>
           <ol>
-            <li>Open <b>Ask Iris Chat</b>.</li>
-            <li>Click the <b>plus sign (+)</b> inside the conversation input.</li>
-            <li>Select <b>Agents</b>, then find and click your published agent.</li>
-            <li>Confirm the greeting appears: "How can I help with your agreement search or NDA drafting?"</li>
-            <li>Run the exists path: ask about a counterparty that has an active agreement in your tenant.</li>
-            <li>Start a new conversation and run the draft path: ask about a counterparty with no agreement, confirm the pivot script, then complete the intake and copy the generated NDA.</li>
+            <li>From the top navigation, click <b>Agreements</b>.</li>
+            <li>Select <b>Completed</b> from the left sidebar to open the agreement list view.</li>
+            <li>Click the <b>Iris</b> icon (the sparkle or chat icon) in the top-right corner of the screen to open the Iris chat panel.</li>
           </ol>
         </div>
-        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Ask Iris with the agent picker open and the agent greeting visible in the conversation</span></div>
-        <div class="expect"><b>Checkpoint:</b> the agent is findable in the Ask Iris picker, the greeting displays, and both the exists path and the draft path produce the correct output.</div>
-        <div class="note">If the agent does not appear in the picker, it is still in Draft status. Go back to Agent Studio, publish it (Step 1.6), and refresh the chat window.</div>
+        <div class="clickpath">
+          <div class="cp-task"><span class="cp-badge">Click path</span>Invoke the agent</div>
+          <ol>
+            <li>Inside the Iris chat panel, click the <b>plus sign (+)</b> in the conversation input bar.</li>
+            <li>Select <b>Agents</b> from the menu that appears.</li>
+            <li>Find your published agent in the list and click it to start a conversation.</li>
+            <li>A greeting may appear automatically. If it does not, type a message to start the conversation — this is expected behaviour depending on your tenant configuration.</li>
+            <li>Run the exists path: ask about a counterparty that has an active agreement in your tenant.</li>
+            <li>Start a new conversation and run the draft path: ask about a counterparty with no agreement, confirm the pivot script, complete the intake, and verify the NDA is produced.</li>
+          </ol>
+        </div>
+        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Iris chat panel open with the agent picker showing; agent selected and conversation started</span></div>
+        <div class="expect"><b>Checkpoint:</b> the agent is findable in the Ask Iris picker and both the exists path and the draft path produce the correct output.</div>
+        <div class="note">If the agent does not appear in the picker, it is still in Draft status. Go back to Agent Studio, publish it (step 1.6), and refresh the chat window.</div>
       </div>
     </section>
 
