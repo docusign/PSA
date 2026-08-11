@@ -263,7 +263,7 @@ li{margin:5px 0;}
       <h3>0.1 · The scenario</h3>
       <div class="card proc-only">
         <p style="margin:0 0 10px;font-weight:600;font-size:16px;">At Fontara, Procurement and Legal onboard high-value vendors one email thread at a time.</p>
-        <p style="margin:0;">A business user emails a draft vendor contract, Legal manually hunts for the liability cap and governing law, then someone routes it for signature. It is slow, inconsistent, and hard to audit.&nbsp;</p><p style="margin:0;">In this lab you replace that with an automated process: an Agreement Desk request starts a workflow that hands the contract to a Risk Analyst agent, which extracts the key terms and classifies risk. LOW risk goes straight to the vendor for signature; MEDIUM or HIGH risk waits for Legal.</p>
+        <p style="margin:0;">A business user emails a draft vendor MSA, Legal manually hunts for the liability cap and governing law, then someone routes it for signature. It is slow, inconsistent, and hard to audit.&nbsp;</p><p style="margin:0;">In this lab you replace that with an automated process: an Agreement Desk request starts a workflow that hands the vendor MSA to a Risk Analyst agent, which extracts the key terms and classifies risk. LOW risk goes straight to the vendor for signature; MEDIUM or HIGH risk waits for Legal.</p>
       </div>
       <div class="card sales-only">
         <p style="margin:0 0 10px;font-weight:600;font-size:16px;">At Fontara, Sales and Customer Success process high-value renewals by emailing Legal and Finance.</p>
@@ -275,7 +275,7 @@ li{margin:5px 0;}
         <h3>Four surfaces, one loop</h3>
         <table>
           <tbody><tr><th>Docusign Layer</th><th>Role in this lab</th></tr>
-          <tr><td><b>Agreement Desk</b></td><td>Intake and status hub. The business user starts here, uploads the contract, and can always see where the request sits.</td></tr>
+          <tr><td><b>Agreement Desk</b></td><td>Intake and status hub. The business user starts here, uploads the vendor MSA, and can always see where the request sits.</td></tr>
           <tr><td><b>Workflow Builder (Maestro)</b></td><td>The orchestrator. Starts from the Desk request, fetches the document, calls the agent, and owns all the deterministic branching.</td></tr>
           <tr><td><b>Agent Studio</b></td><td>The governed intelligence layer. Your Risk Analyst agent is a role-based digital team member with natural-language instructions and scoped data access - it reasons, it does not decide the routing.</td></tr>
           <tr><td><b>eSignature</b></td><td>The commit step. Nothing reaches a signer unless a branch explicitly allows it.</td></tr>
@@ -462,8 +462,8 @@ li{margin:5px 0;}
           <tbody><tr><th>Asset</th><th>What it's for</th></tr>
           <tr><td><code>risk_lab_request_type.zip</code></td><td>The prebuilt Agreement Desk Request Type you'll import in Stage 2.1.</td></tr>
           <tr><td><code>risk_lab_workflow.zip</code></td><td>The prebuilt Workflow Builder workflow you'll import in Stage 2.2.</td></tr>
-          <tr><td><code>SampleVendorContract_LOW</code></td><td>A contract engineered to score LOW - drives the straight-through path.</td></tr>
-          <tr><td><code>SampleVendorContract_HIGH</code></td><td>A contract engineered to score MEDIUM or HIGH - drives the human review path.</td></tr>
+          <tr><td><code>SampleVendorMSA_LOW</code></td><td>A vendor MSA engineered to score LOW - drives the straight-through path.</td></tr>
+          <tr><td><code>SampleVendorMSA_HIGH</code></td><td>A vendor MSA engineered to score MEDIUM or HIGH - drives the human review path.</td></tr>
         </tbody></table>
         <p style="margin:8px 0 0;">Your facilitator supplies the exact filenames, formats, and repo URL. Renewal-flavored equivalents may be provided for the Sales persona.</p>
         <div class="note">Keep sample documents short. The agent step has request-size and timeout limits, and a 40-page MSA is a slow, flaky way to learn the pattern.</div>
@@ -495,7 +495,7 @@ li{margin:5px 0;}
     <section class="stage" id="stage-1">
       <div class="stage-head"><h2><br></h2><h2>Stage 1 · Agent Studio</h2><span class="time">Build the Risk Analyst · 15 min</span></div>
       <p>Build the agent first. It's the only artifact in this lab you create from scratch, it's where the actual skill lives, and the workflow you import in Stage 2 needs to point at it - so it has to exist first.</p>
-      <p>One agent serves both motions: it works out from the parties and context whether it's looking at a vendor contract or a customer renewal.</p>
+      <p>One agent serves both motions: it works out from the parties and context whether it's looking at a vendor MSA or a customer renewal order.</p>
 
       <div class="h-check"><input type="checkbox" data-stage="1" id="chk4"><div><h3 style="display:inline">1.1 · Create the agent &amp; set identity</h3></div></div>
       <ol>
@@ -514,9 +514,9 @@ li{margin:5px 0;}
       <div class="h-check"><input type="checkbox" data-stage="1" id="chk5"><div><h3 style="display:inline">1.2 · Write the instructions</h3></div></div>
       <p>Paste this into the Agent's <b>Instructions</b> field. There is no separate output-schema builder in Agent Studio - the response shape you want is described here, in plain language, so be explicit about field names and allowed values.</p>
       <div class="lbl">Instructions</div>
-      <div class="block prompt">You are a contract risk analyst. You receive one contract at a time.
+      <div class="block prompt">You are a contract risk analyst. You receive one MSA or renewal order at a time.
 
-1. Determine whether this is a vendor contract or a customer renewal, based on the parties and context.
+1. Determine whether this is a vendor MSA or a customer renewal order, based on the parties and context.
 
 2. Extract the following fields:
 - risk_level: one of LOW, MEDIUM, HIGH
@@ -553,17 +553,17 @@ Constraints
       <p>Agent Studio agents don't declare a typed-input schema the way a function does. Context reaches this agent as the document the workflow attaches to the step, plus anything in the step's Chat Message. What you configure here is what the agent is <i>allowed to do</i> and what it <i>already knows</i>.</p>
       <table>
         <tbody><tr><th>Setting</th><th>What to configure</th></tr>
-        <tr><td><b>Capabilities</b></td><td>Click <b>Add</b> and enable <code>Find Agreements</code>&nbsp;so the agent can open the contract the workflow passes it. Leave send and signature capabilities <b>off</b> - this agent only analyzes. Click on add one capability.</td></tr>
+        <tr><td><b>Capabilities</b></td><td>Click <b>Add</b> and enable <code>Find Agreements</code>&nbsp;so the agent can open the MSA the workflow passes it. Leave send and signature capabilities <b>off</b> - this agent only analyzes. Click on add one capability.</td></tr>
         <tr><td><b>Knowledge Sources</b></td><td>Optional for this lab. In production this is where your risk playbook lives, so thresholds can change without editing Instructions.</td></tr>
       </tbody></table>
 
       <div class="h-check"><input type="checkbox" data-stage="1" id="chk7"><div><h3 style="display:inline">1.4 · Test until the JSON is clean, then publish</h3></div></div>
       <ol>
-        <li>Click <b>Test</b> and give the agent a short sample agreement - paste text, or attach one of your sample contracts if the test UI allows.</li>
+        <li>Click <b>Test</b> and give the agent a short sample agreement - paste text, or attach one of your sample MSAs if the test UI allows.</li>
         <li>If the response renders as formatted prose, open <b>Output Display</b> from the top ribbon drop-down and set <b>Test Mode</b> to <b>Raw</b> so you see exactly what the workflow will receive.<br><br><img src="assets/output-display-raw.png" alt="Output Display panel with Raw selected" style="max-width:420px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;"></li>
         <li>Verify all five keys are present: <code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>.</li>
         <li>Verify <code>risk_level</code> is exactly <code>LOW</code>, <code>MEDIUM</code>, or <code>HIGH</code>.</li>
-        <li>Test with <b>both</b> sample contracts and confirm they land on different risk levels: that's what Stage 3 depends on.</li>
+        <li>Test with <b>both</b> sample MSAs and confirm they land on different risk levels: that's what Stage 3 depends on.</li>
         <li>Click <b>Save draft</b>, then <b>Publish</b> and confirm.</li>
       </ol>
       <div class="expect"><b>Checkpoint:</b> a <b>published</b> <code>Vendor and Renewal Risk Analyst</code> that reliably returns well-formed JSON, and is selectable from a workflow's agent step.</div>
@@ -573,44 +573,37 @@ Constraints
 
     <!-- ============ STAGE 2 ============ -->
     <section class="stage" id="stage-2">
-      <div class="stage-head"><h2>Stage 2 · Import &amp; wire up</h2><span class="time">Request Type + workflow · 10 min</span></div>
-      <p>Both the Request Type and the workflow are prebuilt and supplied as ZIPs, so the whole room starts from an identical, working configuration. Your job here is to import them, re-point the tenant-specific references at <i>your</i> objects, and publish. What matters is <b>understanding what's inside</b> - open each step as you verify it.</p>
+      <div class="stage-head"><h2>Stage 2 · Wire up &amp; publish</h2><span class="time">Request Type + workflow · 10 min</span></div>
+      <p>Your facilitator has pre-built the workflow and the Request Type in this environment before the session. Your job here is to open each step, understand what it does and why, point the agent step at <i>your</i> published agent from Stage 1, and publish. The workflow cannot run until it is published and your agent is wired in.</p>
 
-      <div class="h-check"><input type="checkbox" data-stage="2" id="chk8"><div><h3 style="display:inline">2.1 · Import &amp; activate the Request Type</h3></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="2" id="chk8"><div><h3 style="display:inline">2.1 · Confirm the Request Type is active</h3></div></div>
       <ol>
         <li>Open the <b>Agreement Desk</b> / <b>Requests</b> experience.</li>
-        <li>Open <b>Settings</b> for Agreement Desk.</li>
-        <li>Go to <b>Request Types</b>.</li>
-        <li>Click <b>Import</b> and select the <code>risk_lab_request_type.zip</code> you downloaded in Stage 0.</li>
-        <li>Confirm a new Request Type appears - for example <b>Agent Studio - Risk Lab</b> (your facilitator confirms the exact label).</li>
-        <li>Check its status. The import activates the intake form for you, so it should already be usable. If you open the intake form and see an <b>Activate</b> button, click it - an un-activated form stays a draft and won't be available in the final request.</li>
+        <li>Open <b>Settings</b> for Agreement Desk and go to <b>Request Types</b>.</li>
+        <li>Find <b>Agent Studio - Risk Lab</b> and confirm it is listed and <b>active</b>.</li>
+        <li>If you see an <b>Activate</b> button, click it - an un-activated form stays a draft and won't appear when submitting a new request.</li>
       </ol>
-      <div class="expect"><b>Checkpoint:</b> the Request Type is listed and <b>active</b>, with fields for vendor/customer name, requester, estimated annual spend, jurisdiction, and category.</div>
-      <div class="note">Importing rather than hand-building keeps everyone on identical field names, which matters in the next step - the workflow's trigger and field mappings expect exactly those names.</div>
+      <div class="expect"><b>Checkpoint:</b> the Request Type is <b>active</b>, with fields for vendor/customer name, requester, estimated annual spend, jurisdiction, and category.</div>
 
-      <div class="h-check"><input type="checkbox" data-stage="2" id="chk9"><div><h3 style="display:inline">2.2 · Import the workflow</h3></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="2" id="chk9"><div><h3 style="display:inline">2.2 · Open the workflow canvas</h3></div></div>
       <ol>
         <li>Navigate to <b>Agreements → Maestro Workflows</b> (your tenant may label this <b>Workflow Builder</b> under Automation).</li>
-        <li>Click <b>Import Workflow</b>.</li>
-        <li>Choose the import option and click <b>Upload</b>.</li>
-        <li>Browse to <code>risk_lab_workflow.zip</code>, select it, and click <b>Open</b>. <b>Leave the file zipped</b> - don't extract it first.</li>
-        <li>Confirm the workflow opens on the canvas with its steps laid out: trigger → Get Document → agent step → branch → three downstream paths.</li>
+        <li>Find <b>Agent Studio - Risk Lab</b> in the workflow list and open it.</li>
+        <li>Confirm the canvas shows the full shape: trigger → Get Document → agent step → branch → three downstream paths.</li>
       </ol>
-      <div class="expect"><b>Checkpoint:</b> the imported workflow is on your canvas as a <b>draft</b>, showing a start method of <b>From Agreement Desk</b> and a visible three-way branch.</div>
-      <div class="warn"><b>An imported workflow will not run untouched.</b> References to tenant-specific objects - your Request Type, your published agent, the consent identity, recipients - arrive unmapped or pointing at the source tenant. Work through 2.3 to 2.6 in order before publishing.</div>
+      <div class="expect"><b>Checkpoint:</b> the workflow is on your canvas as a <b>draft</b>, showing a start method of <b>From Agreement Desk</b> and a visible three-way branch.</div>
 
-      <div class="h-check"><input type="checkbox" data-stage="2" id="chk10"><div><h3 style="display:inline">2.3 · Verify the trigger &amp; Request Type</h3></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="2" id="chk10"><div><h3 style="display:inline">2.3 · Verify the trigger</h3></div></div>
       <ol>
-        <li>Open the workflow's start / trigger configuration.</li>
-        <li>Confirm the start method is <b>From Agreement Desk</b>.</li>
-        <li>Set the <b>Request Type</b> to the <b>Agent Studio - Risk Lab</b> type you imported in 2.1.</li>
-        <li>If the trigger has conditions referencing a request status, confirm those status names resolve to real statuses in your tenant.</li>
+        <li>Click the trigger / start node to open its configuration.</li>
+        <li>Confirm the start method is <b>From Agreement Desk</b>, event is <b>Request is submitted</b>.</li>
+        <li>Confirm the condition filters to Request Type <b>Agent Studio - Risk Lab</b>.</li>
       </ol>
-      <div class="expect"><b>Checkpoint:</b> the trigger names your own imported Request Type, not a placeholder or a missing reference.</div>
-      <div class="note">Request Type and status references are the most common thing to need re-pointing after a workflow import. If you see an error like "Module metadata is undefined" or a missing-request-type error, this is almost always the cause.</div>
+      <div class="expect"><b>Checkpoint:</b> the trigger fires only for the Risk Lab Request Type, not every request in the account.</div>
+      <div class="note">If the Request Type condition shows as unresolved or missing, re-select it from the dropdown - this can happen if the Request Type was created after the workflow trigger was saved.</div>
 
       <div class="h-check"><input type="checkbox" data-stage="2" id="chk11"><div><h3 style="display:inline">2.4 · Understand "Get Document from a Request"</h3></div></div>
-      <p>This is the first step after the trigger. It pulls the uploaded contract off the Desk request into a workflow variable that both the agent step and the send step consume. Open it and confirm:</p>
+      <p>This is the first step after the trigger. It pulls the uploaded vendor MSA off the Desk request into a workflow variable that both the agent step and the send step consume. Open it and confirm:</p>
       <table>
         <tbody><tr><th>Setting</th><th>What it should say</th></tr>
         <tr><td><b>Request</b></td><td>The current Agreement Desk request - the default driven by the start method.</td></tr>
@@ -618,25 +611,25 @@ Constraints
         <tr><td><b>Output variable</b></td><td>A document variable named <code>request_document</code>.</td></tr>
       </tbody></table>
       <div class="expect"><b>Checkpoint:</b> you can point at where <code>request_document</code> is produced, and trace it forward to the two steps that consume it.</div>
-      <div class="note"><b>Known constraint worth internalizing:</b> this step returns <b>one</b> document. If a request has several attachments you configure document labels on the Request Type and point the step at a specific label - otherwise which document you get is not something to leave to chance. That's why Stage 3 asks for one document per request.</div>
+      <div class="note"><b>Known constraint worth internalizing:</b> this step returns <b>one</b> document. If a request has several attachments you configure document labels on the Request Type and point the step at a specific label - otherwise which document you get is not something to leave to chance. That's why Stage 3 asks for one MSA per request.</div>
 
       <div class="h-check"><input type="checkbox" data-stage="2" id="chk12"><div><h3 style="display:inline">2.5 · Point the agent step at your agent</h3></div></div>
-      <p>Open the agent step (labeled <b>Use AI Agent</b>, <b>Agent</b>, or similar depending on your environment). Agent references often don't survive an import cleanly, so this is the step most likely to need your attention.</p>
+      <p>Open the agent step (labeled <b>Use AI Agent</b> or similar). This is the one field you must set - the agent reference is specific to your published agent from Stage 1.</p>
       <table>
         <tbody><tr><th>Field</th><th>Value</th></tr>
         <tr><td><b>Step Name</b></td><td><code>Analyze contract risk</code> - already set.</td></tr>
         <tr><td><b>Agent</b> ⚠️</td><td><b>Select your agent:</b> the published <code>Vendor and Renewal Risk Analyst</code> from Stage 1. If the dropdown is empty, your agent is still in Draft - go back and publish it.</td></tr>
         <tr><td><b>Document input</b></td><td>The <code>request_document</code> variable from 2.4 - already wired.</td></tr>
-        <tr><td><b>Chat Message</b></td><td>Prefilled. Optional if your Instructions already cover the format; a short reminder is good insurance - see below.</td></tr>
-        <tr><td><b>Run agent as</b> ⚠️</td><td><b>Set this</b> to an admin identity in your tenant. That user must complete a <b>one-time consent</b> per environment before the step will run at all.</td></tr>
+        <tr><td><b>Chat Message</b></td><td>Already set - see below for reference.</td></tr>
+        <tr><td><b>Run agent as</b> ⚠️</td><td>Already set to the facilitator's admin identity. That user has completed the one-time consent for this environment.</td></tr>
       </tbody></table>
       <div class="lbl">Chat Message (for reference)</div>
-      <div class="block">Analyze this contract and return JSON with risk_level, liability_cap, governing_law, term, and discount.<button class="copy">Copy</button></div>
+      <div class="block">Analyze this MSA and return JSON with risk_level, liability_cap, governing_law, term, and discount.<button class="copy">Copy</button></div>
 
       <h4>How the agent's output reaches the branch</h4>
-      <p>The agent returns a structured response - JSON or XML - containing the five fields. The workflow captures those into variables of the same name (<code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>) so the branch can read them. In the imported workflow this mapping is already wired; open it and confirm the five variables are populated from the agent's response, and that nothing shows as unmapped.</p>
+      <p>The agent returns a structured JSON response containing the five fields. The workflow captures those into variables of the same name (<code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>) so the branch can read them. Open the output mapping section and confirm the five variables are wired - nothing should show as unmapped.</p>
       <div class="note">
-        <b>A note on <code>Update Variable From XML</code>:</b> that step is documented for ingesting XML <i>files</i> into workflow variables. It's a legitimate advanced option if you're deliberately working with XML documents, but it is <b>not</b> the standard or required way to read an agent's output. The default path is the agent returning JSON/XML and the step's own mapping capturing it. In CLM's "Use AI Agent" step the response surfaces as <code>AgentFinalResponseRaw</code> and <code>AgentFinalResponseXml</code> for downstream steps - that CLM pattern is covered in 301.
+        <b>A note on <code>Update Variable From XML</code>:</b> that step is documented for ingesting XML <i>files</i> into workflow variables. It is <b>not</b> the standard way to read an agent's output. The default path is the agent returning JSON and the step's own mapping capturing it. In CLM's "Use AI Agent" step the response surfaces as <code>AgentFinalResponseRaw</code> and <code>AgentFinalResponseXml</code> - that CLM pattern is covered in 301.
       </div>
 
       <div class="h-check"><input type="checkbox" data-stage="2" id="chk13"><div><h3 style="display:inline">2.6 · Walk the branch &amp; the three paths</h3></div></div>
@@ -647,23 +640,17 @@ Constraints
         <tr><td>2 · Medium or high risk</td><td><code>risk_level == "MEDIUM"</code> OR <code>risk_level == "HIGH"</code></td><td><b>Approval</b> step carrying the agent's extracted terms, then into the same send step on approval. Rejection ends in a terminal Rejected status.</td></tr>
         <tr><td>3 · Fallback</td><td><code>risk_level</code> empty, null, or unexpected - plus the failure paths from Get Document and the agent step</td><td>Set a <b>Returned</b> status and send the requester a message. <b>No envelope.</b></td></tr>
       </tbody></table>
-      <p>Two things to set for your own tenant as you walk through:</p>
-      <ul>
-        <li><b>Send step recipients</b> - for the lab, use yourself as the internal signer and another participant (or the contact from the Desk request fields) as the counterparty.</li>
-        <li><b>Approvers</b> - <span class="proc-only">a Legal approver; use a shared test account.</span><span class="sales-only">a Finance approver and a Legal approver; use shared test accounts.</span></li>
-      </ul>
       <div class="lbl">Message the fallback path sends to the requester</div>
-      <div class="block">We tried to process your request automatically, but could not read the attached contract or generate a valid risk assessment. Please check the document and resubmit this request.<button class="copy">Copy</button></div>
-      <div class="warn"><b>Note how the fallback is a real case, not an afterthought.</b> If an unexpected value silently matched the LOW condition, you'd have built a system that mails contracts to counterparties when the AI has a bad day. The design default is <i>not</i> sending.</div>
+      <div class="block">We tried to process your request automatically, but could not read the attached MSA or generate a valid risk assessment. Please check the document and resubmit this request.<button class="copy">Copy</button></div>
+      <div class="warn"><b>Note how the fallback is a real case, not an afterthought.</b> If an unexpected value silently matched the LOW condition, you'd have built a system that mails MSAs to counterparties when the AI has a bad day. The design default is <i>not</i> sending.</div>
 
       <div class="h-check"><input type="checkbox" data-stage="2" id="chk14"><div><h3 style="display:inline">2.7 · Publish the workflow</h3></div></div>
       <ol>
         <li>Click <b>Review &amp; Publish</b> in the workflow editor.</li>
         <li>Click through <b>Next</b>, then <b>Publish</b>.</li>
         <li>If prompted, click <b>Authorize My Account</b> to complete publishing.</li>
-        <li>Confirm the admin identity from 2.5 has completed the one-time agent consent for this environment.</li>
       </ol>
-      <div class="expect"><b>Checkpoint:</b> the workflow shows as <b>Published</b>, and its trigger points at your active Request Type.</div>
+      <div class="expect"><b>Checkpoint:</b> the workflow shows as <b>Published</b>, and its trigger points at the active Request Type.</div>
       <div class="warn"><b>Must be Published, not Draft.</b> Agreement Desk can only trigger a published workflow. If it still shows Draft when you reach Stage 3, publish it first - this is the single most common reason "nothing happens" when a request is submitted.</div>
     </section>
 
@@ -671,7 +658,7 @@ Constraints
     <section class="stage" id="stage-3">
       <div class="stage-head"><h2>Stage 3 · Trigger &amp; validate</h2><span class="time">Three scenarios · 25 min</span></div>
       <p>Back to Agreement Desk. Submit a request for each of the three scenarios and confirm the flow lands where it should. A flow that only ever gets tested on the happy path is a flow whose behavior you don't actually know.</p>
-      <p>Each run follows the same shape: create the request, submit it, then attach the contract on the <b>Documents</b> tab via <b>Upload documents</b>.</p>
+      <p>Each run follows the same shape: create the request, submit it, then attach the vendor MSA on the <b>Documents</b> tab via <b>Upload documents</b>.</p>
       <div class="warn">
         <b>The document is not an intake form field.</b> Agreement Desk's form builder handles data-entry fields - text, number, dropdown, date. The contract attaches to the request itself via <b>Upload documents</b>, and the workflow retrieves it with <b>Get Document from a Request</b>. Keep it to <b>one</b> document per request.
       </div>
@@ -700,19 +687,19 @@ Constraints
       </tbody></table>
       <ol start="4">
         <li><b>Submit</b>, then click <b>View request</b>.</li>
-        <li>On the <b>Documents</b> tab, click <b>Upload documents</b> and attach the <b>LOW</b> sample contract.</li>
+        <li>On the <b>Documents</b> tab, click <b>Upload documents</b> and attach the <b>LOW</b> sample MSA.</li>
       </ol>
       <div class="expect">
-        <b>Expect:</b> the workflow triggers → Get Document returns the contract → the agent returns <code>risk_level = LOW</code> → the LOW branch runs → an envelope goes to your configured participants → on completion the Desk status becomes <span class="proc-only"><b>Onboarded / Signed</b></span><span class="sales-only"><b>Renewal Signed</b></span>.
+        <b>Expect:</b> the workflow triggers → Get Document returns the MSA → the agent returns <code>risk_level = LOW</code> → the LOW branch runs → an envelope goes to your configured participants → on completion the Desk status becomes <span class="proc-only"><b>Onboarded / Signed</b></span><span class="sales-only"><b>Renewal Signed</b></span>.
       </div>
 
       <div class="h-check"><input type="checkbox" data-stage="3" id="chk16"><div><h3 style="display:inline">3.2 · Scenario 2 - MEDIUM/HIGH risk, human review</h3></div></div>
-      <p class="proc-only">Create another request; Vendor name <b>DataVault Dynamics</b>, spend <code>1500000</code>, Jurisdiction <code>EMEA</code>, Category <b>Vendor Contract</b>. Submit, then attach the <b>HIGH</b> sample via <b>Upload documents</b>.</p>
-      <p class="sales-only">Create another request; Customer name <b>Keranos Digital Media</b>, spend <code>1500000</code>, Jurisdiction <code>EMEA</code>, Category <b>Customer Renewal</b>. Submit, then attach the <b>HIGH</b> sample via <b>Upload documents</b>.</p>
+      <p class="proc-only">Create another request; Vendor name <b>DataVault Dynamics</b>, spend <code>1500000</code>, Jurisdiction <code>EMEA</code>, Category <b>Vendor Contract</b>. Submit, then attach the <b>HIGH</b> sample MSA via <b>Upload documents</b>.</p>
+      <p class="sales-only">Create another request; Customer name <b>Keranos Digital Media</b>, spend <code>1500000</code>, Jurisdiction <code>EMEA</code>, Category <b>Customer Renewal</b>. Submit, then attach the <b>HIGH</b> sample MSA via <b>Upload documents</b>.</p>
       <div class="expect">
         <b>Expect:</b> the agent returns <code>MEDIUM</code> or <code>HIGH</code> → the review branch runs → an approval task appears for <span class="proc-only">Legal</span><span class="sales-only">Finance / Legal</span> carrying the extracted terms and reasoning → <b>no envelope yet</b>. Approve it, and only then does the send step run through to signature.
       </div>
-      <div class="note">Open the approval task and read it as the approver would. The point of this pattern is that the reviewer gets the agent's findings handed to them - they shouldn't have to re-read the contract to know why it escalated.</div>
+      <div class="note">Open the approval task and read it as the approver would. The point of this pattern is that the reviewer gets the agent's findings handed to them - they shouldn't have to re-read the MSA to know why it escalated.</div>
 
       <div class="h-check"><input type="checkbox" data-stage="3" id="chk17"><div><h3 style="display:inline">3.3 · Scenario 3 - missing or malformed document, fallback</h3></div></div>
       <p>Create a third request with any valid field values, then either attach nothing at all, or attach a deliberately unusable file - an empty document, or an image with no readable text.</p>
@@ -759,7 +746,7 @@ Constraints
 
       <div class="finale">
         <h3>The message</h3>
-        <p>Agreement Desk captured the request and the document → Workflow Builder fetched it and orchestrated the run → an Agent Studio Risk Analyst read the contract and scored the risk → deterministic branching sent LOW straight to eSignature, MEDIUM/HIGH to a human, and anything broken back to the submitter. Intake once, analyze with an agent, route with Workflow Builder, sign with eSignature: all inside Docusign, all auditable.</p>
+        <p>Agreement Desk captured the request and the document → Workflow Builder fetched it and orchestrated the run → an Agent Studio Risk Analyst read the vendor MSA and scored the risk → deterministic branching sent LOW straight to eSignature, MEDIUM/HIGH to a human, and anything broken back to the submitter. Intake once, analyze with an agent, route with Workflow Builder, sign with eSignature: all inside Docusign, all auditable.</p>
       </div>
 
       <div class="card tint">
