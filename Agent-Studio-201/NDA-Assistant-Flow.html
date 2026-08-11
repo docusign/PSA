@@ -666,14 +666,13 @@ Title: __________________________</div>
 
       <div class="h-check"><input type="checkbox" data-stage="3" id="s31"><div><h3 style="display:inline">3.1 · Pre-requisite: template sync</h3><span class="tag">setup</span></div></div>
       <div class="card">
-        <p style="margin:0 0 8px;">Before instructing the agent to trigger envelopes, ensure your standard NDA template is saved as a reusable <b>Template</b> within your Docusign eSignature account and that it is set up as a <b>Document Template</b>.</p>
+        <p style="margin:0 0 8px;">Before instructing the agent to trigger envelopes, ensure your standard NDA template is saved as a reusable <b>Envelope Template</b> within your Docusign eSignature account.</p>
         <ol>
-          <li>Create a <b>new NDA template</b> and ensure it is added to an <b>Envelope Template</b>.</li>
-          <li>Label your signer roles clearly (e.g., <b>Signer 1: Internal Sender</b>, <b>Signer 2: Counterparty Recipient</b>). For purposes of the demo, you can use one signer only.</li>
-          <li>Replace <code>Unilateral_NDA_Template</code> within the agent instructions below with the name you've given <em>your</em> NDA template.</li>
+          <li>In eSignature, create a <b>new NDA Envelope Template</b> or confirm an existing one is ready to use.</li>
+          <li>Label your signer roles clearly (e.g., <b>Signer 1: Internal Sender</b>, <b>Signer 2: Counterparty Recipient</b>). For the purposes of this lab you can use one signer only.</li>
+          <li>Note down the <b>exact name</b> you gave the template — you will need it in 3.2 when updating the agent instructions.</li>
         </ol>
-        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">NDA template saved as a reusable Template and added to an Envelope Template, with signer roles labeled</span></div>
-        <div class="warn"><b>Name must match exactly.</b> If the template name in the instructions doesn't match a template in your tenant, the send step will fail at runtime.</div>
+        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Envelope Template saved in eSignature with signer roles labeled</span></div>
       </div>
 
       <div class="h-check"><input type="checkbox" data-stage="3" id="s32"><div><h3 style="display:inline">3.2 · Replace Step 4 in the instructions</h3><span class="tag">build</span></div></div>
@@ -685,7 +684,8 @@ Once all three inputs are confirmed (full legal name, governing state, business 
 - Pre-fill the counterparty name, governing state, and business context into the template fields.
 - Send the envelope to the recipient email the rep provides. If no email was given during intake, ask for it before sending.
 - Confirm to the rep when the envelope has been dispatched: "The NDA has been sent to [Recipient] for signature. You will receive a copy when it is completed."</div>
-        <div class="warn">The template name in the instructions must match the exact name of the template in your eSignature account. If the names do not match, the send step will fail silently at runtime with no error shown to the rep.</div>
+        <p style="margin:10px 0 6px;">After pasting, find <code>Unilateral_NDA_Template</code> in the Step 4 text and replace it with the exact name of your Envelope Template from 3.1.</p>
+        <div class="warn"><b>Name must match exactly.</b> The template name in the instructions must match the exact name of the template in your eSignature account. If the names do not match, the send step will fail silently at runtime with no error shown to the rep.</div>
         <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Instructions field with Steps 1-3 unchanged and the new Step 4 at the bottom; Send Envelopes visible in the capabilities list</span></div>
         <div class="expect"><b>Checkpoint:</b> Steps 1, 2, and 3 are unchanged; Step 4 references the envelope template by name; the agent is saved and republished.</div>
       </div>
