@@ -915,43 +915,6 @@ Constraints
         <div class="note"><b>Key difference from Maestro:</b> in Maestro the agent step maps output fields directly to workflow variables (<code>risk_level</code>, <code>liability_cap</code>, etc.). In CLM those fields sit inside <code>AgentFinalResponseXml</code> and the workflow must parse the XML path to read them. Design CLM branch conditions accordingly.</div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="4" id="chk22"><div><h3 style="display:inline">4.4 · What must be in place before a customer can use this</h3><span class="tag demo">prereqs</span></div></div>
-      <div class="card">
-        <p style="margin:0 0 10px;">The CLM "Use AI Agent" step requires setup that goes beyond Agent Studio alone. Confirm these items before the pattern goes live on a customer account.</p>
-        <div class="demo-prereq">
-          <h4>Licensing</h4>
-          <ul>
-            <li>An active <b>CLM license</b> is required (CLM.DS, CLM Max, CLM Plus, or CLM IAM module).</li>
-            <li>An active <b>IAM license</b> is required: IAM Professional, IAM Enterprise, IAM for Sales, or IAM Platform.</li>
-            <li>Agent Studio availability applies: NA, non-FedRAMP, English UI at Limited Access.</li>
-          </ul>
-        </div>
-        <div class="demo-prereq">
-          <h4>PSO account setting</h4>
-          <ul>
-            <li>The setting <code>enable_ai_agent_workflow_step</code> must be enabled (set to <b>True</b>) on the CLM account by Docusign Professional Services or support before the step appears in the workflow designer.</li>
-            <li>Enabling the setting only makes the step available in the designer. No documents are processed until the step is added to a live workflow.</li>
-          </ul>
-        </div>
-        <div class="demo-prereq">
-          <h4>Consent link (the step most often missed)</h4>
-          <ul>
-            <li>The "Run agent as" admin user must click a <b>one-time OAuth consent link</b> for each environment before the first workflow run.</li>
-            <li>Consent is per-environment. Sandbox consent does not carry to production or demo orgs.</li>
-            <li>The consent email is sent from within the CLM workflow designer when configuring the step. Without it, the step fails silently at runtime with no visible error in the workflow log.</li>
-          </ul>
-        </div>
-        <div class="demo-prereq">
-          <h4>Availability</h4>
-          <ul>
-            <li>Limited Access since July 2026 (release 26.5.1). GA targeted Q4 CY26.</li>
-            <li>Runtime limits at LA: 10 MB request size, approximately 17-20 minute execution timeout, 60 RPM per user.</li>
-            <li>Agent-generated documents cannot be passed back into CLM via the AI Agent step. Design workflows around structured output variables, not document handoff.</li>
-          </ul>
-        </div>
-        <div class="warn"><b>Why this is demo-only today:</b> the PSO account setting and the consent link cannot be configured in a shared lab environment. In a real customer engagement, these are discovery and setup items that happen before agent configuration begins - typically part of the CLM implementation scoping.</div>
-      </div>
-
       <div class="finale">
         <h3>The full picture</h3>
         <p>You built one agent - the Vendor and Renewal Risk Analyst - and it runs in two places. In Maestro it handles the front door: a new vendor MSA comes in via Agreement Desk, the agent reviews it, and the workflow routes the request. In CLM it handles the negotiation stage: once a contract is inside CLM and being reviewed, the workflow calls the same agent to score the final version before routing to signature. The agent handles the judgment layer; the workflow surface - Maestro or CLM - handles the process layer. You don't build two agents. You build one good agent, publish it, and put it where the work already happens.</p>
