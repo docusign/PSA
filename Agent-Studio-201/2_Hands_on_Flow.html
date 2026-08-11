@@ -507,9 +507,8 @@ li{margin:5px 0;}
       </ol>
       <table>
         <tbody><tr><th>Property</th><th>Value</th></tr>
-        <tr><td><b>Name</b></td><td><code>Vendor &amp; Renewal Risk Analyst</code></td></tr>
-        <tr><td><b>Role</b></td><td>Risk analyst</td></tr>
-        <tr><td><b>Description&nbsp;</b></td><td>Pre-sign contract review for vendor onboarding and customer renewals. Extracts key terms and classifies risk; does not negotiate or send.</td></tr>
+        <tr><td><b>Name</b></td><td><code>Vendor and Renewal Risk Analyst</code></td></tr>
+        <tr><td><b>Description&nbsp;</b></td><td>Risk analyst for pre-sign contract review. Covers vendor onboarding and customer renewals: extracts key terms, classifies risk level, and returns structured output. Does not negotiate or send.</td></tr>
       </tbody></table>
       <div class="warn"><b>Use this exact name.</b> In Stage 2.2 you'll select this agent inside the imported workflow. Matching the name the workbook expects makes that step unambiguous - and makes it much easier for your facilitator to help when something doesn't line up.</div>
 
@@ -562,13 +561,13 @@ Constraints
       <div class="h-check"><input type="checkbox" data-stage="1" id="chk7"><div><h3 style="display:inline">1.4 · Test until the JSON is clean, then publish</h3></div></div>
       <ol>
         <li>Click <b>Test</b> and give the agent a short sample agreement - paste text, or attach one of your sample contracts if the test UI allows.</li>
-        <li>If the response renders as formatted prose, open <b>Output Display</b> and set <b>Test Mode</b> to <b>Raw</b> so you see exactly what the workflow will receive.</li>
+        <li>If the response renders as formatted prose, open <b>Output Display</b> from the top ribbon drop-down and set <b>Test Mode</b> to <b>Raw</b> so you see exactly what the workflow will receive.<br><br><img src="assets/output-display-raw.png" alt="Output Display panel with Raw selected" style="max-width:420px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;"></li>
         <li>Verify all five keys are present: <code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>.</li>
         <li>Verify <code>risk_level</code> is exactly <code>LOW</code>, <code>MEDIUM</code>, or <code>HIGH</code>.</li>
-        <li>Test with <b>both</b> sample contracts and confirm they land on different risk levels - that's what Stage 3 depends on.</li>
+        <li>Test with <b>both</b> sample contracts and confirm they land on different risk levels: that's what Stage 3 depends on.</li>
         <li>Click <b>Save draft</b>, then <b>Publish</b> and confirm.</li>
       </ol>
-      <div class="expect"><b>Checkpoint:</b> a <b>published</b> <code>Vendor &amp; Renewal Risk Analyst</code> that reliably returns well-formed JSON, and is selectable from a workflow's agent step.</div>
+      <div class="expect"><b>Checkpoint:</b> a <b>published</b> <code>Vendor and Renewal Risk Analyst</code> that reliably returns well-formed JSON, and is selectable from a workflow's agent step.</div>
       <div class="warn"><b>It must be Published, not Draft.</b> A draft agent will not appear in the workflow's agent picker in Stage 2.2.</div>
       <div class="note">Spend your time here rather than rushing to Stage 2. Every minute spent making the agent's output boringly predictable saves ten minutes of debugging branch conditions that "randomly" don't fire.</div>
     </section>
@@ -627,7 +626,7 @@ Constraints
       <table>
         <tbody><tr><th>Field</th><th>Value</th></tr>
         <tr><td><b>Step Name</b></td><td><code>Analyze contract risk</code> - already set.</td></tr>
-        <tr><td><b>Agent</b> ⚠️</td><td><b>Select your agent:</b> the published <code>Vendor &amp; Renewal Risk Analyst</code> from Stage 1. If the dropdown is empty, your agent is still in Draft - go back and publish it.</td></tr>
+        <tr><td><b>Agent</b> ⚠️</td><td><b>Select your agent:</b> the published <code>Vendor and Renewal Risk Analyst</code> from Stage 1. If the dropdown is empty, your agent is still in Draft - go back and publish it.</td></tr>
         <tr><td><b>Document input</b></td><td>The <code>request_document</code> variable from 2.4 - already wired.</td></tr>
         <tr><td><b>Chat Message</b></td><td>Prefilled. Optional if your Instructions already cover the format; a short reminder is good insurance - see below.</td></tr>
         <tr><td><b>Run agent as</b> ⚠️</td><td><b>Set this</b> to an admin identity in your tenant. That user must complete a <b>one-time consent</b> per environment before the step will run at all.</td></tr>
