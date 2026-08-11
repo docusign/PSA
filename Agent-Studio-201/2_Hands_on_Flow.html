@@ -188,6 +188,27 @@ li{margin:5px 0;}
 .explorer-status .v.risk-fallback{color:var(--amber);}
 
 .foot{margin-top:40px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:16px;}
+
+/* ---------- CLM stage demo styles ---------- */
+.demo-banner{display:flex;gap:14px;align-items:flex-start;background:#fff7ed;border:1px solid #f4d8b0;border-radius:11px;padding:16px 18px;margin:14px 0 22px;}
+.demo-banner .icon{font-size:20px;line-height:1;flex:0 0 auto;margin-top:2px;}
+.demo-prereq{background:var(--surface);border-radius:10px;padding:14px 18px;margin:12px 0;}
+.demo-prereq h4{margin:0 0 8px;font-size:13.5px;color:var(--ink);}
+.demo-prereq ul{margin:0;padding-left:18px;font-size:13.5px;}
+.demo-prereq li{margin:4px 0;}
+.xml-var{background:var(--ink);color:#eee6ff;border-radius:11px;padding:16px 18px;margin:12px 0;font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;font-size:13px;}
+.xml-var>div{display:flex;gap:12px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.08);}
+.xml-var>div:last-child{border-bottom:none;}
+.vname{color:#c9bdf0;font-weight:600;min-width:260px;}
+.vdesc{color:#8870cc;}
+
+/* ---------- Pattern B collapsible ---------- */
+details.pattern-b{margin:0;}
+details.pattern-b summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;padding-bottom:8px;}
+details.pattern-b summary::-webkit-details-marker{display:none;}
+details.pattern-b summary h3{margin:0;font-size:17.5px;}
+details.pattern-b summary::after{content:' ▼ expand';font-size:11px;color:var(--indigo);font-weight:600;letter-spacing:.04em;white-space:nowrap;}
+details.pattern-b[open] summary::after{content:' ▲ collapse';}
 </style>
 </head>
 <body data-persona="procurement">
@@ -223,8 +244,9 @@ li{margin:5px 0;}
     <ol class="stepper" id="stepper">
       <li class="step active" data-target="stage-0"><span class="ring" data-stage="0"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">0</span></span><span class="txt"><span class="t">Before you begin</span><span class="s">Scenario · Architecture · Setup</span></span></li>
       <li class="step" data-target="stage-1"><span class="ring" data-stage="1"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">1</span></span><span class="txt"><span class="t">Agent Studio</span><span class="s">Build the Risk Analyst</span></span></li>
-      <li class="step" data-target="stage-2"><span class="ring" data-stage="2"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">2</span></span><span class="txt"><span class="t">Import &amp; wire up</span><span class="s">Request Type + workflow</span></span></li>
+      <li class="step" data-target="stage-2"><span class="ring" data-stage="2"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">2</span></span><span class="txt"><span class="t">Wire up &amp; publish</span><span class="s">Request Type + workflow</span></span></li>
       <li class="step" data-target="stage-3"><span class="ring" data-stage="3"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">Trigger &amp; validate</span><span class="s">Three scenarios</span></span></li>
+      <li class="step" data-target="stage-4"><span class="ring" data-stage="4"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">4</span></span><span class="txt"><span class="t">The CLM connection</span><span class="s">Demo only · CLM workflow step</span></span></li>
     </ol>
     <div class="side-foot">
       Self-paced handbook. Tick each step checkbox to fill the progress rings.<br><br>
@@ -755,25 +777,188 @@ Constraints
       </div>
 
       <div class="card">
-        <h3>Extending the pattern: outbound contract generation (Pattern B)</h3>
-        <p>This lab covers <b>inbound vendor paper review</b>: a vendor sends their MSA draft, you review it with an agent, and route based on risk. This is one half of the procurement picture.</p>
-        <p>The other half is <b>outbound contract generation</b>: a business unit needs a contract in place but no document exists yet. The request is deal context - vendor name, service type, spend, jurisdiction - and the workflow needs to generate the right agreement from your company's templates, then send it for signature.</p>
-        <p>In that pattern the agent's role shifts from <i>reviewer</i> to <i>advisor</i>: it reads the form metadata, determines which contract template fits (MSA, SOW, NDA, DPA), recommends key terms and approval thresholds, and feeds those into a Doc Gen step. What gets signed is your company's generated agreement, not the vendor's paper.</p>
-        <table>
-          <tbody>
-            <tr><th></th><th>Pattern A (this lab)</th><th>Pattern B (outbound)</th></tr>
-            <tr><td><b>Starting point</b></td><td>Vendor's uploaded MSA draft</td><td>Form metadata only - no document</td></tr>
-            <tr><td><b>Agent input</b></td><td>Uploaded document</td><td>Request form fields</td></tr>
-            <tr><td><b>Agent task</b></td><td>Extract terms, classify risk</td><td>Select template, recommend terms</td></tr>
-            <tr><td><b>What gets signed</b></td><td>Reviewed vendor draft or countersigned paper</td><td>Your generated agreement (Doc Gen)</td></tr>
-            <tr><td><b>Common in</b></td><td>Procurement inbound, Legal review queues</td><td>Sales, SOW issuance, standard vendor onboarding</td></tr>
-          </tbody>
-        </table>
-        <p style="margin:10px 0 0;"><b>This pattern is covered in the additional workshop.</b> It introduces the Doc Gen step, agreement template design in Agreement Prep, and an agent that acts on form data rather than a document.</p>
+        <details class="pattern-b">
+          <summary><h3>Extending the pattern: outbound contract generation (Pattern B)</h3></summary>
+          <p>This lab covers <b>inbound vendor paper review</b>: a vendor sends their MSA draft, you review it with an agent, and route based on risk. This is one half of the procurement picture.</p>
+          <p>The other half is <b>outbound contract generation</b>: a business unit needs a contract in place but no document exists yet. The request is deal context - vendor name, service type, spend, jurisdiction - and the workflow needs to generate the right agreement from your company's templates, then send it for signature.</p>
+          <p>In that pattern the agent's role shifts from <i>reviewer</i> to <i>advisor</i>: it reads the form metadata, determines which contract template fits (MSA, SOW, NDA, DPA), recommends key terms and approval thresholds, and feeds those into a Doc Gen step. What gets signed is your company's generated agreement, not the vendor's paper.</p>
+          <table>
+            <tbody>
+              <tr><th></th><th>Pattern A (this lab)</th><th>Pattern B (outbound)</th></tr>
+              <tr><td><b>Starting point</b></td><td>Vendor's uploaded MSA draft</td><td>Form metadata only - no document</td></tr>
+              <tr><td><b>Agent input</b></td><td>Uploaded document</td><td>Request form fields</td></tr>
+              <tr><td><b>Agent task</b></td><td>Extract terms, classify risk</td><td>Select template, recommend terms</td></tr>
+              <tr><td><b>What gets signed</b></td><td>Reviewed vendor draft or countersigned paper</td><td>Your generated agreement (Doc Gen)</td></tr>
+              <tr><td><b>Common in</b></td><td>Procurement inbound, Legal review queues</td><td>Sales, SOW issuance, standard vendor onboarding</td></tr>
+            </tbody>
+          </table>
+          <p style="margin:10px 0 0;"><b>This pattern is covered in the additional workshop.</b> It introduces the Doc Gen step, agreement template design in Agreement Prep, and an agent that acts on form data rather than a document.</p>
+        </details>
       </div>
 
       <div class="foot">
         Agent Studio 201 hands-on lab. Uses Docusign IAM (Agent Studio, Agreement Desk, Workflow Builder, eSignature); confirm exact labels and availability against your account. Synthetic data only. For questions or feedback: <a href="mailto:amrit.prakash@docusign.com">amrit.prakash@docusign.com</a>
+      </div>
+    </section>
+
+    <!-- ============ STAGE 4 ============ -->
+    <section class="stage" id="stage-4">
+      <div class="stage-head"><h2>Stage 4 · The CLM connection</h2><span class="time">Demo only</span></div>
+
+      <div class="demo-banner">
+        <span class="icon">&#9654;</span>
+        <div>
+          <strong>Watch, don't build.</strong> This stage is a facilitated demo, not a hands-on exercise. The CLM "Use AI Agent" step requires a CLM license, CLM-IAM interoperability setup, a PSO-enabled account setting, and a per-environment admin consent link that cannot be completed in a shared lab environment. The goal is to show where the same agent you just built slots into a governed CLM contract workflow.
+        </div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="4" id="chk19"><div><h3 style="display:inline">4.1 · Two stages in the lifecycle, one agent</h3><span class="tag demo">concept</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">This lab's Maestro workflow handles <b>intake</b>: a new vendor MSA is submitted via Agreement Desk, the agent reviews it, and the workflow routes to signature or legal review. That covers the front door.</p>
+        <p style="margin:0 0 10px;">CLM handles a different point in the same lifecycle: <b>negotiation and execution</b>. An MSA is already inside CLM, being redlined and reviewed. Once the legal team finishes a round of changes, the CLM workflow can call the same agent again - now to extract the final risk posture before the document routes for signature. Same agent, different trigger, different moment in the process.</p>
+        <p style="margin:0 0 12px;">The "Use AI Agent" step is the bridge. CLM is the orchestration surface; Agent Studio is the reasoning layer. CLM handles the structured steps - approvals, merges, signatures, archiving. The agent handles the part that requires judgment: read the current version of the document and return a structured answer the workflow can act on.</p>
+
+        <div class="arch">
+          <svg viewBox="0 0 780 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture diagram: Maestro intake path on the left, CLM negotiation path on the right, Agent Studio in the center shared by both">
+            <defs>
+              <marker id="arr-indigo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="#4C00FF"/></marker>
+              <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="#0a7d3c"/></marker>
+              <marker id="arr-indigo-r" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M10,1 L1,5 L10,9 z" fill="#4C00FF"/></marker>
+              <marker id="arr-green-r" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M10,1 L1,5 L10,9 z" fill="#0a7d3c"/></marker>
+            </defs>
+
+            <!-- LEFT: Maestro intake box -->
+            <rect x="8" y="24" width="184" height="70" rx="10" fill="#e9e1fb" stroke="#4C00FF" stroke-width="1.5"/>
+            <text x="100" y="46" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4C00FF" letter-spacing=".05em">THIS LAB</text>
+            <text x="100" y="63" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">Agreement Desk</text>
+            <text x="100" y="81" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">+ Maestro Workflow</text>
+
+            <!-- LEFT: CLM box -->
+            <rect x="8" y="142" width="184" height="62" rx="10" fill="#f0fff5" stroke="#0a7d3c" stroke-width="1.5"/>
+            <text x="100" y="164" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0a7d3c" letter-spacing=".05em">CLM PATTERN</text>
+            <text x="100" y="182" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">CLM Workflow Designer</text>
+
+            <!-- CENTER: Agent Studio box -->
+            <rect x="278" y="54" width="224" height="122" rx="12" fill="#1f0a4d" stroke="#4C00FF" stroke-width="1.5"/>
+            <text x="390" y="80" text-anchor="middle" font-size="10.5" font-weight="700" fill="#d9cdff" letter-spacing=".07em">AGENT STUDIO</text>
+            <text x="390" y="101" text-anchor="middle" font-size="13.5" font-weight="600" fill="#fff">Vendor and Renewal</text>
+            <text x="390" y="119" text-anchor="middle" font-size="13.5" font-weight="600" fill="#fff">Risk Analyst</text>
+            <text x="390" y="140" text-anchor="middle" font-size="11.5" fill="#c9bdf0">same published agent</text>
+            <text x="390" y="158" text-anchor="middle" font-size="11.5" fill="#c9bdf0">both workflow surfaces</text>
+
+            <!-- RIGHT: Maestro output box -->
+            <rect x="588" y="24" width="184" height="70" rx="10" fill="#e9e1fb" stroke="#4C00FF" stroke-width="1.5"/>
+            <text x="680" y="46" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4C00FF" letter-spacing=".05em">MAESTRO OUTPUT</text>
+            <text x="680" y="63" text-anchor="middle" font-size="13" fill="#130032"><tspan font-weight="600">risk_level</tspan> variable</text>
+            <text x="680" y="81" text-anchor="middle" font-size="11.5" fill="#615a75">LOW / MEDIUM / HIGH</text>
+
+            <!-- RIGHT: CLM output box -->
+            <rect x="588" y="142" width="184" height="62" rx="10" fill="#f0fff5" stroke="#0a7d3c" stroke-width="1.5"/>
+            <text x="680" y="164" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0a7d3c" letter-spacing=".05em">CLM OUTPUT</text>
+            <text x="680" y="183" text-anchor="middle" font-size="11.5" fill="#130032">AgentFinalResponseXml</text>
+
+            <!-- Maestro → Agent Studio call -->
+            <line x1="193" y1="59" x2="276" y2="93" stroke="#4C00FF" stroke-width="2" marker-end="url(#arr-indigo)"/>
+            <text x="224" y="69" text-anchor="middle" font-size="10" fill="#4C00FF" font-weight="600">calls</text>
+
+            <!-- Agent Studio → Maestro output -->
+            <line x1="503" y1="93" x2="585" y2="59" stroke="#4C00FF" stroke-width="2" marker-end="url(#arr-indigo)"/>
+            <text x="556" y="69" text-anchor="middle" font-size="10" fill="#4C00FF" font-weight="600">returns</text>
+
+            <!-- CLM → Agent Studio call -->
+            <line x1="193" y1="173" x2="276" y2="141" stroke="#0a7d3c" stroke-width="2" marker-end="url(#arr-green)"/>
+            <text x="224" y="168" text-anchor="middle" font-size="10" fill="#0a7d3c" font-weight="600">calls</text>
+
+            <!-- Agent Studio → CLM output -->
+            <line x1="503" y1="141" x2="585" y2="173" stroke="#0a7d3c" stroke-width="2" marker-end="url(#arr-green)"/>
+            <text x="556" y="168" text-anchor="middle" font-size="10" fill="#0a7d3c" font-weight="600">returns</text>
+          </svg>
+          <div class="arch-legend">
+            <span><i style="background:#4C00FF;"></i>Maestro path (this lab)</span>
+            <span><i style="background:#0a7d3c;"></i>CLM path (301)</span>
+            <span><i style="background:#1f0a4d;"></i>Agent Studio (shared reasoning layer)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="4" id="chk20"><div><h3 style="display:inline">4.2 · What the "Use AI Agent" step looks like in a CLM workflow</h3><span class="tag demo">demo</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">In a CLM workflow for MSA negotiation, the "Use AI Agent" step is configured with five fields. Here is how each one maps to the Vendor Risk Analyst scenario:</p>
+        <table>
+          <tr><th style="width:28%">Field</th><th>Value for the Vendor and Renewal Risk Analyst</th></tr>
+          <tr><td><b>Agent</b></td><td>Select the published <code>Vendor and Renewal Risk Analyst</code> from the agent picker. This is the same agent built in Stage 1 - no second version needed.</td></tr>
+          <tr><td><b>Chat Message</b></td><td>The prompt the workflow sends at step execution, for example: <em>"Analyze this MSA and return JSON with risk_level, liability_cap, governing_law, term, and discount."</em> Same prompt shape as the Maestro version.</td></tr>
+          <tr><td><b>Document (optional)</b></td><td>Pass the current CLM agreement document here so the agent reads the live negotiated version, not a cached copy.</td></tr>
+          <tr><td><b>Run agent as</b></td><td>An admin user who has completed one-time OAuth consent for this environment. Consent is per-environment - sandbox consent does not carry to production. The step fails silently if consent has not been completed.</td></tr>
+          <tr><td><b>Output variable</b></td><td>Name the output variable, for example <code>AgentResponse</code>. The workflow then reads <code>AgentResponse.AgentFinalResponseXml</code> to branch on risk_level.</td></tr>
+        </table>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="4" id="chk21"><div><h3 style="display:inline">4.3 · What the output variable contains</h3><span class="tag demo">demo</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">After the step runs, the agent's response is processed into a structured XML variable. The top-level fields are:</p>
+        <div class="xml-var">
+          <div><span class="vname">AgentResponse.ThreadId</span><span class="vdesc">execution thread identifier</span></div>
+          <div><span class="vname">AgentResponse.RunId</span><span class="vdesc">specific run identifier</span></div>
+          <div><span class="vname">AgentResponse.AgentName</span><span class="vdesc">display name of the agent that ran</span></div>
+          <div><span class="vname">AgentResponse.Intent</span><span class="vdesc">extracted intent, if present in the response</span></div>
+          <div><span class="vname">AgentResponse.AgentFinalResponseRaw</span><span class="vdesc">the agent's raw text response (JSON string)</span></div>
+          <div><span class="vname">AgentResponse.AgentFinalResponseXml</span><span class="vdesc">XML-normalized version - use this field for branching</span></div>
+        </div>
+        <p style="margin:12px 0 6px;">The CLM workflow reads <code>AgentFinalResponseXml</code> to find <code>risk_level</code> and routes accordingly. Unlike Maestro, which maps agent output directly to named variables, CLM requires the workflow to navigate the XML structure.</p>
+        <table>
+          <tr><th style="width:22%">risk_level value</th><th>What the CLM workflow does next</th></tr>
+          <tr><td><code>LOW</code></td><td>Route to the signature step. No human review required.</td></tr>
+          <tr><td><code>MEDIUM</code> or <code>HIGH</code></td><td>Route to a Legal task step. The task surfaces the agent's extracted terms (liability_cap, governing_law) so the reviewer can act without re-reading the full MSA.</td></tr>
+          <tr><td>empty or unexpected</td><td>Route to a fallback task for manual triage. Do not proceed to signature.</td></tr>
+        </table>
+        <div class="note"><b>Key difference from Maestro:</b> in Maestro the agent step maps output fields directly to workflow variables (<code>risk_level</code>, <code>liability_cap</code>, etc.). In CLM those fields sit inside <code>AgentFinalResponseXml</code> and the workflow must parse the XML path to read them. Design CLM branch conditions accordingly.</div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="4" id="chk22"><div><h3 style="display:inline">4.4 · What must be in place before a customer can use this</h3><span class="tag demo">prereqs</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">The CLM "Use AI Agent" step requires setup that goes beyond Agent Studio alone. Confirm these items before the pattern goes live on a customer account.</p>
+        <div class="demo-prereq">
+          <h4>Licensing</h4>
+          <ul>
+            <li>An active <b>CLM license</b> is required (CLM.DS, CLM Max, CLM Plus, or CLM IAM module).</li>
+            <li>An active <b>IAM license</b> is required: IAM Professional, IAM Enterprise, IAM for Sales, or IAM Platform.</li>
+            <li>Agent Studio availability applies: NA, non-FedRAMP, English UI at Limited Access.</li>
+          </ul>
+        </div>
+        <div class="demo-prereq">
+          <h4>PSO account setting</h4>
+          <ul>
+            <li>The setting <code>enable_ai_agent_workflow_step</code> must be enabled (set to <b>True</b>) on the CLM account by Docusign Professional Services or support before the step appears in the workflow designer.</li>
+            <li>Enabling the setting only makes the step available in the designer. No documents are processed until the step is added to a live workflow.</li>
+          </ul>
+        </div>
+        <div class="demo-prereq">
+          <h4>Consent link (the step most often missed)</h4>
+          <ul>
+            <li>The "Run agent as" admin user must click a <b>one-time OAuth consent link</b> for each environment before the first workflow run.</li>
+            <li>Consent is per-environment. Sandbox consent does not carry to production or demo orgs.</li>
+            <li>The consent email is sent from within the CLM workflow designer when configuring the step. Without it, the step fails silently at runtime with no visible error in the workflow log.</li>
+          </ul>
+        </div>
+        <div class="demo-prereq">
+          <h4>Availability</h4>
+          <ul>
+            <li>Limited Access since July 2026 (release 26.5.1). GA targeted Q4 CY26.</li>
+            <li>Runtime limits at LA: 10 MB request size, approximately 17-20 minute execution timeout, 60 RPM per user.</li>
+            <li>Agent-generated documents cannot be passed back into CLM via the AI Agent step. Design workflows around structured output variables, not document handoff.</li>
+          </ul>
+        </div>
+        <div class="warn"><b>Why this is demo-only today:</b> the PSO account setting and the consent link cannot be configured in a shared lab environment. In a real customer engagement, these are discovery and setup items that happen before agent configuration begins - typically part of the CLM implementation scoping.</div>
+      </div>
+
+      <div class="finale">
+        <h3>The full picture</h3>
+        <p>You built one agent - the Vendor and Renewal Risk Analyst - and it runs in two places. In Maestro it handles the front door: a new vendor MSA comes in via Agreement Desk, the agent reviews it, and the workflow routes the request. In CLM it handles the negotiation stage: once a contract is inside CLM and being reviewed, the workflow calls the same agent to score the final version before routing to signature. The agent handles the judgment layer; the workflow surface - Maestro or CLM - handles the process layer. You don't build two agents. You build one good agent, publish it, and put it where the work already happens.</p>
+      </div>
+
+      <div class="foot">
+        Agent Studio 201 hands-on lab. Uses Docusign IAM (Agent Studio, Agreement Desk, Workflow Builder, eSignature, CLM); confirm exact labels and availability against your account. Synthetic data only. For questions or feedback: <a href="mailto:amrit.prakash@docusign.com">amrit.prakash@docusign.com</a>
       </div>
     </section>
 
@@ -814,7 +999,7 @@ Constraints
     if(li) li.classList.toggle('done',done);
   }
   function refresh(){
-    for(var s=0;s<=3;s++){
+    for(var s=0;s<=4;s++){
       var group=checks.filter(function(c){return c.getAttribute('data-stage')==String(s);});
       var total=group.length, on=group.filter(function(c){return c.checked;}).length;
       ring(s, total?on/total:0, total>0 && on===total);
