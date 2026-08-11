@@ -767,6 +767,24 @@ Constraints
         <p style="margin:0;">The same four-surface shape carries directly to other scenarios: NDA triage, customer renewals, procurement inbound review, or any department-specific risk workflow. Swap the agent's instructions and the branch thresholds; the architecture doesn't change.&nbsp;</p>
       </div>
 
+      <div class="card">
+        <h3>Extending the pattern: outbound contract generation (Pattern B)</h3>
+        <p>This lab covers <b>inbound vendor paper review</b>: a vendor sends their MSA draft, you review it with an agent, and route based on risk. This is one half of the procurement picture.</p>
+        <p>The other half is <b>outbound contract generation</b>: a business unit needs a contract in place but no document exists yet. The request is deal context - vendor name, service type, spend, jurisdiction - and the workflow needs to generate the right agreement from your company's templates, then send it for signature.</p>
+        <p>In that pattern the agent's role shifts from <i>reviewer</i> to <i>advisor</i>: it reads the form metadata, determines which contract template fits (MSA, SOW, NDA, DPA), recommends key terms and approval thresholds, and feeds those into a Doc Gen step. What gets signed is your company's generated agreement, not the vendor's paper.</p>
+        <table>
+          <tbody>
+            <tr><th></th><th>Pattern A (this lab)</th><th>Pattern B (outbound)</th></tr>
+            <tr><td><b>Starting point</b></td><td>Vendor's uploaded MSA draft</td><td>Form metadata only - no document</td></tr>
+            <tr><td><b>Agent input</b></td><td>Uploaded document</td><td>Request form fields</td></tr>
+            <tr><td><b>Agent task</b></td><td>Extract terms, classify risk</td><td>Select template, recommend terms</td></tr>
+            <tr><td><b>What gets signed</b></td><td>Reviewed vendor draft or countersigned paper</td><td>Your generated agreement (Doc Gen)</td></tr>
+            <tr><td><b>Common in</b></td><td>Procurement inbound, Legal review queues</td><td>Sales, SOW issuance, standard vendor onboarding</td></tr>
+          </tbody>
+        </table>
+        <p style="margin:10px 0 0;"><b>This pattern is covered in the additional workshop.</b> It introduces the Doc Gen step, agreement template design in Agreement Prep, and an agent that acts on form data rather than a document.</p>
+      </div>
+
       <div class="foot">
         Agent Studio 201 hands-on lab. Uses Docusign IAM (Agent Studio, Agreement Desk, Workflow Builder, eSignature); confirm exact labels and availability against your account. Synthetic data only. For questions or feedback: <a href="mailto:amrit.prakash@docusign.com">amrit.prakash@docusign.com</a>
       </div>
