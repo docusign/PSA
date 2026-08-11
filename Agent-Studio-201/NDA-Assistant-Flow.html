@@ -243,7 +243,13 @@ li{margin:5px 0;}
     </ol>
     <div class="side-foot">
       Self-paced handbook. Tick each step checkbox to fill the progress rings.<br><br>
-      Synthetic data only. Use demo counterparties when testing.
+      Synthetic data only. Use demo counterparties when testing.<br><br>
+      <strong style="font-size:11px;text-transform:uppercase;letter-spacing:.07em;">Resources</strong><br>
+      <a href="https://dsucustomers.docusign.com/video-playlist-docusign-ai-agents" target="_blank">AI Agent Video Playlist</a><br>
+      <a href="https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43201480b341&topicId=conb2716952-a0f6-4323-a13e-9d23dd290fb0.html&_LANG=enus" target="_blank">Agent Studio Support Article</a><br>
+      <a href="https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43201480b341&topicId=concf520b87-7851-4294-8f82-7e6cc377daaf.html&_LANG=enus" target="_blank">Where Agents Run</a><br>
+      <a href="https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43201480b341&topicId=task-4922.html&_LANG=enus" target="_blank">Agent Setup for Administrators</a><br>
+      <a href="https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43201480b341&topicId=ref1d59490e-be57-4db7-8542-ec0cc2d64aff.html&_LANG=enus" target="_blank">Ready to Deploy Agent Catalog</a>
     </div>
   </aside>
 
@@ -517,7 +523,7 @@ You are Fontara's NDA Agreement Checker. Your job is to search Fontara's agreeme
 Step 1 - Agreement Repository Search (No False Negatives):
 When the rep provides a company name, use the system_list_agreements tool immediately.
 - Search guardrail: check for exact matches AND partial matches. If the rep types "Brightpath", also check for "Brightpath Technologies", "Brightpath Inc.", and similar variations before concluding the search returned nothing.
-- If an active NDA is found: show a brief summary of the agreement on file (counterparty name, status, expiry date if available) and stop. Do not offer to create a new NDA.
+- If an active NDA is found: use the Review Documents capability to read the agreement and show a brief summary (counterparty name, status, key terms, expiry date if available) and stop. Do not offer to create a new NDA.
 
 Step 2 - No Agreement Found: Consistent Offer to Draft:
 If the search returns zero results, or if every result has a status of "Expired" or "Terminated", respond with this exact text, substituting the company name in the brackets:
