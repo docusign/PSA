@@ -445,30 +445,50 @@ li{margin:5px 0;}
         <div class="expect"><b>Checkpoint:</b> the agent shell exists and Agent Studio has pre-selected capabilities for agreement search and text generation.</div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="s13"><div><h3 style="display:inline">1.3 · Set the entry method and greeting</h3><span class="tag">build</span></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="1" id="s13"><div><h3 style="display:inline">1.3 · Review the entry method and set the greeting</h3><span class="tag">build</span></div></div>
       <div class="card">
         <div class="clickpath">
           <div class="cp-task"><span class="cp-badge">Click path</span>Entry method</div>
           <ol>
-            <li>On the agent setup page, look for the <b>Entry Method</b> section (below the agent name and description fields).</li>
-            <li>Select <b>In chat panel</b>. This sets the agent to run as a conversation inside Ask Iris rather than as a background workflow step.</li>
+            <li>On the agent setup page, locate the <b>Define what starts this agent</b> section (below the agent name and description).</li>
+            <li>You will see two entry points listed: <b>In chat</b> and <b>In a workflow</b>. Both are active by default — this is not a selector, both contexts are always available once the agent is published.</li>
           </ol>
         </div>
         <div class="clickpath">
           <div class="cp-task"><span class="cp-badge">Click path</span>Greeting</div>
           <ol>
-            <li>Once <b>In chat panel</b> is selected, a <b>Conversation starter prompts</b> section appears below it.</li>
-            <li>Click <b>Add a prompt</b> (or the existing starter prompt field if one was auto-generated).</li>
-            <li>Clear any existing text and enter the greeting below.</li>
-            <li>Click <b>Save</b> inside that box to save the greeting text.</li>
-            <li>Then click the main <b>Save</b> button at the bottom of the full agent setup page. Both saves are required.</li>
+            <li>Under the <b>In chat</b> entry point, find the <b>Conversation starter prompts</b> field (or click the pencil icon next to it).</li>
+            <li>Click <b>Add a prompt</b> (or clear the existing auto-generated text if one was pre-filled).</li>
+            <li>Enter the greeting below.</li>
           </ol>
         </div>
         <div class="lbl">Greeting</div>
         <div class="block prompt">How can I help with your agreement search or NDA drafting?</div>
-        <div class="warn"><b>Two separate saves required.</b> Saving inside the starter prompt box only saves the greeting text. You must also click the <b>Save</b> button at the bottom of the full page, or the entry method and greeting will not persist when you leave and return.</div>
-        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Entry method set to In chat panel, Conversation starter prompts section open with the greeting entered, and the page-level Save button at the bottom</span></div>
-        <div class="expect"><b>Checkpoint:</b> entry method shows "In chat panel" and the greeting text is still present after you navigate away and return to the agent setup page.</div>
+        <div class="clickpath" style="margin-top:12px;">
+          <div class="cp-task"><span class="cp-badge">Save</span>Two saves required</div>
+          <ol>
+            <li>Click <b>Save</b> inside the starter prompt box to save the greeting text.</li>
+            <li>Then click the main <b>Save</b> button at the bottom of the full agent setup page.</li>
+          </ol>
+        </div>
+        <div class="warn"><b>Two separate saves required.</b> Saving inside the starter prompt box only saves the greeting text. You must also click the page-level <b>Save</b> button, or the greeting will not persist when you navigate away and return.</div>
+        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Define what starts this agent section showing both In chat and In a workflow entry points active; Conversation starter prompts field with the greeting entered; page-level Save button at the bottom</span></div>
+        <div class="expect"><b>Checkpoint:</b> the Define what starts this agent section shows both <b>In chat</b> and <b>In a workflow</b> as active entry points, and the greeting text is still present after you navigate away and return to the agent setup page.</div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="1" id="s13b"><div><h3 style="display:inline">1.3.1 · Validate the capabilities</h3><span class="tag">build</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 8px;">When you created the agent from the initialization string in 1.2, Agent Studio pre-selected a set of capabilities. Verify the selection before adding your instructions.</p>
+        <div class="clickpath">
+          <div class="cp-task"><span class="cp-badge">Click path</span>Capabilities section</div>
+          <ol>
+            <li>Scroll down to the <b>Capabilities</b> section on the agent setup page.</li>
+            <li>Confirm the following are selected: <b>Find Agreements</b>, <b>Generate Documents</b>, <b>Party Insights</b>, <b>Ask the User</b>.</li>
+            <li>If <b>Review Documents</b> is not already listed, click <b>Add capability</b> and add it. This capability is required if you plan to use a playbook or evaluate document content during the NDA review step.</li>
+          </ol>
+        </div>
+        <div class="note"><b>Note:</b> Agent Studio selects capabilities automatically based on the initialization string, but the selection can vary. Always verify the list manually before saving. Adding Review Documents may require updating the agent instructions to reference it explicitly.</div>
+        <div class="expect"><b>Checkpoint:</b> the Capabilities section lists at minimum Find Agreements, Generate Documents, Party Insights, Ask the User, and Review Documents.</div>
       </div>
 
       <div class="h-check"><input type="checkbox" data-stage="1" id="s14"><div><h3 style="display:inline">1.4 · Deploying the master instructions</h3><span class="tag">build</span></div></div>
