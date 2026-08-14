@@ -662,6 +662,104 @@ function setupFrame(id){
         h.parentNode.insertBefore(prereqHTML,h.nextSibling);
       }
     });
+
+    // === Update NDA Agent Description in 1.2 ===
+    var ndaBlocks=doc.querySelectorAll('.block.prompt');
+    ndaBlocks.forEach(function(b){
+      if(b.textContent.indexOf('Create an agent for checking if we have an existing agreement')!==-1){
+        b.textContent='This agent checks whether an NDA already exists with a company. If no NDA is found, it guides the user toward creating an NDA draft. It returns either matching agreement results or a prepared NDA using an existing template.';
+      }
+    });
+    // Update the label before it
+    var ndaLbls=doc.querySelectorAll('.lbl');
+    ndaLbls.forEach(function(l){
+      if(l.textContent==='Initialization string') l.textContent='Agent description';
+    });
+
+    // === Update 1.3 greeting/starter prompt ===
+    ndaBlocks=doc.querySelectorAll('.block.prompt');
+    ndaBlocks.forEach(function(b){
+      if(b.textContent.indexOf('How can I help with your agreement search or NDA drafting')!==-1){
+        b.textContent='Check if we have an existing agreement with a company, and if we do not, offer to gather inputs and draft a standard NDA for them.';
+      }
+    });
+    // Update the label
+    ndaLbls=doc.querySelectorAll('.lbl');
+    ndaLbls.forEach(function(l){
+      if(l.textContent==='Greeting') l.textContent='Starter prompt';
+    });
+
+    // === Update 1.3.1 capabilities list ===
+    var ndaHChecks=doc.querySelectorAll('.h-check');
+    ndaHChecks.forEach(function(hc){
+      var h3=hc.querySelector('h3');
+      if(h3 && h3.textContent.indexOf('1.3.1')!==-1 && h3.textContent.indexOf('Validate the capabilities')!==-1){
+        var card=hc.nextElementSibling;
+        if(card && card.classList.contains('card')){
+          var ols=card.querySelectorAll('ol');
+          ols.forEach(function(ol){
+            var lis=ol.querySelectorAll('li');
+            lis.forEach(function(li){
+              if(li.textContent.indexOf('Find Agreements')!==-1 && li.textContent.indexOf('Generate Documents')!==-1){
+                li.innerHTML='Confirm the following are selected: <b>Find Agreements</b>, <b>Generate Documents</b>, <b>Party Insights</b>, <b>Ask the User</b>.';
+              }
+              if(li.textContent.indexOf('Review Documents')!==-1) li.style.display='none';
+            });
+          });
+          // Update checkpoint
+          var expects=card.querySelectorAll('.expect');
+          expects.forEach(function(e){
+            if(e.textContent.indexOf('Find Agreements')!==-1){
+              e.innerHTML='<b>Checkpoint:</b> the Capabilities section lists <b>Find Agreements</b>, <b>Generate Documents</b>, <b>Party Insights</b>, and <b>Ask the User</b>.';
+            }
+          });
+          // Hide the note about Review Documents
+          var capNotes=card.querySelectorAll('.note');
+          capNotes.forEach(function(n){
+            if(n.textContent.indexOf('Review Documents')!==-1) n.style.display='none';
+          });
+          // Add capabilities screenshot after the clickpath
+          var cpaths=card.querySelectorAll('.clickpath');
+          if(cpaths.length>0){
+            var lastCp=cpaths[cpaths.length-1];
+            var capImg=doc.createElement('img');
+            capImg.src='assets/nda-capabilities.png';
+            capImg.alt='Capabilities section showing Find Agreements, Generate Documents, Party Insights, and Ask the User';
+            capImg.style.cssText='max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;';
+            lastCp.parentNode.insertBefore(capImg,lastCp.nextSibling);
+          }
+        }
+      }
+    });
+
+    // === Update 1.4 master instructions with new prompt ===
+    ndaBlocks=doc.querySelectorAll('.block.prompt');
+    ndaBlocks.forEach(function(b){
+      if(b.textContent.indexOf('Role and Core Objective')!==-1 && b.textContent.indexOf('Fontara')!==-1){
+        b.textContent='You are Fontara\'s NDA Agreement Checker. Your job is to search Docusign\'s agreement repository for any existing NDA with a named counterparty. If no active agreement is on file, you guide the rep through producing a ready-to-use NDA without leaving this conversation.\n\nStep 1 - Agreement Repository Search (No False Negatives):\nWhen the rep provides a company name, scan the agreement repository immediately.\nSearch guardrail: check for exact matches AND partial matches. If the rep types "Brightpath", also check for "Brightpath Technologies", "Brightpath Inc.", and similar variations before concluding the search returned nothing.\nIf an active NDA is found: show a brief summary of the agreement on file (counterparty name, status, expiry date if available) and stop. Do not offer to create a new NDA.\n\nStep 2 - No Agreement Found: Consistent Offer to Draft:\nIf the search returns zero results, or if every result has a status of "Expired" or "Terminated", respond with this exact text, substituting the company name in the brackets:\n\n"I checked our records and did not find an active NDA for [Company Name] in Docusign. To keep this conversation protected, we should get one in place before moving forward. Would you like me to draft one now?"\n\nStep 3 - Intake (All Inputs Required Before Drafting):\nIf the rep says yes, Use document template Fontara NDA Template to generate the agreement. Ask the user for all fields from the template and merge the values provided by the user in the template.\nDo not draft the NDA until all the required fields are explicitly provided. If the rep supplies only partial answers, ask for the missing items specifically before continuing.\nConfirm to the rep when the agreement has been drafted: "The NDA for [Company Name] is ready for your review."';
+      }
+    });
+    // Update the label for 1.4
+    ndaLbls=doc.querySelectorAll('.lbl');
+    ndaLbls.forEach(function(l){
+      if(l.textContent.indexOf('Agent instructions (replace all generated text')!==-1) l.textContent='Agent instructions';
+    });
+
+    // Re-attach copy buttons for NDA blocks
+    doc.querySelectorAll('.block').forEach(function(b){
+      if(b.style.display==='none') return;
+      var existingBtn=b.querySelector('.copy');
+      if(existingBtn) existingBtn.remove();
+      var btn=doc.createElement('button');btn.className='copy';btn.textContent='Copy';
+      btn.addEventListener('click',function(){
+        var txt=b.cloneNode(true);var x=txt.querySelector('.copy');if(x)x.remove();
+        navigator.clipboard.writeText(txt.textContent.trim()).then(function(){
+          btn.textContent='Copied';btn.classList.add('copied');
+          setTimeout(function(){btn.textContent='Copy';btn.classList.remove('copied');},1400);
+        });
+      });
+      b.appendChild(btn);
+    });
   }
 
   // Insert toggle after Resources in the sidebar
