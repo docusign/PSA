@@ -747,10 +747,14 @@ function setupFrame(id){
     // Hide Stage 3 (Advanced automation: direct envelope delivery)
     var stage3=doc.getElementById('stage-3');
     if(stage3) stage3.style.display='none';
-    // Also hide Stage 3 from sidebar
+    // Also hide Stage 3 from sidebar and renumber Stage 4 -> 3
     var sideSteps=doc.querySelectorAll('.step');
     sideSteps.forEach(function(s){
       if(s.getAttribute('data-target')==='stage-3') s.style.display='none';
+      if(s.getAttribute('data-target')==='stage-4'){
+        var num=s.querySelector('.num');
+        if(num) num.textContent='3';
+      }
     });
 
     // Replace NDA prerequisites with step-by-step format
