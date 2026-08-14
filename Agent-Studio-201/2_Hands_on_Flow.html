@@ -640,6 +640,7 @@ Constraints
       </tbody></table>
       <div class="lbl">Chat Message (for reference)</div>
       <div class="block">Analyze this contract and return JSON with risk_level, liability_cap, governing_law, term, and discount.<button class="copy">Copy</button></div>
+      <img src="assets/s25-execute-agent.png" alt="Execute AI Agent step configuration" style="max-width:450px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
 
       <h4>How the agent's output reaches the branch</h4>
       <p>The agent returns a structured response - JSON or XML - containing the five fields. The workflow captures those into variables of the same name (<code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>) so the branch can read them. In the imported workflow this mapping is already wired; open it and confirm the five variables are populated from the agent's response, and that nothing shows as unmapped.</p>
