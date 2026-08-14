@@ -190,6 +190,35 @@ function setupFrame(id){
       var amHigh=document.createElementNS(ns,'animateMotion');amHigh.setAttribute('dur','4s');amHigh.setAttribute('repeatCount','indefinite');
       var mpHigh=document.createElementNS(ns,'mpath');mpHigh.setAttribute('href','#route-high-new');
       amHigh.appendChild(mpHigh);pHigh.appendChild(amHigh);svg.appendChild(pHigh);
+
+      // Wire explorer controls to rebuilt SVG
+      var ctrlMissing=doc.getElementById('ctrlMissing');
+      var ctrlRisk=doc.getElementById('ctrlRisk');
+      if(ctrlMissing) ctrlMissing.parentElement.style.display='none';
+      if(ctrlRisk){
+        ctrlRisk.removeEventListener('change',ctrlRisk._handler);
+        ctrlRisk._handler=function(){
+          pLow.style.display=ctrlRisk.value==='low'?'':'none';
+          pHigh.style.display=ctrlRisk.value!=='low'?'':'none';
+          var stAgent=doc.getElementById('statusAgent');
+          var stRoute=doc.getElementById('statusRoute');
+          if(stAgent){
+            stAgent.textContent=ctrlRisk.value.toUpperCase();
+            stAgent.className='v risk-'+(ctrlRisk.value==='low'?'low':'high');
+          }
+          if(stRoute){
+            stRoute.textContent=ctrlRisk.value==='low'?'Straight to Change Status Success.':'Assign Owner, Send Message, Change Status Pending Legal Review.';
+            stRoute.className='v risk-'+(ctrlRisk.value==='low'?'low':'high');
+          }
+        };
+        ctrlRisk.addEventListener('change',ctrlRisk._handler);
+        // Set initial state - high is default
+        pLow.style.display='none';
+        var stAgent=doc.getElementById('statusAgent');
+        var stRoute=doc.getElementById('statusRoute');
+        if(stAgent){stAgent.textContent='HIGH';stAgent.className='v risk-high';}
+        if(stRoute){stRoute.textContent='Assign Owner, Send Message, Change Status Pending Legal Review.';stRoute.className='v risk-high';}
+      }
     }
 
     // Update decision tree table (section 2.6)
@@ -709,6 +738,12 @@ function setupFrame(id){
 
   // NDA tab modifications
   if(tab==='nda'){
+    // Fix SVG: "NDA text block" -> "NDA document"
+    var svgTexts=doc.querySelectorAll('svg text');
+    svgTexts.forEach(function(t){
+      if(t.textContent==='NDA text block') t.textContent='NDA document';
+    });
+
     // Hide Stage 3 (Advanced automation: direct envelope delivery)
     var stage3=doc.getElementById('stage-3');
     if(stage3) stage3.style.display='none';
