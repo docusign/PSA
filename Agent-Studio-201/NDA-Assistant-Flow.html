@@ -577,11 +577,12 @@ Title: __________________________</div>
       <div class="card">
         <ol>
           <li>Click <b>Test</b> in the top toolbar to open the test panel.</li>
+          <li>Click on the prompt visible.</li>
           <li>Run the search path first: ask about a counterparty you know exists in Agreement Manager. The agent should return a summary and stop, with no offer to draft.</li>
           <li>Run the draft path: ask about a counterparty with no active agreement. The agent should deliver the scripted pivot response, then ask for the three inputs one by one, then produce the full NDA inside a single code block.</li>
           <li>Verify the agent does not skip ahead to NDA generation if you provide only one or two of the three inputs. It should ask for what is missing.</li>
         </ol>
-        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Test panel showing the pivot script followed by the three-question intake and the NDA code block</span></div>
+        <img src="assets/s15-test-panel.png" alt="Test panel showing the first test question" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
         <div class="expect"><b>Checkpoint:</b> the agent surfaces existing agreements and stops, and produces the NDA only after all three inputs are confirmed.</div>
       </div>
 
@@ -633,7 +634,7 @@ Title: __________________________</div>
             <li>Start a new conversation and run the draft path: ask about a counterparty with no agreement, confirm the pivot script, complete the intake, and verify the NDA is produced.</li>
           </ol>
         </div>
-        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Iris chat panel open with the agent picker showing; agent selected and conversation started</span></div>
+        <img src="assets/s2-test-panel-chat.png" alt="Iris chat panel showing test mode interaction" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
         <div class="expect"><b>Checkpoint:</b> the agent is findable in the Ask Iris picker and both the exists path and the draft path produce the correct output.</div>
         <div class="note">If the agent does not appear in the picker, it is still in Draft status. Go back to Agent Studio, publish it (step 1.6), and refresh the chat window.</div>
       </div>
