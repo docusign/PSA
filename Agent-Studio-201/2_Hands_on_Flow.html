@@ -439,7 +439,68 @@ details.pattern-b[open] summary::after{content:' ▲ collapse';}
       <div class="obj"><div class="lab">Objective 4</div><b>Keep humans in the loop and fail safely</b><br>Escalate MEDIUM/HIGH to the right approver, and return the request to the submitter when the automation can't do its job - never guess.</div>
 
       <h3><br></h3><h3>0.6 · Prerequisites</h3>
-      <p>Prerequisites for this lab are covered in the NDA exercise (Lab 1). Complete that setup before starting here.</p>
+      <p>A Docusign IAM (Intelligent Agreement Management) environment - sandbox or non-production - with the features and permissions below. Everything uses synthetic data only, no production accounts or real party data.</p>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p1"><div><h3 style="display:inline">0.6.1 · Products enabled</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <ul>
+          <li><b>Agreement Desk</b> - available and configurable (Request Types, forms, statuses).</li>
+          <li><b>Workflow Builder (Maestro)</b> - enabled, with permission to create and publish workflows.</li>
+          <li><b>Agent Studio</b> and agents-in-workflows - enabled. Your PSA or facilitator will confirm this is switched on for your partner sandbox; see the limitations appendix in Stage 3.5 for the current availability scope.</li>
+          <li><b>eSignature</b> - connected, with sending permission.</li>
+        </ul>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p2"><div><h3 style="display:inline">0.6.2 · Permissions</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 8px;">Each participant or pair needs:</p>
+        <ul>
+          <li>Access to Agreement Desk - can view and manage the Requests page.</li>
+          <li>Access to Workflow Builder - can create and publish workflows.</li>
+          <li>Permission to manage requests, or at minimum to create and edit requests for the lab Request Type.</li>
+          <li>An admin identity available for the agent step's one-time consent (see Stage 2.5).</li>
+          <li><b>Agent Studio build access</b> - enabled by an org admin before Stage 1. Click path below.</li>
+        </ul>
+        <div class="clickpath">
+          <div class="cp-task"><span class="cp-badge">Admin</span> Enable Agent Studio build access for participants</div>
+          <ol>
+            <li>Open the <b>Admin</b> tab at <a href="https://apps-d.docusign.com/admin/admin-dashboard" target="_blank" rel="noopener">apps-d.docusign.com/admin/admin-dashboard</a>.</li>
+            <li>Go to <b>Users</b> and find the participant's account row.</li>
+            <li>Click <b>Actions</b> next to their name, then select <b>Manage AI Agents Access</b>.</li>
+            <li>Under <b>AI Contract Agents Access</b>, enable:<br>
+              &nbsp;&nbsp;- <b>Create new AI contract agents</b><br>
+              &nbsp;&nbsp;- <b>Share, delete, and configure AI contract agents</b>
+            </li>
+            <li>Click <b>Save</b>.</li>
+          </ol>
+        </div>
+        <div class="cp-src">Menu labels vary slightly by tenant. If "Manage AI Agents Access" is not visible under Actions, confirm Agent Studio is enabled on the account - see 0.6.1.</div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p3"><div><h3 style="display:inline">0.6.3 · Download the lab assets</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 8px;">From the GitHub repo your facilitator provides, download:</p>
+        <table>
+          <tbody><tr><th>Asset</th><th>What it's for</th></tr>
+          <tr><td><code>risk_lab_request_type.zip</code></td><td>The prebuilt Agreement Desk Request Type you'll import in Stage 2.1.</td></tr>
+          <tr><td><code>risk_lab_workflow.zip</code></td><td>The prebuilt Workflow Builder workflow you'll import in Stage 2.2.</td></tr>
+          <tr><td><code>SampleVendorMSA_LOW</code></td><td>A vendor MSA engineered to score LOW - drives the straight-through path.</td></tr>
+          <tr><td><code>SampleVendorMSA_HIGH</code></td><td>A vendor MSA engineered to score MEDIUM or HIGH - drives the human review path.</td></tr>
+        </tbody></table>
+        <p style="margin:8px 0 0;">Your facilitator supplies the exact filenames, formats, and repo URL. Renewal-flavored equivalents may be provided for the Sales persona.</p>
+        <div class="note">Keep sample documents short. The agent step has request-size and timeout limits, and a 40-page MSA is a slow, flaky way to learn the pattern.</div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p4"><div><h3 style="display:inline">0.6.4 · Foundational knowledge</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <ul>
+          <li>eSignature basics: envelopes, recipients, routing order.</li>
+          <li>IAM basics: agreements, Request Types, how workflows trigger and run, what an agent does.</li>
+          <li>Comfortable reading a simple JSON payload and mapping fields between systems.</li>
+          <li class="proc-only">A basic vendor risk playbook (for example: minimum liability cap, acceptable governing law list).</li>
+          <li class="sales-only">A basic sales / finance playbook (for example: max discount without approval, minimum renewal term, acceptable governing law list).</li>
+        </ul>
+      </div>
 
       <h3>0.7 · How to use this handbook</h3>
       <table>
