@@ -157,6 +157,22 @@ function setupFrame(id){
       var plr=document.createElementNS(ns,'rect');plr.setAttribute('x','762');plr.setAttribute('y','282');plr.setAttribute('width','150');plr.setAttribute('height','56');plr.setAttribute('rx','12');plr.setAttribute('fill','#FF5252');svg.appendChild(plr);
       var plrT1=document.createElementNS(ns,'text');plrT1.setAttribute('x','837');plrT1.setAttribute('y','302');plrT1.setAttribute('text-anchor','middle');plrT1.setAttribute('fill','#fff');plrT1.setAttribute('font-size','11.5');plrT1.setAttribute('font-weight','600');plrT1.textContent='Change Status';svg.appendChild(plrT1);
       var plrT2=document.createElementNS(ns,'text');plrT2.setAttribute('x','837');plrT2.setAttribute('y','318');plrT2.setAttribute('text-anchor','middle');plrT2.setAttribute('fill','#ffe0ef');plrT2.setAttribute('font-size','10');plrT2.textContent='Pending Legal Review';svg.appendChild(plrT2);
+
+      // Animated particles - route paths
+      var routeLow=document.createElementNS(ns,'path');routeLow.setAttribute('id','route-low-new');routeLow.setAttribute('d','M105,197 L296,197 L455,197 L631,197');routeLow.setAttribute('fill','none');svg.appendChild(routeLow);
+      var routeHigh=document.createElementNS(ns,'path');routeHigh.setAttribute('id','route-high-new');routeHigh.setAttribute('d','M105,197 L296,197 L455,197 L455,310 L646,310 L837,310');routeHigh.setAttribute('fill','none');svg.appendChild(routeHigh);
+
+      // LOW particle
+      var pLow=document.createElementNS(ns,'circle');pLow.setAttribute('r','5');pLow.setAttribute('fill','#0a7d3c');pLow.setAttribute('style','filter:drop-shadow(0 0 5px #0a7d3c)');
+      var amLow=document.createElementNS(ns,'animateMotion');amLow.setAttribute('dur','3.2s');amLow.setAttribute('repeatCount','indefinite');
+      var mpLow=document.createElementNS(ns,'mpath');mpLow.setAttribute('href','#route-low-new');
+      amLow.appendChild(mpLow);pLow.appendChild(amLow);svg.appendChild(pLow);
+
+      // MED/HIGH particle
+      var pHigh=document.createElementNS(ns,'circle');pHigh.setAttribute('r','5');pHigh.setAttribute('fill','#FF5252');pHigh.setAttribute('style','filter:drop-shadow(0 0 5px #FF5252)');
+      var amHigh=document.createElementNS(ns,'animateMotion');amHigh.setAttribute('dur','4s');amHigh.setAttribute('repeatCount','indefinite');
+      var mpHigh=document.createElementNS(ns,'mpath');mpHigh.setAttribute('href','#route-high-new');
+      amHigh.appendChild(mpHigh);pHigh.appendChild(amHigh);svg.appendChild(pHigh);
     }
 
     // Update decision tree table (section 2.6)
