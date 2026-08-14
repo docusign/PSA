@@ -523,7 +523,11 @@ details.pattern-b[open] summary::after{content:' ▲ collapse';}
       <ol>
         <li>Sign in to your Docusign developer account (&nbsp;<code>https://apps-d.docusign.com</code>).</li>
         <li>Open the <b>Agents tab</b>&nbsp;(under Automation).</li>
-        <li>Click on&nbsp;<b>Create New</b>.</li><li>Click on Use classic editor.</li>
+        <li>Click on&nbsp;<b>Create New</b>.</li>
+        <li>Click on Use classic editor.</li>
+      </ol>
+      <img src="assets/s11-classic-editor.png" alt="Use classic editor highlighted" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
+      <ol start="5">
         <li>Set the core properties by clicking on the pencil icon next to My new agent and then click on Save:</li>
       </ol>
       <table>
@@ -532,6 +536,7 @@ details.pattern-b[open] summary::after{content:' ▲ collapse';}
         <tr><td><b>Description&nbsp;</b></td><td>Risk analyst for pre-sign contract review. Covers vendor onboarding and customer renewals: extracts key terms, classifies risk level, and returns structured output. Does not negotiate or send.</td></tr>
       </tbody></table>
       <div class="warn"><b>Use this exact name.</b> In Stage 2.2 you'll select this agent inside the imported workflow. Matching the name the workbook expects makes that step unambiguous - and makes it much easier for your facilitator to help when something doesn't line up.</div>
+      <img src="assets/s11-procurement-identity.png" alt="Vendor and Renewal Risk Analyst agent configuration" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
 
       <div class="h-check"><input type="checkbox" data-stage="1" id="chk5"><div><h3 style="display:inline">1.2 · Write the instructions</h3></div></div>
       <p>Paste this into the Agent's <b>Instructions</b> field. There is no separate output-schema builder in Agent Studio - the response shape you want is described here, in plain language, so be explicit about field names and allowed values.</p>
