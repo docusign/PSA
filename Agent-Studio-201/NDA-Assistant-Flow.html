@@ -387,32 +387,50 @@ li{margin:5px 0;}
       <div class="obj"><div class="lab">Objective 4</div><b>Bridge chat to execution (advanced)</b><br>Connect the agent to a Docusign Envelope Template so it packages chat-extracted data and sends a pre-filled contract directly.</div>
 
       <h3>0.5 · Prerequisites</h3>
-      <div class="h-check"><input type="checkbox" data-stage="0" id="p1"><div><h3 style="display:inline">0.5.1 · Products &amp; permissions</h3><span class="tag">setup</span></div></div>
+      <p>Complete these steps before the workshop begins. Everything uses synthetic data only - no production accounts or real party data.</p>
+      <div class="note" style="margin:12px 0 16px;"><b>Warning:</b> All data used in this workshop is for demonstration purposes only. Do not use real customer or partner information.</div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p1"><div><h3 style="display:inline">0.5.1 · Set up your Docusign sandbox</h3><span class="tag">setup</span></div></div>
       <div class="card">
-        <ul>
-          <li><b>Docusign IAM</b> environment (sandbox or non-production) with <b>Agent Studio</b> enabled, so you can create agents from the Automations tab.</li>
-          <li><b>Agreement Manager</b> populated with a few test agreements, so the search step has something to find.</li>
-          <li><b>Ask Iris Chat</b> available, to trigger the published agent conversationally.</li>
-          <li>For Part 2 (advanced): <b>eSignature</b> with permission to create Templates and send envelopes.</li>
-        </ul>
+        <ol>
+          <li>Log in to your Docusign developer sandbox at <a href="https://apps-d.docusign.com" target="_blank" rel="noopener"><code>apps-d.docusign.com</code></a>.</li>
+          <li>Confirm you can see the <b>Agents</b> tab (under Automation). If not, ask your facilitator to enable Agent Studio on your account.</li>
+          <li>Confirm <b>Agreement Manager</b> is accessible from the left navigation.</li>
+          <li>Confirm <b>Ask Iris Chat</b> is available (bottom-right chat icon) - you will use this to trigger the published agent.</li>
+          <li>For Part 2 (advanced): confirm <b>eSignature</b> is enabled with permission to create Templates and send envelopes.</li>
+        </ol>
         <div class="clickpath" style="margin-top:16px;">
-          <div class="cp-task"><span class="cp-badge">Admin step</span>Verify AI Agents access for your user</div>
+          <div class="cp-task"><span class="cp-badge">Admin</span> Enable Agent Studio build access for participants</div>
           <ol>
-            <li>Open the <a href="https://apps-d.docusign.com/admin/admin-dashboard" target="_blank">Docusign Admin dashboard</a>.</li>
-            <li>Click <b>Users</b> in the left navigation.</li>
-            <li>Find your user in the list, click the <b>Actions</b> menu next to their name, and select <b>Manage AI Agents Access</b>.</li>
-            <li>Under <b>AI Contract Agents Access</b>, enable the following:
-              <ul>
-                <li><b>Create new AI contract agents</b></li>
-                <li><b>Share, delete, and configure AI contract agents</b></li>
-              </ul>
+            <li>Open the <b>Admin</b> tab at <a href="https://apps-d.docusign.com/admin/admin-dashboard" target="_blank" rel="noopener">apps-d.docusign.com/admin/admin-dashboard</a>.</li>
+            <li>Go to <b>Users</b> and find the participant's account row.</li>
+            <li>Click <b>Actions</b> next to their name, then select <b>Manage AI Agents Access</b>.</li>
+            <li>Under <b>AI Contract Agents Access</b>, enable:<br>
+              &nbsp;&nbsp;- <b>Create new AI contract agents</b><br>
+              &nbsp;&nbsp;- <b>Share, delete, and configure AI contract agents</b>
             </li>
-            <li>Save the changes.</li>
+            <li>Click <b>Save</b>.</li>
           </ol>
         </div>
-        <div class="expect"><b>Checkpoint:</b> your user has both AI Contract Agents Access permissions enabled before starting Stage 1.</div>
+        <div class="cp-src">Menu labels vary slightly by tenant. If "Manage AI Agents Access" is not visible under Actions, confirm Agent Studio is enabled on the account.</div>
       </div>
-      <div class="h-check"><input type="checkbox" data-stage="0" id="p2"><div><h3 style="display:inline">0.5.2 · Foundational knowledge</h3><span class="tag">setup</span></div></div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p2"><div><h3 style="display:inline">0.5.2 · Upload sample agreements</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 8px;">Download the workshop kit from the GitHub repo your facilitator provides:</p>
+        <table>
+          <tbody><tr><th>Asset</th><th>Purpose</th></tr>
+          <tr><td><code>SampleNDA_Active.pdf</code></td><td>An NDA with Active status - the agent will find this in search results.</td></tr>
+          <tr><td><code>SampleNDA_Expired.pdf</code></td><td>An NDA with Expired status - tests status-based filtering.</td></tr>
+        </tbody></table>
+        <ol style="margin-top:10px;">
+          <li>Navigate to <b>Agreement Manager</b> in your sandbox.</li>
+          <li>Upload the sample NDA PDFs so the agent's search capability has documents to find.</li>
+          <li>Confirm the agreements appear in the list with their expected statuses (Active, Expired).</li>
+        </ol>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p3"><div><h3 style="display:inline">0.5.3 · Foundational knowledge</h3><span class="tag">setup</span></div></div>
       <div class="card">
         <ul>
           <li>Agent Studio basics: what an agent is, how capabilities are added, and how the Test panel works.</li>

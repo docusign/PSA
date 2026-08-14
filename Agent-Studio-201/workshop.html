@@ -23,17 +23,15 @@ body{background:#fff;}
 var current='nda';
 
 function injectToggle(doc,active){
-  var existing=doc.getElementById('scenario-toggle');
+  var existing=doc.getElementById('lab-toggle');
   if(existing) existing.parentNode.removeChild(existing);
 
   var card=doc.createElement('div');
-  card.id='scenario-toggle';
+  card.id='lab-toggle';
   card.style.cssText='background:#F4F2FA;border:1px solid #e5e1f0;border-radius:13px;padding:28px 30px;margin:18px 0;box-shadow:0 2px 6px rgba(19,0,50,.05),0 10px 26px rgba(19,0,50,.05);';
-  card.innerHTML='<h3 style="font-family:DSIndigo,Arial,sans-serif;font-size:17.5px;font-weight:600;color:#130032;margin:0 0 8px;">Pick your scenario</h3>'
-    +'<p style="margin:4px 0 0;font-size:14px;font-family:DSIndigo,Arial,sans-serif;color:#1c1433;">Two hands-on labs. NDA builds an interactive search-to-draft agent in chat. Procurement builds a risk-based routing workflow with Agreement Desk and Maestro.</p>'
-    +'<div style="display:inline-flex;gap:0;border:1px solid #e5e1f0;border-radius:9px;overflow:hidden;margin:8px 0 0;box-shadow:0 1px 3px rgba(19,0,50,.05);">'
-    +'<button data-sc="nda" style="background:'+(active==='nda'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;color:'+(active==='nda'?'#fff':'#615a75')+';">NDA</button>'
-    +'<button data-sc="procurement" style="background:'+(active==='procurement'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;color:'+(active==='procurement'?'#fff':'#615a75')+';">Procurement</button>'
+  card.innerHTML='<div style="display:inline-flex;gap:0;border:1px solid #e5e1f0;border-radius:9px;overflow:hidden;box-shadow:0 1px 3px rgba(19,0,50,.05);">'
+    +'<button data-sc="nda" style="background:'+(active==='nda'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;color:'+(active==='nda'?'#fff':'#615a75')+';">Lab 1: NDA</button>'
+    +'<button data-sc="procurement" style="background:'+(active==='procurement'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;color:'+(active==='procurement'?'#fff':'#615a75')+';">Lab 2: Procurement</button>'
     +'</div>';
 
   var btns=card.querySelectorAll('button');
