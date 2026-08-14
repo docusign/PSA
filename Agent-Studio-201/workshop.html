@@ -478,8 +478,20 @@ function setupFrame(id){
     if(stage3){
       // Update intro
       var stage3Ps=stage3.querySelectorAll(':scope > p');
-      if(stage3Ps[0]) stage3Ps[0].innerHTML='Submit a request by emailing a contract to the Agreement Desk email address and confirm the workflow fires correctly. Each scenario follows the same shape: send an email with the document attached, then verify the request, workflow run, and outcome.';
-      if(stage3Ps[1]) stage3Ps[1].innerHTML='<b>Note:</b> if the document is not attached via email, the requester can also fill out the intake form directly in Agreement Desk as an alternative.';
+      if(stage3Ps[0]) stage3Ps[0].innerHTML='Submit a request by emailing a contract to the Agreement Desk email address and confirm the workflow fires correctly.';
+      if(stage3Ps[1]) stage3Ps[1].style.display='none';
+
+      // Inject email setup steps at top of Stage 3
+      var emailSetup=doc.createElement('div');
+      emailSetup.innerHTML='<div class="h-check" style="margin-top:16px;"><div><h3 style="display:inline">3.0 &middot; Find the Agreement Desk email address</h3></div></div>'
+        +'<ol style="margin:10px 0 16px;">'
+        +'<li>Open the <b>Agreements</b> tab.</li>'
+        +'<li>Click <b>Requests</b> in the left menu.</li>'
+        +'<li>Click <b>Settings</b> (top-right corner).</li>'
+        +'<li>Click the <b>Email</b> tab.</li>'
+        +'<li>Copy the email address shown and make a note of it - this is the address you will send documents to. Any email sent here automatically creates an Agreement Desk request in your account.</li>'
+        +'</ol>';
+      if(stage3Ps[0]) stage3Ps[0].parentNode.insertBefore(emailSetup,stage3Ps[0].nextSibling);
 
       // Hide the old document warning
       var stage3Warns=stage3.querySelectorAll('.warn');
