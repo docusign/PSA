@@ -30,8 +30,8 @@ function injectToggle(doc,active){
   card.id='lab-toggle';
   card.style.cssText='background:#F4F2FA;border:1px solid #e5e1f0;border-radius:13px;padding:16px 18px;margin:18px 0;box-shadow:0 2px 6px rgba(19,0,50,.05),0 10px 26px rgba(19,0,50,.05);';
   card.innerHTML='<div style="display:inline-flex;gap:0;border:1px solid #e5e1f0;border-radius:9px;overflow:hidden;box-shadow:0 1px 3px rgba(19,0,50,.05);">'
-    +'<button data-sc="nda" style="background:'+(active==='nda'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;color:'+(active==='nda'?'#fff':'#615a75')+';">Lab 1: NDA</button>'
-    +'<button data-sc="procurement" style="background:'+(active==='procurement'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;color:'+(active==='procurement'?'#fff':'#615a75')+';">Lab 2: Procurement</button>'
+    +'<button data-sc="nda" style="background:'+(active==='nda'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13px;font-weight:500;cursor:pointer;color:'+(active==='nda'?'#fff':'#615a75')+';">Lab 1: Search to Draft</button>'
+    +'<button data-sc="procurement" style="background:'+(active==='procurement'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13px;font-weight:500;cursor:pointer;color:'+(active==='procurement'?'#fff':'#615a75')+';">Lab 2: Risk Based Routing</button>'
     +'</div>';
 
   var btns=card.querySelectorAll('button');
@@ -45,6 +45,7 @@ function injectToggle(doc,active){
 }
 
 function switchTo(tab){
+  if(current===tab) return;
   current=tab;
   document.querySelectorAll('.frame-wrap iframe').forEach(function(f){f.classList.remove('active');});
   document.getElementById('frame-'+tab).classList.add('active');
@@ -68,10 +69,10 @@ function setupFrame(id){
     });
     doc.body.setAttribute('data-persona','procurement');
 
-    // Hide prerequisites (0.6) and how to use this handbook (0.7)
+    // Hide old prerequisites (0.6) and how to use this handbook (0.7), inject new prereqs
     var headings=doc.querySelectorAll('h3');
     headings.forEach(function(h){
-      if(h.textContent.indexOf('Prerequisites')!==-1 || h.textContent.indexOf('How to use this handbook')!==-1){
+      if(h.textContent.indexOf('How to use this handbook')!==-1){
         var el=h;
         while(el){
           var next=el.nextElementSibling;
@@ -84,6 +85,59 @@ function setupFrame(id){
         if(h.previousElementSibling && h.previousElementSibling.tagName==='H3' && h.previousElementSibling.innerHTML.trim()==='<br>'){
           h.previousElementSibling.style.display='none';
         }
+      }
+      if(h.textContent.indexOf('Prerequisites')!==-1 && !doc.getElementById('proc-prereqs')){
+        // Hide old prereq content
+        var el=h;
+        while(el){
+          var next=el.nextElementSibling;
+          if(!next) break;
+          if(next.tagName==='H3') break;
+          next.style.display='none';
+          el=next;
+        }
+        if(h.previousElementSibling && h.previousElementSibling.tagName==='H3' && h.previousElementSibling.innerHTML.trim()==='<br>'){
+          h.previousElementSibling.style.display='none';
+        }
+        h.innerHTML='0.5 &middot; Prerequisites';
+        var prereqDiv=doc.createElement('div');
+        prereqDiv.id='proc-prereqs';
+        prereqDiv.innerHTML=''
+          +'<p style="margin:8px 0;">Complete these steps before the workshop begins.</p>'
+          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">1. Active Docusign developer account</h4>'
+          +'<ol style="margin:0 0 12px;padding-left:20px;">'
+          +'<li>Log in to your Docusign developer sandbox at <a href="https://apps-d.docusign.com" target="_blank">apps-d.docusign.com</a>.</li>'
+          +'<li>Confirm you can see the <b>Automation</b> tab in the top navigation. If not, ask your facilitator to enable it on your account.</li>'
+          +'</ol>'
+          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">2. Admin setup - enable Agent Studio access</h4>'
+          +'<div style="background:#f8f8f8;border:1px solid #e5e1f0;border-radius:10px;padding:14px 16px;margin:10px 0;">'
+          +'<ol style="margin:0;padding-left:20px;font-size:13.5px;">'
+          +'<li>Open the <b>Admin</b> tab at <a href="https://apps-d.docusign.com/admin/admin-dashboard" target="_blank">apps-d.docusign.com/admin/admin-dashboard</a>.</li>'
+          +'<li>Go to <b>Users</b> and find the participant\'s account row.</li>'
+          +'<li>Click <b>Actions</b> next to their name, then select <b>Manage AI Agents Access</b>.</li>'
+          +'<li>Under <b>AI Contract Agents Access</b>, enable: <b>Create new AI contract agents</b> and <b>Share, delete, and configure AI contract agents</b>.</li>'
+          +'<li>Click <b>Save</b>.</li>'
+          +'<li>Verify the agent is active: go back to the main app, open the <b>Automation</b> tab, and confirm you can see the <b>Agents</b> section.</li>'
+          +'</ol></div>'
+          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">3. Import the workflow</h4>'
+          +'<ol style="margin:0 0 12px;padding-left:20px;">'
+          +'<li>Navigate to <b>Agreements</b> tab, then <b>Maestro Workflows</b> in the left menu.</li>'
+          +'<li>Click <b>Import Workflow</b>.</li>'
+          +'<li>Upload the <code>risk_lab_workflow.zip</code> provided by your facilitator. Leave the file zipped - do not extract it first.</li>'
+          +'<li>Confirm the workflow appears on your canvas as a draft.</li>'
+          +'</ol>'
+          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">4. Upload sample agreements</h4>'
+          +'<ol style="margin:0 0 12px;padding-left:20px;">'
+          +'<li>Go to the <b>Agreements</b> tab.</li>'
+          +'<li>Click <b>Completed</b> in the left pane.</li>'
+          +'<li>Click the <b>+</b> icon and upload the following three files provided by your facilitator:</li>'
+          +'</ol>'
+          +'<ul style="margin:0 0 12px;padding-left:36px;">'
+          +'<li><code>msa_high_risk.pdf</code></li>'
+          +'<li><code>msa_medium_risk.pdf</code></li>'
+          +'<li><code>msa_low_risk.pdf</code></li>'
+          +'</ul>';
+        h.parentNode.insertBefore(prereqDiv,h.nextSibling);
       }
     });
 
@@ -926,19 +980,14 @@ function setupFrame(id){
     });
   }
 
-  // Insert toggle after Resources in the sidebar
-  var sideFoot=doc.querySelector('.side-foot');
-  if(!sideFoot){
-    var main=doc.querySelector('main');
-    if(!main) return;
-    var hero=main.querySelector('.hero');
-    if(!hero) return;
-    var toggle=injectToggle(doc,current);
-    hero.parentNode.insertBefore(toggle,hero.nextSibling);
-  } else {
-    var toggle=injectToggle(doc,current);
-    toggle.style.cssText='background:#F4F2FA;border:1px solid #e5e1f0;border-radius:13px;padding:16px 18px;margin:18px 0 0;box-shadow:0 2px 6px rgba(19,0,50,.05);';
-    sideFoot.parentNode.insertBefore(toggle,sideFoot.nextSibling);
+  // Insert toggle after the stepper (stages list) in the sidebar - only on active frame
+  if(tab===current){
+    var stepper=doc.getElementById('stepper');
+    if(stepper){
+      var toggle=injectToggle(doc,current);
+      toggle.style.cssText='background:#F4F2FA;border:1px solid #e5e1f0;border-radius:13px;padding:16px 18px;margin:18px 0 0;box-shadow:0 2px 6px rgba(19,0,50,.05);';
+      stepper.parentNode.insertBefore(toggle,stepper.nextSibling);
+    }
   }
 }
 
