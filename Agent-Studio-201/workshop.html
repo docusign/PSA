@@ -87,6 +87,88 @@ function setupFrame(id){
       }
     });
 
+    // Update SVG diagram: add Change Status + Assign Owner nodes in LOW path
+    var svg=doc.querySelector('svg[viewBox]');
+    if(svg && !doc.getElementById('nodeChangeStatus')){
+      // Widen viewBox to fit new nodes
+      svg.setAttribute('viewBox','0 0 1160 350');
+
+      // Move eSignature, Signed, and their edges to the right
+      var nodeSign=doc.getElementById('nodeSign');
+      if(nodeSign){nodeSign.setAttribute('x','827');}
+      var signHighlight=nodeSign?nodeSign.nextElementSibling:null;
+      if(signHighlight && signHighlight.getAttribute('data-node')==='sign'){signHighlight.setAttribute('x','823');}
+      // eSignature text
+      var signTexts=svg.querySelectorAll('text');
+      signTexts.forEach(function(t){
+        if(t.getAttribute('x')==='673' && t.textContent==='eSignature'){t.setAttribute('x','893');}
+        if(t.getAttribute('x')==='673' && t.textContent==='Send for signature'){t.setAttribute('x','893');}
+      });
+      // Signed node
+      var signedRect=svg.querySelector('rect[x="752"]');
+      if(signedRect){signedRect.setAttribute('x','972');}
+      signTexts.forEach(function(t){
+        if(t.getAttribute('x')==='802' && (t.textContent==='Signed'||t.textContent==='Desk updated')){t.setAttribute('x','1022');}
+      });
+      // Edge sign-done
+      var edgeSignDone=doc.getElementById('edge-sign-done');
+      if(edgeSignDone){edgeSignDone.setAttribute('x1','960');edgeSignDone.setAttribute('x2','971');}
+
+      // Edge from review to sign (curve endpoint)
+      var edgeReviewSign=doc.getElementById('edge-review-sign');
+      if(edgeReviewSign){edgeReviewSign.setAttribute('d','M610,74 C 855,74 862,130 893,161');}
+      // Approved text
+      signTexts.forEach(function(t){
+        if(t.textContent==='Approved' && t.getAttribute('x')==='668'){t.setAttribute('x','868');}
+      });
+
+      // New node: Change Status (Approved)
+      var ns='http://www.w3.org/2000/svg';
+      var csRect=document.createElementNS(ns,'rect');
+      csRect.setAttribute('id','nodeChangeStatus');
+      csRect.setAttribute('x','570');csRect.setAttribute('y','165');csRect.setAttribute('width','120');csRect.setAttribute('height','64');csRect.setAttribute('rx','12');csRect.setAttribute('fill','#2563eb');
+      svg.appendChild(csRect);
+      var csT1=document.createElementNS(ns,'text');
+      csT1.setAttribute('x','630');csT1.setAttribute('y','192');csT1.setAttribute('text-anchor','middle');csT1.setAttribute('fill','#fff');csT1.setAttribute('font-size','11.5');csT1.setAttribute('font-weight','600');csT1.textContent='Change Status';
+      svg.appendChild(csT1);
+      var csT2=document.createElementNS(ns,'text');
+      csT2.setAttribute('x','630');csT2.setAttribute('y','209');csT2.setAttribute('text-anchor','middle');csT2.setAttribute('fill','#bfdbfe');csT2.setAttribute('font-size','10.5');csT2.textContent='Approved';
+      svg.appendChild(csT2);
+
+      // New node: Assign Owner
+      var aoRect=document.createElementNS(ns,'rect');
+      aoRect.setAttribute('id','nodeAssignOwner');
+      aoRect.setAttribute('x','705');aoRect.setAttribute('y','165');aoRect.setAttribute('width','110');aoRect.setAttribute('height','64');aoRect.setAttribute('rx','12');aoRect.setAttribute('fill','#7c3aed');
+      svg.appendChild(aoRect);
+      var aoT1=document.createElementNS(ns,'text');
+      aoT1.setAttribute('x','760');aoT1.setAttribute('y','192');aoT1.setAttribute('text-anchor','middle');aoT1.setAttribute('fill','#fff');aoT1.setAttribute('font-size','11.5');aoT1.setAttribute('font-weight','600');aoT1.textContent='Assign Owner';
+      svg.appendChild(aoT1);
+      var aoT2=document.createElementNS(ns,'text');
+      aoT2.setAttribute('x','760');aoT2.setAttribute('y','209');aoT2.setAttribute('text-anchor','middle');aoT2.setAttribute('fill','#e9d5ff');aoT2.setAttribute('font-size','10.5');aoT2.textContent='for signature';
+      svg.appendChild(aoT2);
+
+      // Update LOW edge: branch to Change Status
+      var edgeBranchLow=doc.getElementById('edge-branch-low');
+      if(edgeBranchLow){edgeBranchLow.setAttribute('x2','569');}
+      // New edge: Change Status to Assign Owner
+      var e1=document.createElementNS(ns,'line');
+      e1.setAttribute('x1','690');e1.setAttribute('y1','197');e1.setAttribute('x2','704');e1.setAttribute('y2','197');
+      e1.setAttribute('stroke','#c9bdf0');e1.setAttribute('stroke-width','2.5');e1.setAttribute('marker-end','url(#arrow)');
+      e1.setAttribute('class','edge');
+      svg.appendChild(e1);
+      // New edge: Assign Owner to eSignature
+      var e2=document.createElementNS(ns,'line');
+      e2.setAttribute('x1','815');e2.setAttribute('y1','197');e2.setAttribute('x2','826');e2.setAttribute('y2','197');
+      e2.setAttribute('stroke','#c9bdf0');e2.setAttribute('stroke-width','2.5');e2.setAttribute('marker-end','url(#arrow)');
+      e2.setAttribute('class','edge');
+      svg.appendChild(e2);
+
+      // Move LOW label
+      signTexts.forEach(function(t){
+        if(t.getAttribute('x')==='580' && t.textContent==='LOW'){t.setAttribute('x','562');}
+      });
+    }
+
     // Update decision tree: LOW risk path (status Approved, assign owner, straight to signature)
     var tables=doc.querySelectorAll('table');
     tables.forEach(function(t){
