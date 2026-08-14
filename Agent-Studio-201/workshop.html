@@ -449,28 +449,31 @@ function setupFrame(id){
       }
     });
 
-    // === Section 2.5: Remove Document input row, Update Variable From XML, update output text ===
-    var allTables=doc.querySelectorAll('table');
-    allTables.forEach(function(t){
-      var rows=t.querySelectorAll('tr');
-      rows.forEach(function(r){
-        var cells=r.querySelectorAll('td');
-        if(cells.length>=2 && cells[0].textContent.indexOf('Document input')!==-1){
-          r.style.display='none';
+    // === Section 2.5: Rewrite to "Execute AI Agent" - verify agent, outputs, prompt ===
+    if(!doc.getElementById('section-25-injected')) hChecks.forEach(function(hc){
+      var h3=hc.querySelector('h3');
+      if(h3 && h3.textContent.indexOf('Point the agent step')!==-1){
+        h3.textContent='2.5 · Execute AI Agent';
+        var container=hc.parentElement;
+        var sibling=hc.nextElementSibling;
+        // Remove everything between this h-check and the next h-check (2.6)
+        while(sibling && !sibling.classList.contains('h-check')){
+          var next=sibling.nextElementSibling;
+          sibling.style.display='none';
+          sibling=next;
         }
-      });
-    });
-
-    // Update "How the agent's output reaches the branch"
-    allPs.forEach(function(p){
-      if(p.textContent.indexOf('agent returns a structured JSON response containing the five fields')!==-1){
-        p.innerHTML='The agent\'s outputs are captured via defined output fields (<code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>). The workflow captures those into variables of the same name so the branch can read them. Open the output mapping section and confirm the five variables are wired - nothing should show as unmapped.';
+        // Inject new simplified content after the h-check
+        var newContent=document.createElement('div');
+        newContent.id='section-25-injected';
+        newContent.innerHTML='<p>Open the <b>Execute AI Agent</b> step in the workflow. Verify the following:</p>'
+          +'<ol>'
+          +'<li><b>Agent selected</b> - your published <code>Vendor &amp; Renewal Risk Analyst</code> should already be selected. If the dropdown is empty, go back to Stage 1 and publish your agent.</li>'
+          +'<li><b>Data outputs</b> - confirm the five output fields are visible: <code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>.</li>'
+          +'<li><b>Prompt</b> - verify the chat message / prompt is present in the step configuration.</li>'
+          +'</ol>'
+          +'<div class="expect"><b>Checkpoint:</b> the Execute AI Agent step shows your agent selected, all five data outputs mapped, and the prompt populated.</div>';
+        hc.parentNode.insertBefore(newContent,hc.nextSibling);
       }
-    });
-
-    // Hide "A note on Update Variable From XML"
-    notes.forEach(function(n){
-      if(n.textContent.indexOf('Update Variable From XML')!==-1) n.style.display='none';
     });
 
     // === Section 2.6: Update branch table and remove fallback ===
