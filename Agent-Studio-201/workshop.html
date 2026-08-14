@@ -13,40 +13,48 @@
   --ink:#130032;
   --surface:#F4F2FA;
   --hairline:#e5e1f0;
+  --muted:#615a75;
   --font:'DSIndigo',Arial,Helvetica,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;}
 body{font-family:var(--font);font-weight:300;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;}
 
-.tab-bar{
+.picker{
+  background:var(--surface);
+  border-bottom:1px solid var(--hairline);
+  padding:18px 30px;
   display:flex;
   align-items:center;
+  gap:18px;
+}
+.picker h3{font-size:16px;font-weight:600;color:var(--ink);}
+.toggle{
+  display:inline-flex;
   gap:0;
-  background:var(--ink);
-  padding:0 20px;
-  height:48px;
-  position:relative;
-  z-index:100;
+  border:1px solid var(--hairline);
+  border-radius:9px;
+  overflow:hidden;
+  box-shadow:0 1px 3px rgba(19,0,50,.05);
 }
-.tab-bar .logo{height:22px;margin-right:24px;}
-.tab{
-  padding:12px 24px;
-  font-size:14px;
+.toggle button{
+  background:#fff;
+  border:none;
+  padding:8px 16px;
+  font-family:var(--font);
+  font-size:13.5px;
   font-weight:500;
-  color:rgba(255,255,255,.6);
   cursor:pointer;
-  border-bottom:3px solid transparent;
-  transition:color .2s, border-color .2s;
-  user-select:none;
+  color:var(--muted);
+  transition:background .16s ease,color .16s ease;
 }
-.tab:hover{color:#fff;}
-.tab.active{color:#fff;border-bottom-color:var(--indigo);}
+.toggle button:not(.on):hover{background:#f2eefc;color:var(--ink);}
+.toggle button.on{background:var(--indigo);color:#fff;}
 
 .frame-wrap{
   position:relative;
   width:100%;
-  height:calc(100vh - 48px);
+  height:calc(100vh - 62px);
 }
 .frame-wrap iframe{
   position:absolute;
@@ -61,10 +69,12 @@ body{font-family:var(--font);font-weight:300;color:var(--ink);background:#fff;-w
 </head>
 <body>
 
-<div class="tab-bar">
-  <img class="logo" src="https://docusign.github.io/PSA/Bengaluru-meetup/assets/Docusign_Logo_white.svg" alt="Docusign">
-  <div class="tab active" data-tab="nda">NDA</div>
-  <div class="tab" data-tab="procurement">Procurement</div>
+<div class="picker">
+  <h3>Pick your scenario</h3>
+  <div class="toggle" id="toggle">
+    <button data-tab="nda" class="on">NDA</button>
+    <button data-tab="procurement">Procurement</button>
+  </div>
 </div>
 
 <div class="frame-wrap">
@@ -73,12 +83,12 @@ body{font-family:var(--font);font-weight:300;color:var(--ink);background:#fff;-w
 </div>
 
 <script>
-document.querySelectorAll('.tab').forEach(function(tab){
-  tab.addEventListener('click',function(){
-    document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+document.querySelectorAll('#toggle button').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('#toggle button').forEach(function(b){b.classList.remove('on');});
     document.querySelectorAll('.frame-wrap iframe').forEach(function(f){f.classList.remove('active');});
-    tab.classList.add('active');
-    document.getElementById('frame-'+tab.dataset.tab).classList.add('active');
+    btn.classList.add('on');
+    document.getElementById('frame-'+btn.dataset.tab).classList.add('active');
   });
 });
 </script>
