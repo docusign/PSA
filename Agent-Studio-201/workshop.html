@@ -362,7 +362,8 @@ function setupFrame(id){
         var ol=hc.nextElementSibling;
         while(ol && ol.tagName!=='OL') ol=ol.nextElementSibling;
         if(ol && ol.tagName==='OL'){
-          ol.innerHTML='<li>Click <b>Test</b> and give the agent a short sample agreement - paste text, or attach one of your sample MSAs if the test UI allows.</li>'
+          ol.innerHTML='<li>Click <b>Test</b> and give the agent a short sample agreement.</li>'
+            +'<li>Click the <b>+</b> icon, click <b>Add Agreements</b>, and search for one of the agreements uploaded in the prerequisites (e.g. <code>msa_low_risk</code>).</li>'
             +'<li>Verify the agent returns the correct <code>risk_level</code> and all five output fields are populated.</li>'
             +'<li>Click <b>Save draft</b>, then <b>Publish</b> and confirm.</li>';
         }
@@ -467,11 +468,9 @@ function setupFrame(id){
       }
     });
 
-    // Update "A note on Update Variable From XML" - keep CLM connection info
+    // Hide "A note on Update Variable From XML"
     notes.forEach(function(n){
-      if(n.textContent.indexOf('Update Variable From XML')!==-1){
-        n.innerHTML='<b>CLM connection:</b> In CLM\'s "Use AI Agent" step the agent response surfaces as <code>AgentFinalResponseRaw</code> and <code>AgentFinalResponseXml</code> for downstream steps - that CLM pattern is covered in 301.';
-      }
+      if(n.textContent.indexOf('Update Variable From XML')!==-1) n.style.display='none';
     });
 
     // === Section 2.6: Update branch table and remove fallback ===
@@ -512,7 +511,9 @@ function setupFrame(id){
       if(stage3Ps[1]) stage3Ps[1].style.display='none';
 
       // Inject email setup steps at top of Stage 3
+      if(doc.getElementById('email-setup-injected')) return;
       var emailSetup=doc.createElement('div');
+      emailSetup.id='email-setup-injected';
       emailSetup.innerHTML='<div class="h-check" style="margin-top:16px;"><div><h3 style="display:inline">3.0 &middot; Find the Agreement Desk email address</h3></div></div>'
         +'<ol style="margin:10px 0 16px;">'
         +'<li>Open the <b>Agreements</b> tab.</li>'
