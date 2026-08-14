@@ -754,6 +754,14 @@ function setupFrame(id){
       }
     });
 
+    // === Update NDA 1.1 checkpoint ===
+    var ndaExpects=doc.querySelectorAll('.expect');
+    ndaExpects.forEach(function(e){
+      if(e.textContent.indexOf('agent creation screen with a central description')!==-1){
+        e.innerHTML='<b>Checkpoint:</b> you see the agent creation screen with a text block titled "Describe what you want your agent to accomplish...".';
+      }
+    });
+
     // === Update NDA Agent Description in 1.2 ===
     var ndaBlocks=doc.querySelectorAll('.block.prompt');
     ndaBlocks.forEach(function(b){
@@ -765,6 +773,13 @@ function setupFrame(id){
     var ndaLbls=doc.querySelectorAll('.lbl');
     ndaLbls.forEach(function(l){
       if(l.textContent==='Initialization string') l.textContent='Agent description';
+    });
+    // Update 1.2 checkpoint
+    ndaExpects=doc.querySelectorAll('.expect');
+    ndaExpects.forEach(function(e){
+      if(e.textContent.indexOf('agent shell exists and Agent Studio has pre-selected')!==-1){
+        e.innerHTML='<b>Checkpoint:</b> the agent is created with the name and description set. You can see the agent setup page with capabilities and instructions sections.';
+      }
     });
 
     // === Update 1.3: Restructure to "Define what starts this agent" format ===
@@ -817,16 +832,7 @@ function setupFrame(id){
           capNotes.forEach(function(n){
             if(n.textContent.indexOf('Review Documents')!==-1) n.style.display='none';
           });
-          // Add capabilities screenshot after the clickpath
-          var cpaths=card.querySelectorAll('.clickpath');
-          if(cpaths.length>0){
-            var lastCp=cpaths[cpaths.length-1];
-            var capImg=doc.createElement('img');
-            capImg.src='assets/nda-capabilities.png';
-            capImg.alt='Capabilities section showing Find Agreements, Generate Documents, Party Insights, and Ask the User';
-            capImg.style.cssText='max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;';
-            lastCp.parentNode.insertBefore(capImg,lastCp.nextSibling);
-          }
+          // Remove screenshot placeholder (image not available yet)
         }
       }
     });
