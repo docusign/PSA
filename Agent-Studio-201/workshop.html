@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Studio 201 - Workshop</title>
+<style>
+@font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-Light.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap;}
+@font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-Medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-SemiBold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap;}
+
+:root{
+  --indigo:#4C00FF;
+  --ink:#130032;
+  --surface:#F4F2FA;
+  --hairline:#e5e1f0;
+  --font:'DSIndigo',Arial,Helvetica,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:var(--font);font-weight:300;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;}
+
+.tab-bar{
+  display:flex;
+  align-items:center;
+  gap:0;
+  background:var(--ink);
+  padding:0 20px;
+  height:48px;
+  position:relative;
+  z-index:100;
+}
+.tab-bar .logo{height:22px;margin-right:24px;}
+.tab{
+  padding:12px 24px;
+  font-size:14px;
+  font-weight:500;
+  color:rgba(255,255,255,.6);
+  cursor:pointer;
+  border-bottom:3px solid transparent;
+  transition:color .2s, border-color .2s;
+  user-select:none;
+}
+.tab:hover{color:#fff;}
+.tab.active{color:#fff;border-bottom-color:var(--indigo);}
+
+.frame-wrap{
+  position:relative;
+  width:100%;
+  height:calc(100vh - 48px);
+}
+.frame-wrap iframe{
+  position:absolute;
+  top:0;left:0;
+  width:100%;
+  height:100%;
+  border:none;
+  display:none;
+}
+.frame-wrap iframe.active{display:block;}
+</style>
+</head>
+<body>
+
+<div class="tab-bar">
+  <img class="logo" src="https://docusign.github.io/PSA/Bengaluru-meetup/assets/Docusign_Logo_white.svg" alt="Docusign">
+  <div class="tab active" data-tab="nda">NDA</div>
+  <div class="tab" data-tab="procurement">Procurement</div>
+</div>
+
+<div class="frame-wrap">
+  <iframe id="frame-nda" class="active" src="NDA-Assistant-Flow.html"></iframe>
+  <iframe id="frame-procurement" src="2_Hands_on_Flow.html"></iframe>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+    document.querySelectorAll('.frame-wrap iframe').forEach(function(f){f.classList.remove('active');});
+    tab.classList.add('active');
+    document.getElementById('frame-'+tab.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

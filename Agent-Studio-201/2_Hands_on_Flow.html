@@ -536,25 +536,30 @@ details.pattern-b[open] summary::after{content:' ▲ collapse';}
       <div class="h-check"><input type="checkbox" data-stage="1" id="chk5"><div><h3 style="display:inline">1.2 · Write the instructions</h3></div></div>
       <p>Paste this into the Agent's <b>Instructions</b> field. There is no separate output-schema builder in Agent Studio - the response shape you want is described here, in plain language, so be explicit about field names and allowed values.</p>
       <div class="lbl">Instructions</div>
-      <div class="block prompt">You are a contract risk analyst. You receive one MSA or renewal order at a time.
+      <div class="block prompt">You are a contract risk analyst. You receive one contract at a time.
 
-1. Determine whether this is a vendor MSA or a customer renewal order, based on the parties and context.
+Determine whether this is a vendor contract or a customer renewal, based on the parties and context.
 
-2. Extract the following fields:
+Extract the following fields:
 - risk_level: one of LOW, MEDIUM, HIGH
 - liability_cap: short human-readable description of the limitation of liability
 - governing_law: the governing jurisdiction or venue
 - term: total term or renewal period (for example "1 year" or "3-year initial term with 1-year renewals")
 - discount: any commercial discount (for example "10% discount on list price"), or "none"
 
-3. Classify risk_level using these rules:
+If NO document is attached, assess risk from the intake fields provided (vendor name, estimated annual spend, jurisdiction, category, contract term, proposed discount) and populate the JSON accordingly. Use "not specified" for fields that cannot be determined without a document.
+
+Classify risk_level using these rules:
 - HIGH if there is no liability cap, or the cap is clearly nominal relative to the deal.
 - HIGH if a discount exceeds 30%, or the term is shorter than 12 months.
 - MEDIUM if the commercial terms are acceptable but the governing law is non-standard, or if any key term is ambiguous.
+- MEDIUM if the liability cap is equal to or less than 1x annual fees.
+- MEDIUM if a referenced exhibit or addendum (e.g., DPA) is missing or marked as placeholder.
+- MEDIUM if indemnification obligations are materially asymmetric between the parties.
 - LOW only if the liability cap, term, discount, and governing law all look standard and unremarkable.
 - If you cannot confidently determine a key term, do not guess - choose MEDIUM or HIGH and say why in the field value.
 
-4. Return the result as a single valid JSON object in exactly this shape:
+Return the result as a single valid JSON object in exactly this shape:
 
 {
   "risk_level": "LOW | MEDIUM | HIGH",
@@ -563,6 +568,8 @@ details.pattern-b[open] summary::after{content:' ▲ collapse';}
   "term": "string",
   "discount": "string"
 }
+
+If there are more than one document attached then analyze each one individually and return the above for each of them.
 
 Constraints
 - Always return valid JSON. Return nothing before or after the JSON object.
@@ -646,7 +653,7 @@ Constraints
         <tr><td><b>Run agent as</b> ⚠️</td><td>Already set to the facilitator's admin identity. That user has completed the one-time consent for this environment.</td></tr>
       </tbody></table>
       <div class="lbl">Chat Message (for reference)</div>
-      <div class="block">Analyze this MSA and return JSON with risk_level, liability_cap, governing_law, term, and discount.<button class="copy">Copy</button></div>
+      <div class="block">Review vendor /vendor_name with estimated spend of /estimated_annual_spend in /jurisdiction for /category category and assess compliance risk.<button class="copy">Copy</button></div>
 
       <h4>How the agent's output reaches the branch</h4>
       <p>The agent returns a structured JSON response containing the five fields. The workflow captures those into variables of the same name (<code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>) so the branch can read them. Open the output mapping section and confirm the five variables are wired - nothing should show as unmapped.</p>
@@ -887,7 +894,7 @@ Constraints
         <table>
           <tr><th style="width:28%">Field</th><th>Value for the Vendor and Renewal Risk Analyst</th></tr>
           <tr><td><b>Agent</b></td><td>Select the published <code>Vendor and Renewal Risk Analyst</code> from the agent picker. This is the same agent built in Stage 1 - no second version needed.</td></tr>
-          <tr><td><b>Chat Message</b></td><td>The prompt the workflow sends at step execution, for example: <em>"Analyze this MSA and return JSON with risk_level, liability_cap, governing_law, term, and discount."</em> Same prompt shape as the Maestro version.</td></tr>
+          <tr><td><b>Chat Message</b></td><td>The prompt the workflow sends at step execution, for example: <em>"Review vendor /vendor_name with estimated spend of /estimated_annual_spend in /jurisdiction for /category category and assess compliance risk."</em> Same prompt shape as the Maestro version.</td></tr>
           <tr><td><b>Document (optional)</b></td><td>Pass the current CLM agreement document here so the agent reads the live negotiated version, not a cached copy.</td></tr>
           <tr><td><b>Run agent as</b></td><td>An admin user who has completed one-time OAuth consent for this environment. Consent is per-environment - sandbox consent does not carry to production. The step fails silently if consent has not been completed.</td></tr>
           <tr><td><b>Output variable</b></td><td>Name the output variable, for example <code>AgentResponse</code>. The workflow then reads <code>AgentResponse.AgentFinalResponseXml</code> to branch on risk_level.</td></tr>
