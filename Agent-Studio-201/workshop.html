@@ -68,10 +68,10 @@ function setupFrame(id){
     });
     doc.body.setAttribute('data-persona','procurement');
 
-    // Hide prerequisites section (0.6)
+    // Hide prerequisites (0.6) and how to use this handbook (0.7)
     var headings=doc.querySelectorAll('h3');
     headings.forEach(function(h){
-      if(h.textContent.indexOf('Prerequisites')!==-1){
+      if(h.textContent.indexOf('Prerequisites')!==-1 || h.textContent.indexOf('How to use this handbook')!==-1){
         var el=h;
         while(el){
           var next=el.nextElementSibling;
