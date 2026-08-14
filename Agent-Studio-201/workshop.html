@@ -384,24 +384,52 @@ function setupFrame(id){
       }
     });
 
-    // === Section 2.2: Update navigation ===
-    var allOls=doc.querySelectorAll('ol');
-    allOls.forEach(function(ol){
-      var lis=ol.querySelectorAll('li');
-      lis.forEach(function(li){
-        if(li.innerHTML.indexOf('Agreements → Maestro Workflows')!==-1 || li.innerHTML.indexOf('Agreements → Maestro Workflows')!==-1){
-          li.innerHTML='Navigate to the <b>Agreements</b> tab, then <b>Maestro Workflows</b> in the left menu.';
-        }
-        if(li.textContent.indexOf('Confirm the canvas shows the full shape')!==-1){
-          li.style.display='none';
-        }
-      });
+    // === Stage 2 intro: update text ===
+    allPs.forEach(function(p){
+      if(p.textContent.indexOf('re-point the tenant-specific references at')!==-1){
+        p.innerHTML='Both the Request Type and the workflow are prebuilt and supplied as ZIPs, so the whole room starts from an identical, working configuration. Your job here is to verify the tenant-specific references point at <i>your</i> objects, and publish. What matters is <b>understanding what\'s inside</b> - open each step as you verify it.';
+      }
     });
 
-    // Update 2.2 checkpoint
-    expects.forEach(function(e){
-      if(e.textContent.indexOf('visible three-way branch')!==-1){
-        e.innerHTML='<b>Checkpoint:</b> the workflow is on your canvas as a <b>draft</b>, showing a start method of <b>From Agreement Desk</b> and the agent step visible.';
+    // === Section 2.1: Rewrite to verify Request Type ===
+    hChecks.forEach(function(hc){
+      var h3=hc.querySelector('h3');
+      if(h3 && h3.textContent.indexOf('2.1')!==-1 && h3.textContent.indexOf('Import')!==-1 && h3.textContent.indexOf('Request Type')!==-1){
+        h3.innerHTML='2.1 &middot; Verify the Request Type';
+        var ol=hc.nextElementSibling;
+        while(ol && ol.tagName!=='OL') ol=ol.nextElementSibling;
+        if(ol){
+          ol.innerHTML='<li>Go to the <b>Agreements</b> tab of your developer account and click on <b>Requests</b>.</li>'
+            +'<li>Open the <b>Settings</b> tab (top-right).</li>'
+            +'<li>Under <b>Request Types</b>, verify that you can see <b>Agent Studio - Risk Lab Request Type</b> and that it is <b>active</b>.</li>';
+        }
+        // Update the note after the ol
+        var el=ol?ol.nextElementSibling:null;
+        while(el){
+          if(el.classList && el.classList.contains('expect')){
+            el.innerHTML='<b>Checkpoint:</b> the Request Type is listed and <b>active</b>, with fields for vendor/customer name, requester, estimated annual spend, jurisdiction, and category.';
+            break;
+          }
+          if(el.classList && el.classList.contains('note')){
+            el.innerHTML='This Request Type gets automatically uploaded with the workflow ZIP which was imported at the start of the workshop during setup.';
+            break;
+          }
+          el=el.nextElementSibling;
+        }
+      }
+    });
+
+    // === Section 2.2: Hide "Import the workflow" (now a prerequisite) ===
+    hChecks.forEach(function(hc){
+      var h3=hc.querySelector('h3');
+      if(h3 && h3.textContent.indexOf('2.2')!==-1 && h3.textContent.indexOf('Import the workflow')!==-1){
+        hc.style.display='none';
+        var el=hc.nextElementSibling;
+        while(el){
+          if(el.classList && el.classList.contains('h-check')) break;
+          el.style.display='none';
+          el=el.nextElementSibling;
+        }
       }
     });
 
@@ -686,37 +714,29 @@ function setupFrame(id){
         prereqHTML.id='new-prereqs';
         if(doc.getElementById('new-prereqs')) return;
         prereqHTML.innerHTML=''
-          +'<p style="margin:8px 0;">Complete these steps before the workshop begins. Everything uses synthetic data only - no production accounts or real party data.</p>'
-          +'<div style="background:#fffbeb;border:1.5px solid #f59e0b;border-radius:11px;padding:12px 16px;margin:12px 0 16px;font-size:13.5px;"><b>Warning:</b> All data used in this workshop is for demonstration purposes only. Do not use real customer or partner information.</div>'
-          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">1. Set up your Docusign sandbox</h4>'
+          +'<p style="margin:8px 0;">Complete these steps before the workshop begins.</p>'
+          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">1. Active Docusign developer account</h4>'
           +'<ol style="margin:0 0 12px;padding-left:20px;">'
           +'<li>Log in to your Docusign developer sandbox at <a href="https://apps-d.docusign.com" target="_blank">apps-d.docusign.com</a>.</li>'
-          +'<li>Confirm you can see the <b>Agents</b> tab (under Automation). If not, ask your facilitator to enable Agent Studio on your account.</li>'
-          +'<li>Confirm <b>Agreement Manager</b> is accessible from the left navigation.</li>'
-          +'<li>Confirm <b>Ask Iris Chat</b> is available (bottom-right chat icon) - you will use this to trigger the published agent.</li>'
-          +'<li>For Part 2 (advanced): confirm <b>eSignature</b> is enabled with permission to create Templates and send envelopes.</li>'
+          +'<li>Confirm you can see the <b>Automation</b> tab in the top navigation. If not, ask your facilitator to enable it on your account.</li>'
           +'</ol>'
+          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">2. Admin setup - enable Agent Studio access</h4>'
           +'<div style="background:#f8f8f8;border:1px solid #e5e1f0;border-radius:10px;padding:14px 16px;margin:10px 0;">'
-          +'<div style="font-size:12px;font-weight:600;color:#615a75;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Admin step</div>'
           +'<ol style="margin:0;padding-left:20px;font-size:13.5px;">'
           +'<li>Open the <b>Admin</b> tab at <a href="https://apps-d.docusign.com/admin/admin-dashboard" target="_blank">apps-d.docusign.com/admin/admin-dashboard</a>.</li>'
           +'<li>Go to <b>Users</b> and find the participant\'s account row.</li>'
           +'<li>Click <b>Actions</b> next to their name, then select <b>Manage AI Agents Access</b>.</li>'
           +'<li>Under <b>AI Contract Agents Access</b>, enable: <b>Create new AI contract agents</b> and <b>Share, delete, and configure AI contract agents</b>.</li>'
           +'<li>Click <b>Save</b>.</li>'
+          +'<li>Verify the agent is active: go back to the main app, open the <b>Automation</b> tab, and confirm you can see the <b>Agents</b> section.</li>'
           +'</ol></div>'
-          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">2. Upload sample agreements</h4>'
+          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">3. Import the workflow</h4>'
           +'<ol style="margin:0 0 12px;padding-left:20px;">'
-          +'<li>Download the workshop kit from the GitHub repo your facilitator provides.</li>'
-          +'<li>Navigate to <b>Agreement Manager</b> in your sandbox.</li>'
-          +'<li>Upload the sample NDA PDFs so the agent\'s search capability has documents to find.</li>'
-          +'<li>Confirm the agreements appear in the list with their expected statuses (Active, Expired).</li>'
+          +'<li>Navigate to <b>Agreements</b> tab, then <b>Maestro Workflows</b> in the left menu.</li>'
+          +'<li>Click <b>Import Workflow</b>.</li>'
+          +'<li>Upload the <code>risk_lab_workflow.zip</code> provided by your facilitator. Leave the file zipped - do not extract it first.</li>'
+          +'<li>Confirm the workflow appears on your canvas as a draft.</li>'
           +'</ol>'
-          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">3. Foundational knowledge</h4>'
-          +'<ul style="margin:0;padding-left:20px;">'
-          +'<li>Agent Studio basics: what an agent is, how capabilities are added, and how the Test panel works.</li>'
-          +'<li>Agreement Manager basics: how agreements and their statuses (Active, Expired, Terminated) are stored.</li>'
-          +'<li>For Part 2: eSignature Templates and Envelope Templates, signer roles, and routing.</li>'
           +'</ul>';
         h.parentNode.insertBefore(prereqHTML,h.nextSibling);
       }
