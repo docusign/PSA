@@ -86,10 +86,65 @@ function setupFrame(id){
         }
       }
     });
+
+    // Update decision tree: LOW risk path
+    // Update section 2.6 table row for Low risk
+    var tables=doc.querySelectorAll('table');
+    tables.forEach(function(t){
+      var rows=t.querySelectorAll('tr');
+      rows.forEach(function(r){
+        var cells=r.querySelectorAll('td');
+        if(cells.length>=3 && cells[0].textContent.indexOf('Low risk')!==-1){
+          cells[2].innerHTML='<b>Change Owner</b>, then <b>Create Approval Request</b>, then <b>Send Documents for Signature</b> using <code>request_document</code>, then set the Desk status to Onboarded / Signed.';
+        }
+      });
+    });
+
+    // Update 0.4 Reading the diagram - item 4
+    var diagramCards=doc.querySelectorAll('.card.tint.diagram');
+    diagramCards.forEach(function(card){
+      var items=card.querySelectorAll('div');
+      items.forEach(function(item){
+        var n=item.querySelector('.n');
+        if(n && n.textContent==='4'){
+          var inner=item.querySelector('div');
+          if(inner) inner.innerHTML='<b>Branch on risk_level</b>LOW changes owner, creates an approval request, then sends for signature; MEDIUM or HIGH waits for a human; empty or invalid falls to the defensive path. The agent scores - the workflow decides.';
+        }
+      });
+    });
+
+    // Update scenario description
+    var procCards=doc.querySelectorAll('.card.proc-only');
+    procCards.forEach(function(card){
+      var ps=card.querySelectorAll('p');
+      ps.forEach(function(p){
+        if(p.textContent.indexOf('LOW risk goes straight to the vendor for signature')!==-1){
+          p.innerHTML=p.innerHTML.replace('LOW risk goes straight to the vendor for signature','LOW risk changes owner, creates an approval request, and then sends to the vendor for signature');
+        }
+      });
+    });
+
+    // Update the pipeline summary
+    var allPs=doc.querySelectorAll('p');
+    allPs.forEach(function(p){
+      if(p.textContent.indexOf('branch on risk')!==-1 && p.textContent.indexOf('Send Documents for Signature')!==-1){
+        p.innerHTML='<b>Create request → upload contract → Desk request event → Workflow Builder → Get Document from a Request → Risk Analyst agent → branch on risk → Change Owner → Create Approval Request → Send Documents for Signature → update Desk status.</b>';
+      }
+    });
   }
 
-  // Replace NDA prerequisites with step-by-step format
+  // NDA tab modifications
   if(tab==='nda'){
+    // Hide Stage 3 (Advanced automation: direct envelope delivery)
+    var stage3=doc.getElementById('stage-3');
+    if(stage3) stage3.style.display='none';
+    // Also hide Stage 3 from sidebar
+    var sideSteps=doc.querySelectorAll('.step');
+    sideSteps.forEach(function(s){
+      if(s.getAttribute('data-target')==='stage-3') s.style.display='none';
+    });
+
+    // Replace NDA prerequisites with step-by-step format
     var ndaHeadings=doc.querySelectorAll('h3');
     ndaHeadings.forEach(function(h){
       if(h.textContent.indexOf('Prerequisites')!==-1){
