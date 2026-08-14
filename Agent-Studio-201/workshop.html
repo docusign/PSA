@@ -614,18 +614,19 @@ function setupFrame(id){
       if(stage3Ps[1]) stage3Ps[1].style.display='none';
 
       // Inject email setup steps at top of Stage 3
-      if(doc.getElementById('email-setup-injected')) return;
-      var emailSetup=doc.createElement('div');
-      emailSetup.id='email-setup-injected';
-      emailSetup.innerHTML='<div class="h-check" style="margin-top:16px;"><div><h3 style="display:inline">3.0 &middot; Find the Agreement Desk email address</h3></div></div>'
-        +'<ol style="margin:10px 0 16px;">'
-        +'<li>Open the <b>Agreements</b> tab.</li>'
-        +'<li>Click <b>Requests</b> in the left menu.</li>'
-        +'<li>Click <b>Settings</b> (top-right corner).</li>'
-        +'<li>Click the <b>Email</b> tab.</li>'
-        +'<li>Copy the email address shown and make a note of it - this is the address you will send documents to. Any email sent here automatically creates an Agreement Desk request in your account.</li>'
-        +'</ol>';
-      if(stage3Ps[0]) stage3Ps[0].parentNode.insertBefore(emailSetup,stage3Ps[0].nextSibling);
+      if(!doc.getElementById('email-setup-injected')){
+        var emailSetup=doc.createElement('div');
+        emailSetup.id='email-setup-injected';
+        emailSetup.innerHTML='<div class="h-check" style="margin-top:16px;"><div><h3 style="display:inline">3.0 &middot; Find the Agreement Desk email address</h3></div></div>'
+          +'<ol style="margin:10px 0 16px;">'
+          +'<li>Open the <b>Agreements</b> tab.</li>'
+          +'<li>Click <b>Requests</b> in the left menu.</li>'
+          +'<li>Click <b>Settings</b> (top-right corner).</li>'
+          +'<li>Click the <b>Email</b> tab.</li>'
+          +'<li>Copy the email address shown and make a note of it - this is the address you will send documents to. Any email sent here automatically creates an Agreement Desk request in your account.</li>'
+          +'</ol>';
+        if(stage3Ps[0]) stage3Ps[0].parentNode.insertBefore(emailSetup,stage3Ps[0].nextSibling);
+      }
 
       // Hide the old document warning
       var stage3Warns=stage3.querySelectorAll('.warn');
@@ -823,10 +824,10 @@ function setupFrame(id){
           el=el.nextElementSibling;
         }
         // Replace heading content and inject new prereqs
+        if(doc.getElementById('new-prereqs')) return;
         h.innerHTML='0.5 &middot; Prerequisites';
         var prereqHTML=doc.createElement('div');
         prereqHTML.id='new-prereqs';
-        if(doc.getElementById('new-prereqs')) return;
         prereqHTML.innerHTML=''
           +'<p style="margin:8px 0;">Complete these steps before the workshop begins.</p>'
           +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">1. Active Docusign developer account</h4>'
