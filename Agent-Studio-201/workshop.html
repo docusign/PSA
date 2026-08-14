@@ -28,7 +28,7 @@ function injectToggle(doc,active){
 
   var card=doc.createElement('div');
   card.id='lab-toggle';
-  card.style.cssText='background:#F4F2FA;border:1px solid #e5e1f0;border-radius:13px;padding:28px 30px;margin:18px 0;box-shadow:0 2px 6px rgba(19,0,50,.05),0 10px 26px rgba(19,0,50,.05);position:sticky;top:0;z-index:999;';
+  card.style.cssText='background:#F4F2FA;border:1px solid #e5e1f0;border-radius:13px;padding:16px 18px;margin:18px 0;box-shadow:0 2px 6px rgba(19,0,50,.05),0 10px 26px rgba(19,0,50,.05);';
   card.innerHTML='<div style="display:inline-flex;gap:0;border:1px solid #e5e1f0;border-radius:9px;overflow:hidden;box-shadow:0 1px 3px rgba(19,0,50,.05);">'
     +'<button data-sc="nda" style="background:'+(active==='nda'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;color:'+(active==='nda'?'#fff':'#615a75')+';">Lab 1: NDA</button>'
     +'<button data-sc="procurement" style="background:'+(active==='procurement'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;color:'+(active==='procurement'?'#fff':'#615a75')+';">Lab 2: Procurement</button>'
@@ -255,22 +255,22 @@ function setupFrame(id){
       if(img.alt && img.alt.indexOf('Vendor and Renewal Risk Analyst agent configuration')!==-1) img.style.display='none';
     });
 
-    // === Section 1.2: Rename to "Define what starts this agent" and replace content ===
+    // === Section 1.2: Rename to "Define what starts this agent", inject new steps before prompt ===
     var hChecks=doc.querySelectorAll('.h-check');
     hChecks.forEach(function(hc){
       var h3=hc.querySelector('h3');
       if(h3 && h3.textContent.indexOf('1.2')!==-1 && h3.textContent.indexOf('Write the instructions')!==-1){
         h3.innerHTML='1.2 &middot; Define what starts this agent';
-        // Hide the old paragraph after this h-check
+        // Hide old paragraph
         var el=hc.nextElementSibling;
         if(el && el.tagName==='P') el.style.display='none';
         // Hide the "Instructions" label
-        if(el) el=el.nextElementSibling;
-        if(el && el.classList.contains('lbl')) el.style.display='none';
-        // Hide the prompt block (will become 1.3)
-        if(el) el=el.nextElementSibling;
-        if(el && el.classList.contains('block')) el.style.display='none';
-        // Inject new content after the h-check
+        var lbl=el?el.nextElementSibling:null;
+        if(lbl && lbl.classList && lbl.classList.contains('lbl')) lbl.style.display='none';
+        // Hide the prompt block (moves to 1.3)
+        var promptBlock=lbl?lbl.nextElementSibling:null;
+        if(promptBlock && promptBlock.classList && promptBlock.classList.contains('block')) promptBlock.style.display='none';
+        // Inject new 1.2 content
         var newContent=doc.createElement('div');
         newContent.innerHTML='<ol style="margin:10px 0 0;">'
           +'<li>Click <b>In chat</b> under "Define what starts this agent".</li>'
@@ -300,41 +300,64 @@ function setupFrame(id){
         // Replace the paragraph
         var el=hc.nextElementSibling;
         if(el && el.tagName==='P') el.innerHTML='Paste this into the Agent\'s <b>Instructions</b> field. The response shape you want is described here in plain language, so be explicit about field names and allowed values.';
-        // Replace table with the prompt block and label
+        // Replace the capabilities table with the prompt block
         if(el) el=el.nextElementSibling;
         if(el && el.tagName==='TABLE'){
-          var lbl=doc.createElement('div');lbl.className='lbl';lbl.textContent='Instructions';
-          el.parentNode.insertBefore(lbl,el);
+          var newLbl=doc.createElement('div');newLbl.className='lbl';newLbl.textContent='Instructions';
+          el.parentNode.insertBefore(newLbl,el);
           var block=doc.createElement('div');
           block.className='block prompt';
-          block.style.cssText='position:relative;';
+          block.style.cssText='position:relative;white-space:pre-wrap;';
           block.textContent='You are a contract risk analyst. You receive one contract at a time.\n\n1. Determine whether this is a vendor contract or a customer renewal, based on the parties and context.\n\n2. Extract the following fields:\n- risk_level: one of LOW, MEDIUM, HIGH\n- liability_cap: short human-readable description of the limitation of liability\n- governing_law: the governing jurisdiction or venue\n- term: total term or renewal period (for example "1 year" or "3-year initial term with 1-year renewals")\n- discount: any commercial discount (for example "10% discount on list price"), or "none"\n\n3. Classify risk_level using these rules:\n- HIGH if there is no liability cap, or the cap is clearly nominal relative to the deal.\n- HIGH if a discount exceeds 30%, or the term is shorter than 12 months.\n- MEDIUM if the commercial terms are acceptable but the governing law is non-standard, or if any key term is ambiguous.\n- LOW only if the liability cap, term, discount, and governing law all look standard and unremarkable.\n- If you cannot confidently determine a key term, do not guess - choose MEDIUM or HIGH and say why in the field value.\n\nConstraints\n- All five fields must be present on every response. Use "none" or "not specified" rather than omitting a field.\n- Be precise and neutral. This is internal policy evaluation, not legal advice.\n- Do not take external actions. Only analyze.';
-          var copyBtn=doc.createElement('button');copyBtn.className='copy';copyBtn.textContent='Copy';
-          copyBtn.addEventListener('click',function(){
-            navigator.clipboard.writeText(block.textContent.trim()).then(function(){
-              copyBtn.textContent='Copied';copyBtn.classList.add('copied');
-              setTimeout(function(){copyBtn.textContent='Copy';copyBtn.classList.remove('copied');},1400);
-            });
-          });
-          block.appendChild(copyBtn);
           el.parentNode.insertBefore(block,el);
           el.style.display='none';
         }
       }
     });
 
-    // Remove "Why the strictness matters" note after prompt
+    // === Section 1.4: Renumber old 1.3 capabilities section (now after our injected 1.3) ===
+    // We already replaced 1.3's content above, so we need a NEW 1.4 for capabilities
+    // Insert a new h-check for 1.4 after the prompt block we just created
+    hChecks.forEach(function(hc){
+      var h3=hc.querySelector('h3');
+      if(h3 && h3.textContent.indexOf('1.3')!==-1 && h3.textContent.indexOf('Write the instructions')!==-1){
+        // Find the "Why the strictness matters" note and inject 1.4 after it
+        var el=hc;
+        while(el && el.nextElementSibling){
+          el=el.nextElementSibling;
+          if(el.classList && el.classList.contains('note') && el.textContent.indexOf('Why the strictness matters')!==-1){
+            el.style.display='none';
+            // Insert 1.4 capabilities section after this
+            var capSection=doc.createElement('div');
+            capSection.innerHTML='<div class="h-check"><input type="checkbox" data-stage="1"><div><h3 style="display:inline">1.4 &middot; Configure capabilities &amp; knowledge</h3></div></div>'
+              +'<p>Configure what the agent is <i>allowed to do</i> and what it <i>already knows</i>.</p>'
+              +'<table><tbody><tr><th>Setting</th><th>What to configure</th></tr>'
+              +'<tr><td><b>Capabilities</b></td><td>Click <b>Add</b> and enable <code>Find Agreements</code> so the agent can open the contract the workflow passes it. Leave send and signature capabilities <b>off</b> - this agent only analyzes.</td></tr>'
+              +'<tr><td><b>Knowledge Sources</b></td><td>Optional for this lab. In production this is where your risk playbook lives, so thresholds can change without editing Instructions.</td></tr>'
+              +'</tbody></table>';
+            el.parentNode.insertBefore(capSection,el.nextSibling);
+            break;
+          }
+          if(el.classList && el.classList.contains('h-check')) break;
+        }
+      }
+    });
+
+    // Hide the original 1.3 capabilities section (already replaced by "Write the instructions")
+    // It's hidden because we replaced the table with display:none above
+
+    // Remove "Why the strictness matters" note
     var notes=doc.querySelectorAll('.note');
     notes.forEach(function(n){
       if(n.textContent.indexOf('Why the strictness matters')!==-1) n.style.display='none';
     });
 
-    // === Section 1.4: Simplify test section ===
-    var hChecks=doc.querySelectorAll('.h-check');
+    // === Section 1.5 (was 1.4): Simplify test section ===
+    hChecks=doc.querySelectorAll('.h-check');
     hChecks.forEach(function(hc){
       var h3=hc.querySelector('h3');
       if(h3 && h3.textContent.indexOf('Test until the JSON is clean')!==-1){
-        h3.innerHTML='1.4 &middot; Test the agent, then publish';
+        h3.innerHTML='1.5 &middot; Test the agent, then publish';
         // Replace the ol after this h-check
         var ol=hc.nextElementSibling;
         while(ol && ol.tagName!=='OL') ol=ol.nextElementSibling;
@@ -641,14 +664,20 @@ function setupFrame(id){
     });
   }
 
-  // Find insertion point (after hero in main)
-  var main=doc.querySelector('main');
-  if(!main) return;
-  var hero=main.querySelector('.hero');
-  if(!hero) return;
-
-  var toggle=injectToggle(doc,current);
-  hero.parentNode.insertBefore(toggle,hero.nextSibling);
+  // Insert toggle after Resources in the sidebar
+  var sideFoot=doc.querySelector('.side-foot');
+  if(!sideFoot){
+    var main=doc.querySelector('main');
+    if(!main) return;
+    var hero=main.querySelector('.hero');
+    if(!hero) return;
+    var toggle=injectToggle(doc,current);
+    hero.parentNode.insertBefore(toggle,hero.nextSibling);
+  } else {
+    var toggle=injectToggle(doc,current);
+    toggle.style.cssText='background:#F4F2FA;border:1px solid #e5e1f0;border-radius:13px;padding:16px 18px;margin:18px 0 0;box-shadow:0 2px 6px rgba(19,0,50,.05);';
+    sideFoot.parentNode.insertBefore(toggle,sideFoot.nextSibling);
+  }
 }
 
 document.getElementById('frame-nda').addEventListener('load',function(){setupFrame('frame-nda');});
