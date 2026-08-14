@@ -249,17 +249,77 @@ function setupFrame(id){
       }
     });
 
-    // === Section 1.2: Remove JSON return instruction from agent prompt ===
-    var promptBlocks=doc.querySelectorAll('.block.prompt');
-    promptBlocks.forEach(function(b){
-      var t=b.innerHTML;
-      if(t.indexOf('Return the result as a single valid JSON')!==-1){
-        // Remove JSON shape and JSON-specific constraints
-        t=t.replace(/Return the result as a single valid JSON object[\s\S]*?If there are more than one document attached then analyze each one individually and return the above for each of them\./,'');
-        t=t.replace(/Constraints\n- Always return valid JSON\. Return nothing before or after the JSON object\.\n/,'Constraints\n');
-        t=t.replace(/- All five fields must be present on every response\. Use "none" or "not specified" rather than omitting a field\.\n/,'- All five fields must be present on every response. Use "none" or "not specified" rather than omitting a field.\n');
-        t=t.replace(/- Do not take external actions\. Only analyze and return JSON\./,'- Do not take external actions. Only analyze.');
-        b.innerHTML=t;
+    // === Hide phantom image in 1.1 (Vendor and Renewal Risk Analyst agent configuration) ===
+    var imgs=doc.querySelectorAll('img');
+    imgs.forEach(function(img){
+      if(img.alt && img.alt.indexOf('Vendor and Renewal Risk Analyst agent configuration')!==-1) img.style.display='none';
+    });
+
+    // === Section 1.2: Rename to "Define what starts this agent" and replace content ===
+    var hChecks=doc.querySelectorAll('.h-check');
+    hChecks.forEach(function(hc){
+      var h3=hc.querySelector('h3');
+      if(h3 && h3.textContent.indexOf('1.2')!==-1 && h3.textContent.indexOf('Write the instructions')!==-1){
+        h3.innerHTML='1.2 &middot; Define what starts this agent';
+        // Hide the old paragraph after this h-check
+        var el=hc.nextElementSibling;
+        if(el && el.tagName==='P') el.style.display='none';
+        // Hide the "Instructions" label
+        if(el) el=el.nextElementSibling;
+        if(el && el.classList.contains('lbl')) el.style.display='none';
+        // Hide the prompt block (will become 1.3)
+        if(el) el=el.nextElementSibling;
+        if(el && el.classList.contains('block')) el.style.display='none';
+        // Inject new content after the h-check
+        var newContent=doc.createElement('div');
+        newContent.innerHTML='<ol style="margin:10px 0 0;">'
+          +'<li>Click <b>In chat</b> under "Define what starts this agent".</li>'
+          +'<li>In the prompt field, type: <code>Extracts key terms from the attached document and classify the risk.</code></li>'
+          +'<li>Click <b>Save</b>, then scroll to the bottom and click <b>Save</b> again.</li>'
+          +'<li>Now click <b>In a workflow</b> (next to "In chat").</li>'
+          +'<li>Add the following outputs:</li>'
+          +'</ol>'
+          +'<table style="margin:10px 0;"><tbody>'
+          +'<tr><th>Output name</th><th>Type</th></tr>'
+          +'<tr><td><code>risk_level</code></td><td>Text</td></tr>'
+          +'<tr><td><code>liability_cap</code></td><td>Text</td></tr>'
+          +'<tr><td><code>governing_law</code></td><td>Text</td></tr>'
+          +'<tr><td><code>term</code></td><td>Text</td></tr>'
+          +'<tr><td><code>discount</code></td><td>Text</td></tr>'
+          +'</tbody></table>'
+          +'<ol start="6"><li>Scroll to the bottom and click <b>Save</b>.</li></ol>';
+        hc.parentNode.insertBefore(newContent,hc.nextElementSibling);
+      }
+    });
+
+    // === Section 1.3: Rename from "Configure capabilities" to "Write the instructions" ===
+    hChecks.forEach(function(hc){
+      var h3=hc.querySelector('h3');
+      if(h3 && h3.textContent.indexOf('1.3')!==-1 && h3.textContent.indexOf('Configure capabilities')!==-1){
+        h3.innerHTML='1.3 &middot; Write the instructions';
+        // Replace the paragraph
+        var el=hc.nextElementSibling;
+        if(el && el.tagName==='P') el.innerHTML='Paste this into the Agent\'s <b>Instructions</b> field. The response shape you want is described here in plain language, so be explicit about field names and allowed values.';
+        // Replace table with the prompt block and label
+        if(el) el=el.nextElementSibling;
+        if(el && el.tagName==='TABLE'){
+          var lbl=doc.createElement('div');lbl.className='lbl';lbl.textContent='Instructions';
+          el.parentNode.insertBefore(lbl,el);
+          var block=doc.createElement('div');
+          block.className='block prompt';
+          block.style.cssText='position:relative;';
+          block.textContent='You are a contract risk analyst. You receive one contract at a time.\n\n1. Determine whether this is a vendor contract or a customer renewal, based on the parties and context.\n\n2. Extract the following fields:\n- risk_level: one of LOW, MEDIUM, HIGH\n- liability_cap: short human-readable description of the limitation of liability\n- governing_law: the governing jurisdiction or venue\n- term: total term or renewal period (for example "1 year" or "3-year initial term with 1-year renewals")\n- discount: any commercial discount (for example "10% discount on list price"), or "none"\n\n3. Classify risk_level using these rules:\n- HIGH if there is no liability cap, or the cap is clearly nominal relative to the deal.\n- HIGH if a discount exceeds 30%, or the term is shorter than 12 months.\n- MEDIUM if the commercial terms are acceptable but the governing law is non-standard, or if any key term is ambiguous.\n- LOW only if the liability cap, term, discount, and governing law all look standard and unremarkable.\n- If you cannot confidently determine a key term, do not guess - choose MEDIUM or HIGH and say why in the field value.\n\nConstraints\n- All five fields must be present on every response. Use "none" or "not specified" rather than omitting a field.\n- Be precise and neutral. This is internal policy evaluation, not legal advice.\n- Do not take external actions. Only analyze.';
+          var copyBtn=doc.createElement('button');copyBtn.className='copy';copyBtn.textContent='Copy';
+          copyBtn.addEventListener('click',function(){
+            navigator.clipboard.writeText(block.textContent.trim()).then(function(){
+              copyBtn.textContent='Copied';copyBtn.classList.add('copied');
+              setTimeout(function(){copyBtn.textContent='Copy';copyBtn.classList.remove('copied');},1400);
+            });
+          });
+          block.appendChild(copyBtn);
+          el.parentNode.insertBefore(block,el);
+          el.style.display='none';
+        }
       }
     });
 
@@ -498,6 +558,22 @@ function setupFrame(id){
         });
       });
     }
+
+    // Re-attach copy buttons on all visible .block elements (our DOM changes break original handlers)
+    doc.querySelectorAll('.block').forEach(function(b){
+      if(b.style.display==='none') return;
+      var existingBtn=b.querySelector('.copy');
+      if(existingBtn) existingBtn.remove();
+      var btn=doc.createElement('button');btn.className='copy';btn.textContent='Copy';
+      btn.addEventListener('click',function(){
+        var txt=b.cloneNode(true);var x=txt.querySelector('.copy');if(x)x.remove();
+        navigator.clipboard.writeText(txt.textContent.trim()).then(function(){
+          btn.textContent='Copied';btn.classList.add('copied');
+          setTimeout(function(){btn.textContent='Copy';btn.classList.remove('copied');},1400);
+        });
+      });
+      b.appendChild(btn);
+    });
   }
 
   // NDA tab modifications
