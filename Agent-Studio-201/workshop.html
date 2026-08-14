@@ -28,7 +28,7 @@ function injectToggle(doc,active){
 
   var card=doc.createElement('div');
   card.id='lab-toggle';
-  card.style.cssText='background:#F4F2FA;border:1px solid #e5e1f0;border-radius:13px;padding:28px 30px;margin:18px 0;box-shadow:0 2px 6px rgba(19,0,50,.05),0 10px 26px rgba(19,0,50,.05);';
+  card.style.cssText='background:#F4F2FA;border:1px solid #e5e1f0;border-radius:13px;padding:28px 30px;margin:18px 0;box-shadow:0 2px 6px rgba(19,0,50,.05),0 10px 26px rgba(19,0,50,.05);position:sticky;top:0;z-index:999;';
   card.innerHTML='<div style="display:inline-flex;gap:0;border:1px solid #e5e1f0;border-radius:9px;overflow:hidden;box-shadow:0 1px 3px rgba(19,0,50,.05);">'
     +'<button data-sc="nda" style="background:'+(active==='nda'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;color:'+(active==='nda'?'#fff':'#615a75')+';">Lab 1: NDA</button>'
     +'<button data-sc="procurement" style="background:'+(active==='procurement'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;color:'+(active==='procurement'?'#fff':'#615a75')+';">Lab 2: Procurement</button>'
@@ -232,6 +232,256 @@ function setupFrame(id){
         p.innerHTML='<b>Email with contract → Agreement Desk request created → Workflow triggered (request submitted) → Risk Analyst agent → branch on risk_level → Change Status.</b>';
       }
     });
+
+    // === Section 1.2: Remove JSON return instruction from agent prompt ===
+    var promptBlocks=doc.querySelectorAll('.block.prompt');
+    promptBlocks.forEach(function(b){
+      var t=b.innerHTML;
+      if(t.indexOf('Return the result as a single valid JSON')!==-1){
+        // Remove JSON shape and JSON-specific constraints
+        t=t.replace(/Return the result as a single valid JSON object[\s\S]*?If there are more than one document attached then analyze each one individually and return the above for each of them\./,'');
+        t=t.replace(/Constraints\n- Always return valid JSON\. Return nothing before or after the JSON object\.\n/,'Constraints\n');
+        t=t.replace(/- All five fields must be present on every response\. Use "none" or "not specified" rather than omitting a field\.\n/,'- All five fields must be present on every response. Use "none" or "not specified" rather than omitting a field.\n');
+        t=t.replace(/- Do not take external actions\. Only analyze and return JSON\./,'- Do not take external actions. Only analyze.');
+        b.innerHTML=t;
+      }
+    });
+
+    // Remove "Why the strictness matters" note after prompt
+    var notes=doc.querySelectorAll('.note');
+    notes.forEach(function(n){
+      if(n.textContent.indexOf('Why the strictness matters')!==-1) n.style.display='none';
+    });
+
+    // === Section 1.4: Simplify test section ===
+    var hChecks=doc.querySelectorAll('.h-check');
+    hChecks.forEach(function(hc){
+      var h3=hc.querySelector('h3');
+      if(h3 && h3.textContent.indexOf('Test until the JSON is clean')!==-1){
+        h3.innerHTML='1.4 &middot; Test the agent, then publish';
+        // Replace the ol after this h-check
+        var ol=hc.nextElementSibling;
+        while(ol && ol.tagName!=='OL') ol=ol.nextElementSibling;
+        if(ol && ol.tagName==='OL'){
+          ol.innerHTML='<li>Click <b>Test</b> and give the agent a short sample agreement - paste text, or attach one of your sample MSAs if the test UI allows.</li>'
+            +'<li>Verify the agent returns the correct <code>risk_level</code> and all five output fields are populated.</li>'
+            +'<li>Click <b>Save draft</b>, then <b>Publish</b> and confirm.</li>';
+        }
+      }
+    });
+
+    // Update checkpoint after 1.4
+    var expects=doc.querySelectorAll('.expect');
+    expects.forEach(function(e){
+      if(e.textContent.indexOf('reliably returns well-formed JSON')!==-1){
+        e.innerHTML='<b>Checkpoint:</b> a <b>published</b> agent that reliably returns the expected outputs, and is selectable from a workflow\'s agent step.';
+      }
+    });
+
+    // Reframe "Spend your time here" note
+    notes.forEach(function(n){
+      if(n.textContent.indexOf('Spend your time here rather than rushing to Stage 2')!==-1){
+        n.innerHTML='<b>Best practice for Agent Studio:</b> spend time testing before publishing. Every minute making an agent\'s output predictable saves ten minutes debugging downstream workflow branches that don\'t fire.';
+      }
+    });
+
+    // === Section 2.2: Update navigation ===
+    var allOls=doc.querySelectorAll('ol');
+    allOls.forEach(function(ol){
+      var lis=ol.querySelectorAll('li');
+      lis.forEach(function(li){
+        if(li.innerHTML.indexOf('Agreements → Maestro Workflows')!==-1 || li.innerHTML.indexOf('Agreements → Maestro Workflows')!==-1){
+          li.innerHTML='Navigate to the <b>Agreements</b> tab, then <b>Maestro Workflows</b> in the left menu.';
+        }
+        if(li.textContent.indexOf('Confirm the canvas shows the full shape')!==-1){
+          li.style.display='none';
+        }
+      });
+    });
+
+    // Update 2.2 checkpoint
+    expects.forEach(function(e){
+      if(e.textContent.indexOf('visible three-way branch')!==-1){
+        e.innerHTML='<b>Checkpoint:</b> the workflow is on your canvas as a <b>draft</b>, showing a start method of <b>From Agreement Desk</b> and the agent step visible.';
+      }
+    });
+
+    // === Section 2.4: Hide "Get Document from a Request" entirely ===
+    hChecks.forEach(function(hc){
+      var h3=hc.querySelector('h3');
+      if(h3 && h3.textContent.indexOf('Understand')!==-1 && h3.textContent.indexOf('Get Document')!==-1){
+        hc.style.display='none';
+        var el=hc.nextElementSibling;
+        while(el){
+          if(el.classList && el.classList.contains('h-check')) break;
+          if(el.tagName==='SECTION') break;
+          el.style.display='none';
+          el=el.nextElementSibling;
+        }
+      }
+    });
+
+    // === Section 2.5: Remove Document input row, Update Variable From XML, update output text ===
+    var allTables=doc.querySelectorAll('table');
+    allTables.forEach(function(t){
+      var rows=t.querySelectorAll('tr');
+      rows.forEach(function(r){
+        var cells=r.querySelectorAll('td');
+        if(cells.length>=2 && cells[0].textContent.indexOf('Document input')!==-1){
+          r.style.display='none';
+        }
+      });
+    });
+
+    // Update "How the agent's output reaches the branch"
+    allPs.forEach(function(p){
+      if(p.textContent.indexOf('agent returns a structured JSON response containing the five fields')!==-1){
+        p.innerHTML='The agent\'s outputs are captured via defined output fields (<code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>). The workflow captures those into variables of the same name so the branch can read them. Open the output mapping section and confirm the five variables are wired - nothing should show as unmapped.';
+      }
+    });
+
+    // Hide "A note on Update Variable From XML"
+    notes.forEach(function(n){
+      if(n.textContent.indexOf('Update Variable From XML')!==-1) n.style.display='none';
+    });
+
+    // === Section 2.6: Update branch table and remove fallback ===
+    hChecks.forEach(function(hc){
+      var h3=hc.querySelector('h3');
+      if(h3 && h3.textContent.indexOf('Walk the branch')!==-1){
+        h3.innerHTML='2.6 &middot; Walk the branch';
+      }
+    });
+
+    // Update the paragraph before branch table
+    allPs.forEach(function(p){
+      if(p.textContent.indexOf('Open the branch step. Confirm three cases')!==-1){
+        p.textContent='Open the branch step. Confirm two cases, then follow each path so you know what to expect in Stage 3.';
+      }
+    });
+
+    // Hide fallback message block and warning
+    var blocks=doc.querySelectorAll('.block');
+    blocks.forEach(function(b){
+      if(b.textContent.indexOf('We tried to process your request automatically')!==-1) b.style.display='none';
+    });
+    var lbls=doc.querySelectorAll('.lbl');
+    lbls.forEach(function(l){
+      if(l.textContent.indexOf('Message the fallback path sends')!==-1) l.style.display='none';
+    });
+    var warns=doc.querySelectorAll('.warn');
+    warns.forEach(function(w){
+      if(w.textContent.indexOf('Note how the fallback is a real case')!==-1) w.style.display='none';
+    });
+
+    // === Stage 3: Rewrite for email intake ===
+    var stage3=doc.getElementById('stage-3');
+    if(stage3){
+      // Update intro
+      var stage3Ps=stage3.querySelectorAll(':scope > p');
+      if(stage3Ps[0]) stage3Ps[0].innerHTML='Submit a request by emailing a contract to the Agreement Desk email address and confirm the workflow fires correctly. Each scenario follows the same shape: send an email with the document attached, then verify the request, workflow run, and outcome.';
+      if(stage3Ps[1]) stage3Ps[1].innerHTML='<b>Note:</b> if the document is not attached via email, the requester can also fill out the intake form directly in Agreement Desk as an alternative.';
+
+      // Hide the old document warning
+      var stage3Warns=stage3.querySelectorAll('.warn');
+      stage3Warns.forEach(function(w){
+        if(w.textContent.indexOf('The document is not an intake form field')!==-1) w.style.display='none';
+      });
+
+      // Scenario 1
+      hChecks.forEach(function(hc){
+        var h3=hc.querySelector('h3');
+        if(h3 && h3.textContent.indexOf('Scenario 1')!==-1 && h3.textContent.indexOf('LOW')!==-1){
+          var ol=hc.nextElementSibling;
+          while(ol && ol.tagName!=='OL') ol=ol.nextElementSibling;
+          if(ol){
+            ol.innerHTML='<li>Send an email with the <b>LOW</b> sample MSA attached to the Agreement Desk email address (found at Agreements → Requests → Settings → Email tab).</li>'
+              +'<li>Open <b>Agreement Desk</b> → <b>Requests</b> and find the newly auto-created request.</li>'
+              +'<li>Confirm the document is attached in the request\'s <b>Documents</b> tab.</li>'
+              +'<li>Navigate to <b>Agreements → Maestro Workflows</b>, find the workflow, click <b>View Runs</b>.</li>'
+              +'<li>Find the latest run and click the instance.</li>'
+              +'<li>Confirm the LOW branch fired and status changed to <b>Success</b>.</li>'
+              +'<li>Go back to the request in Agreement Desk → <b>Documents</b> tab → click <b>Send for Signature</b> → select the document → send.</li>';
+          }
+          // Hide the old form table
+          var next=ol?ol.nextElementSibling:null;
+          while(next){
+            if(next.tagName==='TABLE') next.style.display='none';
+            if(next.tagName==='OL' && next.getAttribute('start')==='4') {next.style.display='none'; break;}
+            next=next.nextElementSibling;
+          }
+        }
+      });
+
+      // Update Scenario 1 expect
+      var stage3Expects=stage3.querySelectorAll('.expect');
+      stage3Expects.forEach(function(e){
+        if(e.textContent.indexOf('Get Document returns the MSA')!==-1){
+          e.innerHTML='<b>Expect:</b> the workflow triggers → the agent reads the attached document → returns <code>risk_level = LOW</code> → the LOW branch runs → status changes to <b>Success</b>. You then manually send for signature from the Documents tab.';
+        }
+      });
+
+      // Scenario 2
+      var s2Ps=stage3.querySelectorAll('p.proc-only');
+      s2Ps.forEach(function(p){
+        if(p.textContent.indexOf('DataVault Dynamics')!==-1){
+          p.innerHTML='Send an email with the <b>HIGH</b> sample MSA attached to the Agreement Desk email address. Open Agreement Desk and find the new request. Check <b>View Runs</b> for the workflow.';
+        }
+      });
+      stage3Expects.forEach(function(e){
+        if(e.textContent.indexOf('the review branch runs')!==-1){
+          e.innerHTML='<b>Expect:</b> the agent returns <code>MEDIUM</code> or <code>HIGH</code> → the MED/HIGH branch runs → owner assigned (Legal team) → request message sent → status changes to <b>Pending Legal Review</b>.';
+        }
+      });
+
+      // Scenario 3
+      var s3Hchecks=stage3.querySelectorAll('.h-check');
+      s3Hchecks.forEach(function(hc){
+        var h3=hc.querySelector('h3');
+        if(h3 && h3.textContent.indexOf('Scenario 3')!==-1){
+          var p=hc.nextElementSibling;
+          if(p && p.tagName==='P') p.textContent='Send an email with no attachment, or with a deliberately unusable file (an empty document, or an image with no readable text).';
+        }
+      });
+      stage3Expects.forEach(function(e){
+        if(e.textContent.indexOf('Get Document or the agent step fails')!==-1){
+          e.innerHTML='<b>Expect:</b> the agent cannot determine risk from the missing/unreadable document → the workflow handles it gracefully.';
+        }
+      });
+
+      // Add Scenario 4 (optional) after Scenario 3
+      var s3Note=null;
+      notes.forEach(function(n){
+        if(n.textContent.indexOf('Optional fourth run')!==-1){
+          n.innerHTML='<b>Scenario 4 (optional) - Manual request via UI:</b><ol style="margin:8px 0 0;padding-left:18px;">'
+            +'<li>Go to <b>Requests</b> → click <b>New request</b> → select the Request Type.</li>'
+            +'<li>Fill out the intake form fields manually and submit.</li>'
+            +'<li>Attach a document via <b>Upload documents</b> on the Documents tab.</li>'
+            +'<li>Confirm the workflow triggers and processes as expected.</li></ol>';
+        }
+      });
+
+      // Update validation checklist (3.4)
+      var checklistCard=null;
+      var stage3Cards=stage3.querySelectorAll('.card');
+      stage3Cards.forEach(function(c){
+        var lis=c.querySelectorAll('li');
+        lis.forEach(function(li){
+          if(li.textContent.indexOf('returns valid JSON with all five fields')!==-1){
+            li.innerHTML='<b>Agent</b> - returns the expected outputs with all five fields; <code>risk_level</code> is always one of the three literal values; capabilities let it read the document but not send anything.';
+          }
+          if(li.textContent.indexOf('Get Document')!==-1 && li.textContent.indexOf('request_document')!==-1){
+            li.style.display='none';
+          }
+          if(li.textContent.indexOf('eSignature')!==-1 && li.textContent.indexOf('envelopes carry')!==-1){
+            li.style.display='none';
+          }
+          if(li.textContent.indexOf('all three branches are reachable')!==-1){
+            li.innerHTML='<b>Workflow</b> - published, not draft; the trigger fires only for the right Request Type; both branches are reachable; the agent reads the attached document correctly.';
+          }
+        });
+      });
+    }
   }
 
   // NDA tab modifications
