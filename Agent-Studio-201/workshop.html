@@ -60,13 +60,32 @@ function setupFrame(id){
 
   var tab=id.replace('frame-','');
 
-  // Hide the persona card in procurement page
+  // Hide the persona card and prerequisites in procurement page
   if(tab==='procurement'){
     var personaCards=doc.querySelectorAll('.card.tint');
     personaCards.forEach(function(c){
       if(c.querySelector('#persona')){c.style.display='none';}
     });
     doc.body.setAttribute('data-persona','procurement');
+
+    // Hide prerequisites section (0.6)
+    var headings=doc.querySelectorAll('h3');
+    headings.forEach(function(h){
+      if(h.textContent.indexOf('Prerequisites')!==-1){
+        var el=h;
+        while(el){
+          var next=el.nextElementSibling;
+          if(!next) break;
+          if(next.tagName==='H3') break;
+          next.style.display='none';
+          el=next;
+        }
+        h.style.display='none';
+        if(h.previousElementSibling && h.previousElementSibling.tagName==='H3' && h.previousElementSibling.innerHTML.trim()==='<br>'){
+          h.previousElementSibling.style.display='none';
+        }
+      }
+    });
   }
 
   // Find insertion point (after hero in main)
