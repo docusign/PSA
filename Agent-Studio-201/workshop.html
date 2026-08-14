@@ -88,6 +88,61 @@ function setupFrame(id){
     });
   }
 
+  // Replace NDA prerequisites with step-by-step format
+  if(tab==='nda'){
+    var ndaHeadings=doc.querySelectorAll('h3');
+    ndaHeadings.forEach(function(h){
+      if(h.textContent.indexOf('Prerequisites')!==-1){
+        // Hide old prereq content
+        var el=h.nextElementSibling;
+        while(el){
+          if(el.tagName==='H3') break;
+          el.style.display='none';
+          el=el.nextElementSibling;
+        }
+        // Replace heading content and inject new prereqs
+        h.innerHTML='0.5 &middot; Prerequisites';
+        var prereqHTML=doc.createElement('div');
+        prereqHTML.id='new-prereqs';
+        if(doc.getElementById('new-prereqs')) return;
+        prereqHTML.innerHTML=''
+          +'<p style="margin:8px 0;">Complete these steps before the workshop begins. Everything uses synthetic data only - no production accounts or real party data.</p>'
+          +'<div style="background:#fffbeb;border:1.5px solid #f59e0b;border-radius:11px;padding:12px 16px;margin:12px 0 16px;font-size:13.5px;"><b>Warning:</b> All data used in this workshop is for demonstration purposes only. Do not use real customer or partner information.</div>'
+          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">1. Set up your Docusign sandbox</h4>'
+          +'<ol style="margin:0 0 12px;padding-left:20px;">'
+          +'<li>Log in to your Docusign developer sandbox at <a href="https://apps-d.docusign.com" target="_blank">apps-d.docusign.com</a>.</li>'
+          +'<li>Confirm you can see the <b>Agents</b> tab (under Automation). If not, ask your facilitator to enable Agent Studio on your account.</li>'
+          +'<li>Confirm <b>Agreement Manager</b> is accessible from the left navigation.</li>'
+          +'<li>Confirm <b>Ask Iris Chat</b> is available (bottom-right chat icon) - you will use this to trigger the published agent.</li>'
+          +'<li>For Part 2 (advanced): confirm <b>eSignature</b> is enabled with permission to create Templates and send envelopes.</li>'
+          +'</ol>'
+          +'<div style="background:#f8f8f8;border:1px solid #e5e1f0;border-radius:10px;padding:14px 16px;margin:10px 0;">'
+          +'<div style="font-size:12px;font-weight:600;color:#615a75;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Admin step</div>'
+          +'<ol style="margin:0;padding-left:20px;font-size:13.5px;">'
+          +'<li>Open the <b>Admin</b> tab at <a href="https://apps-d.docusign.com/admin/admin-dashboard" target="_blank">apps-d.docusign.com/admin/admin-dashboard</a>.</li>'
+          +'<li>Go to <b>Users</b> and find the participant\'s account row.</li>'
+          +'<li>Click <b>Actions</b> next to their name, then select <b>Manage AI Agents Access</b>.</li>'
+          +'<li>Under <b>AI Contract Agents Access</b>, enable: <b>Create new AI contract agents</b> and <b>Share, delete, and configure AI contract agents</b>.</li>'
+          +'<li>Click <b>Save</b>.</li>'
+          +'</ol></div>'
+          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">2. Upload sample agreements</h4>'
+          +'<ol style="margin:0 0 12px;padding-left:20px;">'
+          +'<li>Download the workshop kit from the GitHub repo your facilitator provides.</li>'
+          +'<li>Navigate to <b>Agreement Manager</b> in your sandbox.</li>'
+          +'<li>Upload the sample NDA PDFs so the agent\'s search capability has documents to find.</li>'
+          +'<li>Confirm the agreements appear in the list with their expected statuses (Active, Expired).</li>'
+          +'</ol>'
+          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">3. Foundational knowledge</h4>'
+          +'<ul style="margin:0;padding-left:20px;">'
+          +'<li>Agent Studio basics: what an agent is, how capabilities are added, and how the Test panel works.</li>'
+          +'<li>Agreement Manager basics: how agreements and their statuses (Active, Expired, Terminated) are stored.</li>'
+          +'<li>For Part 2: eSignature Templates and Envelope Templates, signer roles, and routing.</li>'
+          +'</ul>';
+        h.parentNode.insertBefore(prereqHTML,h.nextSibling);
+      }
+    });
+  }
+
   // Find insertion point (after hero in main)
   var main=doc.querySelector('main');
   if(!main) return;
