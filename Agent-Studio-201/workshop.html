@@ -87,15 +87,14 @@ function setupFrame(id){
       }
     });
 
-    // Update decision tree: LOW risk path
-    // Update section 2.6 table row for Low risk
+    // Update decision tree: LOW risk path (status Approved, assign owner, straight to signature)
     var tables=doc.querySelectorAll('table');
     tables.forEach(function(t){
       var rows=t.querySelectorAll('tr');
       rows.forEach(function(r){
         var cells=r.querySelectorAll('td');
         if(cells.length>=3 && cells[0].textContent.indexOf('Low risk')!==-1){
-          cells[2].innerHTML='<b>Change Owner</b>, then <b>Create Approval Request</b>, then <b>Send Documents for Signature</b> using <code>request_document</code>, then set the Desk status to Onboarded / Signed.';
+          cells[2].innerHTML='<b>Change Request Status</b> to Approved, <b>Assign Owner</b>, then <b>Send Documents for Signature</b> using <code>request_document</code>. Straight to eSignature - no human step.';
         }
       });
     });
@@ -108,7 +107,7 @@ function setupFrame(id){
         var n=item.querySelector('.n');
         if(n && n.textContent==='4'){
           var inner=item.querySelector('div');
-          if(inner) inner.innerHTML='<b>Branch on risk_level</b>LOW changes owner, creates an approval request, then sends for signature; MEDIUM or HIGH waits for a human; empty or invalid falls to the defensive path. The agent scores - the workflow decides.';
+          if(inner) inner.innerHTML='<b>Branch on risk_level</b>LOW sets status to Approved, assigns owner, and goes straight to signature - no human step; MEDIUM or HIGH waits for a human; empty or invalid falls to the defensive path. The agent scores - the workflow decides.';
         }
       });
     });
@@ -119,7 +118,7 @@ function setupFrame(id){
       var ps=card.querySelectorAll('p');
       ps.forEach(function(p){
         if(p.textContent.indexOf('LOW risk goes straight to the vendor for signature')!==-1){
-          p.innerHTML=p.innerHTML.replace('LOW risk goes straight to the vendor for signature','LOW risk changes owner, creates an approval request, and then sends to the vendor for signature');
+          p.innerHTML=p.innerHTML.replace('LOW risk goes straight to the vendor for signature','LOW risk sets status to Approved, assigns an owner, and goes straight to the vendor for signature');
         }
       });
     });
@@ -128,7 +127,7 @@ function setupFrame(id){
     var allPs=doc.querySelectorAll('p');
     allPs.forEach(function(p){
       if(p.textContent.indexOf('branch on risk')!==-1 && p.textContent.indexOf('Send Documents for Signature')!==-1){
-        p.innerHTML='<b>Create request → upload contract → Desk request event → Workflow Builder → Get Document from a Request → Risk Analyst agent → branch on risk → Change Owner → Create Approval Request → Send Documents for Signature → update Desk status.</b>';
+        p.innerHTML='<b>Create request → upload contract → Desk request event → Workflow Builder → Get Document from a Request → Risk Analyst agent → branch on risk → Change Status (Approved) → Assign Owner → Send Documents for Signature → update Desk status.</b>';
       }
     });
   }
