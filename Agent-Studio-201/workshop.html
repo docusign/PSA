@@ -4,78 +4,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Agent Studio 201 - Workshop</title>
 <style>
-@font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-Light.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap;}
-@font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-Medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap;}
-@font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-SemiBold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap;}
-
-:root{
-  --indigo:#4C00FF;
-  --ink:#130032;
-  --surface:#F4F2FA;
-  --hairline:#e5e1f0;
-  --muted:#615a75;
-  --font:'DSIndigo',Arial,Helvetica,sans-serif;
-}
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;}
-body{font-family:var(--font);font-weight:300;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;}
-
-.picker{
-  background:var(--surface);
-  border-bottom:1px solid var(--hairline);
-  padding:18px 30px;
-  display:flex;
-  align-items:center;
-  gap:18px;
-}
-.picker h3{font-size:16px;font-weight:600;color:var(--ink);}
-.toggle{
-  display:inline-flex;
-  gap:0;
-  border:1px solid var(--hairline);
-  border-radius:9px;
-  overflow:hidden;
-  box-shadow:0 1px 3px rgba(19,0,50,.05);
-}
-.toggle button{
-  background:#fff;
-  border:none;
-  padding:8px 16px;
-  font-family:var(--font);
-  font-size:13.5px;
-  font-weight:500;
-  cursor:pointer;
-  color:var(--muted);
-  transition:background .16s ease,color .16s ease;
-}
-.toggle button:not(.on):hover{background:#f2eefc;color:var(--ink);}
-.toggle button.on{background:var(--indigo);color:#fff;}
-
-.frame-wrap{
-  position:relative;
-  width:100%;
-  height:calc(100vh - 62px);
-}
-.frame-wrap iframe{
-  position:absolute;
-  top:0;left:0;
-  width:100%;
-  height:100%;
-  border:none;
-  display:none;
-}
+body{background:#fff;}
+.frame-wrap{position:relative;width:100%;height:100vh;}
+.frame-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:none;}
 .frame-wrap iframe.active{display:block;}
 </style>
 </head>
 <body>
-
-<div class="picker">
-  <h3>Pick your scenario</h3>
-  <div class="toggle" id="toggle">
-    <button data-tab="nda" class="on">NDA</button>
-    <button data-tab="procurement">Procurement</button>
-  </div>
-</div>
 
 <div class="frame-wrap">
   <iframe id="frame-nda" class="active" src="NDA-Assistant-Flow.html"></iframe>
@@ -83,14 +20,69 @@ body{font-family:var(--font);font-weight:300;color:var(--ink);background:#fff;-w
 </div>
 
 <script>
-document.querySelectorAll('#toggle button').forEach(function(btn){
-  btn.addEventListener('click',function(){
-    document.querySelectorAll('#toggle button').forEach(function(b){b.classList.remove('on');});
-    document.querySelectorAll('.frame-wrap iframe').forEach(function(f){f.classList.remove('active');});
-    btn.classList.add('on');
-    document.getElementById('frame-'+btn.dataset.tab).classList.add('active');
+var current='nda';
+
+function injectToggle(doc,active){
+  var existing=doc.getElementById('scenario-toggle');
+  if(existing) existing.parentNode.removeChild(existing);
+
+  var card=doc.createElement('div');
+  card.id='scenario-toggle';
+  card.style.cssText='background:#F4F2FA;border:1px solid #e5e1f0;border-radius:13px;padding:28px 30px;margin:18px 0;box-shadow:0 2px 6px rgba(19,0,50,.05),0 10px 26px rgba(19,0,50,.05);';
+  card.innerHTML='<h3 style="font-family:DSIndigo,Arial,sans-serif;font-size:17.5px;font-weight:600;color:#130032;margin:0 0 8px;">Pick your scenario</h3>'
+    +'<p style="margin:4px 0 0;font-size:14px;font-family:DSIndigo,Arial,sans-serif;color:#1c1433;">Two hands-on labs. NDA builds an interactive search-to-draft agent in chat. Procurement builds a risk-based routing workflow with Agreement Desk and Maestro.</p>'
+    +'<div style="display:inline-flex;gap:0;border:1px solid #e5e1f0;border-radius:9px;overflow:hidden;margin:8px 0 0;box-shadow:0 1px 3px rgba(19,0,50,.05);">'
+    +'<button data-sc="nda" style="background:'+(active==='nda'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;color:'+(active==='nda'?'#fff':'#615a75')+';">NDA</button>'
+    +'<button data-sc="procurement" style="background:'+(active==='procurement'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;color:'+(active==='procurement'?'#fff':'#615a75')+';">Procurement</button>'
+    +'</div>';
+
+  var btns=card.querySelectorAll('button');
+  btns.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      switchTo(btn.getAttribute('data-sc'));
+    });
   });
-});
+
+  return card;
+}
+
+function switchTo(tab){
+  current=tab;
+  document.querySelectorAll('.frame-wrap iframe').forEach(function(f){f.classList.remove('active');});
+  document.getElementById('frame-'+tab).classList.add('active');
+  setupFrame('frame-nda');
+  setupFrame('frame-procurement');
+}
+
+function setupFrame(id){
+  var iframe=document.getElementById(id);
+  var doc;
+  try{doc=iframe.contentDocument||iframe.contentWindow.document;}catch(e){return;}
+  if(!doc||!doc.body) return;
+
+  var tab=id.replace('frame-','');
+
+  // Hide the persona card in procurement page
+  if(tab==='procurement'){
+    var personaCards=doc.querySelectorAll('.card.tint');
+    personaCards.forEach(function(c){
+      if(c.querySelector('#persona')){c.style.display='none';}
+    });
+    doc.body.setAttribute('data-persona','procurement');
+  }
+
+  // Find insertion point (after hero in main)
+  var main=doc.querySelector('main');
+  if(!main) return;
+  var hero=main.querySelector('.hero');
+  if(!hero) return;
+
+  var toggle=injectToggle(doc,current);
+  hero.parentNode.insertBefore(toggle,hero.nextSibling);
+}
+
+document.getElementById('frame-nda').addEventListener('load',function(){setupFrame('frame-nda');});
+document.getElementById('frame-procurement').addEventListener('load',function(){setupFrame('frame-procurement');});
 </script>
 </body>
 </html>
