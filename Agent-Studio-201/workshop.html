@@ -87,6 +87,23 @@ function setupFrame(id){
       }
     });
 
+    // Fix broken resource links
+    var sideFt=doc.querySelector('.side-foot');
+    if(sideFt){
+      var links=sideFt.querySelectorAll('a');
+      var newUrls=[
+        ['AI Agent Video Playlist','https://dsucustomers.docusign.com/video-playlist-docusign-ai-agents'],
+        ['Agent Studio Support Article','https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43201480b341&topicId=conb2716952-a0f6-4323-a13e-9d23dd290fb0.html&_LANG=enus'],
+        ['Where Agents Run','https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43201480b341&topicId=concf520b87-7851-4294-8f82-7e6cc377daaf.html&_LANG=enus'],
+        ['Agent Setup for Administrators','https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43201480b341&topicId=task-4922.html&_LANG=enus'],
+        ['Ready to Deploy Agent Catalog','https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43201480b341&topicId=ref1d59490e-be57-4db7-8542-ec0cc2d64aff.html&_LANG=enus']
+      ];
+      for(var i=0;i<links.length&&i<newUrls.length;i++){
+        links[i].href=newUrls[i][1];
+        links[i].textContent=newUrls[i][0];
+      }
+    }
+
     // Rebuild SVG diagram for new flow
     var svg=doc.querySelector('svg[viewBox]');
     if(svg && !doc.getElementById('nodeChangeStatus')){
