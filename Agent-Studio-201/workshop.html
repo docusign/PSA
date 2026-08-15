@@ -107,36 +107,34 @@ function setupFrame(id){
           +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">1. Active Docusign developer account</h4>'
           +'<ol style="margin:0 0 12px;padding-left:20px;">'
           +'<li>Log in to your Docusign developer sandbox at <a href="https://apps-d.docusign.com" target="_blank">apps-d.docusign.com</a>.</li>'
-          +'<li>Confirm you can see the <b>Automation</b> tab in the top navigation. If not, ask your facilitator to enable it on your account.</li>'
+          +'<li>Confirm you can see the <b>Automations</b> tab in the top navigation. If not, ask your facilitator to enable it on your account.</li>'
           +'</ol>'
           +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">2. Admin setup - enable Agent Studio access</h4>'
           +'<div style="background:#f8f8f8;border:1px solid #e5e1f0;border-radius:10px;padding:14px 16px;margin:10px 0;">'
           +'<ol style="margin:0;padding-left:20px;font-size:13.5px;">'
           +'<li>Open the <b>Admin</b> tab at <a href="https://apps-d.docusign.com/admin/admin-dashboard" target="_blank">apps-d.docusign.com/admin/admin-dashboard</a>.</li>'
+          +'<li>Go to <b>AI Control Settings</b> and ensure Agent and chat capabilities are turned on.</li>'
+          +'<li>In case they are turned off by default, select <b>Turn On Now</b> and click <b>Save</b>.</li>'
           +'<li>Go to <b>Users</b> and find the participant\'s account row.</li>'
           +'<li>Click <b>Actions</b> next to their name, then select <b>Manage AI Agents Access</b>.</li>'
-          +'<li>Under <b>AI Contract Agents Access</b>, enable: <b>Create new AI contract agents</b> and <b>Share, delete, and configure AI contract agents</b>.</li>'
+          +'<li>Under <b>AI Agents Access</b>, enable: <b>Create new AI contract agents</b> and <b>Share, delete, and configure AI contract agents</b>.</li>'
           +'<li>Click <b>Save</b>.</li>'
-          +'<li>Verify the agent is active: go back to the main app, open the <b>Automation</b> tab, and confirm you can see the <b>Agents</b> section.</li>'
+          +'<li>Verify the agent is active: go back to the main app, open the <b>Automations</b> tab, and confirm you can see the <b>Agents</b> section.</li>'
           +'</ol></div>'
           +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">3. Import the workflow</h4>'
           +'<ol style="margin:0 0 12px;padding-left:20px;">'
           +'<li>Navigate to <b>Agreements</b> tab, then <b>Maestro Workflows</b> in the left menu.</li>'
           +'<li>Click <b>Import Workflow</b>.</li>'
-          +'<li>Upload the <code>risk_lab_workflow.zip</code> provided by your facilitator. Leave the file zipped - do not extract it first.</li>'
+          +'<li>Upload the workflow zip from the workshop kit provided by your facilitator. Leave the file zipped - do not extract it first.</li>'
           +'<li>Confirm the workflow appears on your canvas as a draft.</li>'
+          +'<li>Click <b>Save</b>, then <b>Publish</b> the workflow.</li>'
           +'</ol>'
           +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">4. Upload sample agreements</h4>'
           +'<ol style="margin:0 0 12px;padding-left:20px;">'
           +'<li>Go to the <b>Agreements</b> tab.</li>'
           +'<li>Click <b>Completed</b> in the left pane.</li>'
-          +'<li>Click the <b>+</b> icon and upload the following three files provided by your facilitator:</li>'
-          +'</ol>'
-          +'<ul style="margin:0 0 12px;padding-left:36px;">'
-          +'<li><code>msa_high_risk.pdf</code></li>'
-          +'<li><code>msa_medium_risk.pdf</code></li>'
-          +'<li><code>msa_low_risk.pdf</code></li>'
-          +'</ul>';
+          +'<li>Click the <b>+</b> icon and upload the sample agreements provided in the workshop kit.</li>'
+          +'</ol>';
         h.parentNode.insertBefore(prereqDiv,h.nextSibling);
       }
     });
@@ -256,6 +254,15 @@ function setupFrame(id){
       var ctrlMissing=doc.getElementById('ctrlMissing');
       var ctrlRisk=doc.getElementById('ctrlRisk');
       if(ctrlMissing) ctrlMissing.parentElement.style.display='none';
+      // Rename dropdown options
+      if(ctrlRisk){
+        var riskOpts=ctrlRisk.querySelectorAll('option');
+        riskOpts.forEach(function(o){
+          if(o.value==='low') o.textContent='LOW - Auto Approved';
+          if(o.value==='medium') o.textContent='MEDIUM/HIGH - Route for Approvals';
+          if(o.value==='high') o.textContent='HIGH - Route for Approvals';
+        });
+      }
       if(ctrlRisk){
         ctrlRisk.removeEventListener('change',ctrlRisk._handler);
         ctrlRisk._handler=function(){
@@ -303,29 +310,41 @@ function setupFrame(id){
       });
     });
 
-    // Update 0.4 Reading the diagram
-    var diagramCards=doc.querySelectorAll('.card.tint.diagram');
-    diagramCards.forEach(function(card){
-      var items=card.querySelectorAll('div');
-      items.forEach(function(item){
-        var n=item.querySelector('.n');
-        if(n && n.textContent==='2'){
-          var inner=item.querySelector('div');
-          if(inner) inner.innerHTML='<b>Risk Analyst agent</b>the agent reads the document attached to the request and returns a structured response containing <code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, and <code>discount</code>.';
+    // Hide 0.4 "Reading the diagram" section entirely (merged with 0.2)
+    var headings=doc.querySelectorAll('h3');
+    headings.forEach(function(h){
+      if(h.textContent.indexOf('Reading the diagram')!==-1){
+        // Hide the br h3 before it
+        if(h.previousElementSibling && h.previousElementSibling.tagName==='H3' && h.previousElementSibling.innerHTML.trim()==='<br>'){
+          h.previousElementSibling.style.display='none';
         }
-        if(n && n.textContent==='3'){
-          var inner=item.querySelector('div');
-          if(inner) inner.innerHTML='<b>Branch on risk_level</b>LOW changes status to Success (owner sends for eSign); MEDIUM or HIGH assigns Legal, sends a message, and sets status to Pending Legal Review. The agent scores - the workflow decides.';
+        h.style.display='none';
+        var el=h.nextElementSibling;
+        while(el && el.tagName!=='H3'){
+          el.style.display='none';
+          el=el.nextElementSibling;
         }
-        if(n && n.textContent==='4'){
-          var inner=item.querySelector('div');
-          if(inner) item.style.display='none';
-        }
-        if(n && n.textContent==='5'){
-          var inner=item.querySelector('div');
-          if(inner) item.style.display='none';
-        }
-      });
+      }
+    });
+
+    // Renumber 0.5 Learning objectives -> 0.4
+    headings.forEach(function(h){
+      if(h.textContent.indexOf('Learning objectives')!==-1){
+        h.textContent='0.4 · Learning objectives';
+      }
+    });
+
+    // Update Learning objectives 2 and 3
+    var objs=doc.querySelectorAll('.obj');
+    objs.forEach(function(o){
+      var lab=o.querySelector('.lab');
+      if(!lab) return;
+      if(lab.textContent==='Objective 2'){
+        o.innerHTML='<div class="lab">Objective 2</div><b>Build a Risk Analyst agent in Agent Studio</b><br>Write instructions and add capabilities that reliably evaluate the request and respond with risk analysis.';
+      }
+      if(lab.textContent==='Objective 3'){
+        o.innerHTML='<div class="lab">Objective 3</div><b>Orchestrate the agent inside Workflow Builder</b><br>Automatically trigger the workflow on Agreement Desk request submission, invoke the agent and capture its structured output into variables, and branch deterministically.';
+      }
     });
 
     // Update scenario description
@@ -362,7 +381,48 @@ function setupFrame(id){
       if(img.alt && img.alt.indexOf('Vendor and Renewal Risk Analyst agent configuration')!==-1) img.style.display='none';
     });
 
-    // === Section 1.2: Rename to "Define what starts this agent", inject new steps before prompt ===
+    // === Stage 1 intro: update text ===
+    allPs.forEach(function(p){
+      if(p.textContent.indexOf('the workflow you import in Stage 2 needs to point at it')!==-1){
+        p.innerHTML=p.innerHTML.replace('the workflow you import in Stage 2 needs to point at it','the workflow you configure in Stage 2 needs to point at it');
+      }
+      if(p.textContent.indexOf('One agent serves both motions')!==-1){
+        p.style.display='none';
+      }
+    });
+
+    // === Section 1.1: Remove step 1 (sign in), fix Automation->Automations, update name/desc, remove Role ===
+    var stage1Ols=doc.querySelectorAll('#stage-1 ol');
+    if(stage1Ols[0]){
+      var lis=stage1Ols[0].querySelectorAll('li');
+      // Hide step 1 "Sign in to your Docusign developer account"
+      if(lis[0] && lis[0].textContent.indexOf('Sign in')!==-1) lis[0].style.display='none';
+      // Fix step 2 Automation -> Automations
+      if(lis[1]) lis[1].innerHTML=lis[1].innerHTML.replace('Automation)','Automations)');
+    }
+    // Update 1.1 table: name, remove Role, update Description
+    var stage1Tables=doc.querySelectorAll('#stage-1 table');
+    if(stage1Tables[0]){
+      var rows=stage1Tables[0].querySelectorAll('tr');
+      rows.forEach(function(r){
+        var cells=r.querySelectorAll('td');
+        if(cells.length>=2){
+          if(cells[0].textContent.indexOf('Name')!==-1){
+            cells[1].innerHTML='<code>Vendor and Renewal Risk Analyst</code>';
+          }
+          if(cells[0].textContent.indexOf('Role')!==-1){
+            r.style.display='none';
+          }
+          if(cells[0].textContent.indexOf('Description')!==-1){
+            cells[1].textContent='Review contracts for vendor onboarding and renewals. Extracts key terms and classifies risk; does not negotiate or send.';
+          }
+        }
+      });
+    }
+
+    // === Section 1.2: update output table header "Type" -> "Format", values "Text" -> "String" ===
+
+    // === Section 1.4: Update capabilities step ===
     var hChecks=doc.querySelectorAll('.h-check');
     hChecks.forEach(function(hc){
       var h3=hc.querySelector('h3');
@@ -387,12 +447,12 @@ function setupFrame(id){
           +'<li>Add the following outputs:</li>'
           +'</ol>'
           +'<table style="margin:10px 0;"><tbody>'
-          +'<tr><th>Output name</th><th>Type</th></tr>'
-          +'<tr><td><code>risk_level</code></td><td>Text</td></tr>'
-          +'<tr><td><code>liability_cap</code></td><td>Text</td></tr>'
-          +'<tr><td><code>governing_law</code></td><td>Text</td></tr>'
-          +'<tr><td><code>term</code></td><td>Text</td></tr>'
-          +'<tr><td><code>discount</code></td><td>Text</td></tr>'
+          +'<tr><th>Output name</th><th>Format</th></tr>'
+          +'<tr><td><code>risk_level</code></td><td>String</td></tr>'
+          +'<tr><td><code>liability_cap</code></td><td>String</td></tr>'
+          +'<tr><td><code>governing_law</code></td><td>String</td></tr>'
+          +'<tr><td><code>term</code></td><td>String</td></tr>'
+          +'<tr><td><code>discount</code></td><td>String</td></tr>'
           +'</tbody></table>'
           +'<ol start="6"><li>Scroll to the bottom and click <b>Save</b>.</li></ol>';
         hc.parentNode.insertBefore(newContent,hc.nextElementSibling);
@@ -436,12 +496,12 @@ function setupFrame(id){
             el.style.display='none';
             // Insert 1.4 capabilities section after this
             var capSection=doc.createElement('div');
-            capSection.innerHTML='<div class="h-check"><input type="checkbox" data-stage="1"><div><h3 style="display:inline">1.4 &middot; Configure capabilities &amp; knowledge</h3></div></div>'
-              +'<p>Configure what the agent is <i>allowed to do</i> and what it <i>already knows</i>.</p>'
-              +'<table><tbody><tr><th>Setting</th><th>What to configure</th></tr>'
-              +'<tr><td><b>Capabilities</b></td><td>Click <b>Add</b> and enable <code>Find Agreements</code> so the agent can open the contract the workflow passes it. Leave send and signature capabilities <b>off</b> - this agent only analyzes.</td></tr>'
-              +'<tr><td><b>Knowledge Sources</b></td><td>Optional for this lab. In production this is where your risk playbook lives, so thresholds can change without editing Instructions.</td></tr>'
-              +'</tbody></table>';
+            capSection.innerHTML='<div class="h-check"><input type="checkbox" data-stage="1"><div><h3 style="display:inline">1.4 &middot; Add capabilities to the agent</h3></div></div>'
+              +'<ol style="margin:10px 0 0;">'
+              +'<li>Under <b>Capabilities</b>, click <b>Add</b>.</li>'
+              +'<li>Select <b>Manage Requests</b>, <b>Find Agreements</b>, and <b>Review Documents</b>.</li>'
+              +'<li>Click <b>Add Capabilities</b>.</li>'
+              +'</ol>';
             el.parentNode.insertBefore(capSection,el.nextSibling);
             break;
           }
@@ -469,19 +529,20 @@ function setupFrame(id){
         var ol=hc.nextElementSibling;
         while(ol && ol.tagName!=='OL') ol=ol.nextElementSibling;
         if(ol && ol.tagName==='OL'){
-          ol.innerHTML='<li>Click <b>Test</b> and give the agent a short sample agreement.</li>'
+          ol.innerHTML='<li>Click <b>Test</b> to test the agent before publishing.</li>'
             +'<li>Click the <b>+</b> icon, click <b>Add Agreements</b>, and search for one of the agreements uploaded in the prerequisites (e.g. <code>msa_low_risk</code>).</li>'
+            +'<li>Run the prompt: <code>Analyze this vendor contract against our procurement risk checklist. Return risk_level, liability_cap, governing_law, term, and discount. Flag violations with severity and section reference.</code></li>'
             +'<li>Verify the agent returns the correct <code>risk_level</code> and all five output fields are populated.</li>'
-            +'<li>Click <b>Save draft</b>, then <b>Publish</b> and confirm.</li>';
+            +'<li>Click <b>Save draft</b>, then <b>Publish</b>.</li>';
         }
       }
     });
 
-    // Update checkpoint after 1.4
+    // Hide checkpoint after 1.5 (removed per feedback)
     var expects=doc.querySelectorAll('.expect');
     expects.forEach(function(e){
-      if(e.textContent.indexOf('reliably returns well-formed JSON')!==-1){
-        e.innerHTML='<b>Checkpoint:</b> a <b>published</b> agent that reliably returns the expected outputs, and is selectable from a workflow\'s agent step.';
+      if(e.textContent.indexOf('reliably returns well-formed JSON')!==-1 || e.textContent.indexOf('reliably returns the expected outputs')!==-1){
+        e.style.display='none';
       }
     });
 
@@ -507,7 +568,7 @@ function setupFrame(id){
         var ol=hc.nextElementSibling;
         while(ol && ol.tagName!=='OL') ol=ol.nextElementSibling;
         if(ol){
-          ol.innerHTML='<li>Go to the <b>Agreements</b> tab of your developer account and click on <b>Requests</b>.</li>'
+          ol.innerHTML='<li>Navigate to the <b>Agreements</b> tab and click on <b>Requests</b>.</li>'
             +'<li>Open the <b>Settings</b> tab (top-right).</li>'
             +'<li>Under <b>Request Types</b>, verify that you can see <b>Agent Studio - Risk Lab Request Type</b> and that it is <b>active</b>.</li>';
         }
