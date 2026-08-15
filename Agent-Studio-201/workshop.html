@@ -156,6 +156,13 @@ function setupFrame(id){
         links[i].href=newUrls[i][1];
         links[i].textContent=newUrls[i][0];
       }
+      // Remove "Fontara is an approved demo company" text
+      var footText=sideFt.childNodes;
+      for(var i=0;i<footText.length;i++){
+        if(footText[i].nodeType===3 && footText[i].textContent.indexOf('Fontara')!==-1){
+          footText[i].textContent=footText[i].textContent.replace('Synthetic data only. Fontara is an approved demo company.','Synthetic data only.');
+        }
+      }
     }
 
     // Rebuild SVG diagram for new flow
@@ -177,7 +184,7 @@ function setupFrame(id){
       ad.setAttribute('x','30');ad.setAttribute('y','165');ad.setAttribute('width','150');ad.setAttribute('height','64');ad.setAttribute('rx','12');ad.setAttribute('fill','#4C00FF');
       svg.appendChild(ad);
       var adT1=document.createElementNS(ns,'text');adT1.setAttribute('x','105');adT1.setAttribute('y','192');adT1.setAttribute('text-anchor','middle');adT1.setAttribute('fill','#fff');adT1.setAttribute('font-size','13');adT1.setAttribute('font-weight','600');adT1.textContent='Agreement Desk';svg.appendChild(adT1);
-      var adT2=document.createElementNS(ns,'text');adT2.setAttribute('x','105');adT2.setAttribute('y','209');adT2.setAttribute('text-anchor','middle');adT2.setAttribute('fill','#e7deff');adT2.setAttribute('font-size','10.5');adT2.textContent='Email intake';svg.appendChild(adT2);
+      var adT2=document.createElementNS(ns,'text');adT2.setAttribute('x','105');adT2.setAttribute('y','209');adT2.setAttribute('text-anchor','middle');adT2.setAttribute('fill','#e7deff');adT2.setAttribute('font-size','10.5');adT2.textContent='Create request';svg.appendChild(adT2);
 
       // Edge AD -> Agent
       var e1=document.createElementNS(ns,'line');e1.setAttribute('x1','180');e1.setAttribute('y1','197');e1.setAttribute('x2','220');e1.setAttribute('y2','197');e1.setAttribute('stroke','#c9bdf0');e1.setAttribute('stroke-width','2.5');e1.setAttribute('marker-end','url(#arrow)');svg.appendChild(e1);
@@ -335,7 +342,7 @@ function setupFrame(id){
         if(p.textContent.indexOf('Agreement Desk request starts a workflow that hands the vendor MSA to a Risk Analyst agent')!==-1){
           p.innerHTML=p.innerHTML.replace(
             'an Agreement Desk request starts a workflow that hands the vendor MSA to a Risk Analyst agent, which extracts the key terms and classifies risk',
-            'an email with the contract attached creates an Agreement Desk request, which triggers a workflow that hands the document to a Risk Analyst agent to extract key terms and classify risk'
+            'a request is created in Agreement Desk with the contract attached, which triggers a workflow that hands the document to a Risk Analyst agent to extract key terms and classify risk'
           );
         }
       });
@@ -345,7 +352,7 @@ function setupFrame(id){
     var allPs=doc.querySelectorAll('p');
     allPs.forEach(function(p){
       if(p.style && p.style.fontWeight==='600' && p.textContent.indexOf('Create request')!==-1 && p.textContent.indexOf('Desk request event')!==-1){
-        p.innerHTML='<b>Email with contract → Agreement Desk request created → Workflow triggered (request submitted) → Risk Analyst agent → branch on risk_level → Change Status.</b>';
+        p.innerHTML='<b>Create Request (upload contract) → Workflow triggered (request submitted) → Risk Analyst agent → branch on risk_level → Change Status.</b>';
       }
     });
 
@@ -610,20 +617,22 @@ function setupFrame(id){
     if(stage3){
       // Update intro
       var stage3Ps=stage3.querySelectorAll(':scope > p');
-      if(stage3Ps[0]) stage3Ps[0].innerHTML='Submit a request by emailing a contract to the Agreement Desk email address and confirm the workflow fires correctly.';
+      if(stage3Ps[0]) stage3Ps[0].innerHTML='Create a request in Agreement Desk, upload a contract, and confirm the workflow fires correctly.';
       if(stage3Ps[1]) stage3Ps[1].style.display='none';
 
-      // Inject email setup steps at top of Stage 3
+      // Inject request creation steps at top of Stage 3
       if(!doc.getElementById('email-setup-injected')){
         var emailSetup=doc.createElement('div');
         emailSetup.id='email-setup-injected';
-        emailSetup.innerHTML='<div class="h-check" style="margin-top:16px;"><div><h3 style="display:inline">3.0 &middot; Find the Agreement Desk email address</h3></div></div>'
+        emailSetup.innerHTML='<div class="h-check" style="margin-top:16px;"><div><h3 style="display:inline">3.0 &middot; Create a request in Agreement Desk</h3></div></div>'
           +'<ol style="margin:10px 0 16px;">'
           +'<li>Open the <b>Agreements</b> tab.</li>'
           +'<li>Click <b>Requests</b> in the left menu.</li>'
-          +'<li>Click <b>Settings</b> (top-right corner).</li>'
-          +'<li>Click the <b>Email</b> tab.</li>'
-          +'<li>Copy the email address shown and make a note of it - this is the address you will send documents to. Any email sent here automatically creates an Agreement Desk request in your account.</li>'
+          +'<li>Click <b>Create Request</b>.</li>'
+          +'<li>Select <b>Agent Studio - Risk Lab</b> Request Type.</li>'
+          +'<li>Fill in the intake form details (vendor name, requester name, etc.).</li>'
+          +'<li>Upload the contract document.</li>'
+          +'<li>Click <b>Submit</b>.</li>'
           +'</ol>';
         if(stage3Ps[0]) stage3Ps[0].parentNode.insertBefore(emailSetup,stage3Ps[0].nextSibling);
       }
@@ -641,13 +650,13 @@ function setupFrame(id){
           var ol=hc.nextElementSibling;
           while(ol && ol.tagName!=='OL') ol=ol.nextElementSibling;
           if(ol){
-            ol.innerHTML='<li>Send an email with the <b>LOW</b> sample MSA attached to the Agreement Desk email address (found at Agreements → Requests → Settings → Email tab).</li>'
-              +'<li>Open <b>Agreement Desk</b> → <b>Requests</b> and find the newly auto-created request.</li>'
-              +'<li>Confirm the document is attached in the request\'s <b>Documents</b> tab.</li>'
+            ol.innerHTML='<li>Go to <b>Agreements → Requests → Create Request</b>.</li>'
+              +'<li>Select <b>Agent Studio - Risk Lab</b> Request Type.</li>'
+              +'<li>Fill in the form details and upload the <b>LOW</b> sample MSA.</li>'
+              +'<li>Click <b>Submit</b>.</li>'
               +'<li>Navigate to <b>Agreements → Maestro Workflows</b>, find the workflow, click <b>View Runs</b>.</li>'
               +'<li>Find the latest run and click the instance.</li>'
-              +'<li>Confirm the LOW branch fired and status changed to <b>Success</b>.</li>'
-              +'<li>Go back to the request in Agreement Desk → <b>Documents</b> tab → click <b>Send for Signature</b> → select the document → send.</li>';
+              +'<li>Confirm the LOW branch fired and status changed to <b>Success</b>.</li>';
           }
           // Hide the old form table
           var next=ol?ol.nextElementSibling:null;
@@ -671,7 +680,7 @@ function setupFrame(id){
       var s2Ps=stage3.querySelectorAll('p.proc-only');
       s2Ps.forEach(function(p){
         if(p.textContent.indexOf('DataVault Dynamics')!==-1){
-          p.innerHTML='Send an email with the <b>HIGH</b> sample MSA attached to the Agreement Desk email address. Open Agreement Desk and find the new request. Check <b>View Runs</b> for the workflow.';
+          p.innerHTML='Create another request: <b>Agreements → Requests → Create Request → Agent Studio - Risk Lab</b>. Upload the <b>HIGH</b> sample MSA, fill in the form, and submit. Check <b>View Runs</b> for the workflow.';
         }
       });
       stage3Expects.forEach(function(e){
@@ -686,7 +695,7 @@ function setupFrame(id){
         var h3=hc.querySelector('h3');
         if(h3 && h3.textContent.indexOf('Scenario 3')!==-1){
           var p=hc.nextElementSibling;
-          if(p && p.tagName==='P') p.textContent='Send an email with no attachment, or with a deliberately unusable file (an empty document, or an image with no readable text).';
+          if(p && p.tagName==='P') p.textContent='Create another request but either skip the document upload entirely, or attach a deliberately unusable file (an empty document, or an image with no readable text).';
         }
       });
       stage3Expects.forEach(function(e){
@@ -695,16 +704,9 @@ function setupFrame(id){
         }
       });
 
-      // Add Scenario 4 (optional) after Scenario 3
-      var s3Note=null;
+      // Hide Scenario 4 (optional) - no longer needed since UI is default
       notes.forEach(function(n){
-        if(n.textContent.indexOf('Optional fourth run')!==-1){
-          n.innerHTML='<b>Scenario 4 (optional) - Manual request via UI:</b><ol style="margin:8px 0 0;padding-left:18px;">'
-            +'<li>Go to <b>Requests</b> → click <b>New request</b> → select the Request Type.</li>'
-            +'<li>Fill out the intake form fields manually and submit.</li>'
-            +'<li>Attach a document via <b>Upload documents</b> on the Documents tab.</li>'
-            +'<li>Confirm the workflow triggers and processes as expected.</li></ol>';
-        }
+        if(n.textContent.indexOf('Optional fourth run')!==-1) n.style.display='none';
       });
 
       // Update validation checklist (3.4)
@@ -793,11 +795,107 @@ function setupFrame(id){
 
   // NDA tab modifications
   if(tab==='nda'){
-    // Fix SVG: "NDA text block" -> "NDA document"
+    // Fix SVG texts
     var svgTexts=doc.querySelectorAll('svg text');
     svgTexts.forEach(function(t){
-      if(t.textContent==='NDA text block') t.textContent='NDA document';
+      if(t.textContent==='NDA text block') t.textContent='NDA generated';
+      if(t.textContent==='One-click copy') t.textContent='download and review';
+      if(t.textContent==='Thorough search') t.textContent='Search repository';
+      if(t.textContent==='system_list_agreements') t.textContent='scan Agreements';
+      if(t.textContent==='exact + partial matches') t.textContent='';
+      if(t.textContent==='Summary list · stop') t.textContent='Summarize NDA';
+      if(t.textContent==='No new NDA offered') t.textContent='List key details';
+      if(t.textContent==='Pivot + intake') t.textContent='Offer to draft';
+      if(t.textContent==='3 required inputs') t.textContent='Collect inputs';
+      if(t.textContent==='Envelope sent') t.textContent='';
+      if(t.textContent==='Pre-filled template') t.textContent='';
     });
+    // Hide envelope node and its edges
+    var nodeEnv=doc.getElementById('nodeEnv');
+    if(nodeEnv) nodeEnv.style.display='none';
+    var envHighlight=doc.querySelector('.node-highlight[data-node="env"]');
+    if(envHighlight) envHighlight.style.display='none';
+    var edgeIntakeEnv=doc.getElementById('edge-intake-env');
+    if(edgeIntakeEnv) edgeIntakeEnv.style.display='none';
+    var particleEnvelope=doc.getElementById('particle-envelope');
+    if(particleEnvelope) particleEnvelope.style.display='none';
+    // Hide "Part 2" label
+    svgTexts.forEach(function(t){ if(t.textContent==='Part 2') t.style.display='none'; });
+
+    // Fix dropdown: rename options and remove option 3
+    var ctrlOutcome=doc.getElementById('ctrlOutcome');
+    if(ctrlOutcome){
+      var opts=ctrlOutcome.querySelectorAll('option');
+      if(opts[0]) opts[0].textContent='Active Agreement Found';
+      if(opts[1]) opts[1].textContent='Agreement invalid or not found: draft NDA';
+      if(opts[2]) opts[2].style.display='none';
+    }
+
+    // Update explorer status text
+    var statusRoute=doc.getElementById('statusRoute');
+    if(statusRoute && statusRoute.textContent.indexOf('Pre-filled envelope')!==-1){
+      statusRoute.textContent='NDA generated';
+    }
+    // Override the explorer JS route text for the "draft" path
+    var statusAgent=doc.getElementById('statusAgent');
+    if(statusAgent && statusAgent.textContent.indexOf('intake')!==-1){
+      statusRoute.textContent='NDA generated from document template, ready to download.';
+    }
+
+    // Banner: "copy-paste-ready NDA" -> "ready to download NDA"
+    var heroP=doc.querySelector('.hero p');
+    if(heroP) heroP.innerHTML=heroP.innerHTML.replace('a copy-paste-ready NDA','a ready to download NDA');
+
+    // 0.1: "collects the three inputs needed" -> "collects the required inputs needed"
+    var allPs=doc.querySelectorAll('p');
+    allPs.forEach(function(p){
+      if(p.textContent.indexOf('collects the three inputs needed')!==-1){
+        p.innerHTML=p.innerHTML.replace('collects the three inputs needed','collects the required inputs needed');
+      }
+      // 0.1: "interactive text generation" -> "document generation"
+      if(p.textContent.indexOf('interactive text generation')!==-1){
+        p.innerHTML=p.innerHTML.replace('interactive text generation','document generation');
+      }
+    });
+
+    // 0.2 Step 4: Update gated intake text
+    var diagDivs=doc.querySelectorAll('.card.tint.diagram > div');
+    diagDivs.forEach(function(d){
+      var b=d.querySelector('b');
+      if(b && b.textContent.indexOf('Gated intake')!==-1){
+        b.textContent='Gated intake: collect required inputs';
+        var divInner=d.querySelector('div');
+        if(divInner) divInner.innerHTML='<b>Gated intake: collect required inputs</b>if the rep accepts, the agent collects the required inputs based on the available document template before generating the agreement. It will not proceed with partial information, preventing the agent from inventing details that would make the NDA legally unsound.';
+      }
+      // 0.2 Step 5: NDA generated
+      if(b && b.textContent.indexOf('NDA generated and dispatched')!==-1){
+        var divInner=d.querySelector('div');
+        if(divInner) divInner.innerHTML='<b>NDA generated</b>once all inputs are confirmed, the agent generates an NDA from a pre-approved document template and it\'s available for download to review.';
+      }
+    });
+
+    // 0.4 Learning objectives: update objective 3, remove objective 4
+    var objs=doc.querySelectorAll('.obj');
+    objs.forEach(function(o){
+      var lab=o.querySelector('.lab');
+      if(lab && lab.textContent==='Objective 3'){
+        o.innerHTML='<div class="lab">Objective 3</div><b>Produce ready-to-use output</b><br>Automatically generate the final NDA, ready to download.';
+      }
+      if(lab && lab.textContent==='Objective 4'){
+        o.style.display='none';
+      }
+    });
+
+    // Remove "Fontara is an approved demo company" from NDA sidebar
+    var ndaSideFoot=doc.querySelector('.side-foot');
+    if(ndaSideFoot){
+      var footNodes=ndaSideFoot.childNodes;
+      for(var i=0;i<footNodes.length;i++){
+        if(footNodes[i].nodeType===3 && footNodes[i].textContent.indexOf('Fontara')!==-1){
+          footNodes[i].textContent=footNodes[i].textContent.replace('Synthetic data only. Fontara is an approved demo company.','Synthetic data only.');
+        }
+      }
+    }
 
     // Hide Stage 3 (Advanced automation: direct envelope delivery)
     var stage3=doc.getElementById('stage-3');
@@ -845,25 +943,15 @@ function setupFrame(id){
           +'<li>Click <b>Save</b>.</li>'
           +'<li>Verify the agent is active: go back to the main app, open the <b>Automation</b> tab, and confirm you can see the <b>Agents</b> section.</li>'
           +'</ol></div>'
-          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">3. Import the workflow</h4>'
+          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">3. Upload the NDA template</h4>'
           +'<ol style="margin:0 0 12px;padding-left:20px;">'
-          +'<li>Navigate to <b>Agreements</b> tab, then <b>Maestro Workflows</b> in the left menu.</li>'
-          +'<li>Click <b>Import Workflow</b>.</li>'
-          +'<li>Upload the <code>risk_lab_workflow.zip</code> provided by your facilitator. Leave the file zipped - do not extract it first.</li>'
-          +'<li>Confirm the workflow appears on your canvas as a draft.</li>'
+          +'<li>Upload the NDA document template provided in the workshop kit to your environment. This is the template the agent will use to generate agreements.</li>'
           +'</ol>'
-          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">4. Upload sample agreements</h4>'
+          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">4. Upload a sample NDA to Agreement Manager</h4>'
           +'<ol style="margin:0 0 12px;padding-left:20px;">'
-          +'<li>Go to the <b>Agreements</b> tab.</li>'
-          +'<li>Click <b>Completed</b> in the left pane.</li>'
-          +'<li>Click the <b>+</b> icon and upload the following three files provided by your facilitator:</li>'
-          +'</ol>'
-          +'<ul style="margin:0 0 12px;padding-left:36px;">'
-          +'<li><code>msa_high_risk.pdf</code></li>'
-          +'<li><code>msa_medium_risk.pdf</code></li>'
-          +'<li><code>msa_low_risk.pdf</code></li>'
-          +'</ul>'
-          +'</ul>';
+          +'<li>Go to the <b>Agreements</b> tab in Agreement Manager.</li>'
+          +'<li>Upload the sample NDA provided in the workshop kit. This gives the agent something to find when testing the "active agreement found" path.</li>'
+          +'</ol>';
         h.parentNode.insertBefore(prereqHTML,h.nextSibling);
       }
     });
@@ -906,7 +994,7 @@ function setupFrame(id){
         var card=hc.nextElementSibling;
         if(card && card.classList.contains('card')){
           card.innerHTML='<ol style="margin:10px 0 0;">'
-            +'<li>Click <b>In chat</b> under "Define what starts this agent".</li>'
+            +'<li>Under "Define what starts this agent", edit <b>In chat</b>.</li>'
             +'<li>In the prompt field, type:</li>'
             +'</ol>'
             +'<div class="block prompt" style="margin:10px 0;">Check if we have an existing agreement with a company, and if we do not, offer to gather inputs and draft a standard NDA for them.</div>'
@@ -963,6 +1051,46 @@ function setupFrame(id){
     ndaLbls.forEach(function(l){
       if(l.textContent.indexOf('Agent instructions (replace all generated text')!==-1) l.textContent='Agent instructions';
     });
+
+    // === Stage 2.1: Update best practices table row 4 ===
+    var ndaTables=doc.querySelectorAll('table');
+    ndaTables.forEach(function(t){
+      var rows=t.querySelectorAll('tr');
+      rows.forEach(function(r){
+        var cells=r.querySelectorAll('td');
+        if(cells.length>=3 && cells[0].textContent.indexOf('Single continuous code block')!==-1){
+          cells[0].innerHTML='<b>Standardized output</b>';
+          cells[1].textContent='Without explicit formatting or wording instructions, the agent can generate inconsistent outputs. The rep has to manually route for NDA approvals.';
+          cells[2].textContent='The instructions require a pre-approved document template to be used to generate the NDA, ensuring consistency. Ready to download and send.';
+        }
+      });
+    });
+
+    // === Stage 2.2: "Click the Iris icon" -> "Click the Ask Iris button" ===
+    var ndaOls=doc.querySelectorAll('ol');
+    ndaOls.forEach(function(ol){
+      var lis=ol.querySelectorAll('li');
+      lis.forEach(function(li){
+        if(li.textContent.indexOf('Click the Iris icon')!==-1){
+          li.innerHTML=li.innerHTML.replace('Click the Iris icon','Click the <b>Ask Iris</b> button');
+        }
+      });
+    });
+
+    // === Stage 4 -> Stage 3 renumbering in content ===
+    var stage4=doc.getElementById('stage-4');
+    if(stage4){
+      var s4Head=stage4.querySelector('.stage-head h2');
+      if(s4Head && s4Head.textContent.indexOf('Stage 4')!==-1){
+        s4Head.textContent=s4Head.textContent.replace('Stage 4','Stage 3');
+      }
+      var s4Hchecks=stage4.querySelectorAll('.h-check h3');
+      s4Hchecks.forEach(function(h3){
+        if(h3.textContent.indexOf('4.1')!==-1) h3.textContent=h3.textContent.replace('4.1','3.1');
+        if(h3.textContent.indexOf('4.2')!==-1) h3.textContent=h3.textContent.replace('4.2','3.2');
+        if(h3.textContent.indexOf('4.3')!==-1) h3.textContent=h3.textContent.replace('4.3','3.3');
+      });
+    }
 
     // Re-attach copy buttons for NDA blocks
     doc.querySelectorAll('.block').forEach(function(b){
