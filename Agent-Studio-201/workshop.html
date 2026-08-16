@@ -76,14 +76,26 @@ function setupFrame(id){
 
   }
 
-  // Find insertion point (after hero in main)
-  var main=doc.querySelector('main');
-  if(!main) return;
-  var hero=main.querySelector('.hero');
-  if(!hero) return;
+  // Remove "Fontara is an approved demo company" from sidebar
+  var sideFt=doc.querySelector('.side-foot');
+  if(sideFt){
+    var footText=sideFt.childNodes;
+    for(var i=0;i<footText.length;i++){
+      if(footText[i].nodeType===3 && footText[i].textContent.indexOf('Fontara')!==-1){
+        footText[i].textContent=footText[i].textContent.replace('Synthetic data only. Fontara is an approved demo company.','Synthetic data only.');
+      }
+    }
+  }
 
-  var toggle=injectToggle(doc,current);
-  hero.parentNode.insertBefore(toggle,hero.nextSibling);
+  // Insert toggle after the stepper in the sidebar
+  if(tab===current){
+    var stepper=doc.getElementById('stepper');
+    if(stepper){
+      var toggle=injectToggle(doc,current);
+      toggle.style.cssText='background:#F4F2FA;border:1px solid #e5e1f0;border-radius:13px;padding:16px 18px;margin:18px 0 0;box-shadow:0 2px 6px rgba(19,0,50,.05);';
+      stepper.parentNode.insertBefore(toggle,stepper.nextSibling);
+    }
+  }
 }
 
 document.getElementById('frame-nda').addEventListener('load',function(){setupFrame('frame-nda');});
