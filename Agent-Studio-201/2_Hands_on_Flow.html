@@ -316,83 +316,76 @@ li{margin:5px 0;}
       <h3>0.3 · Explore the decision tree before you build it</h3>
       <p style="margin:0 0 6px;">This is the exact routing logic you'll build and exercise across Stages 1 to 3. Change the controls below the diagram and watch the live path light up - that's the same branch your agent and workflow will take at runtime.</p>
       <div class="card arch explorer" id="explorer">
-        <svg viewBox="0 0 940 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive architecture diagram: Agreement Desk to Get Document to Risk Analyst agent to a risk branch that routes to human review, eSignature, or back to the submitter">
+        <svg viewBox="0 0 940 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive flow diagram: Agreement Desk to Risk Analyst agent to a risk branch that routes to human review, eSignature, or back to the submitter">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
               <path d="M0,0 L10,5 L0,10 z" fill="context-stroke"></path>
             </marker>
-            <path id="route-low" d="M85,197 L805,197" fill="none"></path>
-            <path id="route-high" d="M85,197 L510,197 L510,73 L675,197 L805,197" fill="none"></path>
-            <path id="route-fallback" d="M85,197 L385,197 L385,298 L85,298 Z" fill="none"></path>
+            <path id="route-low" d="M85,197 L746,197" fill="none"></path>
+            <path id="route-high" d="M85,197 L408,197 L408,73 L567,197 L746,197" fill="none"></path>
+            <path id="route-fallback" d="M85,197 L258,197 L258,298 L85,298 Z" fill="none"></path>
           </defs>
 
           <!-- connective edges -->
-          <line id="edge-ad-getdoc" class="edge active risk-high" x1="155" y1="197" x2="166" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
-          <line id="edge-getdoc-agent" class="edge active risk-high" x1="300" y1="197" x2="311" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
-          <line id="edge-agent-branch" class="edge active risk-high" x1="455" y1="197" x2="463" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
+          <line id="edge-ad-agent" class="edge active risk-high" x1="155" y1="197" x2="186" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
+          <line id="edge-agent-branch" class="edge active risk-high" x1="330" y1="197" x2="363" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
 
           <!-- LOW: straight through -->
-          <line id="edge-branch-low" class="edge" x1="555" y1="197" x2="606" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
-          <text x="580" y="187" text-anchor="middle" font-size="11" font-weight="600" fill="#0a7d3c">LOW</text>
+          <line id="edge-branch-low" class="edge" x1="453" y1="197" x2="500" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
+          <text x="476" y="187" text-anchor="middle" font-size="11" font-weight="600" fill="#0a7d3c">LOW</text>
 
           <!-- MEDIUM/HIGH: up to review, back down to signature -->
-          <path id="edge-branch-high" class="edge active risk-high" d="M510,157 V105" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
-          <text x="524" y="136" font-size="11" font-weight="600" fill="#FF5252">MED / HIGH</text>
-          <path id="edge-review-sign" class="edge active risk-high" d="M610,74 C 655,74 662,130 673,161" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
-          <text x="668" y="108" font-size="11" font-weight="600" fill="#FF5252">Approved</text>
+          <path id="edge-branch-high" class="edge active risk-high" d="M408,157 V105" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
+          <text x="422" y="136" font-size="11" font-weight="600" fill="#FF5252">MED / HIGH</text>
+          <path id="edge-review-sign" class="edge active risk-high" d="M560,74 C 600,74 560,130 567,161" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
+          <text x="590" y="108" font-size="11" font-weight="600" fill="#FF5252">Approved</text>
 
-          <line id="edge-sign-done" class="edge active risk-high" x1="740" y1="197" x2="751" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
+          <line id="edge-sign-done" class="edge active risk-high" x1="633" y1="197" x2="660" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
 
           <!-- fallback: down to returned, looped back to intake -->
-          <line id="edge-agent-fallback" class="edge" x1="385" y1="229" x2="385" y2="268" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
-          <text x="399" y="253" font-size="11" font-weight="600" fill="#c47a06">No doc / bad output</text>
-          <path id="edge-fallback-loop" class="edge" d="M310,299 C 180,326 60,306 42,232" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
-          <text x="150" y="325" font-size="11" font-weight="600" fill="#c47a06">Returned to submitter</text>
+          <line id="edge-agent-fallback" class="edge" x1="258" y1="229" x2="258" y2="268" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
+          <text x="272" y="253" font-size="11" font-weight="600" fill="#c47a06">No doc / bad output</text>
+          <path id="edge-fallback-loop" class="edge" d="M200,299 C 120,326 60,306 42,232" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
+          <text x="110" y="325" font-size="11" font-weight="600" fill="#c47a06">Returned to submitter</text>
 
           <!-- Node: Agreement Desk -->
           <rect x="15" y="165" width="140" height="64" rx="12" fill="#4C00FF"></rect>
           <text x="85" y="192" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">Agreement Desk</text>
           <text x="85" y="209" text-anchor="middle" fill="#e7deff" font-size="10.5">Intake + document</text>
 
-          <!-- Node: Get Document -->
-          <rect x="167" y="165" width="133" height="64" rx="12" fill="#6A17C9"></rect>
-          <text x="233" y="188" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Get Document</text>
-          <text x="233" y="203" text-anchor="middle" fill="#e7deff" font-size="10.5">from a Request</text>
-          <text x="233" y="217" text-anchor="middle" fill="#c9a9ff" font-size="10">→ request_document</text>
-
           <!-- Node: Risk Analyst agent -->
-          <rect x="312" y="165" width="143" height="64" rx="12" fill="#9A1FA8"></rect>
-          <text x="383" y="188" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Risk Analyst Agent</text>
-          <text x="383" y="205" text-anchor="middle" fill="#f2ddff" font-size="10.5">analyzes attached doc</text>
+          <rect x="187" y="165" width="143" height="64" rx="12" fill="#9A1FA8"></rect>
+          <text x="258" y="188" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Risk Analyst Agent</text>
+          <text x="258" y="205" text-anchor="middle" fill="#f2ddff" font-size="10.5">analyzes attached doc</text>
 
           <!-- Node: Branch diamond -->
-          <polygon points="510,157 555,197 510,237 465,197" fill="#fff" stroke="#4C00FF" stroke-width="2"></polygon>
-          <text x="510" y="193" text-anchor="middle" fill="#130032" font-size="10.5" font-weight="600">risk</text>
-          <text x="510" y="205" text-anchor="middle" fill="#130032" font-size="10.5" font-weight="600">_level?</text>
+          <polygon points="408,157 453,197 408,237 363,197" fill="#fff" stroke="#4C00FF" stroke-width="2"></polygon>
+          <text x="408" y="193" text-anchor="middle" fill="#130032" font-size="10.5" font-weight="600">risk</text>
+          <text x="408" y="205" text-anchor="middle" fill="#130032" font-size="10.5" font-weight="600">_level?</text>
 
           <!-- Node: Human review -->
-          <rect id="nodeReview" x="430" y="46" width="180" height="56" rx="12" fill="#fff" stroke="#FF5252" stroke-width="2"></rect>
-          <rect class="node-highlight on" data-node="review" x="426" y="42" width="188" height="64" rx="14" fill="none" stroke="#FF5252" stroke-width="2" stroke-dasharray="3 3"></rect>
-          <text x="520" y="69" text-anchor="middle" fill="#130032" font-size="12.5" font-weight="600">Human review</text>
-          <text x="520" y="85" text-anchor="middle" fill="#615a75" font-size="10.5" class="proc-only">Legal approval</text>
-          <text x="520" y="85" text-anchor="middle" fill="#615a75" font-size="10.5" class="sales-only">Finance / Legal approval</text>
+          <rect id="nodeReview" x="340" y="46" width="180" height="56" rx="12" fill="#fff" stroke="#FF5252" stroke-width="2"></rect>
+          <rect class="node-highlight on" data-node="review" x="336" y="42" width="188" height="64" rx="14" fill="none" stroke="#FF5252" stroke-width="2" stroke-dasharray="3 3"></rect>
+          <text x="430" y="69" text-anchor="middle" fill="#130032" font-size="12.5" font-weight="600">Human review</text>
+          <text x="430" y="85" text-anchor="middle" fill="#615a75" font-size="10.5" class="proc-only">Legal approval</text>
+          <text x="430" y="85" text-anchor="middle" fill="#615a75" font-size="10.5" class="sales-only">Finance / Legal approval</text>
 
           <!-- Node: eSignature -->
-          <rect id="nodeSign" x="607" y="165" width="133" height="64" rx="12" fill="#C0207E"></rect>
-          <rect class="node-highlight on" data-node="sign" x="603" y="161" width="141" height="72" rx="14" fill="none" stroke="#C0207E" stroke-width="2" stroke-dasharray="3 3"></rect>
-          <text x="673" y="190" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">eSignature</text>
-          <text x="673" y="207" text-anchor="middle" fill="#ffe0ef" font-size="10.5">Send for signature</text>
+          <rect id="nodeSign" x="501" y="165" width="133" height="64" rx="12" fill="#C0207E"></rect>
+          <rect class="node-highlight on" data-node="sign" x="497" y="161" width="141" height="72" rx="14" fill="none" stroke="#C0207E" stroke-width="2" stroke-dasharray="3 3"></rect>
+          <text x="567" y="190" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">eSignature</text>
+          <text x="567" y="207" text-anchor="middle" fill="#ffe0ef" font-size="10.5">Send for signature</text>
 
-          <!-- Node: Signed -->
-          <rect x="752" y="165" width="100" height="64" rx="12" fill="#0a7d3c"></rect>
-          <text x="802" y="190" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Update Status to Approved</text>
-          <text x="802" y="207" text-anchor="middle" fill="#d7f5e2" font-size="10.5">ready to be sent for signature</text>
+          <!-- Node: Status Approved -->
+          <rect x="661" y="165" width="170" height="64" rx="12" fill="#0a7d3c"></rect>
+          <text x="746" y="190" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="600">Update Status to Approved</text>
+          <text x="746" y="207" text-anchor="middle" fill="#d7f5e2" font-size="9.5">ready to be sent for signature</text>
 
           <!-- Node: Returned -->
-          <rect id="nodeFallback" x="310" y="269" width="150" height="56" rx="12" fill="#fff" stroke="#8a7fb0" stroke-width="2" stroke-dasharray="5 3"></rect>
-          <rect class="node-highlight" data-node="fallback" x="306" y="265" width="158" height="64" rx="14" fill="none" stroke="#c47a06" stroke-width="2" stroke-dasharray="3 3"></rect>
-          <text x="385" y="292" text-anchor="middle" fill="#130032" font-size="12" font-weight="600">Returned</text>
-          <text x="385" y="308" text-anchor="middle" fill="#615a75" font-size="10.5">No envelope sent</text>
+          <rect id="nodeFallback" x="185" y="269" width="150" height="56" rx="12" fill="#fff" stroke="#8a7fb0" stroke-width="2" stroke-dasharray="5 3"></rect>
+          <rect class="node-highlight" data-node="fallback" x="181" y="265" width="158" height="64" rx="14" fill="none" stroke="#c47a06" stroke-width="2" stroke-dasharray="3 3"></rect>
+          <text x="260" y="292" text-anchor="middle" fill="#130032" font-size="12" font-weight="600">Returned</text>
+          <text x="260" y="308" text-anchor="middle" fill="#615a75" font-size="10.5">No envelope sent</text>
 
           <!-- animated particles -->
           <circle class="particle" id="particle-low" r="5" fill="#0a7d3c" style="filter:drop-shadow(0 0 5px #0a7d3c)">
@@ -1035,8 +1028,7 @@ Constraints
       if(missing){ applyRoute('fallback'); return; }
       // MEDIUM and HIGH share the human-review route
       applyRoute(riskSel.value==='low' ? 'low' : 'high');
-      if(riskSel.value==='medium'){ statusAgent.textContent='MEDIUM'; }
-      if(riskSel.value==='high'){ statusAgent.textContent='HIGH'; }
+      if(riskSel.value==='medium'){ statusAgent.textContent='MEDIUM/HIGH'; }
     }
 
     riskSel.addEventListener('change',updateExplorer);
