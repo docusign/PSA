@@ -95,6 +95,18 @@ section.stage:first-of-type{border-top:none;}
 
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 @media(max-width:900px){.grid2{grid-template-columns:1fr;}}
+@media(max-width:768px){
+  .wrap{flex-direction:column;}
+  aside{display:none;}
+  main{padding:20px 16px 80px;max-width:100%;}
+  header.top{padding:10px 16px;}
+  .hero h1{font-size:22px;}
+  .hero{padding:22px 20px;}
+  .stage-head h2{font-size:20px;}
+  .block{font-size:12px;padding:12px 14px;}
+  table{font-size:13px;}
+  .utility{display:none;}
+}
 
 .obj{border-left:4px solid var(--indigo);padding:4px 0 4px 16px;margin:14px 0;}
 .obj .lab{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);font-weight:600;}
