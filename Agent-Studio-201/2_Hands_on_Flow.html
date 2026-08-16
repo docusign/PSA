@@ -567,7 +567,22 @@ li{margin:5px 0;}
       <img src="assets/s11-procurement-identity.png" alt="Vendor and Renewal Risk Analyst agent configuration" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
 
       <div class="h-check" id="sec-1-2"><input type="checkbox" data-stage="1" id="chk4b"><div><h3 style="display:inline">1.2 · Define what starts this agent</h3></div></div>
-      <p>Under <b>Define what starts this agent</b> (Agent Trigger), choose <b>In a workflow</b> - not <i>In chat</i>. This agent is only ever invoked as a workflow step, not started directly by a user in an Iris conversation.</p>
+      <ol>
+        <li>Click <b>In chat</b> under "Define what starts this agent".</li>
+        <li>In the prompt field, type: <code>Extracts key terms from the attached document and classify the risk.</code></li>
+        <li>Click <b>Save</b>, then scroll to the bottom and click <b>Save</b> again.</li>
+        <li>Now click <b>In a workflow</b> (next to "In chat").</li>
+        <li>Add the following outputs:</li>
+      </ol>
+      <table>
+        <tbody><tr><th>Output name</th><th>Format</th></tr>
+        <tr><td><code>risk_level</code></td><td>String</td></tr>
+        <tr><td><code>liability_cap</code></td><td>String</td></tr>
+        <tr><td><code>governing_law</code></td><td>String</td></tr>
+        <tr><td><code>term</code></td><td>String</td></tr>
+        <tr><td><code>discount</code></td><td>String</td></tr>
+      </tbody></table>
+      <ol start="6"><li>Scroll to the bottom and click <b>Save</b>.</li></ol>
 
       <div class="h-check" id="sec-1-3"><input type="checkbox" data-stage="1" id="chk5"><div><h3 style="display:inline">1.3 · Write the instructions</h3></div></div>
       <p>Paste this into the Agent's <b>Instructions</b> field. There is no separate output-schema builder in Agent Studio - the response shape you want is described here, in plain language, so be explicit about field names and allowed values.</p>
