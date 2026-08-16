@@ -224,7 +224,7 @@ li{margin:5px 0;}
   <a href="https://developers.docusign.com/" target="_blank" rel="noopener">Developer Center ↗</a>
 </div>
 
-<header class="top" contenteditable="false">
+<header class="top">
   <div class="brand">
     <a href="index.html"><img class="logo" src="https://docusign.github.io/PSA/Bengaluru-meetup/assets/img/docusign-horizontal-black.svg" alt="Docusign"></a>
     <nav>
@@ -236,10 +236,9 @@ li{margin:5px 0;}
 </header>
 
 <!-- ===================== CONTENT EDITOR TOOLBAR ===================== -->
-<div id="edit-toolbar" style="position:fixed;bottom:20px;right:20px;z-index:1000;display:flex;gap:8px;align-items:center;background:#1a0040;padding:10px 14px;border-radius:12px;box-shadow:0 8px 24px rgba(19,0,50,.35);font-family:'DSIndigo',Arial,sans-serif;">
-  <span id="edit-status" style="color:#c9bdf0;font-size:12.5px;margin-right:4px;">Edit mode off</span>
-  <button id="edit-toggle" type="button" style="background:#4C00FF;color:#fff;border:none;border-radius:7px;padding:8px 14px;font-size:13px;font-weight:500;cursor:pointer;">Edit Mode</button>
-  <button id="edit-download" type="button" style="background:#0a7d3c;color:#fff;border:none;border-radius:7px;padding:8px 14px;font-size:13px;font-weight:500;cursor:pointer;">Download Updated HTML</button>
+<div id="lab-switcher" style="position:fixed;bottom:20px;right:20px;z-index:1000;display:flex;gap:0;align-items:center;background:#1a0040;padding:4px;border-radius:12px;box-shadow:0 8px 24px rgba(19,0,50,.35);font-family:'DSIndigo',Arial,sans-serif;">
+  <button onclick="if(window.parent&&window.parent.switchTo)window.parent.switchTo('nda');" style="background:transparent;color:#c9bdf0;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:500;cursor:pointer;">Lab 1: NDA</button>
+  <button disabled style="background:#4C00FF;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:default;">Lab 2: Procurement</button>
 </div>
 
 <div class="wrap">
@@ -294,7 +293,7 @@ li{margin:5px 0;}
   </aside>
 
   <!-- ===================== MAIN ===================== -->
-  <main contenteditable="false">
+  <main>
 
     <!-- ============ STAGE 0 ============ -->
     <section class="stage" id="stage-0">
@@ -1105,35 +1104,6 @@ Constraints
     updateExplorer();
   }
 
-  // ----- direct content editor -----
-  var editToggle=document.getElementById('edit-toggle');
-  var editDownload=document.getElementById('edit-download');
-  var editStatus=document.getElementById('edit-status');
-  var editing=false;
-  function setEditing(on){
-    editing=on;
-    document.querySelectorAll('main, header.top').forEach(function(el){
-      el.contentEditable=on ? 'true':'false';
-    });
-    editToggle.textContent = on ? 'Stop Editing' : 'Edit Mode';
-    editToggle.style.background = on ? '#FF5252' : '#4C00FF';
-    editStatus.textContent = on ? 'Edit mode on - click any text to change it' : 'Edit mode off';
-  }
-  editToggle.addEventListener('click',function(){ setEditing(!editing); });
-  editDownload.addEventListener('click',function(){
-    var wasEditing=editing;
-    setEditing(false);
-    var clone=document.documentElement.cloneNode(true);
-    var toolbar=clone.querySelector('#edit-toolbar');
-    if(toolbar) toolbar.remove();
-    var html='<!DOCTYPE html>\n'+clone.outerHTML;
-    var blob=new Blob([html],{type:'text/html'});
-    var a=document.createElement('a');
-    a.href=URL.createObjectURL(blob);
-    a.download='2_Hands_on_Flow.html';
-    document.body.appendChild(a); a.click(); a.remove();
-    if(wasEditing) setEditing(true);
-  });
 
   refresh();
 })();
