@@ -21,6 +21,7 @@ body{background:#fff;}
 
 <script>
 var current=localStorage.getItem('as201-tab')||'nda';
+if(current!=='nda'&&current!=='procurement') current='nda';
 
 function injectToggle(doc,active){
   var existing=doc.getElementById('lab-toggle');
