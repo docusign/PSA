@@ -316,14 +316,14 @@ li{margin:5px 0;}
       <h3>0.3 · Explore the decision tree before you build it</h3>
       <p style="margin:0 0 6px;">This is the exact routing logic you'll build and exercise across Stages 1 to 3. Change the controls below the diagram and watch the live path light up - that's the same branch your agent and workflow will take at runtime.</p>
       <div class="card arch explorer" id="explorer">
-        <svg viewBox="0 0 940 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive flow diagram: Agreement Desk to Risk Analyst agent to a risk branch that routes to human review, eSignature, or back to the submitter">
+        <svg viewBox="0 0 940 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive flow diagram: Agreement Desk to Risk Analyst agent to a risk branch that routes to human review, eSignature, or back to the submitter">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
               <path d="M0,0 L10,5 L0,10 z" fill="context-stroke"></path>
             </marker>
             <path id="route-low" d="M85,197 L746,197" fill="none"></path>
             <path id="route-high" d="M85,197 L408,197 L408,73 L567,197 L746,197" fill="none"></path>
-            <path id="route-fallback" d="M85,197 L258,197 L258,298 L85,298 Z" fill="none"></path>
+            <path id="route-fallback" d="M85,197 L258,197 L258,298 L70,298 L70,232" fill="none"></path>
           </defs>
 
           <!-- connective edges -->
@@ -345,8 +345,8 @@ li{margin:5px 0;}
           <!-- fallback: down to returned, looped back to intake -->
           <line id="edge-agent-fallback" class="edge" x1="258" y1="229" x2="258" y2="268" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
           <text x="272" y="253" font-size="11" font-weight="600" fill="#c47a06">No doc / bad output</text>
-          <path id="edge-fallback-loop" class="edge" d="M200,299 C 120,326 60,306 42,232" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
-          <text x="110" y="325" font-size="11" font-weight="600" fill="#c47a06">Returned to submitter</text>
+          <path id="edge-fallback-loop" class="edge" d="M185,299 C 140,330 90,310 70,232" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
+          <text x="180" y="355" font-size="11" font-weight="600" fill="#c47a06">Returned to submitter</text>
 
           <!-- Node: Agreement Desk -->
           <rect x="15" y="165" width="140" height="64" rx="12" fill="#4C00FF"></rect>
