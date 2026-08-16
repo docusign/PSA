@@ -69,6 +69,9 @@ main{flex:1;min-width:0;padding:34px 46px 120px;max-width:960px;}
 .step .txt{display:flex;flex-direction:column;gap:2px;min-width:0;padding-top:2px;}
 .step .txt .t{font-weight:600;font-size:14.5px;color:var(--ink);line-height:1.3;}
 .step .txt .s{font-size:11.5px;color:var(--muted);font-weight:400;line-height:1.3;}
+.sub-nav{list-style:none;margin:0 0 0 47px;padding:4px 0 6px;font-size:12px;}
+.sub-nav li{padding:3px 8px;border-radius:6px;cursor:pointer;color:var(--muted);transition:background .12s,color .12s;}
+.sub-nav li:hover{background:#eae4fb;color:var(--ink);}
 
 .side-foot{margin-top:20px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:14px;}
 
@@ -247,9 +250,36 @@ li{margin:5px 0;}
     <ol class="stepper" id="stepper">
       <li class="step active" data-target="stage-0"><span class="ring" data-stage="0"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">0</span></span><span class="txt"><span class="t">Before you begin</span><span class="s">Scenario · Flow · Setup</span></span></li>
       <li class="step" data-target="stage-1"><span class="ring" data-stage="1"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">1</span></span><span class="txt"><span class="t">Agent Studio</span><span class="s">Build the Risk Analyst</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-1-1">1.1 Create agent &amp; identity</li>
+        <li data-scroll="sec-1-2">1.2 Define trigger</li>
+        <li data-scroll="sec-1-3">1.3 Write instructions</li>
+        <li data-scroll="sec-1-4">1.4 Add capabilities</li>
+        <li data-scroll="sec-1-5">1.5 Name, describe &amp; publish</li>
+      </ul>
       <li class="step" data-target="stage-2"><span class="ring" data-stage="2"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">2</span></span><span class="txt"><span class="t">Import &amp; wire up</span><span class="s">Request Type + workflow</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-2-1">2.1 Import Request Type</li>
+        <li data-scroll="sec-2-2">2.2 Import workflow</li>
+        <li data-scroll="sec-2-3">2.3 Verify trigger</li>
+        <li data-scroll="sec-2-4">2.4 Get Document step</li>
+        <li data-scroll="sec-2-5">2.5 Point agent step</li>
+        <li data-scroll="sec-2-6">2.6 Branch &amp; paths</li>
+        <li data-scroll="sec-2-7">2.7 Publish workflow</li>
+      </ul>
       <li class="step" data-target="stage-3"><span class="ring" data-stage="3"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">Trigger &amp; validate</span><span class="s">Three scenarios</span></span></li>
-      <li class="step" data-target="stage-4"><span class="ring" data-stage="4"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">4</span></span><span class="txt"><span class="t">The CLM connection</span><span class="s">Demo only · CLM workflow step</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-3-1">3.1 LOW risk</li>
+        <li data-scroll="sec-3-2">3.2 MEDIUM/HIGH risk</li>
+        <li data-scroll="sec-3-3">3.3 Missing doc fallback</li>
+        <li data-scroll="sec-3-4">3.4 Validation checklist</li>
+      </ul>
+      <li class="step" data-target="stage-4"><span class="ring" data-stage="4"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">4</span></span><span class="txt"><span class="t">The CLM connection</span><span class="s">Demo only</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-4-1">4.1 Two stages, one agent</li>
+        <li data-scroll="sec-4-2">4.2 Use AI Agent step</li>
+        <li data-scroll="sec-4-3">4.3 Output variable</li>
+      </ul>
     </ol>
     <div class="side-foot">
       Self-paced handbook. Tick each step checkbox to fill the progress rings.<br><br>
@@ -283,8 +313,7 @@ li{margin:5px 0;}
         </div>
       </div>
 
-      <div class="stage-head"><h2>Before you begin</h2>
-      <span class="time">Start here</span></div>
+      <div class="stage-head"><h2>Before you begin</h2></div>
 
       <h3>0.1 · The scenario</h3>
       <div class="card proc-only">
@@ -515,10 +544,10 @@ li{margin:5px 0;}
 
     <!-- ============ STAGE 1 ============ -->
     <section class="stage" id="stage-1">
-      <div class="stage-head"><h2><br></h2><h2>Stage 1 · Agent Studio</h2><span class="time">Build the Risk Analyst · 15 min</span></div>
+      <div class="stage-head"><h2>Stage 1 · Agent Studio</h2></div>
       <p>Build the agent first. It's the only artifact in this lab you create from scratch, it's where the actual skill lives, and the workflow you configure in Stage 2 needs to point at it - so it has to exist first.</p>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="chk4"><div><h3 style="display:inline">1.1 · Create the agent &amp; set identity</h3></div></div>
+      <div class="h-check" id="sec-1-1"><input type="checkbox" data-stage="1" id="chk4"><div><h3 style="display:inline">1.1 · Create the agent &amp; set identity</h3></div></div>
       <ol>
         <li>Open the <b>Agents tab</b>&nbsp;(under Automations).</li>
         <li>Click on&nbsp;<b>Create New</b>.</li>
@@ -537,10 +566,10 @@ li{margin:5px 0;}
       <div class="warn"><b>Use this exact name.</b> In Stage 2.2 you'll select this agent inside the imported workflow. Matching the name the workbook expects makes that step unambiguous - and makes it much easier for your facilitator to help when something doesn't line up.</div>
       <img src="assets/s11-procurement-identity.png" alt="Vendor and Renewal Risk Analyst agent configuration" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="chk4b"><div><h3 style="display:inline">1.2 · Define what starts this agent</h3></div></div>
+      <div class="h-check" id="sec-1-2"><input type="checkbox" data-stage="1" id="chk4b"><div><h3 style="display:inline">1.2 · Define what starts this agent</h3></div></div>
       <p>Under <b>Define what starts this agent</b> (Agent Trigger), choose <b>In a workflow</b> - not <i>In chat</i>. This agent is only ever invoked as a workflow step, not started directly by a user in an Iris conversation.</p>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="chk5"><div><h3 style="display:inline">1.3 · Write the instructions</h3></div></div>
+      <div class="h-check" id="sec-1-3"><input type="checkbox" data-stage="1" id="chk5"><div><h3 style="display:inline">1.3 · Write the instructions</h3></div></div>
       <p>Paste this into the Agent's <b>Instructions</b> field. There is no separate output-schema builder in Agent Studio - the response shape you want is described here, in plain language, so be explicit about field names and allowed values.</p>
       <div class="lbl">Instructions</div>
       <div class="block prompt">You are a contract risk analyst. You receive one contract at a time.
@@ -578,14 +607,14 @@ Constraints
 - Do not take external actions. Only analyze and return JSON.<button class="copy">Copy</button></div>
       <div class="note"><b>Why the strictness matters:</b> the imported workflow branches on <code>risk_level</code> as a literal string. A response wrapped in prose, or one that returns <code>"Low"</code> instead of <code>"LOW"</code>, will fall through the branch conditions into the fallback path. Say "always valid JSON" and "all fields present" explicitly - and then verify it in 1.4.</div>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="chk6"><div><h3 style="display:inline">1.4 · Add capabilities</h3></div></div>
+      <div class="h-check" id="sec-1-4"><input type="checkbox" data-stage="1" id="chk6"><div><h3 style="display:inline">1.4 · Add capabilities</h3></div></div>
       <ol>
         <li>Under <b>Capabilities</b>, click <b>Add</b>.</li>
         <li>Select <b>Manage Requests</b>, <b>Find Agreements</b> and <b>Review Documents</b>.</li>
         <li>Click <b>Add Capabilities</b>.</li>
       </ol>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="chk7"><div><h3 style="display:inline">1.5 · Update agent name &amp; description, then publish</h3></div></div>
+      <div class="h-check" id="sec-1-5"><input type="checkbox" data-stage="1" id="chk7"><div><h3 style="display:inline">1.5 · Update agent name &amp; description, then publish</h3></div></div>
       <ol>
         <li>Update the agent name to <code>Vendor and Renewal Risk Analyst</code>.</li>
         <li>Update the description to: <b>Review contracts for vendor onboarding and renewals. Extracts key terms and classifies risk; does not negotiate or send.</b></li>
@@ -597,10 +626,10 @@ Constraints
 
     <!-- ============ STAGE 2 ============ -->
     <section class="stage" id="stage-2">
-      <div class="stage-head"><h2>Stage 2 · Import &amp; wire up</h2><span class="time">Request Type + workflow · 10 min</span></div>
+      <div class="stage-head"><h2>Stage 2 · Import &amp; wire up</h2></div>
       <p>Both the Request Type and the workflow are prebuilt and supplied as ZIPs, so the whole room starts from an identical, working configuration. Your job here is to import them, re-point the tenant-specific references at <i>your</i> objects, and publish. What matters is <b>understanding what's inside</b> - open each step as you verify it.</p>
 
-      <div class="h-check"><input type="checkbox" data-stage="2" id="chk8"><div><h3 style="display:inline">2.1 · Import &amp; activate the Request Type</h3></div></div>
+      <div class="h-check" id="sec-2-1"><input type="checkbox" data-stage="2" id="chk8"><div><h3 style="display:inline">2.1 · Import &amp; activate the Request Type</h3></div></div>
       <ol>
         <li>Navigate to the <b>Agreements</b> tab and click on <b>Requests</b>.</li>
         <li>Open <b>Settings</b> for Agreement Desk.</li>
@@ -612,7 +641,7 @@ Constraints
       <div class="expect"><b>Checkpoint:</b> the Request Type is listed and <b>active</b>, with fields for vendor/customer name, requester, estimated annual spend, jurisdiction, and category.</div>
       <div class="note">Importing rather than hand-building keeps everyone on identical field names, which matters in the next step - the workflow's trigger and field mappings expect exactly those names.</div>
 
-      <div class="h-check"><input type="checkbox" data-stage="2" id="chk9"><div><h3 style="display:inline">2.2 · Import the workflow</h3></div></div>
+      <div class="h-check" id="sec-2-2"><input type="checkbox" data-stage="2" id="chk9"><div><h3 style="display:inline">2.2 · Import the workflow</h3></div></div>
       <ol>
         <li>Navigate to <b>Agreements → Maestro Workflows</b> (your tenant may label this <b>Workflow Builder</b> under Automation).</li>
         <li>Click <b>Import Workflow</b>.</li>
@@ -623,7 +652,7 @@ Constraints
       <div class="expect"><b>Checkpoint:</b> the imported workflow is on your canvas as a <b>draft</b>, showing a start method of <b>From Agreement Desk</b> and a visible three-way branch.</div>
       <div class="warn"><b>An imported workflow will not run untouched.</b> References to tenant-specific objects - your Request Type, your published agent, the consent identity, recipients - arrive unmapped or pointing at the source tenant. Work through 2.3 to 2.6 in order before publishing.</div>
 
-      <div class="h-check"><input type="checkbox" data-stage="2" id="chk10"><div><h3 style="display:inline">2.3 · Verify the trigger &amp; Request Type</h3></div></div>
+      <div class="h-check" id="sec-2-3"><input type="checkbox" data-stage="2" id="chk10"><div><h3 style="display:inline">2.3 · Verify the trigger &amp; Request Type</h3></div></div>
       <ol>
         <li>Open the workflow's start / trigger configuration.</li>
         <li>Confirm the start method is <b>From Agreement Desk</b>.</li>
@@ -633,7 +662,7 @@ Constraints
       <div class="expect"><b>Checkpoint:</b> the trigger names your own imported Request Type, not a placeholder or a missing reference.</div>
       <div class="note">Request Type and status references are the most common thing to need re-pointing after a workflow import. If you see an error like "Module metadata is undefined" or a missing-request-type error, this is almost always the cause.</div>
 
-      <div class="h-check"><input type="checkbox" data-stage="2" id="chk11"><div><h3 style="display:inline">2.4 · Understand "Get Document from a Request"</h3></div></div>
+      <div class="h-check" id="sec-2-4"><input type="checkbox" data-stage="2" id="chk11"><div><h3 style="display:inline">2.4 · Understand "Get Document from a Request"</h3></div></div>
       <p>This is the first step after the trigger. It pulls the uploaded contract off the Desk request into a workflow variable that both the agent step and the send step consume. Open it and confirm:</p>
       <table>
         <tbody><tr><th>Setting</th><th>What it should say</th></tr>
@@ -644,7 +673,7 @@ Constraints
       <div class="expect"><b>Checkpoint:</b> you can point at where <code>request_document</code> is produced, and trace it forward to the two steps that consume it.</div>
       <div class="note"><b>Known constraint worth internalizing:</b> this step returns <b>one</b> document. If a request has several attachments you configure document labels on the Request Type and point the step at a specific label - otherwise which document you get is not something to leave to chance. That's why Stage 3 asks for one document per request.</div>
 
-      <div class="h-check"><input type="checkbox" data-stage="2" id="chk12"><div><h3 style="display:inline">2.5 · Point the agent step at your agent</h3></div></div>
+      <div class="h-check" id="sec-2-5"><input type="checkbox" data-stage="2" id="chk12"><div><h3 style="display:inline">2.5 · Point the agent step at your agent</h3></div></div>
       <p>Open the agent step (labeled <b>Use AI Agent</b>, <b>Agent</b>, or similar depending on your environment). Agent references often don't survive an import cleanly, so this is the step most likely to need your attention.</p>
       <table>
         <tbody><tr><th>Field</th><th>Value</th></tr>
@@ -664,7 +693,7 @@ Constraints
         <b>A note on <code>Update Variable From XML</code>:</b> that step is documented for ingesting XML <i>files</i> into workflow variables. It's a legitimate advanced option if you're deliberately working with XML documents, but it is <b>not</b> the standard or required way to read an agent's output. The default path is the agent returning JSON/XML and the step's own mapping capturing it. In CLM's "Use AI Agent" step the response surfaces as <code>AgentFinalResponseRaw</code> and <code>AgentFinalResponseXml</code> for downstream steps - that CLM pattern is not covered in depth in this lab.
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="2" id="chk13"><div><h3 style="display:inline">2.6 · Walk the branch &amp; the three paths</h3></div></div>
+      <div class="h-check" id="sec-2-6"><input type="checkbox" data-stage="2" id="chk13"><div><h3 style="display:inline">2.6 · Walk the branch &amp; the three paths</h3></div></div>
       <p>Open the branch step. Confirm three cases, then follow each path so you know what to expect in Stage 3.</p>
       <table>
         <tbody><tr><th>Case</th><th>Condition</th><th>Path</th></tr>
@@ -681,7 +710,7 @@ Constraints
       <div class="block">We tried to process your request automatically, but could not read the attached contract or generate a valid risk assessment. Please check the document and resubmit this request.<button class="copy">Copy</button></div>
       <div class="warn"><b>Note how the fallback is a real case, not an afterthought.</b> If an unexpected value silently matched the LOW condition, you'd have built a system that mails contracts to counterparties when the AI has a bad day. The design default is <i>not</i> sending.</div>
 
-      <div class="h-check"><input type="checkbox" data-stage="2" id="chk14"><div><h3 style="display:inline">2.7 · Publish the workflow</h3></div></div>
+      <div class="h-check" id="sec-2-7"><input type="checkbox" data-stage="2" id="chk14"><div><h3 style="display:inline">2.7 · Publish the workflow</h3></div></div>
       <ol>
         <li>Click <b>Review &amp; Publish</b> in the workflow editor.</li>
         <li>Click through <b>Next</b>, then <b>Publish</b>.</li>
@@ -694,14 +723,14 @@ Constraints
 
     <!-- ============ STAGE 3 ============ -->
     <section class="stage" id="stage-3">
-      <div class="stage-head"><h2>Stage 3 · Trigger &amp; validate</h2><span class="time">Three scenarios · 25 min</span></div>
+      <div class="stage-head"><h2>Stage 3 · Trigger &amp; validate</h2></div>
       <p>Back to Agreement Desk. Submit a request for each of the three scenarios and confirm the flow lands where it should. A flow that only ever gets tested on the happy path is a flow whose behavior you don't actually know.</p>
       <p>Each run follows the same shape: create the request, submit it, then attach the contract on the <b>Documents</b> tab via <b>Upload documents</b>.</p>
       <div class="warn">
         <b>The document is not an intake form field.</b> Agreement Desk's form builder handles data-entry fields - text, number, dropdown, date. The contract attaches to the request itself via <b>Upload documents</b>, and the workflow retrieves it with <b>Get Document from a Request</b>. Keep it to <b>one</b> document per request.
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="3" id="chk15"><div><h3 style="display:inline">3.1 · Scenario 1 - LOW risk, straight through</h3></div></div>
+      <div class="h-check" id="sec-3-1"><input type="checkbox" data-stage="3" id="chk15"><div><h3 style="display:inline">3.1 · Scenario 1 - LOW risk, straight through</h3></div></div>
       <ol>
         <li>Go to the <b>Requests</b> tab and click <b>New request</b>.</li>
         <li>Select Request Type <b>Agent Studio - Risk Lab</b>.</li>
@@ -731,7 +760,7 @@ Constraints
         <b>Expect:</b> the workflow triggers → Get Document returns the contract → the agent returns <code>risk_level = LOW</code> → the LOW branch runs → an envelope goes to your configured participants → on completion the Desk status becomes <span class="proc-only"><b>Onboarded / Signed</b></span><span class="sales-only"><b>Renewal Signed</b></span>.
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="3" id="chk16"><div><h3 style="display:inline">3.2 · Scenario 2 - MEDIUM/HIGH risk, human review</h3></div></div>
+      <div class="h-check" id="sec-3-2"><input type="checkbox" data-stage="3" id="chk16"><div><h3 style="display:inline">3.2 · Scenario 2 - MEDIUM/HIGH risk, human review</h3></div></div>
       <p class="proc-only">Create another request; Vendor name <b>DataVault Dynamics</b>, spend <code>1500000</code>, Jurisdiction <code>EMEA</code>, Category <b>Vendor Contract</b>. Submit, then attach the <b>HIGH</b> sample via <b>Upload documents</b>.</p>
       <p class="sales-only">Create another request; Customer name <b>Keranos Digital Media</b>, spend <code>1500000</code>, Jurisdiction <code>EMEA</code>, Category <b>Customer Renewal</b>. Submit, then attach the <b>HIGH</b> sample via <b>Upload documents</b>.</p>
       <div class="expect">
@@ -739,14 +768,14 @@ Constraints
       </div>
       <div class="note">Open the approval task and read it as the approver would. The point of this pattern is that the reviewer gets the agent's findings handed to them - they shouldn't have to re-read the contract to know why it escalated.</div>
 
-      <div class="h-check"><input type="checkbox" data-stage="3" id="chk17"><div><h3 style="display:inline">3.3 · Scenario 3 - missing or malformed document, fallback</h3></div></div>
+      <div class="h-check" id="sec-3-3"><input type="checkbox" data-stage="3" id="chk17"><div><h3 style="display:inline">3.3 · Scenario 3 - missing or malformed document, fallback</h3></div></div>
       <p>Create a third request with any valid field values, then either attach nothing at all, or attach a deliberately unusable file - an empty document, or an image with no readable text.</p>
       <div class="expect">
         <b>Expect:</b> Get Document or the agent step fails → the fallback branch runs → the Desk status becomes a <b>Returned</b> state → the requester receives the explanatory message → <b>no envelope is sent</b>.
       </div>
       <div class="note">Optional fourth run: repeat Scenario 2 but <b>reject</b> the approval instead of approving. Confirm it lands in a terminal Rejected status and no envelope is ever created.</div>
 
-      <div class="h-check"><input type="checkbox" data-stage="3" id="chk18"><div><h3 style="display:inline">3.4 · Validation checklist</h3></div></div>
+      <div class="h-check" id="sec-3-4"><input type="checkbox" data-stage="3" id="chk18"><div><h3 style="display:inline">3.4 · Validation checklist</h3></div></div>
       <div class="card">
         <ul>
           <li><b>Agent</b> - returns valid JSON with all five fields; <code>risk_level</code> is always one of the three literal values; capabilities let it read the document but not send anything.</li>
@@ -799,7 +828,7 @@ Constraints
 
     <!-- ============ STAGE 4 ============ -->
     <section class="stage" id="stage-4">
-      <div class="stage-head"><h2>Stage 4 · The CLM connection</h2><span class="time">Demo only</span></div>
+      <div class="stage-head"><h2>Stage 4 · The CLM connection</h2></div>
 
       <div class="demo-banner">
         <span class="icon">&#9654;</span>
@@ -808,7 +837,7 @@ Constraints
         </div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="4" id="chk19"><div><h3 style="display:inline">4.1 · Two stages in the lifecycle, one agent</h3><span class="tag demo">concept</span></div></div>
+      <div class="h-check" id="sec-4-1"><input type="checkbox" data-stage="4" id="chk19"><div><h3 style="display:inline">4.1 · Two stages in the lifecycle, one agent</h3><span class="tag demo">concept</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">This lab's Maestro workflow handles <b>intake</b>: a new vendor MSA is submitted via Agreement Desk, the agent reviews it, and the workflow routes to signature or legal review. That covers the front door.</p>
         <p style="margin:0 0 10px;">CLM handles a different point in the same lifecycle: <b>negotiation and execution</b>. An MSA is already inside CLM, being redlined and reviewed. Once the legal team finishes a round of changes, the CLM workflow can call the same agent again - now to extract the final risk posture before the document routes for signature. Same agent, different trigger, different moment in the process.</p>
@@ -857,7 +886,7 @@ Constraints
         </div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="4" id="chk20"><div><h3 style="display:inline">4.2 · What the "Use AI Agent" step looks like in a CLM workflow</h3><span class="tag demo">demo</span></div></div>
+      <div class="h-check" id="sec-4-2"><input type="checkbox" data-stage="4" id="chk20"><div><h3 style="display:inline">4.2 · What the "Use AI Agent" step looks like in a CLM workflow</h3><span class="tag demo">demo</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">In a CLM workflow for MSA negotiation, the "Use AI Agent" step is configured with five fields. Here is how each one maps to the Vendor Risk Analyst scenario:</p>
         <table>
@@ -870,7 +899,7 @@ Constraints
         </table>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="4" id="chk21"><div><h3 style="display:inline">4.3 · What the output variable contains</h3><span class="tag demo">demo</span></div></div>
+      <div class="h-check" id="sec-4-3"><input type="checkbox" data-stage="4" id="chk21"><div><h3 style="display:inline">4.3 · What the output variable contains</h3><span class="tag demo">demo</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">After the step runs, the agent's response is processed into a structured XML variable. The top-level fields are:</p>
         <div class="xml-var">
@@ -949,6 +978,13 @@ Constraints
   stepEls.forEach(function(li){
     li.addEventListener('click',function(){
       var t=document.getElementById(li.getAttribute('data-target'));
+      if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+  // sub-nav scroll
+  [].slice.call(document.querySelectorAll('.sub-nav li')).forEach(function(li){
+    li.addEventListener('click',function(){
+      var t=document.getElementById(li.getAttribute('data-scroll'));
       if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
     });
   });
