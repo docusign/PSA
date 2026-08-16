@@ -69,6 +69,9 @@ main{flex:1;min-width:0;padding:34px 46px 120px;max-width:960px;}
 .step .txt{display:flex;flex-direction:column;gap:2px;min-width:0;padding-top:2px;}
 .step .txt .t{font-weight:600;font-size:14.5px;color:var(--ink);line-height:1.3;}
 .step .txt .s{font-size:11.5px;color:var(--muted);font-weight:400;line-height:1.3;}
+.sub-nav{list-style:none;margin:0 0 4px 22px;padding:6px 0 8px;font-size:12.5px;border-left:2px solid #e5e1f0;}
+.sub-nav li{padding:5px 12px;cursor:pointer;color:var(--ink);font-weight:500;transition:background .12s,color .12s,border-color .12s;border-left:2px solid transparent;margin-left:-2px;}
+.sub-nav li:hover{background:#eae4fb;border-left-color:var(--indigo);color:var(--indigo);}
 
 .side-foot{margin-top:20px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:14px;}
 
@@ -249,9 +252,33 @@ li{margin:5px 0;}
     <ol class="stepper" id="stepper">
       <li class="step active" data-target="stage-0"><span class="ring" data-stage="0"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">0</span></span><span class="txt"><span class="t">Before you begin</span><span class="s">Scenario · Flow · Setup</span></span></li>
       <li class="step" data-target="stage-1"><span class="ring" data-stage="1"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">1</span></span><span class="txt"><span class="t">Build the agent</span><span class="s">Create · Configure · Instruct · Test</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-1-1">1.1 Accessing Agent Studio</li>
+        <li data-scroll="sec-1-2">1.2 Initial draft</li>
+        <li data-scroll="sec-1-3">1.3 Entry method &amp; greeting</li>
+        <li data-scroll="sec-1-4">1.4 Master instructions</li>
+        <li data-scroll="sec-1-5">1.5 Test conversation paths</li>
+        <li data-scroll="sec-1-6">1.6 Publish the agent</li>
+      </ul>
       <li class="step" data-target="stage-2"><span class="ring" data-stage="2"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">2</span></span><span class="txt"><span class="t">Best practices</span><span class="s">Unhappy paths · Ask Iris</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-2-1">2.1 Prompt design decisions</li>
+        <li data-scroll="sec-2-2">2.2 Run from Ask Iris</li>
+      </ul>
       <li class="step" data-target="stage-3"><span class="ring" data-stage="3"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">Advanced automation</span><span class="s">Direct envelope delivery</span></span></li>
-      <li class="step" data-target="stage-4"><span class="ring" data-stage="4"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">4</span></span><span class="txt"><span class="t">The CLM connection</span><span class="s">Demo only · Maestro workflow step</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-3-0">3.0 Send Envelopes capability</li>
+        <li data-scroll="sec-3-1">3.1 Template sync</li>
+        <li data-scroll="sec-3-2">3.2 Replace Step 4</li>
+        <li data-scroll="sec-3-3">3.3 See it in action</li>
+      </ul>
+      <li class="step" data-target="stage-4"><span class="ring" data-stage="4"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">4</span></span><span class="txt"><span class="t">The CLM connection</span><span class="s">Demo only</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-4-1">4.1 Why CLM calls the agent</li>
+        <li data-scroll="sec-4-2">4.2 Use AI Agent step</li>
+        <li data-scroll="sec-4-3">4.3 Output variable</li>
+        <li data-scroll="sec-4-4">4.4 Customer prerequisites</li>
+      </ul>
     </ol>
     <div class="side-foot">
       Self-paced handbook. Tick each step checkbox to fill the progress rings.<br><br>
@@ -276,7 +303,7 @@ li{margin:5px 0;}
         <p>Build an interactive agent that handles real-world friction: it thoroughly searches for an existing agreement, pivots smoothly when nothing is found, gathers the right inputs, and produces a copy-paste-ready NDA on the spot.</p>
       </div>
 
-      <div class="stage-head"><h2>Before you begin</h2><span class="time">Start here</span></div>
+      <div class="stage-head"><h2>Before you begin</h2></div>
 
       <h3>0.1 · Purpose &amp; business outcome</h3>
       <div class="card">
@@ -445,10 +472,10 @@ li{margin:5px 0;}
 
     <!-- ============ STAGE 1 ============ -->
     <section class="stage" id="stage-1">
-      <div class="stage-head"><h2>Stage 1 · Build the agent</h2><span class="time">~15 min</span></div>
+      <div class="stage-head"><h2>Stage 1 · Build the agent</h2></div>
       <p>Five steps take you from a blank Automations tab to a working, tested Search-to-Draft NDA Assistant.</p>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="s11"><div><h3 style="display:inline">1.1 · Accessing the Agent Studio</h3><span class="tag">build</span></div></div>
+      <div class="h-check" id="sec-1-1"><input type="checkbox" data-stage="1" id="s11"><div><h3 style="display:inline">1.1 · Accessing the Agent Studio</h3><span class="tag">build</span></div></div>
       <div class="card">
         <div class="clickpath">
           <div class="cp-task"><span class="cp-badge">Click path</span>Open the creation screen</div>
@@ -461,7 +488,7 @@ li{margin:5px 0;}
         <div class="expect"><b>Checkpoint:</b> you're looking at the agent creation screen with a central description text block titled "Describe what you want your agent to accomplish…".</div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="s12"><div><h3 style="display:inline">1.2 · Initial draft</h3><span class="tag">build</span></div></div>
+      <div class="h-check" id="sec-1-2"><input type="checkbox" data-stage="1" id="s12"><div><h3 style="display:inline">1.2 · Initial draft</h3><span class="tag">build</span></div></div>
       <div class="card">
         <p style="margin:0 0 8px;">Initialize the agent framework using natural language to explain its fundamental goal.</p>
         <ol>
@@ -478,7 +505,7 @@ li{margin:5px 0;}
         <div class="expect"><b>Checkpoint:</b> the agent shell exists and Agent Studio has pre-selected capabilities for agreement search and text generation.</div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="s13"><div><h3 style="display:inline">1.3 · Review the entry method and set the greeting</h3><span class="tag">build</span></div></div>
+      <div class="h-check" id="sec-1-3"><input type="checkbox" data-stage="1" id="s13"><div><h3 style="display:inline">1.3 · Review the entry method and set the greeting</h3><span class="tag">build</span></div></div>
       <div class="card">
         <div class="clickpath">
           <div class="cp-task"><span class="cp-badge">Click path</span>Entry method</div>
@@ -510,7 +537,7 @@ li{margin:5px 0;}
         <div class="expect"><b>Checkpoint:</b> the Define what starts this agent section shows both <b>In chat</b> and <b>In a workflow</b> as active entry points, and the greeting text is still present after you navigate away and return to the agent setup page.</div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="s13b"><div><h3 style="display:inline">1.3.1 · Validate the capabilities</h3><span class="tag">build</span></div></div>
+      <div class="h-check" id="sec-1-3b"><input type="checkbox" data-stage="1" id="s13b"><div><h3 style="display:inline">1.3.1 · Validate the capabilities</h3><span class="tag">build</span></div></div>
       <div class="card">
         <p style="margin:0 0 8px;">When you created the agent from the initialization string in 1.2, Agent Studio pre-selected a set of capabilities. Verify the selection before adding your instructions.</p>
         <div class="clickpath">
@@ -526,7 +553,7 @@ li{margin:5px 0;}
         <div class="expect"><b>Checkpoint:</b> the Capabilities section lists at minimum Find Agreements, Generate Documents, Party Insights, Ask the User, and Review Documents.</div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="s14"><div><h3 style="display:inline">1.4 · Deploying the master instructions</h3><span class="tag">build</span></div></div>
+      <div class="h-check" id="sec-1-4"><input type="checkbox" data-stage="1" id="s14"><div><h3 style="display:inline">1.4 · Deploying the master instructions</h3><span class="tag">build</span></div></div>
       <div class="card">
         <p style="margin:0 0 8px;">Scroll down to the <b>Instructions*</b> box, clear any generated text, and paste the full prompt below. This is a tested prompt; do not paraphrase the step logic or the pivot script wording, as those have been validated to produce consistent output.</p>
         <div class="lbl">Agent instructions (replace all generated text with this)</div>
@@ -585,7 +612,7 @@ Title: __________________________</div>
         <div class="expect"><b>Checkpoint:</b> the Instructions* field contains only this prompt. Save the agent before moving on.</div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="s15"><div><h3 style="display:inline">1.5 · Test both conversation paths</h3><span class="tag">test</span></div></div>
+      <div class="h-check" id="sec-1-5"><input type="checkbox" data-stage="1" id="s15"><div><h3 style="display:inline">1.5 · Test both conversation paths</h3><span class="tag">test</span></div></div>
       <div class="card">
         <ol>
           <li>Click <b>Test</b> in the top toolbar to open the test panel.</li>
@@ -612,7 +639,7 @@ Title: __________________________</div>
         <div class="expect"><b>Checkpoint:</b> the agent surfaces existing agreements and stops, and produces the NDA only after all three inputs are confirmed.</div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="s16"><div><h3 style="display:inline">1.6 · Publish the agent</h3><span class="tag">build</span></div></div>
+      <div class="h-check" id="sec-1-6"><input type="checkbox" data-stage="1" id="s16"><div><h3 style="display:inline">1.6 · Publish the agent</h3><span class="tag">build</span></div></div>
       <div class="card">
         <ol>
           <li>Click <b>Save draft</b> to save the current state.</li>
@@ -626,9 +653,9 @@ Title: __________________________</div>
 
     <!-- ============ STAGE 2 ============ -->
     <section class="stage" id="stage-2">
-      <div class="stage-head"><h2>Stage 2 · Best practices &amp; the agent in action</h2><span class="time">~10 min</span></div>
+      <div class="stage-head"><h2>Stage 2 · Best practices &amp; the agent in action</h2></div>
 
-      <div class="h-check"><input type="checkbox" data-stage="2" id="s21"><div><h3 style="display:inline">2.1 · Why each prompt design decision was made</h3><span class="tag">design</span></div></div>
+      <div class="h-check" id="sec-2-1"><input type="checkbox" data-stage="2" id="s21"><div><h3 style="display:inline">2.1 · Why each prompt design decision was made</h3><span class="tag">design</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">Four specific choices in the instructions prevent failure modes that would otherwise show up in production. Read these before the lab so you can explain them to a customer or modify them deliberately rather than accidentally.</p>
         <table>
@@ -640,7 +667,7 @@ Title: __________________________</div>
         </tbody></table>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="2" id="s22"><div><h3 style="display:inline">2.2 · Run the agent from Ask Iris</h3><span class="tag">run</span></div></div>
+      <div class="h-check" id="sec-2-2"><input type="checkbox" data-stage="2" id="s22"><div><h3 style="display:inline">2.2 · Run the agent from Ask Iris</h3><span class="tag">run</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">This is the rep-facing surface. From Ask Iris, a Sales rep can check NDA status or generate a new agreement without submitting a formal request or leaving the conversation. Run both paths to confirm the published agent behaves identically to the Test panel.</p>
         <div class="clickpath">
@@ -669,14 +696,14 @@ Title: __________________________</div>
 
     <!-- ============ STAGE 3 ============ -->
     <section class="stage" id="stage-3">
-      <div class="stage-head"><h2>Stage 3 · Advanced automation: direct Docusign envelope delivery</h2><span class="time">Part 2 · ~15 min</span></div>
+      <div class="stage-head"><h2>Stage 3 · Advanced automation: direct Docusign envelope delivery</h2></div>
 
       <div class="card tint">
         <p style="margin:0 0 10px;">Getting a clean NDA draft into a chat window removes most of the friction. But the rep still has to open eSignature, create an envelope, paste the text in, add the recipient, and place signature tags. For a high-volume Sales team that is still three to five manual steps per deal.</p>
         <p style="margin:0;">This stage connects the agent to a pre-built <b>Docusign Envelope Template</b> so that when the agent collects the three intake inputs, it fills the template fields and dispatches the envelope directly. The rep confirms intent in the chat; execution happens without leaving Iris.</p>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="3" id="s30"><div><h3 style="display:inline">3.0 · Add the Send Envelopes capability</h3><span class="tag">setup</span></div></div>
+      <div class="h-check" id="sec-3-0"><input type="checkbox" data-stage="3" id="s30"><div><h3 style="display:inline">3.0 · Add the Send Envelopes capability</h3><span class="tag">setup</span></div></div>
       <div class="card">
         <p style="margin:0 0 8px;"><b>Agent Studio</b> is where your agents live. It is accessible from the <b>Automations</b> tab in the top navigation. Your NDA Gatekeeper agent is listed there — opening it brings you back to the same setup page you used in Stage 1.</p>
         <div class="clickpath">
@@ -699,7 +726,7 @@ Title: __________________________</div>
         <div class="expect"><b>Checkpoint:</b> the Capabilities section lists Find Agreements, Generate Documents, Party Insights, Ask the User, and Send Envelopes. The agent is saved but not yet republished — you will republish after updating the instructions in 3.2.</div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="3" id="s31"><div><h3 style="display:inline">3.1 · Pre-requisite: template sync</h3><span class="tag">setup</span></div></div>
+      <div class="h-check" id="sec-3-1"><input type="checkbox" data-stage="3" id="s31"><div><h3 style="display:inline">3.1 · Pre-requisite: template sync</h3><span class="tag">setup</span></div></div>
       <div class="card">
         <p style="margin:0 0 8px;">Before instructing the agent to trigger envelopes, ensure your standard NDA template is saved as a reusable <b>Envelope Template</b> within your Docusign eSignature account.</p>
         <ol>
@@ -710,7 +737,7 @@ Title: __________________________</div>
         <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Envelope Template saved in eSignature with signer roles labeled</span></div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="3" id="s32"><div><h3 style="display:inline">3.2 · Replace Step 4 in the instructions</h3><span class="tag">build</span></div></div>
+      <div class="h-check" id="sec-3-2"><input type="checkbox" data-stage="3" id="s32"><div><h3 style="display:inline">3.2 · Replace Step 4 in the instructions</h3><span class="tag">build</span></div></div>
       <div class="card">
         <p style="margin:0 0 8px;">Go to your agent in Agent Studio and open the <b>Instructions*</b> field. Find <b>Step 4</b> at the bottom of the prompt. Delete everything from "Step 4" to the end of the field, then paste the replacement Step 4 below. Steps 1, 2, and 3 stay exactly as they are.</p>
         <div class="lbl">Replacement Step 4 (replaces the existing Step 4 only)</div>
@@ -725,7 +752,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         <div class="expect"><b>Checkpoint:</b> Steps 1, 2, and 3 are unchanged; Step 4 references the envelope template by name; the agent is saved and republished.</div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="3" id="s33"><div><h3 style="display:inline">3.3 · Seeing the advanced workflow in action</h3><span class="tag">test</span></div></div>
+      <div class="h-check" id="sec-3-3"><input type="checkbox" data-stage="3" id="s33"><div><h3 style="display:inline">3.3 · Seeing the advanced workflow in action</h3><span class="tag">test</span></div></div>
       <div class="card">
         <p style="margin:0 0 8px;">You can <b>Test</b> your agent to ensure that it works as intended. Click the <b>Test</b> option to begin testing.</p>
         <p style="margin:0;">Ask about a counterparty with no active agreement, say yes to the draft offer, provide the recipient details, and watch the agent complete the template fields and send the envelope directly, instead of dumping text into the chat.</p>
@@ -744,7 +771,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
     </section>
 
     <section class="stage" id="stage-4">
-      <div class="stage-head"><h2>Stage 4 · The CLM connection</h2><span class="time">Demo only</span></div>
+      <div class="stage-head"><h2>Stage 4 · The CLM connection</h2></div>
 
       <div class="demo-banner">
         <span class="icon">&#9654;</span>
@@ -753,7 +780,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         </div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="4" id="s40"><div><h3 style="display:inline">4.1 · Why CLM calls the agent instead of running it in chat</h3><span class="tag demo">concept</span></div></div>
+      <div class="h-check" id="sec-4-1"><input type="checkbox" data-stage="4" id="s40"><div><h3 style="display:inline">4.1 · Why CLM calls the agent instead of running it in chat</h3><span class="tag demo">concept</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">Ask Iris is conversational: a rep asks a question, the agent responds, the rep acts. That works for one deal at a time. A CLM workflow is deterministic: every inbound NDA request follows the same path, without a human having to remember to ask.</p>
         <p style="margin:0 0 10px;">The "Use AI Agent" step is the bridge. CLM is the orchestration surface; Agent Studio is the reasoning layer. The CLM workflow handles the structured steps (approvals, merges, signatures, archiving). The agent handles the part that requires judgment: check the repository, evaluate what exists, and return a structured answer the workflow can act on.</p>
@@ -780,7 +807,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Architecture slide: Agent Studio (reasoning) on the left, CLM Workflow (orchestration) on the right, Trigger and Response arrows between them</span></div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="4" id="s41"><div><h3 style="display:inline">4.2 · What the "Use AI Agent" step looks like for the NDA Gatekeeper</h3><span class="tag demo">demo</span></div></div>
+      <div class="h-check" id="sec-4-2"><input type="checkbox" data-stage="4" id="s41"><div><h3 style="display:inline">4.2 · What the "Use AI Agent" step looks like for the NDA Gatekeeper</h3><span class="tag demo">demo</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">In a CLM workflow for inbound NDA requests, the "Use AI Agent" step is configured with five fields. Here is how each one maps to the NDA Gatekeeper scenario:</p>
         <table>
@@ -794,7 +821,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">CLM workflow canvas: Use AI Agent step selected, step properties panel open on the right showing the five fields filled in for the NDA Gatekeeper</span></div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="4" id="s42"><div><h3 style="display:inline">4.3 · What the output variable contains</h3><span class="tag demo">demo</span></div></div>
+      <div class="h-check" id="sec-4-3"><input type="checkbox" data-stage="4" id="s42"><div><h3 style="display:inline">4.3 · What the output variable contains</h3><span class="tag demo">demo</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">After the agent runs, the step processes the response into a structured XML variable the workflow can reference. The top-level fields are:</p>
         <div class="xml-var">
@@ -815,7 +842,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Variables and Values panel showing AgentResponse tree expanded, with AgentFinalResponseXml highlighted and nda_status value visible</span></div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="4" id="s43"><div><h3 style="display:inline">4.4 · What must be in place before a customer can use this</h3><span class="tag demo">prereqs</span></div></div>
+      <div class="h-check" id="sec-4-4"><input type="checkbox" data-stage="4" id="s43"><div><h3 style="display:inline">4.4 · What must be in place before a customer can use this</h3><span class="tag demo">prereqs</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">The "Use AI Agent" step is available in CLM workflows but requires setup that goes beyond Agent Studio alone. Partners and customers need to confirm these items before the pattern goes live.</p>
         <div class="demo-prereq">
@@ -905,6 +932,13 @@ Once all three inputs are confirmed (full legal name, governing state, business 
   stepEls.forEach(function(li){
     li.addEventListener('click',function(){
       var t=document.getElementById(li.getAttribute('data-target'));
+      if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+  // sub-nav scroll
+  [].slice.call(document.querySelectorAll('.sub-nav li')).forEach(function(li){
+    li.addEventListener('click',function(){
+      var t=document.getElementById(li.getAttribute('data-scroll'));
       if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
     });
   });
