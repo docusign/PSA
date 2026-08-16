@@ -569,18 +569,14 @@ Constraints
         <li>Click <b>Add Capabilities</b>.</li>
       </ol>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="chk7"><div><h3 style="display:inline">1.4 · Test the agent, then publish</h3></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="1" id="chk7"><div><h3 style="display:inline">1.4 · Update agent name &amp; description, then publish</h3></div></div>
       <ol>
-        <li>Click <b>Test</b> to test the agent before publishing.</li>
-        <li>If the response renders as formatted prose, open <b>Output Display</b> and set <b>Test Mode</b> to <b>Raw</b> so you see exactly what the workflow will receive.</li>
-        <li>Run the prompt: <b>Extracts key terms from the attached document and classify the risk.</b></li>
-        <li>Verify all five keys are present: <code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>.</li>
-        <li>Verify <code>risk_level</code> is exactly <code>LOW</code>, <code>MEDIUM</code>, or <code>HIGH</code>.</li>
-        <li>Test with <b>both</b> sample contracts and confirm they land on different risk levels - that's what Stage 3 depends on.</li>
-        <li>Click <b>Save draft</b>, then <b>Publish</b>.</li>
+        <li>Update the agent name to <code>Vendor and Renewal Risk Analyst</code>.</li>
+        <li>Update the description to: <b>Review contracts for vendor onboarding and renewals. Extracts key terms and classifies risk; does not negotiate or send.</b></li>
+        <li>Click <b>Save</b>.</li>
+        <li>Click <b>Publish</b>.</li>
       </ol>
-      <div class="warn"><b>It must be Published, not Draft.</b> A draft agent will not appear in the workflow's agent picker in Stage 2.2.</div>
-      <div class="note">Spend your time here rather than rushing to Stage 2. Every minute spent making the agent's output boringly predictable saves ten minutes of debugging branch conditions that "randomly" don't fire.</div>
+      <div class="warn"><b>It must be Published, not Draft.</b> A draft agent will not appear in the workflow's agent picker in Stage 2.</div>
     </section>
 
     <!-- ============ STAGE 2 ============ -->
