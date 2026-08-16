@@ -255,7 +255,7 @@ li{margin:5px 0;}
         <li data-scroll="sec-1-2">1.2 Define trigger</li>
         <li data-scroll="sec-1-3">1.3 Write instructions</li>
         <li data-scroll="sec-1-4">1.4 Add capabilities</li>
-        <li data-scroll="sec-1-5">1.5 Name, describe &amp; publish</li>
+        <li data-scroll="sec-1-5">1.5 Test &amp; publish</li>
       </ul>
       <li class="step" data-target="stage-2"><span class="ring" data-stage="2"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">2</span></span><span class="txt"><span class="t">Import &amp; wire up</span><span class="s">Request Type + workflow</span></span></li>
       <ul class="sub-nav">
@@ -447,13 +447,13 @@ li{margin:5px 0;}
         </div>
       </div>
 
-      <h3><br></h3><h3>0.4 · Learning objectives</h3>
+      <h3>0.4 · Learning objectives</h3>
       <div class="obj"><div class="lab">Objective 1</div><b>Use Agreement Desk as a structured intake surface</b><br>Import a Request Type, submit a request, and attach the document the rest of the flow depends on.</div>
       <div class="obj"><div class="lab">Objective 2</div><b>Build a Risk Analyst agent in Agent Studio</b><br>Write instructions &amp; add capabilities that reliably evaluate the request and respond with risk analysis.</div>
       <div class="obj"><div class="lab">Objective 3</div><b>Orchestrate the agent inside Workflow Builder</b><br>Automatically trigger the workflow on Agreement Desk request submission, invoke the agent &amp; capture its structured output into variables, and branch deterministically.</div>
       <div class="obj"><div class="lab">Objective 4</div><b>Keep humans in the loop and fail safely</b><br>Escalate MEDIUM/HIGH to the right approver, and return the request to the submitter when the automation can't do its job - never guess.</div>
 
-      <h3><br></h3><h3>0.5 · Prerequisites</h3>
+      <h3>0.5 · Prerequisites</h3>
       <p>A Docusign IAM (Intelligent Agreement Management) environment - sandbox or non-production - with the features and permissions below. Everything uses synthetic data only, no production accounts or real party data.</p>
 
       <div class="h-check"><input type="checkbox" data-stage="0" id="p1"><div><h3 style="display:inline">0.5.1 · Products enabled</h3><span class="tag">setup</span></div></div>
@@ -620,7 +620,7 @@ Constraints
 - All five fields must be present on every response. Use "none" or "not specified" rather than omitting a field.
 - Be precise and neutral. This is internal policy evaluation, not legal advice.
 - Do not take external actions. Only analyze and return JSON.<button class="copy">Copy</button></div>
-      <div class="note"><b>Why the strictness matters:</b> the imported workflow branches on <code>risk_level</code> as a literal string. A response wrapped in prose, or one that returns <code>"Low"</code> instead of <code>"LOW"</code>, will fall through the branch conditions into the fallback path. Say "always valid JSON" and "all fields present" explicitly - and then verify it in 1.4.</div>
+      <div class="note"><b>Why the strictness matters:</b> the imported workflow branches on <code>risk_level</code> as a literal string. A response wrapped in prose, or one that returns <code>"Low"</code> instead of <code>"LOW"</code>, will fall through the branch conditions into the fallback path. Say "always valid JSON" and "all fields present" explicitly - and then verify it in 1.5.</div>
 
       <div class="h-check" id="sec-1-4"><input type="checkbox" data-stage="1" id="chk6"><div><h3 style="display:inline">1.4 · Add capabilities</h3></div></div>
       <ol>
@@ -629,12 +629,13 @@ Constraints
         <li>Click <b>Add Capabilities</b>.</li>
       </ol>
 
-      <div class="h-check" id="sec-1-5"><input type="checkbox" data-stage="1" id="chk7"><div><h3 style="display:inline">1.5 · Update agent name &amp; description, then publish</h3></div></div>
+      <div class="h-check" id="sec-1-5"><input type="checkbox" data-stage="1" id="chk7"><div><h3 style="display:inline">1.5 · Test the agent, then publish</h3></div></div>
       <ol>
-        <li>Update the agent name to <code>Vendor and Renewal Risk Analyst</code>.</li>
-        <li>Update the description to: <b>Review contracts for vendor onboarding and renewals. Extracts key terms and classifies risk; does not negotiate or send.</b></li>
-        <li>Click <b>Save</b>.</li>
-        <li>Click <b>Publish</b>.</li>
+        <li>Click <b>Test</b> to test the agent before publishing.</li>
+        <li>Upload a sample agreement from the workshop kit.</li>
+        <li>Run the prompt: <code>Extracts key terms from the attached document and classify the risk.</code></li>
+        <li>Verify the agent returns valid JSON with all five fields (<code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>).</li>
+        <li>Click <b>Save draft</b>, then <b>Publish</b>.</li>
       </ol>
       <div class="warn"><b>It must be Published, not Draft.</b> A draft agent will not appear in the workflow's agent picker in Stage 2.</div>
     </section>
@@ -658,7 +659,7 @@ Constraints
 
       <div class="h-check" id="sec-2-2"><input type="checkbox" data-stage="2" id="chk9"><div><h3 style="display:inline">2.2 · Import the workflow</h3></div></div>
       <ol>
-        <li>Navigate to <b>Agreements → Maestro Workflows</b> (your tenant may label this <b>Workflow Builder</b> under Automation).</li>
+        <li>Navigate to <b>Agreements → Maestro Workflows</b> (your tenant may label this <b>Workflow Builder</b> under Automations).</li>
         <li>Click <b>Import Workflow</b>.</li>
         <li>Choose the import option and click <b>Upload</b>.</li>
         <li>Browse to <code>risk_lab_workflow.zip</code>, select it, and click <b>Open</b>. <b>Leave the file zipped</b> - don't extract it first.</li>
