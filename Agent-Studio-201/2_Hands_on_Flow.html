@@ -188,6 +188,15 @@ li{margin:5px 0;}
 .explorer-status .v.risk-fallback{color:var(--amber);}
 
 .foot{margin-top:40px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:16px;}
+
+/* ---------- CLM stage demo styles ---------- */
+.demo-banner{display:flex;gap:14px;align-items:flex-start;background:#fff7ed;border:1px solid #f4d8b0;border-radius:11px;padding:16px 18px;margin:14px 0 22px;}
+.demo-banner .icon{font-size:20px;line-height:1;flex:0 0 auto;margin-top:2px;}
+.xml-var{background:var(--ink);color:#eee6ff;border-radius:11px;padding:16px 18px;margin:12px 0;font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;font-size:13px;}
+.xml-var>div{display:flex;gap:12px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.08);}
+.xml-var>div:last-child{border-bottom:none;}
+.vname{color:#c9bdf0;font-weight:600;min-width:260px;}
+.vdesc{color:#8870cc;}
 </style>
 </head>
 <body data-persona="procurement">
@@ -226,6 +235,7 @@ li{margin:5px 0;}
       <li class="step" data-target="stage-1"><span class="ring" data-stage="1"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">1</span></span><span class="txt"><span class="t">Agent Studio</span><span class="s">Build the Risk Analyst</span></span></li>
       <li class="step" data-target="stage-2"><span class="ring" data-stage="2"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">2</span></span><span class="txt"><span class="t">Import &amp; wire up</span><span class="s">Request Type + workflow</span></span></li>
       <li class="step" data-target="stage-3"><span class="ring" data-stage="3"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">Trigger &amp; validate</span><span class="s">Three scenarios</span></span></li>
+      <li class="step" data-target="stage-4"><span class="ring" data-stage="4"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">4</span></span><span class="txt"><span class="t">The CLM connection</span><span class="s">Demo only · CLM workflow step</span></span></li>
     </ol>
     <div class="side-foot">
       Self-paced handbook. Tick each step checkbox to fill the progress rings.<br><br>
@@ -247,6 +257,7 @@ li{margin:5px 0;}
       <div class="hero">
         <div class="kicker">Docusign IAM · Building Agents 201</div>
         <h1>Risk-based routing: Docusign Agreement Desk + Agent Studio + Workflow Builder</h1>
+        <p>Build a risk-scoring agent, wire it into a Workflow Builder pipeline, and watch contracts route themselves — low risk to signature, high risk to human review.</p>
       </div>
 
       <div class="card tint">
@@ -271,7 +282,7 @@ li{margin:5px 0;}
         <p style="margin:0;">Reps email draft renewal orders for review, so pricing and clause policy get applied inconsistently, high-value deals stall, and nobody can see where a renewal is stuck. In this lab you replace that with an automated process: an Agreement Desk request starts a workflow that hands the order form to a Risk Analyst agent, which extracts discount, term, and governing law and classifies risk. LOW risk goes straight to the customer for signature; MEDIUM or HIGH risk waits for Finance and Legal.</p>
       </div>
 
-      <h3>0.2 · The architecture</h3>
+      <h3>0.2 · The flow at a glance</h3>
       <div class="card">
         <h3>Four surfaces, one loop</h3>
         <table>
@@ -281,11 +292,11 @@ li{margin:5px 0;}
           <tr><td><b>Agent Studio</b></td><td>The governed intelligence layer. Your Risk Analyst agent is a role-based digital team member with natural-language instructions and scoped data access - it reasons, it does not decide the routing.</td></tr>
           <tr><td><b>eSignature</b></td><td>The commit step. Nothing reaches a signer unless a branch explicitly allows it.</td></tr>
         </tbody></table>
-        <p style="margin:12px 0 0;font-weight:600;">Create request → upload contract → Desk request event → Workflow Builder → Get Document from a Request → Risk Analyst agent → branch on risk → Send Documents for Signature → update Desk status.</p>
+        <p style="margin:12px 0 0;font-weight:600;">Email with contract → Agreement Desk request submitted → Workflow triggered automatically → Execute Risk Analyst agent → Workflow branches on risk_level → Status update &amp; approval routing.</p>
       </div>
 
       <div class="note">
-        <b>Where this sits in the bigger picture :</b> Docusign IAM is the governed agreement layer for agentic architectures - Agreement Manager, Agreement Desk, Workflow Builder, and CLM are the surfaces where agents actually live inside customer workflows, pre-sign through post-sign. Agent Studio is the control plane where you design and govern those agents.&nbsp;</div><div class="note">This lab builds one concrete pattern so you can adapt the same shape elsewhere. Embedding agents into CLM workflows via the "Use AI Agent" step is its own pattern, covered in 301.
+        <b>Where this sits in the bigger picture :</b> Docusign IAM is the governed agreement layer for agentic architectures - Agreement Manager, Agreement Desk, Workflow Builder, and CLM are the surfaces where agents actually live inside customer workflows, pre-sign through post-sign. Agent Studio is the control plane where you design and govern those agents.&nbsp;</div><div class="note">This lab builds one concrete pattern so you can adapt the same shape elsewhere. Embedding agents into CLM workflows via the "Use AI Agent" step is its own pattern, not covered in depth in this lab.
       </div>
 
       <h3>0.3 · Explore the decision tree before you build it</h3>
@@ -645,7 +656,7 @@ Constraints
       <h4>How the agent's output reaches the branch</h4>
       <p>The agent returns a structured response - JSON or XML - containing the five fields. The workflow captures those into variables of the same name (<code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>) so the branch can read them. In the imported workflow this mapping is already wired; open it and confirm the five variables are populated from the agent's response, and that nothing shows as unmapped.</p>
       <div class="note">
-        <b>A note on <code>Update Variable From XML</code>:</b> that step is documented for ingesting XML <i>files</i> into workflow variables. It's a legitimate advanced option if you're deliberately working with XML documents, but it is <b>not</b> the standard or required way to read an agent's output. The default path is the agent returning JSON/XML and the step's own mapping capturing it. In CLM's "Use AI Agent" step the response surfaces as <code>AgentFinalResponseRaw</code> and <code>AgentFinalResponseXml</code> for downstream steps - that CLM pattern is covered in 301.
+        <b>A note on <code>Update Variable From XML</code>:</b> that step is documented for ingesting XML <i>files</i> into workflow variables. It's a legitimate advanced option if you're deliberately working with XML documents, but it is <b>not</b> the standard or required way to read an agent's output. The default path is the agent returning JSON/XML and the step's own mapping capturing it. In CLM's "Use AI Agent" step the response surfaces as <code>AgentFinalResponseRaw</code> and <code>AgentFinalResponseXml</code> for downstream steps - that CLM pattern is not covered in depth in this lab.
       </div>
 
       <div class="h-check"><input type="checkbox" data-stage="2" id="chk13"><div><h3 style="display:inline">2.6 · Walk the branch &amp; the three paths</h3></div></div>
@@ -778,6 +789,106 @@ Constraints
 
       <div class="foot">
         Agent Studio 201 hands-on lab. Uses Docusign IAM (Agent Studio, Agreement Desk, Workflow Builder, eSignature); confirm exact labels and availability against your account. Synthetic data only. For questions or feedback: <a href="mailto:amrit.prakash@docusign.com">amrit.prakash@docusign.com</a>
+      </div>
+    </section>
+
+    <!-- ============ STAGE 4 ============ -->
+    <section class="stage" id="stage-4">
+      <div class="stage-head"><h2>Stage 4 · The CLM connection</h2><span class="time">Demo only</span></div>
+
+      <div class="demo-banner">
+        <span class="icon">&#9654;</span>
+        <div>
+          <strong>Watch, don't build.</strong> This stage is a facilitated demo, not a hands-on exercise. The CLM "Use AI Agent" step requires a CLM license, CLM-IAM interoperability setup, a PSO-enabled account setting, and a per-environment admin consent link that cannot be completed in a shared lab environment. The goal is to show where the same agent you just built slots into a governed CLM contract workflow.
+        </div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="4" id="chk19"><div><h3 style="display:inline">4.1 · Two stages in the lifecycle, one agent</h3><span class="tag demo">concept</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">This lab's Maestro workflow handles <b>intake</b>: a new vendor MSA is submitted via Agreement Desk, the agent reviews it, and the workflow routes to signature or legal review. That covers the front door.</p>
+        <p style="margin:0 0 10px;">CLM handles a different point in the same lifecycle: <b>negotiation and execution</b>. An MSA is already inside CLM, being redlined and reviewed. Once the legal team finishes a round of changes, the CLM workflow can call the same agent again - now to extract the final risk posture before the document routes for signature. Same agent, different trigger, different moment in the process.</p>
+        <p style="margin:0 0 12px;">The "Use AI Agent" step is the bridge. CLM is the orchestration surface; Agent Studio is the reasoning layer. CLM handles the structured steps - approvals, merges, signatures, archiving. The agent handles the part that requires judgment: read the current version of the document and return a structured answer the workflow can act on.</p>
+
+        <div class="arch">
+          <svg viewBox="0 0 780 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture diagram: Maestro intake path on the left, CLM negotiation path on the right, Agent Studio in the center shared by both">
+            <defs>
+              <marker id="arr-indigo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="#4C00FF"/></marker>
+              <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="#0a7d3c"/></marker>
+            </defs>
+            <rect x="8" y="24" width="184" height="70" rx="10" fill="#e9e1fb" stroke="#4C00FF" stroke-width="1.5"/>
+            <text x="100" y="46" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4C00FF" letter-spacing=".05em">THIS LAB</text>
+            <text x="100" y="63" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">Agreement Desk</text>
+            <text x="100" y="81" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">+ Maestro Workflow</text>
+            <rect x="8" y="142" width="184" height="62" rx="10" fill="#f0fff5" stroke="#0a7d3c" stroke-width="1.5"/>
+            <text x="100" y="164" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0a7d3c" letter-spacing=".05em">CLM PATTERN</text>
+            <text x="100" y="182" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">CLM Workflow Designer</text>
+            <rect x="278" y="54" width="224" height="122" rx="12" fill="#1f0a4d" stroke="#4C00FF" stroke-width="1.5"/>
+            <text x="390" y="80" text-anchor="middle" font-size="10.5" font-weight="700" fill="#d9cdff" letter-spacing=".07em">AGENT STUDIO</text>
+            <text x="390" y="101" text-anchor="middle" font-size="13.5" font-weight="600" fill="#fff">Vendor and Renewal</text>
+            <text x="390" y="119" text-anchor="middle" font-size="13.5" font-weight="600" fill="#fff">Risk Analyst</text>
+            <text x="390" y="140" text-anchor="middle" font-size="11.5" fill="#c9bdf0">same published agent</text>
+            <text x="390" y="158" text-anchor="middle" font-size="11.5" fill="#c9bdf0">both workflow surfaces</text>
+            <rect x="588" y="24" width="184" height="70" rx="10" fill="#e9e1fb" stroke="#4C00FF" stroke-width="1.5"/>
+            <text x="680" y="46" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4C00FF" letter-spacing=".05em">MAESTRO OUTPUT</text>
+            <text x="680" y="63" text-anchor="middle" font-size="13" fill="#130032"><tspan font-weight="600">risk_level</tspan> variable</text>
+            <text x="680" y="81" text-anchor="middle" font-size="11.5" fill="#615a75">LOW / MEDIUM / HIGH</text>
+            <rect x="588" y="142" width="184" height="62" rx="10" fill="#f0fff5" stroke="#0a7d3c" stroke-width="1.5"/>
+            <text x="680" y="164" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0a7d3c" letter-spacing=".05em">CLM OUTPUT</text>
+            <text x="680" y="183" text-anchor="middle" font-size="11.5" fill="#130032">AgentFinalResponseXml</text>
+            <line x1="193" y1="59" x2="276" y2="93" stroke="#4C00FF" stroke-width="2" marker-end="url(#arr-indigo)"/>
+            <text x="224" y="69" text-anchor="middle" font-size="10" fill="#4C00FF" font-weight="600">calls</text>
+            <line x1="503" y1="93" x2="585" y2="59" stroke="#4C00FF" stroke-width="2" marker-end="url(#arr-indigo)"/>
+            <text x="556" y="69" text-anchor="middle" font-size="10" fill="#4C00FF" font-weight="600">returns</text>
+            <line x1="193" y1="173" x2="276" y2="141" stroke="#0a7d3c" stroke-width="2" marker-end="url(#arr-green)"/>
+            <text x="224" y="168" text-anchor="middle" font-size="10" fill="#0a7d3c" font-weight="600">calls</text>
+            <line x1="503" y1="141" x2="585" y2="173" stroke="#0a7d3c" stroke-width="2" marker-end="url(#arr-green)"/>
+            <text x="556" y="168" text-anchor="middle" font-size="10" fill="#0a7d3c" font-weight="600">returns</text>
+          </svg>
+          <div class="arch-legend">
+            <span><i style="background:#4C00FF;"></i>Maestro path (this lab)</span>
+            <span><i style="background:#0a7d3c;"></i>CLM path</span>
+            <span><i style="background:#1f0a4d;"></i>Agent Studio (shared reasoning layer)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="4" id="chk20"><div><h3 style="display:inline">4.2 · What the "Use AI Agent" step looks like in a CLM workflow</h3><span class="tag demo">demo</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">In a CLM workflow for MSA negotiation, the "Use AI Agent" step is configured with five fields. Here is how each one maps to the Vendor Risk Analyst scenario:</p>
+        <table>
+          <tr><th style="width:28%">Field</th><th>Value for the Vendor and Renewal Risk Analyst</th></tr>
+          <tr><td><b>Agent</b></td><td>Select the published <code>Vendor and Renewal Risk Analyst</code> from the agent picker. This is the same agent built in Stage 1 - no second version needed.</td></tr>
+          <tr><td><b>Chat Message</b></td><td>The prompt the workflow sends at step execution, for example: <em>"Analyze this MSA and return JSON with risk_level, liability_cap, governing_law, term, and discount."</em> Same prompt shape as the Maestro version.</td></tr>
+          <tr><td><b>Document (optional)</b></td><td>Pass the current CLM agreement document here so the agent reads the live negotiated version, not a cached copy.</td></tr>
+          <tr><td><b>Run agent as</b></td><td>An admin user who has completed one-time OAuth consent for this environment. Consent is per-environment - sandbox consent does not carry to production. The step fails silently if consent has not been completed.</td></tr>
+          <tr><td><b>Output variable</b></td><td>Name the output variable, for example <code>AgentResponse</code>. The workflow then reads <code>AgentResponse.AgentFinalResponseXml</code> to branch on risk_level.</td></tr>
+        </table>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="4" id="chk21"><div><h3 style="display:inline">4.3 · What the output variable contains</h3><span class="tag demo">demo</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">After the step runs, the agent's response is processed into a structured XML variable. The top-level fields are:</p>
+        <div class="xml-var">
+          <div><span class="vname">AgentResponse.ThreadId</span><span class="vdesc">execution thread identifier</span></div>
+          <div><span class="vname">AgentResponse.RunId</span><span class="vdesc">specific run identifier</span></div>
+          <div><span class="vname">AgentResponse.AgentName</span><span class="vdesc">display name of the agent that ran</span></div>
+          <div><span class="vname">AgentResponse.Intent</span><span class="vdesc">extracted intent, if present in the response</span></div>
+          <div><span class="vname">AgentResponse.AgentFinalResponseRaw</span><span class="vdesc">the agent's raw text response (JSON string)</span></div>
+          <div><span class="vname">AgentResponse.AgentFinalResponseXml</span><span class="vdesc">XML-normalized version - use this field for branching</span></div>
+        </div>
+        <p style="margin:12px 0 6px;">The CLM workflow reads <code>AgentFinalResponseXml</code> to find <code>risk_level</code> and routes accordingly. Unlike Maestro, which maps agent output directly to named variables, CLM requires the workflow to navigate the XML structure.</p>
+        <table>
+          <tr><th style="width:22%">risk_level value</th><th>What the CLM workflow does next</th></tr>
+          <tr><td><code>LOW</code></td><td>Route to the signature step. No human review required.</td></tr>
+          <tr><td><code>MEDIUM</code> or <code>HIGH</code></td><td>Route to a Legal task step. The task surfaces the agent's extracted terms (liability_cap, governing_law) so the reviewer can act without re-reading the full MSA.</td></tr>
+          <tr><td>empty or unexpected</td><td>Route to a fallback task for manual triage. Do not proceed to signature.</td></tr>
+        </table>
+        <div class="note"><b>Key difference from Maestro:</b> in Maestro the agent step maps output fields directly to workflow variables (<code>risk_level</code>, <code>liability_cap</code>, etc.). In CLM those fields sit inside <code>AgentFinalResponseXml</code> and the workflow must parse the XML path to read them. Design CLM branch conditions accordingly.</div>
+      </div>
+
+      <div class="finale">
+        <h3>The full picture</h3>
+        <p>You built one agent - the Vendor and Renewal Risk Analyst - and it runs in two places. In Maestro it handles the front door: a new vendor MSA comes in via Agreement Desk, the agent reviews it, and the workflow routes the request. In CLM it handles the negotiation stage: once a contract is inside CLM and being reviewed, the workflow calls the same agent to score the final version before routing to signature. The agent handles the judgment layer; the workflow surface - Maestro or CLM - handles the process layer. You don't build two agents. You build one good agent, publish it, and put it where the work already happens.</p>
       </div>
     </section>
 
