@@ -245,7 +245,7 @@ li{margin:5px 0;}
   <aside>
     <div class="kicker">Agent Studio · 201</div>
     <ol class="stepper" id="stepper">
-      <li class="step active" data-target="stage-0"><span class="ring" data-stage="0"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">0</span></span><span class="txt"><span class="t">Before you begin</span><span class="s">Scenario · Architecture · Setup</span></span></li>
+      <li class="step active" data-target="stage-0"><span class="ring" data-stage="0"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">0</span></span><span class="txt"><span class="t">Before you begin</span><span class="s">Scenario · Flow · Setup</span></span></li>
       <li class="step" data-target="stage-1"><span class="ring" data-stage="1"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">1</span></span><span class="txt"><span class="t">Agent Studio</span><span class="s">Build the Risk Analyst</span></span></li>
       <li class="step" data-target="stage-2"><span class="ring" data-stage="2"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">2</span></span><span class="txt"><span class="t">Import &amp; wire up</span><span class="s">Request Type + workflow</span></span></li>
       <li class="step" data-target="stage-3"><span class="ring" data-stage="3"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">Trigger &amp; validate</span><span class="s">Three scenarios</span></span></li>
@@ -362,9 +362,8 @@ li{margin:5px 0;}
 
           <!-- Node: Risk Analyst agent -->
           <rect x="312" y="165" width="143" height="64" rx="12" fill="#9A1FA8"></rect>
-          <text x="383" y="188" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Risk Analyst</text>
-          <text x="383" y="203" text-anchor="middle" fill="#f2ddff" font-size="10.5">Agent Studio</text>
-          <text x="383" y="217" text-anchor="middle" fill="#e3b6ff" font-size="10">→ risk_level + terms</text>
+          <text x="383" y="188" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Risk Analyst Agent</text>
+          <text x="383" y="205" text-anchor="middle" fill="#f2ddff" font-size="10.5">analyzes attached doc</text>
 
           <!-- Node: Branch diamond -->
           <polygon points="510,157 555,197 510,237 465,197" fill="#fff" stroke="#4C00FF" stroke-width="2"></polygon>
@@ -386,8 +385,8 @@ li{margin:5px 0;}
 
           <!-- Node: Signed -->
           <rect x="752" y="165" width="100" height="64" rx="12" fill="#0a7d3c"></rect>
-          <text x="802" y="190" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Signed</text>
-          <text x="802" y="207" text-anchor="middle" fill="#d7f5e2" font-size="10.5">Desk updated</text>
+          <text x="802" y="190" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Update Status to Approved</text>
+          <text x="802" y="207" text-anchor="middle" fill="#d7f5e2" font-size="10.5">ready to be sent for signature</text>
 
           <!-- Node: Returned -->
           <rect id="nodeFallback" x="310" y="269" width="150" height="56" rx="12" fill="#fff" stroke="#8a7fb0" stroke-width="2" stroke-dasharray="5 3"></rect>
@@ -411,9 +410,8 @@ li{margin:5px 0;}
           <div class="ctrl">
             <label for="ctrlRisk">Agent returns risk_level</label>
             <select id="ctrlRisk">
-              <option value="low">LOW - within policy</option>
-              <option value="medium">MEDIUM - needs a look</option>
-              <option value="high">HIGH - outside policy</option>
+              <option value="low">LOW - Auto Approved</option>
+              <option value="medium">MEDIUM/HIGH - Route for Approvals</option>
             </select>
           </div>
           <div class="ctrl">
@@ -427,25 +425,16 @@ li{margin:5px 0;}
         </div>
       </div>
 
-      <h3><br></h3><h3>0.4 · Reading the diagram</h3>
-      <div class="card tint diagram">
-        <div><span class="n">1</span><div><b>Agreement Desk</b>the user submits a request of the imported Request Type and uploads the draft <span class="proc-only">contract</span><span class="sales-only">order form</span> on the request's Documents tab (Stage 3).</div></div>
-        <div><span class="n">2</span><div><b>Get Document from a Request</b>the workflow's first step pulls that uploaded document into a workflow document variable (<code>request_document</code>) that later steps can use.</div></div>
-        <div><span class="n">3</span><div><b>Risk Analyst agent</b>the agent reads the document and returns a structured response containing <code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, and <code>discount</code>. The step captures those into workflow variables.</div></div>
-        <div><span class="n">4</span><div><b>Branch on risk_level</b>LOW goes straight to signature; MEDIUM or HIGH waits for a human; empty or invalid falls to the defensive path. The agent scores - the workflow decides.</div></div>
-        <div><span class="n">5</span><div><b>eSignature &amp; status</b>Send Documents for Signature uses the same <code>request_document</code>; on completion the workflow sets the Desk request to <span class="proc-only">Onboarded / Signed</span><span class="sales-only">Renewal Signed</span>.</div></div>
-      </div>
-
-      <h3><br></h3><h3>0.5 · Learning objectives</h3>
+      <h3><br></h3><h3>0.4 · Learning objectives</h3>
       <div class="obj"><div class="lab">Objective 1</div><b>Use Agreement Desk as a structured intake surface</b><br>Import a Request Type, submit a request, and attach the document the rest of the flow depends on.</div>
-      <div class="obj"><div class="lab">Objective 2</div><b>Build a Risk Analyst agent in Agent Studio</b><br>Write instructions that reliably return valid, machine-parsable JSON, scope its capabilities, and verify with Test before publishing.</div>
-      <div class="obj"><div class="lab">Objective 3</div><b>Orchestrate the agent inside Workflow Builder</b><br>Start from Agreement Desk, fetch the document, call the agent, capture its structured output into variables, and branch deterministically.</div>
+      <div class="obj"><div class="lab">Objective 2</div><b>Build a Risk Analyst agent in Agent Studio</b><br>Write instructions &amp; add capabilities that reliably evaluate the request and respond with risk analysis.</div>
+      <div class="obj"><div class="lab">Objective 3</div><b>Orchestrate the agent inside Workflow Builder</b><br>Automatically trigger the workflow on Agreement Desk request submission, invoke the agent &amp; capture its structured output into variables, and branch deterministically.</div>
       <div class="obj"><div class="lab">Objective 4</div><b>Keep humans in the loop and fail safely</b><br>Escalate MEDIUM/HIGH to the right approver, and return the request to the submitter when the automation can't do its job - never guess.</div>
 
-      <h3><br></h3><h3>0.6 · Prerequisites</h3>
+      <h3><br></h3><h3>0.5 · Prerequisites</h3>
       <p>A Docusign IAM (Intelligent Agreement Management) environment - sandbox or non-production - with the features and permissions below. Everything uses synthetic data only, no production accounts or real party data.</p>
 
-      <div class="h-check"><input type="checkbox" data-stage="0" id="p1"><div><h3 style="display:inline">0.6.1 · Products enabled</h3><span class="tag">setup</span></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p1"><div><h3 style="display:inline">0.5.1 · Products enabled</h3><span class="tag">setup</span></div></div>
       <div class="card">
         <ul>
           <li><b>Agreement Desk</b> - available and configurable (Request Types, forms, statuses).</li>
@@ -455,7 +444,7 @@ li{margin:5px 0;}
         </ul>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="0" id="p2"><div><h3 style="display:inline">0.6.2 · Permissions</h3><span class="tag">setup</span></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p2"><div><h3 style="display:inline">0.5.2 · Permissions</h3><span class="tag">setup</span></div></div>
       <div class="card">
         <p style="margin:0 0 8px;">Each participant or pair needs:</p>
         <ul>
@@ -469,9 +458,11 @@ li{margin:5px 0;}
           <div class="cp-task"><span class="cp-badge">Admin</span> Enable Agent Studio build access for participants</div>
           <ol>
             <li>Open the <b>Admin</b> tab at <a href="https://apps-d.docusign.com/admin/admin-dashboard" target="_blank" rel="noopener">apps-d.docusign.com/admin/admin-dashboard</a>.</li>
+            <li>Go to <b>AI Control Settings</b> and ensure Agent and chat capabilities are turned on.</li>
+            <li>In case they are turned off by default, select <b>Turn On Now</b> &amp; click <b>Save</b>.</li>
             <li>Go to <b>Users</b> and find the participant's account row.</li>
             <li>Click <b>Actions</b> next to their name, then select <b>Manage AI Agents Access</b>.</li>
-            <li>Under <b>AI Contract Agents Access</b>, enable:<br>
+            <li>Under <b>AI Agents Access</b>, enable:<br>
               &nbsp;&nbsp;- <b>Create new AI contract agents</b><br>
               &nbsp;&nbsp;- <b>Share, delete, and configure AI contract agents</b>
             </li>
@@ -481,21 +472,20 @@ li{margin:5px 0;}
         <div class="cp-src">Menu labels vary slightly by tenant. If "Manage AI Agents Access" is not visible under Actions, confirm Agent Studio is enabled on the account - see 0.6.1.</div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="0" id="p3"><div><h3 style="display:inline">0.6.3 · Download the lab assets</h3><span class="tag">setup</span></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p3"><div><h3 style="display:inline">0.5.3 · Download the lab assets</h3><span class="tag">setup</span></div></div>
       <div class="card">
         <p style="margin:0 0 8px;">From the GitHub repo your facilitator provides, download:</p>
         <table>
           <tbody><tr><th>Asset</th><th>What it's for</th></tr>
           <tr><td><code>risk_lab_request_type.zip</code></td><td>The prebuilt Agreement Desk Request Type you'll import in Stage 2.1.</td></tr>
-          <tr><td><code>risk_lab_workflow.zip</code></td><td>The prebuilt Workflow Builder workflow you'll import in Stage 2.2.</td></tr>
-          <tr><td><code>SampleVendorContract_LOW</code></td><td>A contract engineered to score LOW - drives the straight-through path.</td></tr>
-          <tr><td><code>SampleVendorContract_HIGH</code></td><td>A contract engineered to score MEDIUM or HIGH - drives the human review path.</td></tr>
+          <tr><td><code>risk_lab_workflow.zip</code></td><td>Upload the workflow zip from the workshop kit provided by your facilitator. Leave the file zipped - do not extract it first.</td></tr>
+          <tr><td><b>Sample agreements</b></td><td>Click the + icon and upload the sample agreements provided in the workshop kit.</td></tr>
         </tbody></table>
         <p style="margin:8px 0 0;">Your facilitator supplies the exact filenames, formats, and repo URL. Renewal-flavored equivalents may be provided for the Sales persona.</p>
         <div class="note">Keep sample documents short. The agent step has request-size and timeout limits, and a 40-page MSA is a slow, flaky way to learn the pattern.</div>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="0" id="p4"><div><h3 style="display:inline">0.6.4 · Foundational knowledge</h3><span class="tag">setup</span></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p4"><div><h3 style="display:inline">0.5.4 · Foundational knowledge</h3><span class="tag">setup</span></div></div>
       <div class="card">
         <ul>
           <li>eSignature basics: envelopes, recipients, routing order.</li>
@@ -506,7 +496,7 @@ li{margin:5px 0;}
         </ul>
       </div>
 
-      <h3>0.7 · How to use this handbook</h3>
+      <h3>0.6 · How to use this handbook</h3>
       <table>
         <tbody><tr><th>Element</th><th>What it means</th></tr>
         <tr><td>Step checkbox</td><td>The box next to each numbered heading. Tick it when done; the sidebar ring for that stage fills.</td></tr>
@@ -520,25 +510,22 @@ li{margin:5px 0;}
     <!-- ============ STAGE 1 ============ -->
     <section class="stage" id="stage-1">
       <div class="stage-head"><h2><br></h2><h2>Stage 1 · Agent Studio</h2><span class="time">Build the Risk Analyst · 15 min</span></div>
-      <p>Build the agent first. It's the only artifact in this lab you create from scratch, it's where the actual skill lives, and the workflow you import in Stage 2 needs to point at it - so it has to exist first.</p>
-      <p>One agent serves both motions: it works out from the parties and context whether it's looking at a vendor contract or a customer renewal.</p>
+      <p>Build the agent first. It's the only artifact in this lab you create from scratch, it's where the actual skill lives, and the workflow you configure in Stage 2 needs to point at it - so it has to exist first.</p>
 
       <div class="h-check"><input type="checkbox" data-stage="1" id="chk4"><div><h3 style="display:inline">1.1 · Create the agent &amp; set identity</h3></div></div>
       <ol>
-        <li>Sign in to your Docusign developer account (&nbsp;<code>https://apps-d.docusign.com</code>).</li>
-        <li>Open the <b>Agents tab</b>&nbsp;(under Automation).</li>
+        <li>Open the <b>Agents tab</b>&nbsp;(under Automations).</li>
         <li>Click on&nbsp;<b>Create New</b>.</li>
         <li>Click on Use classic editor.</li>
       </ol>
       <img src="assets/s11-classic-editor.png" alt="Use classic editor highlighted" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
-      <ol start="5">
+      <ol start="4">
         <li>Set the core properties by clicking on the pencil icon next to My new agent and then click on Save:</li>
       </ol>
       <table>
         <tbody><tr><th>Property</th><th>Value</th></tr>
-        <tr><td><b>Name</b></td><td><code>Vendor &amp; Renewal Risk Analyst</code></td></tr>
-        <tr><td><b>Role</b></td><td>Risk analyst</td></tr>
-        <tr><td><b>Description&nbsp;</b></td><td>Pre-sign contract review for vendor onboarding and customer renewals. Extracts key terms and classifies risk; does not negotiate or send.</td></tr>
+        <tr><td><b>Name</b></td><td><code>Vendor and Renewal Risk Analyst</code></td></tr>
+        <tr><td><b>Description&nbsp;</b></td><td>Review contracts for vendor onboarding and renewals. Extracts key terms and classifies risk; does not negotiate or send.</td></tr>
       </tbody></table>
       <div class="warn"><b>Use this exact name.</b> In Stage 2.2 you'll select this agent inside the imported workflow. Matching the name the workbook expects makes that step unambiguous - and makes it much easier for your facilitator to help when something doesn't line up.</div>
       <img src="assets/s11-agent-properties.png" alt="Agent properties configuration showing name and description" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
@@ -582,24 +569,23 @@ Constraints
 - Do not take external actions. Only analyze and return JSON.<button class="copy">Copy</button></div>
       <div class="note"><b>Why the strictness matters:</b> the imported workflow branches on <code>risk_level</code> as a literal string. A response wrapped in prose, or one that returns <code>"Low"</code> instead of <code>"LOW"</code>, will fall through the branch conditions into the fallback path. Say "always valid JSON" and "all fields present" explicitly - and then verify it in 1.4.</div>
 
-      <div class="h-check"><input type="checkbox" data-stage="1" id="chk6"><div><h3 style="display:inline">1.3 · Configure capabilities &amp; knowledge</h3></div></div>
-      <p>Agent Studio agents don't declare a typed-input schema the way a function does. Context reaches this agent as the document the workflow attaches to the step, plus anything in the step's Chat Message. What you configure here is what the agent is <i>allowed to do</i> and what it <i>already knows</i>.</p>
-      <table>
-        <tbody><tr><th>Setting</th><th>What to configure</th></tr>
-        <tr><td><b>Capabilities</b></td><td>Click <b>Add</b> and enable <code>Find Agreements</code>&nbsp;so the agent can open the contract the workflow passes it. Leave send and signature capabilities <b>off</b> - this agent only analyzes. Click on add one capability.</td></tr>
-        <tr><td><b>Knowledge Sources</b></td><td>Optional for this lab. In production this is where your risk playbook lives, so thresholds can change without editing Instructions.</td></tr>
-      </tbody></table>
-
-      <div class="h-check"><input type="checkbox" data-stage="1" id="chk7"><div><h3 style="display:inline">1.4 · Test until the JSON is clean, then publish</h3></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="1" id="chk6"><div><h3 style="display:inline">1.3 · Add capabilities</h3></div></div>
       <ol>
-        <li>Click <b>Test</b> and give the agent a short sample agreement - paste text, or attach one of your sample contracts if the test UI allows.</li>
+        <li>Under <b>Capabilities</b>, click <b>Add</b>.</li>
+        <li>Select <b>Manage Requests</b>, <b>Find Agreements</b> and <b>Review Documents</b>.</li>
+        <li>Click <b>Add Capabilities</b>.</li>
+      </ol>
+
+      <div class="h-check"><input type="checkbox" data-stage="1" id="chk7"><div><h3 style="display:inline">1.4 · Test the agent, then publish</h3></div></div>
+      <ol>
+        <li>Click <b>Test</b> to test the agent before publishing.</li>
         <li>If the response renders as formatted prose, open <b>Output Display</b> and set <b>Test Mode</b> to <b>Raw</b> so you see exactly what the workflow will receive.</li>
+        <li>Run the prompt: <b>Extracts key terms from the attached document and classify the risk.</b></li>
         <li>Verify all five keys are present: <code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>.</li>
         <li>Verify <code>risk_level</code> is exactly <code>LOW</code>, <code>MEDIUM</code>, or <code>HIGH</code>.</li>
         <li>Test with <b>both</b> sample contracts and confirm they land on different risk levels - that's what Stage 3 depends on.</li>
-        <li>Click <b>Save draft</b>, then <b>Publish</b> and confirm.</li>
+        <li>Click <b>Save draft</b>, then <b>Publish</b>.</li>
       </ol>
-      <div class="expect"><b>Checkpoint:</b> a <b>published</b> <code>Vendor &amp; Renewal Risk Analyst</code> that reliably returns well-formed JSON, and is selectable from a workflow's agent step.</div>
       <div class="warn"><b>It must be Published, not Draft.</b> A draft agent will not appear in the workflow's agent picker in Stage 2.2.</div>
       <div class="note">Spend your time here rather than rushing to Stage 2. Every minute spent making the agent's output boringly predictable saves ten minutes of debugging branch conditions that "randomly" don't fire.</div>
     </section>
@@ -611,7 +597,7 @@ Constraints
 
       <div class="h-check"><input type="checkbox" data-stage="2" id="chk8"><div><h3 style="display:inline">2.1 · Import &amp; activate the Request Type</h3></div></div>
       <ol>
-        <li>Open the <b>Agreement Desk</b> / <b>Requests</b> experience.</li>
+        <li>Navigate to the <b>Agreements</b> tab and click on <b>Requests</b>.</li>
         <li>Open <b>Settings</b> for Agreement Desk.</li>
         <li>Go to <b>Request Types</b>.</li>
         <li>Click <b>Import</b> and select the <code>risk_lab_request_type.zip</code> you downloaded in Stage 0.</li>
@@ -658,7 +644,7 @@ Constraints
       <table>
         <tbody><tr><th>Field</th><th>Value</th></tr>
         <tr><td><b>Step Name</b></td><td><code>Analyze contract risk</code> - already set.</td></tr>
-        <tr><td><b>Agent</b> ⚠️</td><td><b>Select your agent:</b> the published <code>Vendor &amp; Renewal Risk Analyst</code> from Stage 1. If the dropdown is empty, your agent is still in Draft - go back and publish it.</td></tr>
+        <tr><td><b>Agent</b> ⚠️</td><td><b>Select your agent:</b> the published <code>Vendor and Renewal Risk Analyst</code> from Stage 1. If the dropdown is empty, your agent is still in Draft - go back and publish it.</td></tr>
         <tr><td><b>Document input</b></td><td>The <code>request_document</code> variable from 2.4 - already wired.</td></tr>
         <tr><td><b>Chat Message</b></td><td>Prefilled. Optional if your Instructions already cover the format; a short reminder is good insurance - see below.</td></tr>
         <tr><td><b>Run agent as</b> ⚠️</td><td><b>Set this</b> to an admin identity in your tenant. That user must complete a <b>one-time consent</b> per environment before the step will run at all.</td></tr>
