@@ -581,10 +581,9 @@ Title: __________________________</div>
           <li>Click on the prompt visible.</li>
           <li>Run the search path first: ask about a counterparty you know exists in Agreement Manager. The agent should return a summary and stop, with no offer to draft.</li>
           <li>Run the draft path: ask about a counterparty with no active agreement. The agent should deliver the scripted pivot response, then ask for the three inputs one by one, then produce the full NDA inside a single code block.</li>
-          <li>Verify the agent does not skip ahead to NDA generation if you provide only one or two of the three inputs. It should ask for what is missing.</li>
         </ol>
-        <img src="assets/First.png" alt="Test panel showing draft path conversation" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
-        <img src="assets/Second.png" alt="Sample inputs form showing Effective Date, Business Purpose, Governing State, Vendor name" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
+        <img src="assets/First.png" alt="Test panel showing draft path conversation" style="max-width:350px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
+        <img src="assets/Second.png" alt="Sample inputs form showing Effective Date, Business Purpose, Governing State, Vendor name" style="max-width:350px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
 
         <p style="margin:14px 0 6px;font-weight:600;">Provide sample inputs</p>
         <p style="margin:0 0 8px;">Let's provide sample inputs for the questions it'll ask</p>
@@ -594,6 +593,10 @@ Title: __________________________</div>
           <li>Governing State</li>
           <li>Vendor name</li>
         </ul>
+
+        <ol start="5">
+          <li>Verify the agent does not skip ahead to NDA generation if you provide only one or two of the three inputs. It should ask for what is missing.</li>
+        </ol>
 
         <div class="expect"><b>Checkpoint:</b> the agent surfaces existing agreements and stops, and produces the NDA only after all three inputs are confirmed.</div>
       </div>
