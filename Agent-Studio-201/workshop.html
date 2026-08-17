@@ -567,33 +567,7 @@ function setupFrame(id){
       }
     });
 
-    // === Section 2.1: Rewrite to verify Request Type ===
-    hChecks.forEach(function(hc){
-      var h3=hc.querySelector('h3');
-      if(h3 && h3.textContent.indexOf('2.1')!==-1 && h3.textContent.indexOf('Import')!==-1 && h3.textContent.indexOf('Request Type')!==-1){
-        h3.innerHTML='2.1 &middot; Verify the Request Type';
-        var ol=hc.nextElementSibling;
-        while(ol && ol.tagName!=='OL') ol=ol.nextElementSibling;
-        if(ol){
-          ol.innerHTML='<li>Navigate to the <b>Agreements</b> tab and click on <b>Requests</b>.</li>'
-            +'<li>Open the <b>Settings</b> tab (top-right).</li>'
-            +'<li>Under <b>Request Types</b>, verify that you can see <b>Agent Studio - Risk Lab Request Type</b> and that it is <b>active</b>.</li>';
-        }
-        // Update the note after the ol
-        var el=ol?ol.nextElementSibling:null;
-        while(el){
-          if(el.classList && el.classList.contains('expect')){
-            el.innerHTML='<b>Checkpoint:</b> the Request Type is listed and <b>active</b>, with fields for vendor/customer name, requester, estimated annual spend, jurisdiction, and category.';
-            break;
-          }
-          if(el.classList && el.classList.contains('note')){
-            el.innerHTML='This Request Type gets automatically uploaded with the workflow ZIP which was imported at the start of the workshop during setup.';
-            break;
-          }
-          el=el.nextElementSibling;
-        }
-      }
-    });
+    // === Section 2.1: kept as-is (Import & activate the Request Type) ===
 
     // === Section 2.2: Hide "Import the workflow" (now a prerequisite) ===
     hChecks.forEach(function(hc){
