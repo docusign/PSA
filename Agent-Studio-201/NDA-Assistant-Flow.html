@@ -258,7 +258,7 @@ li{margin:5px 0;}
         <li data-scroll="p1">0.5.1 Products enabled</li>
         <li data-scroll="p2">0.5.2 Permissions</li>
         <li data-scroll="p3">0.5.3 Download lab assets</li>
-        <li data-scroll="p5">0.5.4 Upload agreements</li>
+        <li data-scroll="p5">0.5.4 Complete prerequisites</li>
       </ul>
       <li class="step" data-target="stage-1"><span class="ring" data-stage="1"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">1</span></span><span class="txt"><span class="t">Build the agent</span><span class="s">Create · Configure · Instruct · Test</span></span></li>
       <ul class="sub-nav">
@@ -448,9 +448,13 @@ li{margin:5px 0;}
           <li><b>Agent Studio build access</b> - enabled by an org admin before Stage 1. Click path below.</li>
         </ul>
         <div class="clickpath">
-          <div class="cp-task"><span class="cp-badge">Admin</span> Enable Agent Studio and Agreement Desk access for participants</div>
+          <div class="cp-task"><span class="cp-badge">Admin</span> Enable Agent Studio build access for participants</div>
           <ol>
             <li>Open the <b>Admin</b> tab at <a href="https://apps-d.docusign.com/admin/admin-dashboard" target="_blank" rel="noopener">apps-d.docusign.com/admin/admin-dashboard</a>.</li>
+            <li>Go to <b>AI Control Settings</b> and ensure <b>Agent and chat capabilities</b> are turned on.
+              <img src="assets/prereq-ai-control-settings.png" alt="AI Control Settings - Agent and chat capabilities turned on" style="max-width:450px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
+            </li>
+            <li>In case they are turned off by default, select <b>Turn On Now</b> &amp; click <b>Save</b>.</li>
             <li>Go to <b>Users</b> and find the participant's account row.</li>
             <li>Click <b>Actions</b> next to their name, then select <b>Manage AI Agents Access</b>.</li>
             <li>Under <b>AI Agents Access</b>, enable:<br>
@@ -459,11 +463,6 @@ li{margin:5px 0;}
               <img src="assets/prereq-ai-agents-access.png" alt="AI Contract Agents Access permissions enabled" style="max-width:450px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
             </li>
             <li>Click <b>Save</b>.</li>
-            <li>Go to the <b>Agreement Desk Access</b> tab.</li>
-            <li>Enable <b>Configure Agreement Desk settings</b>.</li>
-            <li>Click <b>Save</b>.
-              <img src="assets/prereq-agreement-desk-access.png" alt="Agreement Desk Access tab with Configure Agreement Desk settings enabled" style="max-width:450px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
-            </li>
           </ol>
         </div>
         <div class="expect"><b>Checkpoint:</b> your user has both AI Contract Agents Access permissions enabled before starting Stage 1.</div>
@@ -479,18 +478,21 @@ li{margin:5px 0;}
         </tbody></table>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="0" id="p5"><div><h3 style="display:inline">0.5.4 · Upload sample agreements</h3><span class="tag">setup</span></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p5"><div><h3 style="display:inline">0.5.4 · Complete prerequisites setup</h3><span class="tag">setup</span></div></div>
       <div class="card">
         <ol>
-          <li>Upload the <b>NDA template</b> provided in the workshop kit to Document Templates.
+          <li>Go to <b>Templates → Document Templates</b>.</li>
+          <li>Create a new Document Template by uploading the <b>NDA template</b> provided in the workshop kit.</li>
+          <li>Publish the template.
             <img src="assets/prereq-document-templates.png" alt="Navigate to Templates then Document Templates" style="max-width:350px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
           </li>
           <li>Go to <b>Agreements</b> in your account.</li>
           <li>Navigate to <b>Completed</b>.</li>
           <li>Click the <b>+</b> icon and select <b>Upload</b>.</li>
-          <li>Upload the <b>sample NDA</b> provided in the workshop kit.</li>
+          <li>Upload the <b>sample NDA</b> provided in the workshop kit.
+            <img src="assets/agre.png" alt="Agreements page showing Upload option" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
+          </li>
         </ol>
-        <img src="assets/agre.png" alt="Agreements page showing Upload option" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
       </div>
 
       <h3>0.6 · How to use this handbook</h3>
