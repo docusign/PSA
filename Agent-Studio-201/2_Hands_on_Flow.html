@@ -403,16 +403,17 @@ li{margin:5px 0;}
           <text x="430" y="85" text-anchor="middle" fill="#615a75" font-size="10.5" class="proc-only">Legal approval</text>
           <text x="430" y="85" text-anchor="middle" fill="#615a75" font-size="10.5" class="sales-only">Finance / Legal approval</text>
 
-          <!-- Node: eSignature -->
-          <rect id="nodeSign" x="501" y="165" width="133" height="64" rx="12" fill="#C0207E"></rect>
-          <rect class="node-highlight on" data-node="sign" x="497" y="161" width="141" height="72" rx="14" fill="none" stroke="#C0207E" stroke-width="2" stroke-dasharray="3 3"></rect>
-          <text x="567" y="190" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">eSignature</text>
-          <text x="567" y="207" text-anchor="middle" fill="#ffe0ef" font-size="10.5">Send for signature</text>
-
           <!-- Node: Status Approved -->
-          <rect x="661" y="165" width="170" height="64" rx="12" fill="#0a7d3c"></rect>
-          <text x="746" y="190" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="600">Update Status to Approved</text>
-          <text x="746" y="207" text-anchor="middle" fill="#d7f5e2" font-size="9.5">ready to be sent for signature</text>
+          <rect id="nodeStatus" x="501" y="165" width="133" height="64" rx="12" fill="#0a7d3c"></rect>
+          <rect class="node-highlight on" data-node="status" x="497" y="161" width="141" height="72" rx="14" fill="none" stroke="#0a7d3c" stroke-width="2" stroke-dasharray="3 3"></rect>
+          <text x="567" y="190" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="600">Update Status</text>
+          <text x="567" y="207" text-anchor="middle" fill="#d7f5e2" font-size="10.5">Approved</text>
+
+          <!-- Node: eSignature -->
+          <rect id="nodeSign" x="661" y="165" width="170" height="64" rx="12" fill="#C0207E"></rect>
+          <rect class="node-highlight on" data-node="sign" x="657" y="161" width="178" height="72" rx="14" fill="none" stroke="#C0207E" stroke-width="2" stroke-dasharray="3 3"></rect>
+          <text x="746" y="190" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">eSignature</text>
+          <text x="746" y="207" text-anchor="middle" fill="#ffe0ef" font-size="10.5">Send for signature</text>
 
           <!-- Node: Returned -->
           <rect id="nodeFallback" x="185" y="269" width="150" height="56" rx="12" fill="#fff" stroke="#8a7fb0" stroke-width="2" stroke-dasharray="5 3"></rect>
@@ -500,7 +501,9 @@ li{margin:5px 0;}
         <p style="margin:0 0 8px;">From the GitHub repo your facilitator provides, download:</p>
         <table>
           <tbody><tr><th>Asset</th><th>What it's for</th></tr>
-          <tr><td>Workflow zip</td><td>The prebuilt workflow and Request Type. Upload the zip from the workshop kit — leave it zipped, do not extract.</td></tr>
+          <tr><td><code>Agent Studio 201 Vendor Contract Review Workflow.zip</code></td><td>The prebuilt workflow and Request Type. Leave it zipped — do not extract.</td></tr>
+          <tr><td><code>Agent Studio 201 - Vendor Contracts.zip</code></td><td>The Agreement Desk Request Type — automatically added when you import the workflow.</td></tr>
+          <tr><td><code>MSA_high.docx</code>, <code>MSA_low.docx</code>, <code>MSA_medium.docx</code></td><td>Sample agreements for testing the three risk paths.</td></tr>
         </tbody></table>
       </div>
 
@@ -696,7 +699,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
         <li>Open the <b>Agreements</b> tab.</li>
         <li>Click <b>Requests</b> in the left menu.</li>
         <li>Click <b>Create Request</b>.</li>
-        <li>Select <b>Agent Studio - Risk Lab</b> Request Type.</li>
+        <li>Select <b>Agent Studio 201 - Vendor Contracts</b> Request Type.</li>
         <li>Fill in the intake form details (vendor name, requester name, etc.).</li>
         <li>Upload the contract document.</li>
         <li>Click <b>Submit</b>.</li>
@@ -705,7 +708,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
       <div class="h-check" id="sec-3-1"><input type="checkbox" data-stage="3" id="chk15"><div><h3 style="display:inline">3.1 · Scenario 1 - LOW risk, straight through</h3></div></div>
       <ol>
         <li>Go to <b>Agreements → Requests → Create Request</b>.</li>
-        <li>Select <b>Agent Studio - Risk Lab</b> Request Type.</li>
+        <li>Select <b>Agent Studio 201 - Vendor Contracts</b> Request Type.</li>
         <li>Fill in the form details and upload the <b>LOW</b> sample MSA.</li>
         <li>Click <b>Submit</b>.</li>
         <li>Navigate to <b>Agreements → Maestro Workflows</b>, find the workflow, click <b>View Runs</b>.</li>
@@ -717,7 +720,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
       </div>
 
       <div class="h-check" id="sec-3-2"><input type="checkbox" data-stage="3" id="chk16"><div><h3 style="display:inline">3.2 · Scenario 2 - MEDIUM/HIGH risk, human review</h3></div></div>
-      <p>Create another request: <b>Agreements → Requests → Create Request → Agent Studio - Risk Lab</b>. Upload the <b>HIGH</b> sample MSA, fill in the form, and submit. Check <b>View Runs</b> for the workflow.</p>
+      <p>Create another request: <b>Agreements → Requests → Create Request → Agent Studio 201 - Vendor Contracts</b>. Upload the <b>HIGH</b> sample MSA, fill in the form, and submit. Check <b>View Runs</b> for the workflow.</p>
       <div class="expect">
         <b>Expect:</b> the agent returns <code>MEDIUM</code> or <code>HIGH</code> → the MED/HIGH branch runs → owner assigned (Legal team) → request message sent → status changes to <b>Pending Legal Review</b>.
       </div>
