@@ -335,7 +335,7 @@ li{margin:5px 0;}
         <table>
           <tbody><tr><th>Docusign Layer</th><th>Role in this lab</th></tr>
           <tr><td><b>Agreement Desk</b></td><td>Intake and status hub. The business user starts here, uploads the contract, and can always see where the request sits.</td></tr>
-          <tr><td><b>Workflow Builder (Maestro)</b></td><td>The orchestrator. Starts from the Desk request, fetches the document, calls the agent, and owns all the deterministic branching.</td></tr>
+          <tr><td><b>Workflow Builder</b></td><td>The orchestrator. Starts from the Desk request, fetches the document, calls the agent, and owns all the deterministic branching.</td></tr>
           <tr><td><b>Agent Studio</b></td><td>The governed intelligence layer. Your Risk Analyst agent is a role-based digital team member with natural-language instructions and scoped data access - it reasons, it does not decide the routing.</td></tr>
           <tr><td><b>eSignature</b></td><td>The commit step. Nothing reaches a signer unless a branch explicitly allows it.</td></tr>
         </tbody></table>
@@ -464,7 +464,7 @@ li{margin:5px 0;}
       <div class="card">
         <ul>
           <li><b>Agreement Desk</b> - available and configurable (Request Types, forms, statuses).</li>
-          <li><b>Workflow Builder (Maestro)</b> - enabled, with permission to create and publish workflows.</li>
+          <li><b>Workflow Builder</b> - enabled, with permission to create and publish workflows.</li>
           <li><b>Agent Studio</b> and agents-in-workflows - enabled. Your PSA or facilitator will confirm this is switched on for your partner sandbox; see the limitations appendix in Stage 3.5 for the current availability scope.</li>
         </ul>
       </div>
@@ -519,7 +519,13 @@ li{margin:5px 0;}
 
       <div class="h-check"><input type="checkbox" data-stage="0" id="p3c"><div><h3 style="display:inline">0.5.5 · Upload sample agreements</h3><span class="tag">setup</span></div></div>
       <div class="card">
-        <p>Click the + icon and upload the sample agreements provided in the workshop kit.</p>
+        <ol>
+          <li>Go to <b>Agreements</b> in your account.</li>
+          <li>Navigate to <b>Completed</b>.</li>
+          <li>Click the <b>+</b> icon and select <b>Upload</b>.</li>
+          <li>Upload the sample agreements (<code>MSA_high.docx</code>, <code>MSA_low.docx</code>, <code>MSA_medium.docx</code>) from the workshop kit.</li>
+        </ol>
+        <img src="assets/agre.png" alt="Agreements page showing Upload option" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
       </div>
 
 
@@ -710,7 +716,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
         <li>Select <b>Agent Studio 201 - Vendor Contracts</b> Request Type.</li>
         <li>Fill in the form details and upload the <b>LOW</b> sample MSA.</li>
         <li>Click <b>Submit</b>.</li>
-        <li>Navigate to <b>Agreements → Maestro Workflows</b>, find the workflow, click <b>View Runs</b>.</li>
+        <li>Navigate to <b>Agreements → Workflows</b>, find the workflow, click <b>View Runs</b>.</li>
         <li>Find the latest run and click the instance.</li>
         <li>Confirm the LOW branch fired and status changed to <b>Success</b>.</li>
       </ol>
@@ -792,12 +798,12 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
 
       <div class="h-check" id="sec-4-1"><input type="checkbox" data-stage="4" id="chk19"><div><h3 style="display:inline">4.1 · Two stages in the lifecycle, one agent</h3><span class="tag demo">concept</span></div></div>
       <div class="card">
-        <p style="margin:0 0 10px;">This lab's Maestro workflow handles <b>intake</b>: a new vendor MSA is submitted via Agreement Desk, the agent reviews it, and the workflow routes to signature or legal review. That covers the front door.</p>
+        <p style="margin:0 0 10px;">This lab's Workflow Builder workflow handles <b>intake</b>: a new vendor MSA is submitted via Agreement Desk, the agent reviews it, and the workflow routes to signature or legal review. That covers the front door.</p>
         <p style="margin:0 0 10px;">CLM handles a different point in the same lifecycle: <b>negotiation and execution</b>. An MSA is already inside CLM, being redlined and reviewed. Once the legal team finishes a round of changes, the CLM workflow can call the same agent again - now to extract the final risk posture before the document routes for signature. Same agent, different trigger, different moment in the process.</p>
         <p style="margin:0 0 12px;">The "Use AI Agent" step is the bridge. CLM is the orchestration surface; Agent Studio is the reasoning layer. CLM handles the structured steps - approvals, merges, signatures, archiving. The agent handles the part that requires judgment: read the current version of the document and return a structured answer the workflow can act on.</p>
 
         <div class="arch">
-          <svg viewBox="0 0 780 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture diagram: Maestro intake path on the left, CLM negotiation path on the right, Agent Studio in the center shared by both">
+          <svg viewBox="0 0 780 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture diagram: Workflow Builder intake path on the left, CLM negotiation path on the right, Agent Studio in the center shared by both">
             <defs>
               <marker id="arr-indigo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="#4C00FF"/></marker>
               <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="#0a7d3c"/></marker>
@@ -805,7 +811,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
             <rect x="8" y="24" width="184" height="70" rx="10" fill="#e9e1fb" stroke="#4C00FF" stroke-width="1.5"/>
             <text x="100" y="46" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4C00FF" letter-spacing=".05em">THIS LAB</text>
             <text x="100" y="63" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">Agreement Desk</text>
-            <text x="100" y="81" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">+ Maestro Workflow</text>
+            <text x="100" y="81" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">+ Workflow Builder Workflow</text>
             <rect x="8" y="142" width="184" height="62" rx="10" fill="#f0fff5" stroke="#0a7d3c" stroke-width="1.5"/>
             <text x="100" y="164" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0a7d3c" letter-spacing=".05em">CLM PATTERN</text>
             <text x="100" y="182" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">CLM Workflow Designer</text>
@@ -832,7 +838,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
             <text x="556" y="168" text-anchor="middle" font-size="10" fill="#0a7d3c" font-weight="600">returns</text>
           </svg>
           <div class="arch-legend">
-            <span><i style="background:#4C00FF;"></i>Maestro path (this lab)</span>
+            <span><i style="background:#4C00FF;"></i>Workflow Builder path (this lab)</span>
             <span><i style="background:#0a7d3c;"></i>CLM path</span>
             <span><i style="background:#1f0a4d;"></i>Agent Studio (shared reasoning layer)</span>
           </div>
@@ -845,7 +851,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
         <table>
           <tr><th style="width:28%">Field</th><th>Value for the Vendor and Renewal Risk Analyst</th></tr>
           <tr><td><b>Agent</b></td><td>Select the published <code>Vendor and Renewal Risk Analyst</code> from the agent picker. This is the same agent built in Stage 1 - no second version needed.</td></tr>
-          <tr><td><b>Chat Message</b></td><td>The prompt the workflow sends at step execution, for example: <em>"Analyze this MSA and return JSON with risk_level, liability_cap, governing_law, term, and discount."</em> Same prompt shape as the Maestro version.</td></tr>
+          <tr><td><b>Chat Message</b></td><td>The prompt the workflow sends at step execution, for example: <em>"Analyze this MSA and return JSON with risk_level, liability_cap, governing_law, term, and discount."</em> Same prompt shape as the Workflow Builder version.</td></tr>
           <tr><td><b>Document (optional)</b></td><td>Pass the current CLM agreement document here so the agent reads the live negotiated version, not a cached copy.</td></tr>
           <tr><td><b>Run agent as</b></td><td>An admin user who has completed one-time OAuth consent for this environment. Consent is per-environment - sandbox consent does not carry to production. The step fails silently if consent has not been completed.</td></tr>
           <tr><td><b>Output variable</b></td><td>Name the output variable, for example <code>AgentResponse</code>. The workflow then reads <code>AgentResponse.AgentFinalResponseXml</code> to branch on risk_level.</td></tr>
@@ -863,19 +869,19 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
           <div><span class="vname">AgentResponse.AgentFinalResponseRaw</span><span class="vdesc">the agent's raw text response (JSON string)</span></div>
           <div><span class="vname">AgentResponse.AgentFinalResponseXml</span><span class="vdesc">XML-normalized version - use this field for branching</span></div>
         </div>
-        <p style="margin:12px 0 6px;">The CLM workflow reads <code>AgentFinalResponseXml</code> to find <code>risk_level</code> and routes accordingly. Unlike Maestro, which maps agent output directly to named variables, CLM requires the workflow to navigate the XML structure.</p>
+        <p style="margin:12px 0 6px;">The CLM workflow reads <code>AgentFinalResponseXml</code> to find <code>risk_level</code> and routes accordingly. Unlike Workflow Builder, which maps agent output directly to named variables, CLM requires the workflow to navigate the XML structure.</p>
         <table>
           <tr><th style="width:22%">risk_level value</th><th>What the CLM workflow does next</th></tr>
           <tr><td><code>LOW</code></td><td>Route to the signature step. No human review required.</td></tr>
           <tr><td><code>MEDIUM</code> or <code>HIGH</code></td><td>Route to a Legal task step. The task surfaces the agent's extracted terms (liability_cap, governing_law) so the reviewer can act without re-reading the full MSA.</td></tr>
           <tr><td>empty or unexpected</td><td>Route to a fallback task for manual triage. Do not proceed to signature.</td></tr>
         </table>
-        <div class="note"><b>Key difference from Maestro:</b> in Maestro the agent step maps output fields directly to workflow variables (<code>risk_level</code>, <code>liability_cap</code>, etc.). In CLM those fields sit inside <code>AgentFinalResponseXml</code> and the workflow must parse the XML path to read them. Design CLM branch conditions accordingly.</div>
+        <div class="note"><b>Key difference from Workflow Builder:</b> in Workflow Builder the agent step maps output fields directly to workflow variables (<code>risk_level</code>, <code>liability_cap</code>, etc.). In CLM those fields sit inside <code>AgentFinalResponseXml</code> and the workflow must parse the XML path to read them. Design CLM branch conditions accordingly.</div>
       </div>
 
       <div class="finale">
         <h3>The full picture</h3>
-        <p>You built one agent - the Vendor and Renewal Risk Analyst - and it runs in two places. In Maestro it handles the front door: a new vendor MSA comes in via Agreement Desk, the agent reviews it, and the workflow routes the request. In CLM it handles the negotiation stage: once a contract is inside CLM and being reviewed, the workflow calls the same agent to score the final version before routing to signature. The agent handles the judgment layer; the workflow surface - Maestro or CLM - handles the process layer. You don't build two agents. You build one good agent, publish it, and put it where the work already happens.</p>
+        <p>You built one agent - the Vendor and Renewal Risk Analyst - and it runs in two places. In Workflow Builder it handles the front door: a new vendor MSA comes in via Agreement Desk, the agent reviews it, and the workflow routes the request. In CLM it handles the negotiation stage: once a contract is inside CLM and being reviewed, the workflow calls the same agent to score the final version before routing to signature. The agent handles the judgment layer; the workflow surface - Workflow Builder or CLM - handles the process layer. You don't build two agents. You build one good agent, publish it, and put it where the work already happens.</p>
       </div>
     </section>
 
