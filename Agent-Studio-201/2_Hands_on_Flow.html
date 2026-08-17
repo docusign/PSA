@@ -500,15 +500,14 @@ li{margin:5px 0;}
         <p style="margin:0 0 8px;">From the GitHub repo your facilitator provides, download:</p>
         <table>
           <tbody><tr><th>Asset</th><th>What it's for</th></tr>
-          <tr><td><code>risk_lab_request_type.zip</code></td><td>The prebuilt Agreement Desk Request Type — automatically added when you import the workflow.</td></tr>
-          <tr><td><code>risk_lab_workflow.zip</code></td><td>Upload the workflow zip from the workshop kit provided by your facilitator. Leave the file zipped - do not extract it first.</td></tr>
+          <tr><td>Workflow zip</td><td>The prebuilt workflow and Request Type. Upload the zip from the workshop kit — leave it zipped, do not extract.</td></tr>
         </tbody></table>
       </div>
 
       <div class="h-check"><input type="checkbox" data-stage="0" id="p3b"><div><h3 style="display:inline">0.5.4 · Import the workflow</h3><span class="tag">setup</span></div></div>
       <div class="card">
         <ol>
-          <li>Upload the <code>risk_lab_workflow.zip</code> from the workshop kit provided by your facilitator. Leave the file zipped — do not extract it first.</li>
+          <li>Upload the workflow zip from the workshop kit provided by your facilitator. Leave the file zipped — do not extract it first.</li>
           <li>Save &amp; Publish the workflow.</li>
         </ol>
         <img src="assets/prereq-import-workflow.jpeg" alt="Imported workflow showing Agent Studio 201 Vendor Contract Review Workflow with Review and Publish button" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
@@ -662,7 +661,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
       <div class="h-check" id="sec-2-5"><input type="checkbox" data-stage="2" id="chk12"><div><h3 style="display:inline">2.5 · Execute AI Agent</h3></div></div>
       <p>Open the <b>Execute AI Agent</b> step in the workflow. Verify the following:</p>
       <ol>
-        <li><b>Agent selected</b> - your published <code>Vendor &amp; Renewal Risk Analyst</code> should already be selected. If the dropdown is empty, go back to Stage 1 and publish your agent.</li>
+        <li><b>Agent selected</b> - your published <code>Vendor and Renewal Risk Analyst</code> should already be selected. If the dropdown is empty, go back to Stage 1 and publish your agent.</li>
         <li><b>Data outputs</b> - confirm the five output fields are visible: <code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>.</li>
         <li><b>Prompt</b> - verify the chat message / prompt is present in the step configuration.</li>
       </ol>
