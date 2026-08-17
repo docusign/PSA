@@ -264,10 +264,10 @@ li{margin:5px 0;}
         <li data-scroll="sec-2-1">2.1 Prompt design decisions</li>
         <li data-scroll="sec-2-2">2.2 Run from Ask Iris</li>
       </ul>
-      <li class="step" data-target="stage-3"><span class="ring" data-stage="3"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">Advanced automation</span><span class="s">Direct envelope delivery</span></span></li>
+      <li class="step" data-target="stage-3" style="display:none"><span class="ring" data-stage="3"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">Advanced automation</span><span class="s">Direct envelope delivery</span></span></li>
       <ul class="sub-nav" style="display:none;">
       </ul>
-      <li class="step" data-target="stage-4"><span class="ring" data-stage="4"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">4</span></span><span class="txt"><span class="t">The CLM connection</span><span class="s">Demo only</span></span></li>
+      <li class="step" data-target="stage-4"><span class="ring" data-stage="4"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">The CLM connection</span><span class="s">Demo only</span></span></li>
       <ul class="sub-nav">
         <li data-scroll="sec-4-1">3.1 Why CLM calls the agent</li>
         <li data-scroll="sec-4-2">3.2 Use AI Agent step</li>
@@ -277,7 +277,7 @@ li{margin:5px 0;}
     </ol>
     <div class="side-foot">
       Self-paced handbook. Tick each step checkbox to fill the progress rings.<br><br>
-      Synthetic data only. Use demo counterparties when testing.<br><br>
+      Synthetic data only.<br><br>
       <strong style="font-size:11px;text-transform:uppercase;letter-spacing:.07em;">Resources</strong><br>
       <a href="https://dsucustomers.docusign.com/video-playlist-docusign-ai-agents" target="_blank">Docusign University AI Agent Video Playlist</a><br>
       <a href="https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43201480b341&topicId=conb2716952-a0f6-4323-a13e-9d23dd290fb0.html&_LANG=enus" target="_blank">Docusign Agent Studio Support Article</a><br>
@@ -295,7 +295,7 @@ li{margin:5px 0;}
       <div class="hero">
         <div class="kicker">Docusign IAM · Building Agents 201</div>
         <h1>Search-to-Draft NDA Assistant: Agreement Manager search + interactive drafting in Agent Studio</h1>
-        <p>Build an interactive agent that handles real-world friction: it thoroughly searches for an existing agreement, pivots smoothly when nothing is found, gathers the right inputs, and produces a copy-paste-ready NDA on the spot.</p>
+        <p>Build an interactive agent that handles real-world friction: it thoroughly searches for an existing agreement, pivots smoothly when nothing is found, gathers the right inputs, and produces a ready to download NDA on the spot.</p>
       </div>
 
       <div class="stage-head"><h2>Before you begin</h2></div>
@@ -303,8 +303,8 @@ li{margin:5px 0;}
       <h3>0.1 · Purpose &amp; business outcome</h3>
       <div class="card">
         <p style="margin:0 0 10px;font-weight:600;font-size:16px;">A Sales rep is about to get on a discovery call with a prospect. Before they share roadmap details or pricing, they need to know: is there an NDA in place?</p>
-        <p style="margin:0 0 10px;">The current answer involves emailing Legal, waiting, and hoping. This lab replaces that with an agent that does the lookup instantly and, when nothing is found, collects the three inputs needed to produce a ready-to-send NDA without leaving the chat window.</p>
-        <p style="margin:0;">The agent uses Docusign <b>Agreement Manager</b> as its source of truth and <b>interactive text generation</b> as its output. Two capabilities, one conversation: confirm coverage or create it, right inside Ask Iris.</p>
+        <p style="margin:0 0 10px;">The current answer involves emailing Legal, waiting, and hoping. This lab replaces that with an agent that does the lookup instantly and, when nothing is found, collects the required inputs needed to produce a ready-to-send NDA without leaving the chat window.</p>
+        <p style="margin:0;">The agent uses Docusign <b>Agreement Manager</b> as its source of truth and <b>document generation</b> as its output. Two capabilities, one conversation: confirm coverage or create it, right inside Ask Iris.</p>
       </div>
 
       <h3>0.2 · The flow at a glance</h3>
@@ -312,8 +312,8 @@ li{margin:5px 0;}
         <div><span class="n">1</span><div><b>Repository check</b>the rep asks about a counterparty in Iris chat. The agent queries Agreement Manager and checks for both exact and partial name matches, so a shorthand like "Brightpath" still finds "Brightpath Technologies" or "Brightpath Inc." No false negatives from typos or abbreviations.</div></div>
         <div><span class="n">2</span><div><b>Active NDA found: surfaces it and stops</b>if a current agreement exists, the agent returns a summary of what is already on file and does not offer to create anything new. No duplicate paperwork.</div></div>
         <div><span class="n">3</span><div><b>Nothing found: scripted offer to draft</b>zero results, or agreements that are only expired or terminated, triggers a consistent response offering to draft a new NDA on the spot. Same wording every time, regardless of which rep runs the query.</div></div>
-        <div><span class="n">4</span><div><b>Gated intake: three required inputs</b>if the rep accepts, the agent collects the official corporate name, governing state, and business purpose before generating anything. It will not proceed with partial information, preventing the agent from inventing details that would make the NDA legally unsound.</div></div>
-        <div><span class="n">5</span><div><b>NDA generated and dispatched</b>once all inputs are confirmed, the agent produces a structured NDA and — with the Send Envelopes capability added in Stage 3 — fills a pre-approved envelope template and dispatches it for signature directly from the chat. The rep never leaves Iris or opens eSignature manually.</div></div>
+        <div><span class="n">4</span><div><b>Gated intake: collect required inputs</b>if the rep accepts, the agent collects the required inputs based on the available document template before generating the agreement. It will not proceed with partial information, preventing the agent from inventing details that would make the NDA legally unsound.</div></div>
+        <div><span class="n">5</span><div><b>NDA generated</b>once all inputs are confirmed, the agent generates an NDA from a pre-approved document template and it's available for download to review.</div></div>
       </div>
 
       <h3>0.3 · Explore the conversation flow before you build it</h3>
@@ -342,9 +342,9 @@ li{margin:5px 0;}
           <text x="462" y="238" text-anchor="middle" font-size="11" font-weight="600" fill="#FF5252">0 results / expired only</text>
           <line id="edge-pivot-nda" class="edge active risk-high" x1="695" y1="197" x2="722" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
 
-          <!-- ADVANCED: intake down and across to envelope -->
-          <path id="edge-intake-env" class="edge" d="M627,229 L627,291 L718,291" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
-          <text x="643" y="266" font-size="11" font-weight="600" fill="#c47a06">Part 2</text>
+          <!-- ADVANCED: intake down and across to envelope (hidden) -->
+          <path id="edge-intake-env" class="edge" d="M627,229 L627,291 L718,291" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)" style="display:none"></path>
+          <text x="643" y="266" font-size="11" font-weight="600" fill="#c47a06" style="display:none">Part 2</text>
 
           <!-- Node: User query -->
           <rect x="15" y="98" width="140" height="64" rx="12" fill="#4C00FF"></rect>
@@ -353,9 +353,9 @@ li{margin:5px 0;}
 
           <!-- Node: Agent search -->
           <rect x="182" y="98" width="166" height="64" rx="12" fill="#6A17C9"></rect>
-          <text x="265" y="120" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Thorough search</text>
-          <text x="265" y="135" text-anchor="middle" fill="#e7deff" font-size="10.5">system_list_agreements</text>
-          <text x="265" y="150" text-anchor="middle" fill="#c9a9ff" font-size="10">exact + partial matches</text>
+          <text x="265" y="120" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Search repository</text>
+          <text x="265" y="135" text-anchor="middle" fill="#e7deff" font-size="10.5">scan Agreements</text>
+          <text x="265" y="150" text-anchor="middle" fill="#c9a9ff" font-size="10"></text>
 
           <!-- Node: Branch diamond -->
           <polygon points="430,92 486,130 430,168 374,130" fill="#fff" stroke="#4C00FF" stroke-width="2"></polygon>
@@ -365,26 +365,26 @@ li{margin:5px 0;}
           <!-- Node: Summary & stop -->
           <rect id="nodeSummary" x="555" y="34" width="150" height="58" rx="12" fill="#0a7d3c"></rect>
           <rect class="node-highlight" data-node="summary" x="551" y="30" width="158" height="66" rx="14" fill="none" stroke="#0a7d3c" stroke-width="2" stroke-dasharray="3 3"></rect>
-          <text x="630" y="59" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Summary list · stop</text>
-          <text x="630" y="76" text-anchor="middle" fill="#d7f5e2" font-size="10.5">No new NDA offered</text>
+          <text x="630" y="59" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Summarize NDA</text>
+          <text x="630" y="76" text-anchor="middle" fill="#d7f5e2" font-size="10.5">List key details</text>
 
           <!-- Node: Pivot + intake -->
           <rect id="nodeIntake" x="555" y="165" width="140" height="64" rx="12" fill="#9A1FA8"></rect>
           <rect class="node-highlight on" data-node="intake" x="551" y="161" width="148" height="72" rx="14" fill="none" stroke="#FF5252" stroke-width="2" stroke-dasharray="3 3"></rect>
-          <text x="625" y="192" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Pivot + intake</text>
-          <text x="625" y="209" text-anchor="middle" fill="#f2ddff" font-size="10.5">3 required inputs</text>
+          <text x="625" y="192" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Offer to draft</text>
+          <text x="625" y="209" text-anchor="middle" fill="#f2ddff" font-size="10.5">Collect inputs</text>
 
           <!-- Node: NDA code block -->
           <rect id="nodeNDA" x="726" y="165" width="140" height="64" rx="12" fill="#C0207E"></rect>
           <rect class="node-highlight on" data-node="nda" x="722" y="161" width="148" height="72" rx="14" fill="none" stroke="#C0207E" stroke-width="2" stroke-dasharray="3 3"></rect>
-          <text x="796" y="192" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">NDA text block</text>
-          <text x="796" y="209" text-anchor="middle" fill="#ffe0ef" font-size="10.5">One-click copy</text>
+          <text x="796" y="192" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">NDA generated</text>
+          <text x="796" y="209" text-anchor="middle" fill="#ffe0ef" font-size="10.5">download and review</text>
 
-          <!-- Node: Envelope (advanced) -->
-          <rect id="nodeEnv" x="726" y="262" width="140" height="58" rx="12" fill="#fff" stroke="#c47a06" stroke-width="2" stroke-dasharray="5 3"></rect>
-          <rect class="node-highlight" data-node="env" x="722" y="258" width="148" height="66" rx="14" fill="none" stroke="#c47a06" stroke-width="2" stroke-dasharray="3 3"></rect>
-          <text x="796" y="287" text-anchor="middle" fill="#130032" font-size="12" font-weight="600">Envelope sent</text>
-          <text x="796" y="303" text-anchor="middle" fill="#615a75" font-size="10.5">Pre-filled template</text>
+          <!-- Node: Envelope (advanced - hidden) -->
+          <rect id="nodeEnv" x="726" y="262" width="140" height="58" rx="12" fill="#fff" stroke="#c47a06" stroke-width="2" stroke-dasharray="5 3" style="display:none"></rect>
+          <rect class="node-highlight" data-node="env" x="722" y="258" width="148" height="66" rx="14" fill="none" stroke="#c47a06" stroke-width="2" stroke-dasharray="3 3" style="display:none"></rect>
+          <text x="796" y="287" text-anchor="middle" fill="#130032" font-size="12" font-weight="600" style="display:none">Envelope sent</text>
+          <text x="796" y="303" text-anchor="middle" fill="#615a75" font-size="10.5" style="display:none">Pre-filled template</text>
 
           <!-- animated particles -->
           <circle class="particle" id="particle-exists" r="5" fill="#0a7d3c" style="filter:drop-shadow(0 0 5px #0a7d3c)">
@@ -393,7 +393,7 @@ li{margin:5px 0;}
           <circle class="particle show" id="particle-draft" r="5" fill="#FF5252" style="filter:drop-shadow(0 0 5px #FF5252)">
             <animateMotion dur="3.6s" repeatCount="indefinite"><mpath href="#route-draft"></mpath></animateMotion>
           </circle>
-          <circle class="particle" id="particle-envelope" r="5" fill="#c47a06" style="filter:drop-shadow(0 0 5px #c47a06)">
+          <circle class="particle" id="particle-envelope" r="5" fill="#c47a06" style="display:none;filter:drop-shadow(0 0 5px #c47a06)">
             <animateMotion dur="4.2s" repeatCount="indefinite"><mpath href="#route-envelope"></mpath></animateMotion>
           </circle>
         </svg>
@@ -402,9 +402,9 @@ li{margin:5px 0;}
           <div class="ctrl">
             <label for="ctrlOutcome">Search outcome</label>
             <select id="ctrlOutcome">
-              <option value="exists">Active agreement found</option>
-              <option value="draft">Zero results / expired only: draft NDA in chat</option>
-              <option value="envelope">Zero results: send envelope (Part 2)</option>
+              <option value="exists">Active Agreement Found</option>
+              <option value="draft">Agreement invalid or not found: draft NDA</option>
+              <option value="envelope" style="display:none">Zero results: send envelope (Part 2)</option>
             </select>
           </div>
           <div class="explorer-status">
@@ -417,8 +417,7 @@ li{margin:5px 0;}
       <h3>0.4 · Learning objectives</h3>
       <div class="obj"><div class="lab">Objective 1</div><b>Create an agent from natural language</b><br>Initialize the agent framework in Agent Studio with a single-sentence goal and let AI auto-select the right capabilities.</div>
       <div class="obj"><div class="lab">Objective 2</div><b>Design for the "unhappy path"</b><br>Write instructions that prevent false negatives (partial-match search), pivot gracefully on zero results, and refuse to guess missing inputs.</div>
-      <div class="obj"><div class="lab">Objective 3</div><b>Produce clean, copy-ready output</b><br>Force the final NDA into a single continuous Markdown code block for perfect one-click clipboard copy.</div>
-      <div class="obj"><div class="lab">Objective 4</div><b>Bridge chat to execution (advanced)</b><br>Connect the agent to a Docusign Envelope Template so it packages chat-extracted data and sends a pre-filled contract directly.</div>
+      <div class="obj"><div class="lab">Objective 3</div><b>Produce ready-to-use output</b><br>Automatically generate the final NDA, ready to download.</div>
 
       <h3>0.5 · Prerequisites</h3>
       <p><b>Before You Begin — Prerequisites</b></p>
@@ -480,7 +479,7 @@ li{margin:5px 0;}
           </ol>
         </div>
         <img src="assets/s11-accessing-agent-studio.png" alt="Automations tab with the Create New button in the top-right corner" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
-        <div class="expect"><b>Checkpoint:</b> you're looking at the agent creation screen with a central description text block titled "Describe what you want your agent to accomplish…".</div>
+        <div class="expect"><b>Checkpoint:</b> you see the agent creation screen with a text block titled "Describe what you want your agent to accomplish...".</div>
       </div>
 
       <div class="h-check" id="sec-1-2"><input type="checkbox" data-stage="1" id="s12"><div><h3 style="display:inline">1.2 · Initial draft</h3><span class="tag">build</span></div></div>
@@ -490,119 +489,62 @@ li{margin:5px 0;}
           <li>Click into the central description text block titled <b>"Describe what you want your agent to accomplish…"</b>.</li>
           <li>Input the following initialization string:</li>
         </ol>
-        <div class="lbl">Initialization string</div>
-        <div class="block prompt">Create an agent for checking if we have an existing agreement with a company, and if we do not, offer to gather inputs and draft a standard NDA for them.</div>
+        <div class="lbl">Agent description</div>
+        <div class="block prompt">This agent checks whether an NDA already exists with a company. If no NDA is found, it guides the user toward creating an NDA draft. It returns either matching agreement results or a prepared NDA using an existing template.</div>
         <ol start="3">
           <li>Click the <b>Create Agent</b> button in the bottom-right corner.</li>
         </ol>
         <div class="note"><b>Note:</b> you can click on the <b>Use classic editor</b> and create the agent from there, but that will require adding all the right capabilities manually. Using AI to create the agent will automatically add the capabilities needed. You should still check to ensure the appropriate capabilities are chosen.</div>
         <img src="assets/s12-initial-draft.png" alt="Creation screen with the initialization string entered and the Create Agent button" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
-        <div class="expect"><b>Checkpoint:</b> the agent shell exists and Agent Studio has pre-selected capabilities for agreement search and text generation.</div>
+        <div class="expect"><b>Checkpoint:</b> the agent is created with the name and description set. You can see the agent setup page with capabilities and instructions sections.</div>
       </div>
 
-      <div class="h-check" id="sec-1-3"><input type="checkbox" data-stage="1" id="s13"><div><h3 style="display:inline">1.3 · Review the entry method and set the greeting</h3><span class="tag">build</span></div></div>
+      <div class="h-check" id="sec-1-3"><input type="checkbox" data-stage="1" id="s13"><div><h3 style="display:inline">1.3 · Define what starts this agent</h3><span class="tag">build</span></div></div>
       <div class="card">
-        <div class="clickpath">
-          <div class="cp-task"><span class="cp-badge">Click path</span>Entry method</div>
-          <ol>
-            <li>On the agent setup page, locate the <b>Define what starts this agent</b> section (below the agent name and description).</li>
-            <li>You will see two entry points listed: <b>In chat</b> and <b>In a workflow</b>. Both are active and available once the agent is published.</li>
-          </ol>
-        </div>
-        <img src="assets/s13-entry-method.png" alt="Define what starts this agent section showing In chat and In a workflow entry points" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
-        <div class="clickpath">
-          <div class="cp-task"><span class="cp-badge">Click path</span>Greeting</div>
-          <ol>
-            <li>Under the <b>In chat</b> entry point, find the <b>Conversation starter prompts</b> field (or click the pencil icon next to it).</li>
-            <li>Click <b>Add a prompt</b> (or clear the existing auto-generated text if one was pre-filled).</li>
-            <li>Enter the greeting below.</li>
-          </ol>
-        </div>
-        <div class="lbl">Greeting</div>
-        <div class="block prompt">How can I help with your agreement search or NDA drafting?</div>
-        <div class="clickpath" style="margin-top:12px;">
-          <div class="cp-task"><span class="cp-badge">Save</span>Two saves required</div>
-          <ol>
-            <li>Click <b>Save</b> inside the starter prompt box to save the greeting text.</li>
-            <li>Then click the main <b>Save</b> button at the bottom of the full agent setup page.</li>
-          </ol>
-        </div>
-        <div class="warn"><b>Two separate saves required.</b> Saving inside the starter prompt box only saves the greeting text. You must also click the page-level <b>Save</b> button, or the greeting will not persist when you navigate away and return.</div>
-        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Define what starts this agent section showing both In chat and In a workflow entry points active; Conversation starter prompts field with the greeting entered; page-level Save button at the bottom</span></div>
-        <div class="expect"><b>Checkpoint:</b> the Define what starts this agent section shows both <b>In chat</b> and <b>In a workflow</b> as active entry points, and the greeting text is still present after you navigate away and return to the agent setup page.</div>
+        <ol style="margin:10px 0 0;">
+          <li>Under "Define what starts this agent", edit <b>In chat</b>.</li>
+          <li>In the prompt field, type:</li>
+        </ol>
+        <div class="block prompt" style="margin:10px 0;">Check if we have an existing agreement with a company, and if we do not, offer to gather inputs and draft a standard NDA for them.</div>
+        <ol start="3">
+          <li>Click <b>Save</b>, then scroll to the bottom and click <b>Save</b> again.</li>
+        </ol>
       </div>
 
       <div class="h-check" id="sec-1-3b"><input type="checkbox" data-stage="1" id="s13b"><div><h3 style="display:inline">1.3.1 · Validate the capabilities</h3><span class="tag">build</span></div></div>
       <div class="card">
-        <p style="margin:0 0 8px;">When you created the agent from the initialization string in 1.2, Agent Studio pre-selected a set of capabilities. Verify the selection before adding your instructions.</p>
+        <p style="margin:0 0 8px;">When you created the agent from the description in 1.2, Agent Studio pre-selected a set of capabilities. Verify the selection before adding your instructions.</p>
         <div class="clickpath">
           <div class="cp-task"><span class="cp-badge">Click path</span>Capabilities section</div>
           <ol>
             <li>Scroll down to the <b>Capabilities</b> section on the agent setup page.</li>
             <li>Confirm the following are selected: <b>Find Agreements</b>, <b>Generate Documents</b>, <b>Party Insights</b>, <b>Ask the User</b>.</li>
-            <li>If <b>Review Documents</b> is not already listed, click <b>Add capability</b> and add it. This capability is required if you plan to use a playbook or evaluate document content during the NDA review step.</li>
           </ol>
         </div>
         <img src="assets/s131-capabilities.png" alt="Capabilities section showing Find Agreements, Generate Documents, Party Insights, and Ask the User" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
-        <div class="note"><b>Note:</b> Agent Studio selects capabilities automatically based on the initialization string, but the selection can vary. Always verify the list manually before saving. Adding Review Documents may require updating the agent instructions to reference it explicitly.</div>
-        <div class="expect"><b>Checkpoint:</b> the Capabilities section lists at minimum Find Agreements, Generate Documents, Party Insights, Ask the User, and Review Documents.</div>
+        <div class="expect"><b>Checkpoint:</b> the Capabilities section lists <b>Find Agreements</b>, <b>Generate Documents</b>, <b>Party Insights</b>, and <b>Ask the User</b>.</div>
       </div>
 
       <div class="h-check" id="sec-1-4"><input type="checkbox" data-stage="1" id="s14"><div><h3 style="display:inline">1.4 · Deploying the master instructions</h3><span class="tag">build</span></div></div>
       <div class="card">
         <p style="margin:0 0 8px;">Scroll down to the <b>Instructions*</b> box, clear any generated text, and paste the full prompt below. This is a tested prompt; do not paraphrase the step logic or the pivot script wording, as those have been validated to produce consistent output.</p>
-        <div class="lbl">Agent instructions (replace all generated text with this)</div>
-        <div class="block prompt">Role and Core Objective:
-You are Fontara's NDA Agreement Checker. Your job is to search Fontara's agreement repository for any existing NDA with a named counterparty. If no active agreement is on file, you guide the rep through producing a ready-to-use NDA without leaving this conversation.
+        <div class="lbl">Agent instructions</div>
+        <div class="block prompt">You are Fontara's NDA Agreement Checker. Your job is to search Docusign's agreement repository for any existing NDA with a named counterparty. If no active agreement is on file, you guide the rep through producing a ready-to-use NDA without leaving this conversation.
 
 Step 1 - Agreement Repository Search (No False Negatives):
-When the rep provides a company name, use the system_list_agreements tool immediately.
-- Search guardrail: check for exact matches AND partial matches. If the rep types "Brightpath", also check for "Brightpath Technologies", "Brightpath Inc.", and similar variations before concluding the search returned nothing.
-- If an active NDA is found: use the Review Documents capability to read the agreement and show a brief summary (counterparty name, status, key terms, expiry date if available) and stop. Do not offer to create a new NDA.
+When the rep provides a company name, scan the agreement repository immediately.
+Search guardrail: check for exact matches AND partial matches. If the rep types "Brightpath", also check for "Brightpath Technologies", "Brightpath Inc.", and similar variations before concluding the search returned nothing.
+If an active NDA is found: show a brief summary of the agreement on file (counterparty name, status, expiry date if available) and stop. Do not offer to create a new NDA.
 
 Step 2 - No Agreement Found: Consistent Offer to Draft:
 If the search returns zero results, or if every result has a status of "Expired" or "Terminated", respond with this exact text, substituting the company name in the brackets:
 
 "I checked our records and did not find an active NDA for [Company Name] in Docusign. To keep this conversation protected, we should get one in place before moving forward. Would you like me to draft one now?"
 
-Step 3 - Intake (All Three Inputs Required Before Drafting):
-If the rep says yes, ask for these three items in a numbered list. Do not draft the NDA until all three are explicitly provided. If the rep supplies only partial answers, ask for the missing items specifically before continuing.
-1. What is the full legal name of the counterparty company?
-2. Which state should govern this agreement?
-3. What is the business context for this discussion? (e.g., "Evaluating a co-sell partnership")
-
-Step 4 - NDA Generation:
-Once all three inputs are confirmed, produce the complete agreement text. Output it inside a single continuous Markdown code block so the rep can copy the entire document in one click.
-
-Use this structure, inserting the rep's inputs into the bracketed placeholders:
-
-[NON-DISCLOSURE AGREEMENT]
-
-This Non-Disclosure Agreement ("Agreement") is entered into as of [INSERT TODAY'S DATE] ("Effective Date"), by and between Fontara, Inc., a Delaware corporation, and [Input: Full Legal Name], a corporation organized under the laws of the state of [Input: Governing State] (each a "Party" and collectively the "Parties").
-
-1. Purpose. The Parties intend to explore a potential business relationship concerning [Input: Business Context] (the "Purpose"). In connection with that Purpose, each Party may share proprietary, non-public, or otherwise confidential information with the other.
-
-2. Confidential Information. "Confidential Information" means any information disclosed by one Party ("Disclosing Party") to the other ("Receiving Party") that is marked confidential or that a reasonable person would understand to be confidential based on its nature and the circumstances of disclosure. Confidential Information excludes information that: (a) is or becomes generally available to the public without breach by the Receiving Party; (b) was already in the Receiving Party's lawful possession before disclosure; or (c) is independently developed by the Receiving Party without reference to the Disclosing Party's information.
-
-3. Obligations. The Receiving Party agrees to: (a) protect Confidential Information using at least the same standard of care it uses for its own confidential information, but in no event less than reasonable care; (b) use Confidential Information only for the Purpose; and (c) limit disclosure to employees, advisors, or contractors who need the information for the Purpose and who are bound by obligations of confidentiality no less protective than those in this Agreement.
-
-4. Term and Survival. This Agreement applies to all disclosures made from the Effective Date. Confidentiality obligations survive any termination or expiration of this Agreement for three (3) years from the date each disclosure was made.
-
-5. Governing Law. This Agreement is governed by the laws of the State of [Input: Governing State], without regard to its conflict-of-law principles.
-
-IN WITNESS WHEREOF, the Parties have executed this Mutual Non-Disclosure Agreement as of the Effective Date.
-
-FONTARA, INC.
-
-By: ___________________________
-Name: _________________________
-Title: __________________________
-
-[Input: Full Legal Name]
-
-By: ___________________________
-Name: _________________________
-Title: __________________________</div>
+Step 3 - Intake (All Inputs Required Before Drafting):
+If the rep says yes, Use document template Fontara NDA Template to generate the agreement. Ask the user for all fields from the template and merge the values provided by the user in the template.
+Do not draft the NDA until all the required fields are explicitly provided. If the rep supplies only partial answers, ask for the missing items specifically before continuing.
+Confirm to the rep when the agreement has been drafted: "The NDA for [Company Name] is ready for your review."</div>
         <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Instructions box showing only the pasted prompt with no leftover generated text</span></div>
         <div class="expect"><b>Checkpoint:</b> the Instructions* field contains only this prompt. Save the agent before moving on.</div>
       </div>
@@ -658,7 +600,7 @@ Title: __________________________</div>
           <tr><td><b>Partial-match search requirement</b></td><td>A rep types "Brightpath" and the agent returns zero results, even though "Brightpath Technologies" is on file. The rep assumes there is no NDA and the deal proceeds unprotected.</td><td>The instructions require the agent to run both exact and partial name searches before reporting zero results. Any variation that shares a root with the input must be checked first.</td></tr>
           <tr><td><b>Fixed pivot script wording</b></td><td>Left to its own phrasing, the agent might respond "No records found. Let me know if you need anything else" and stop. The rep does not know they can ask for a draft and moves on without one.</td><td>A specific response string is locked into the instructions. When the search comes back empty, the agent delivers the same offer every time, which means every rep sees the same clear next step.</td></tr>
           <tr><td><b>Hard gate on NDA generation</b></td><td>AI models fill in missing fields rather than asking. An agent given only a company name might invent a governing state or fabricate a business purpose, producing an NDA with incorrect terms that a rep might send without noticing.</td><td>The instructions explicitly forbid generating any NDA text until all three inputs have been confirmed in the conversation. Partial input triggers a follow-up question, not a draft.</td></tr>
-          <tr><td><b>Single continuous code block for output</b></td><td>Without explicit output formatting, the agent breaks a multi-section legal document across several chat bubbles. The rep has to manually reassemble paragraphs before they can use the text.</td><td>The instructions require the entire NDA to be wrapped in one Markdown code block. One click copies the complete document, ready to paste into Word or Google Docs.</td></tr>
+          <tr><td><b>Standardized output</b></td><td>Without explicit formatting or wording instructions, the agent can generate inconsistent outputs. The rep has to manually route for NDA approvals.</td><td>The instructions require a pre-approved document template to be used to generate the NDA, ensuring consistency. Ready to download and send.</td></tr>
         </tbody></table>
       </div>
 
@@ -689,8 +631,8 @@ Title: __________________________</div>
       </div>
     </section>
 
-    <!-- ============ STAGE 3 ============ -->
-    <section class="stage" id="stage-3">
+    <!-- ============ STAGE 3 (hidden - envelope delivery is demo-only via CLM) ============ -->
+    <section class="stage" id="stage-3" style="display:none">
       <div class="stage-head"><h2>Stage 3 · Advanced automation: direct Docusign envelope delivery</h2></div>
 
       <div class="card tint">
@@ -766,7 +708,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
     </section>
 
     <section class="stage" id="stage-4">
-      <div class="stage-head"><h2>Stage 4 · The CLM connection</h2></div>
+      <div class="stage-head"><h2>Stage 3 · The CLM connection</h2></div>
 
       <div class="demo-banner">
         <span class="icon">&#9654;</span>
@@ -775,7 +717,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         </div>
       </div>
 
-      <div class="h-check" id="sec-4-1"><input type="checkbox" data-stage="4" id="s40"><div><h3 style="display:inline">4.1 · Why CLM calls the agent instead of running it in chat</h3><span class="tag demo">concept</span></div></div>
+      <div class="h-check" id="sec-4-1"><input type="checkbox" data-stage="4" id="s40"><div><h3 style="display:inline">3.1 · Why CLM calls the agent instead of running it in chat</h3><span class="tag demo">concept</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">Ask Iris is conversational: a rep asks a question, the agent responds, the rep acts. That works for one deal at a time. A CLM workflow is deterministic: every inbound NDA request follows the same path, without a human having to remember to ask.</p>
         <p style="margin:0 0 10px;">The "Use AI Agent" step is the bridge. CLM is the orchestration surface; Agent Studio is the reasoning layer. The CLM workflow handles the structured steps (approvals, merges, signatures, archiving). The agent handles the part that requires judgment: check the repository, evaluate what exists, and return a structured answer the workflow can act on.</p>
@@ -802,7 +744,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Architecture slide: Agent Studio (reasoning) on the left, CLM Workflow (orchestration) on the right, Trigger and Response arrows between them</span></div>
       </div>
 
-      <div class="h-check" id="sec-4-2"><input type="checkbox" data-stage="4" id="s41"><div><h3 style="display:inline">4.2 · What the "Use AI Agent" step looks like for the NDA Gatekeeper</h3><span class="tag demo">demo</span></div></div>
+      <div class="h-check" id="sec-4-2"><input type="checkbox" data-stage="4" id="s41"><div><h3 style="display:inline">3.2 · What the "Use AI Agent" step looks like for the NDA Gatekeeper</h3><span class="tag demo">demo</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">In a CLM workflow for inbound NDA requests, the "Use AI Agent" step is configured with five fields. Here is how each one maps to the NDA Gatekeeper scenario:</p>
         <table>
@@ -816,7 +758,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">CLM workflow canvas: Use AI Agent step selected, step properties panel open on the right showing the five fields filled in for the NDA Gatekeeper</span></div>
       </div>
 
-      <div class="h-check" id="sec-4-3"><input type="checkbox" data-stage="4" id="s42"><div><h3 style="display:inline">4.3 · What the output variable contains</h3><span class="tag demo">demo</span></div></div>
+      <div class="h-check" id="sec-4-3"><input type="checkbox" data-stage="4" id="s42"><div><h3 style="display:inline">3.3 · What the output variable contains</h3><span class="tag demo">demo</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">After the agent runs, the step processes the response into a structured XML variable the workflow can reference. The top-level fields are:</p>
         <div class="xml-var">
@@ -837,7 +779,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Variables and Values panel showing AgentResponse tree expanded, with AgentFinalResponseXml highlighted and nda_status value visible</span></div>
       </div>
 
-      <div class="h-check" id="sec-4-4"><input type="checkbox" data-stage="4" id="s43"><div><h3 style="display:inline">4.4 · What must be in place before a customer can use this</h3><span class="tag demo">prereqs</span></div></div>
+      <div class="h-check" id="sec-4-4"><input type="checkbox" data-stage="4" id="s43"><div><h3 style="display:inline">3.4 · What must be in place before a customer can use this</h3><span class="tag demo">prereqs</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">The "Use AI Agent" step is available in CLM workflows but requires setup that goes beyond Agent Studio alone. Partners and customers need to confirm these items before the pattern goes live.</p>
         <div class="demo-prereq">
@@ -976,14 +918,8 @@ Once all three inputs are confirmed (full legal name, governing state, business 
       draft:{ cls:'high',
         edges:BASE.concat(['edge-branch-draft','edge-pivot-nda']),
         nodes:['intake','nda'], particle:'particle-draft',
-        agent:'Pivot script → 3-question intake',
-        route:'Full NDA delivered in one copy-ready code block.'
-      },
-      envelope:{ cls:'fallback',
-        edges:BASE.concat(['edge-branch-draft','edge-intake-env']),
-        nodes:['intake','env'], particle:'particle-envelope',
-        agent:'Intake → fill template fields',
-        route:'Pre-filled envelope sent via Unilateral_NDA_Template.'
+        agent:'Pivot script → collect required inputs',
+        route:'NDA generated from document template, ready to download.'
       }
     };
 
