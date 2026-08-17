@@ -252,6 +252,10 @@ li{margin:5px 0;}
     <ol class="stepper" id="stepper">
       <li class="step active" data-target="stage-0"><span class="ring" data-stage="0"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">0</span></span><span class="txt"><span class="t">Before you begin</span><span class="s">Scenario · Flow · Setup</span></span></li>
       <ul class="sub-nav">
+        <li data-scroll="sec-0-1">0.1 The scenario</li>
+        <li data-scroll="sec-0-2">0.2 The flow</li>
+        <li data-scroll="sec-0-3">0.3 Decision tree</li>
+        <li data-scroll="sec-0-4">0.4 Objectives</li>
         <li data-scroll="p1">0.5.1 Products enabled</li>
         <li data-scroll="p2">0.5.2 Permissions</li>
         <li data-scroll="p3">0.5.3 Download lab assets</li>
@@ -324,7 +328,7 @@ li{margin:5px 0;}
 
       <div class="stage-head"><h2>Before you begin</h2></div>
 
-      <h3>0.1 · The scenario</h3>
+      <h3 id="sec-0-1">0.1 · The scenario</h3>
       <div class="card proc-only">
         <p style="margin:0 0 10px;font-weight:600;font-size:16px;">At Fontara, Procurement and Legal onboard high-value vendors one email thread at a time.</p>
         <p style="margin:0;">A business user emails a draft vendor contract, Legal manually hunts for the liability cap and governing law, then someone routes it for signature. It is slow, inconsistent, and hard to audit.&nbsp;</p><p style="margin:0;">In this lab you replace that with an automated process: an Agreement Desk request starts a workflow that hands the contract to a Risk Analyst agent, which extracts the key terms and classifies risk. LOW risk goes straight to the vendor for signature; MEDIUM or HIGH risk waits for Legal.</p>
@@ -334,7 +338,7 @@ li{margin:5px 0;}
         <p style="margin:0;">Reps email draft renewal orders for review, so pricing and clause policy get applied inconsistently, high-value deals stall, and nobody can see where a renewal is stuck. In this lab you replace that with an automated process: an Agreement Desk request starts a workflow that hands the order form to a Risk Analyst agent, which extracts discount, term, and governing law and classifies risk. LOW risk goes straight to the customer for signature; MEDIUM or HIGH risk waits for Finance and Legal.</p>
       </div>
 
-      <h3>0.2 · The flow at a glance</h3>
+      <h3 id="sec-0-2">0.2 · The flow at a glance</h3>
       <div class="card">
         <h3>Four surfaces, one loop</h3>
         <table>
@@ -351,7 +355,7 @@ li{margin:5px 0;}
         <b>Where this sits in the bigger picture :</b> Docusign IAM is the governed agreement layer for agentic architectures - Agreement Manager, Agreement Desk, Workflow Builder, and CLM are the surfaces where agents actually live inside customer workflows, pre-sign through post-sign. Agent Studio is the control plane where you design and govern those agents.&nbsp;</div><div class="note">This lab builds one concrete pattern so you can adapt the same shape elsewhere. Embedding agents into CLM workflows via the "Use AI Agent" step is its own pattern, not covered in depth in this lab.
       </div>
 
-      <h3>0.3 · Explore the decision tree before you build it</h3>
+      <h3 id="sec-0-3">0.3 · Explore the decision tree before you build it</h3>
       <p style="margin:0 0 6px;">This is the exact routing logic you'll build and exercise across Stages 1 to 3. Change the controls below the diagram and watch the live path light up - that's the same branch your agent and workflow will take at runtime.</p>
       <div class="card arch explorer" id="explorer">
         <svg viewBox="0 0 940 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive flow diagram: Agreement Desk to Risk Analyst agent to a risk branch that routes to human review, eSignature, or back to the submitter">
@@ -457,7 +461,7 @@ li{margin:5px 0;}
         </div>
       </div>
 
-      <h3>0.4 · Learning objectives</h3>
+      <h3 id="sec-0-4">0.4 · Learning objectives</h3>
       <div class="obj"><div class="lab">Objective 1</div><b>Use Agreement Desk as a structured intake surface</b><br>Import a Request Type, submit a request, and attach the document the rest of the flow depends on.</div>
       <div class="obj"><div class="lab">Objective 2</div><b>Build a Risk Analyst agent in Agent Studio</b><br>Write instructions and add capabilities that reliably evaluate the request and respond with risk analysis.</div>
       <div class="obj"><div class="lab">Objective 3</div><b>Orchestrate the agent inside Workflow Builder</b><br>Automatically trigger the workflow on Agreement Desk request submission, invoke the agent and capture its structured output into variables, and branch deterministically.</div>

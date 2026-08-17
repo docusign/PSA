@@ -255,6 +255,10 @@ li{margin:5px 0;}
     <ol class="stepper" id="stepper">
       <li class="step active" data-target="stage-0"><span class="ring" data-stage="0"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">0</span></span><span class="txt"><span class="t">Before you begin</span><span class="s">Scenario · Flow · Setup</span></span></li>
       <ul class="sub-nav">
+        <li data-scroll="sec-0-1">0.1 Purpose</li>
+        <li data-scroll="sec-0-2">0.2 The flow</li>
+        <li data-scroll="sec-0-3">0.3 Conversation flow</li>
+        <li data-scroll="sec-0-4">0.4 Objectives</li>
         <li data-scroll="p1">0.5.1 Products enabled</li>
         <li data-scroll="p2">0.5.2 Permissions</li>
         <li data-scroll="p3">0.5.3 Download lab assets</li>
@@ -311,14 +315,14 @@ li{margin:5px 0;}
 
       <div class="stage-head"><h2>Before you begin</h2></div>
 
-      <h3>0.1 · Purpose &amp; business outcome</h3>
+      <h3 id="sec-0-1">0.1 · Purpose &amp; business outcome</h3>
       <div class="card">
         <p style="margin:0 0 10px;font-weight:600;font-size:16px;">A Sales rep is about to get on a discovery call with a prospect. Before they share roadmap details or pricing, they need to know: is there an NDA in place?</p>
         <p style="margin:0 0 10px;">The current answer involves emailing Legal, waiting, and hoping. This lab replaces that with an agent that does the lookup instantly and, when nothing is found, collects the required inputs needed to produce a ready-to-send NDA without leaving the chat window.</p>
         <p style="margin:0;">The agent uses Docusign <b>Agreement Manager</b> as its source of truth and <b>document generation</b> as its output. Two capabilities, one conversation: confirm coverage or create it, right inside Ask Iris.</p>
       </div>
 
-      <h3>0.2 · The flow at a glance</h3>
+      <h3 id="sec-0-2">0.2 · The flow at a glance</h3>
       <div class="card tint diagram">
         <div><span class="n">1</span><div><b>Repository check</b>the rep asks about a counterparty in Iris chat. The agent queries Agreement Manager and checks for both exact and partial name matches, so a shorthand like "Brightpath" still finds "Brightpath Technologies" or "Brightpath Inc." No false negatives from typos or abbreviations.</div></div>
         <div><span class="n">2</span><div><b>Active NDA found: surfaces it and stops</b>if a current agreement exists, the agent returns a summary of what is already on file and does not offer to create anything new. No duplicate paperwork.</div></div>
@@ -327,7 +331,7 @@ li{margin:5px 0;}
         <div><span class="n">5</span><div><b>NDA generated</b>once all inputs are confirmed, the agent generates an NDA from a pre-approved document template and it's available for download to review.</div></div>
       </div>
 
-      <h3>0.3 · Explore the conversation flow before you build it</h3>
+      <h3 id="sec-0-3">0.3 · Explore the conversation flow before you build it</h3>
       <p style="margin:0 0 6px;">This is the exact conversational logic you'll build in Stage 1. Change the control below the diagram and watch the live path light up. That is the branch your agent will take at runtime.</p>
       <div class="card arch explorer" id="explorer">
         <svg viewBox="0 0 940 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive flow diagram: user query to thorough search to a branch that either summarizes existing agreements or pivots to interactive intake and NDA generation">
@@ -425,7 +429,7 @@ li{margin:5px 0;}
         </div>
       </div>
 
-      <h3>0.4 · Learning objectives</h3>
+      <h3 id="sec-0-4">0.4 · Learning objectives</h3>
       <div class="obj"><div class="lab">Objective 1</div><b>Create an agent from natural language</b><br>Initialize the agent framework in Agent Studio with a single-sentence goal and let AI auto-select the right capabilities.</div>
       <div class="obj"><div class="lab">Objective 2</div><b>Design for the "unhappy path"</b><br>Write instructions that prevent false negatives (partial-match search), pivot gracefully on zero results, and refuse to guess missing inputs.</div>
       <div class="obj"><div class="lab">Objective 3</div><b>Produce ready-to-use output</b><br>Automatically generate the final NDA, ready to download.</div>
