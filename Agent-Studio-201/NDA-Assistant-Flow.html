@@ -277,12 +277,11 @@ li{margin:5px 0;}
       <li class="step" data-target="stage-3" style="display:none"><span class="ring" data-stage="3"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">Advanced automation</span><span class="s">Direct envelope delivery</span></span></li>
       <ul class="sub-nav" style="display:none;">
       </ul>
-      <li class="step" data-target="stage-4"><span class="ring" data-stage="4"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">The CLM connection</span><span class="s">Demo only</span></span></li>
+      <li class="step" data-target="stage-4"><span class="ring" data-stage="4"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">4</span></span><span class="txt"><span class="t">The CLM connection</span><span class="s">Demo only</span></span></li>
       <ul class="sub-nav">
-        <li data-scroll="sec-4-1">3.1 Why CLM calls the agent</li>
-        <li data-scroll="sec-4-2">3.2 Use AI Agent step</li>
-        <li data-scroll="sec-4-3">3.3 Output variable</li>
-        <li data-scroll="sec-4-4">3.4 Customer prerequisites</li>
+        <li data-scroll="sec-4-1">4.1 Why CLM calls the agent</li>
+        <li data-scroll="sec-4-2">4.2 Use AI Agent step</li>
+        <li data-scroll="sec-4-3">4.3 Output variable</li>
       </ul>
     </ol>
     <div class="side-foot">
@@ -748,7 +747,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
     </section>
 
     <section class="stage" id="stage-4">
-      <div class="stage-head"><h2>Stage 3 · The CLM connection</h2></div>
+      <div class="stage-head"><h2>Stage 4 · The CLM connection</h2></div>
 
       <div class="demo-banner">
         <span class="icon">&#9654;</span>
@@ -757,7 +756,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         </div>
       </div>
 
-      <div class="h-check" id="sec-4-1"><input type="checkbox" data-stage="4" id="s40"><div><h3 style="display:inline">3.1 · Why CLM calls the agent instead of running it in chat</h3><span class="tag demo">concept</span></div></div>
+      <div class="h-check" id="sec-4-1"><input type="checkbox" data-stage="4" id="s40"><div><h3 style="display:inline">4.1 · Why CLM calls the agent instead of running it in chat</h3><span class="tag demo">concept</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">Ask Iris is conversational: a rep asks a question, the agent responds, the rep acts. That works for one deal at a time. A CLM workflow is deterministic: every inbound NDA request follows the same path, without a human having to remember to ask.</p>
         <p style="margin:0 0 10px;">The "Use AI Agent" step is the bridge. CLM is the orchestration surface; Agent Studio is the reasoning layer. The CLM workflow handles the structured steps (approvals, merges, signatures, archiving). The agent handles the part that requires judgment: check the repository, evaluate what exists, and return a structured answer the workflow can act on.</p>
@@ -784,7 +783,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Architecture slide: Agent Studio (reasoning) on the left, CLM Workflow (orchestration) on the right, Trigger and Response arrows between them</span></div>
       </div>
 
-      <div class="h-check" id="sec-4-2"><input type="checkbox" data-stage="4" id="s41"><div><h3 style="display:inline">3.2 · What the "Use AI Agent" step looks like for the NDA Gatekeeper</h3><span class="tag demo">demo</span></div></div>
+      <div class="h-check" id="sec-4-2"><input type="checkbox" data-stage="4" id="s41"><div><h3 style="display:inline">4.2 · What the "Use AI Agent" step looks like for the NDA Gatekeeper</h3><span class="tag demo">demo</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">In a CLM workflow for inbound NDA requests, the "Use AI Agent" step is configured with five fields. Here is how each one maps to the NDA Gatekeeper scenario:</p>
         <table>
@@ -798,7 +797,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">CLM workflow canvas: Use AI Agent step selected, step properties panel open on the right showing the five fields filled in for the NDA Gatekeeper</span></div>
       </div>
 
-      <div class="h-check" id="sec-4-3"><input type="checkbox" data-stage="4" id="s42"><div><h3 style="display:inline">3.3 · What the output variable contains</h3><span class="tag demo">demo</span></div></div>
+      <div class="h-check" id="sec-4-3"><input type="checkbox" data-stage="4" id="s42"><div><h3 style="display:inline">4.3 · What the output variable contains</h3><span class="tag demo">demo</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">After the agent runs, the step processes the response into a structured XML variable the workflow can reference. The top-level fields are:</p>
         <div class="xml-var">
@@ -819,7 +818,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Variables and Values panel showing AgentResponse tree expanded, with AgentFinalResponseXml highlighted and nda_status value visible</span></div>
       </div>
 
-      <div class="h-check" id="sec-4-4"><input type="checkbox" data-stage="4" id="s43"><div><h3 style="display:inline">3.4 · What must be in place before a customer can use this</h3><span class="tag demo">prereqs</span></div></div>
+      <div class="h-check" id="sec-4-4"><input type="checkbox" data-stage="4" id="s43"><div><h3 style="display:inline">4.4 · What must be in place before a customer can use this</h3><span class="tag demo">prereqs</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">The "Use AI Agent" step is available in CLM workflows but requires setup that goes beyond Agent Studio alone. Partners and customers need to confirm these items before the pattern goes live.</p>
         <div class="demo-prereq">
