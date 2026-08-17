@@ -248,6 +248,13 @@ li{margin:5px 0;}
     <div class="kicker">Agent Studio · 201</div>
     <ol class="stepper" id="stepper">
       <li class="step active" data-target="stage-0"><span class="ring" data-stage="0"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">0</span></span><span class="txt"><span class="t">Before you begin</span><span class="s">Scenario · Flow · Setup</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="p1">0.5.1 Products enabled</li>
+        <li data-scroll="p2">0.5.2 Permissions</li>
+        <li data-scroll="p3">0.5.3 Download lab assets</li>
+        <li data-scroll="p3b">0.5.4 Import workflow</li>
+        <li data-scroll="p3c">0.5.5 Upload agreements</li>
+      </ul>
       <li class="step" data-target="stage-1"><span class="ring" data-stage="1"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">1</span></span><span class="txt"><span class="t">Agent Studio</span><span class="s">Build the Risk Analyst</span></span></li>
       <ul class="sub-nav">
         <li data-scroll="sec-1-1">1.1 Create agent &amp; identity</li>
@@ -258,7 +265,7 @@ li{margin:5px 0;}
       </ul>
       <li class="step" data-target="stage-2"><span class="ring" data-stage="2"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">2</span></span><span class="txt"><span class="t">Import &amp; wire up</span><span class="s">Request Type + workflow</span></span></li>
       <ul class="sub-nav">
-        <li data-scroll="sec-2-1">2.1 Import Request Type</li>
+        <li data-scroll="sec-2-1">2.1 Verify Request Type</li>
         <li data-scroll="sec-2-3">2.3 Verify trigger</li>
         <li data-scroll="sec-2-5">2.5 Execute AI Agent</li>
         <li data-scroll="sec-2-6">2.6 Walk the branch</li>
@@ -458,7 +465,6 @@ li{margin:5px 0;}
           <li><b>Agreement Desk</b> - available and configurable (Request Types, forms, statuses).</li>
           <li><b>Workflow Builder (Maestro)</b> - enabled, with permission to create and publish workflows.</li>
           <li><b>Agent Studio</b> and agents-in-workflows - enabled. Your PSA or facilitator will confirm this is switched on for your partner sandbox; see the limitations appendix in Stage 3.5 for the current availability scope.</li>
-          <li><b>eSignature</b> - connected, with sending permission.</li>
         </ul>
       </div>
 
@@ -498,7 +504,7 @@ li{margin:5px 0;}
         <p style="margin:0 0 8px;">From the GitHub repo your facilitator provides, download:</p>
         <table>
           <tbody><tr><th>Asset</th><th>What it's for</th></tr>
-          <tr><td><code>risk_lab_request_type.zip</code></td><td>The prebuilt Agreement Desk Request Type you'll import in Stage 2.1.</td></tr>
+          <tr><td><code>risk_lab_request_type.zip</code></td><td>The prebuilt Agreement Desk Request Type — automatically added when you import the workflow.</td></tr>
           <tr><td><code>risk_lab_workflow.zip</code></td><td>Upload the workflow zip from the workshop kit provided by your facilitator. Leave the file zipped - do not extract it first.</td></tr>
         </tbody></table>
       </div>
@@ -509,6 +515,7 @@ li{margin:5px 0;}
           <li>Upload the <code>risk_lab_workflow.zip</code> from the workshop kit provided by your facilitator. Leave the file zipped — do not extract it first.</li>
           <li>Save &amp; Publish the workflow.</li>
         </ol>
+        <img src="assets/prereq-import-workflow.jpeg" alt="Imported workflow showing Agent Studio 201 Vendor Contract Review Workflow with Review and Publish button" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
       </div>
 
       <div class="h-check"><input type="checkbox" data-stage="0" id="p3c"><div><h3 style="display:inline">0.5.5 · Upload sample agreements</h3><span class="tag">setup</span></div></div>
@@ -516,16 +523,6 @@ li{margin:5px 0;}
         <p>Click the + icon and upload the sample agreements provided in the workshop kit.</p>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="0" id="p4"><div><h3 style="display:inline">0.5.6 · Foundational knowledge</h3><span class="tag">setup</span></div></div>
-      <div class="card">
-        <ul>
-          <li>eSignature basics: envelopes, recipients, routing order.</li>
-          <li>IAM basics: agreements, Request Types, how workflows trigger and run, what an agent does.</li>
-          <li>Comfortable reading a simple JSON payload and mapping fields between systems.</li>
-          <li class="proc-only">A basic vendor risk playbook (for example: minimum liability cap, acceptable governing law list).</li>
-          <li class="sales-only">A basic sales / finance playbook (for example: max discount without approval, minimum renewal term, acceptable governing law list).</li>
-        </ul>
-      </div>
 
       <h3>0.6 · How to use this handbook</h3>
       <table>
@@ -638,17 +635,14 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
       <div class="stage-head"><h2>Stage 2 · Import &amp; wire up</h2></div>
       <p>Both the Request Type and the workflow are prebuilt and supplied as ZIPs, so the whole room starts from an identical, working configuration. Your job here is to verify the tenant-specific references point at <i>your</i> objects, and publish. What matters is <b>understanding what's inside</b> - open each step as you verify it.</p>
 
-      <div class="h-check" id="sec-2-1"><input type="checkbox" data-stage="2" id="chk8"><div><h3 style="display:inline">2.1 · Import &amp; activate the Request Type</h3></div></div>
+      <div class="h-check" id="sec-2-1"><input type="checkbox" data-stage="2" id="chk8"><div><h3 style="display:inline">2.1 · Verify the Request Type</h3></div></div>
       <ol>
         <li>Navigate to the <b>Agreements</b> tab and click on <b>Requests</b>.</li>
-        <li>Open <b>Settings</b> for Agreement Desk.</li>
-        <li>Go to <b>Request Types</b>.</li>
-        <li>Click <b>Import</b> and select the <code>risk_lab_request_type.zip</code> you downloaded in Stage 0.</li>
-        <li>Confirm a new Request Type appears - for example <b>Agent Studio - Risk Lab</b> (your facilitator confirms the exact label).</li>
-        <li>Check its status. The import activates the intake form for you, so it should already be usable. If you open the intake form and see an <b>Activate</b> button, click it - an un-activated form stays a draft and won't be available in the final request.</li>
+        <li>Click on <b>Request Type</b>.</li>
+        <li>Verify a Request Type named <b>Agent Studio 201 - Vendor Contracts</b> is listed.</li>
       </ol>
-      <div class="expect"><b>Checkpoint:</b> the Request Type is listed and <b>active</b>, with fields for vendor/customer name, requester, estimated annual spend, jurisdiction, and category.</div>
-      <div class="note">Importing rather than hand-building keeps everyone on identical field names, which matters in the next step - the workflow's trigger and field mappings expect exactly those names.</div>
+      <div class="expect"><b>Checkpoint:</b> the Request Type <b>Agent Studio 201 - Vendor Contracts</b> is present and active.</div>
+      <div class="note">The Request Type was automatically created when you imported the workflow in the prerequisites (0.5.4).</div>
 
       <!-- Section 2.2 hidden: workflow import moved to prerequisites (0.5.4) -->
       <div class="h-check" id="sec-2-2" style="display:none"><input type="checkbox" data-stage="2" id="chk9"><div><h3 style="display:inline">2.2 · Import the workflow</h3></div></div>
@@ -660,7 +654,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
       <ol>
         <li>Open the workflow's start / trigger configuration.</li>
         <li>Confirm the start method is <b>From Agreement Desk</b>.</li>
-        <li>Set the <b>Request Type</b> to the <b>Agent Studio - Risk Lab</b> type you imported in 2.1.</li>
+        <li>Set the <b>Request Type</b> to <b>Agent Studio 201 - Vendor Contracts</b>.</li>
         <li>If the trigger has conditions referencing a request status, confirm those status names resolve to real statuses in your tenant.</li>
       </ol>
       <div class="expect"><b>Checkpoint:</b> the trigger names your own imported Request Type, not a placeholder or a missing reference.</div>
