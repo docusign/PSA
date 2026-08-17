@@ -746,7 +746,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
       <div class="h-check" id="sec-3-3"><input type="checkbox" data-stage="3" id="chk17"><div><h3 style="display:inline">3.3 · Scenario 3 - missing or malformed document, fallback</h3></div></div>
       <p>Create another request but either skip the document upload entirely, or attach a deliberately unusable file (an empty document, or an image with no readable text).</p>
       <div class="expect">
-        <b>Expect:</b> the agent cannot determine risk from the missing/unreadable document → the workflow handles it gracefully.
+        <b>Expect:</b> the agent cannot determine risk from the missing/unreadable document → defaults to <code>risk_level = HIGH</code> → the HIGH branch fires → routed to Legal for human review.
       </div>
 
       <div class="h-check" id="sec-3-4"><input type="checkbox" data-stage="3" id="chk18"><div><h3 style="display:inline">3.4 · Validation checklist</h3></div></div>
