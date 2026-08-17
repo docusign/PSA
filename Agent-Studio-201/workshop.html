@@ -953,50 +953,7 @@ function setupFrame(id){
     });
 
     // Replace NDA prerequisites with step-by-step format
-    var ndaHeadings=doc.querySelectorAll('h3');
-    ndaHeadings.forEach(function(h){
-      if(h.textContent.indexOf('Prerequisites')!==-1){
-        // Hide old prereq content
-        var el=h.nextElementSibling;
-        while(el){
-          if(el.tagName==='H3') break;
-          el.style.display='none';
-          el=el.nextElementSibling;
-        }
-        // Replace heading content and inject new prereqs
-        if(doc.getElementById('new-prereqs')) return;
-        h.innerHTML='0.5 &middot; Prerequisites';
-        var prereqHTML=doc.createElement('div');
-        prereqHTML.id='new-prereqs';
-        prereqHTML.innerHTML=''
-          +'<p style="margin:8px 0;">Complete these steps before the workshop begins.</p>'
-          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">1. Active Docusign developer account</h4>'
-          +'<ol style="margin:0 0 12px;padding-left:20px;">'
-          +'<li>Log in to your Docusign developer sandbox at <a href="https://apps-d.docusign.com" target="_blank">apps-d.docusign.com</a>.</li>'
-          +'<li>Confirm you can see the <b>Automation</b> tab in the top navigation. If not, ask your facilitator to enable it on your account.</li>'
-          +'</ol>'
-          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">2. Admin setup - enable Agent Studio access</h4>'
-          +'<div style="background:#f8f8f8;border:1px solid #e5e1f0;border-radius:10px;padding:14px 16px;margin:10px 0;">'
-          +'<ol style="margin:0;padding-left:20px;font-size:13.5px;">'
-          +'<li>Open the <b>Admin</b> tab at <a href="https://apps-d.docusign.com/admin/admin-dashboard" target="_blank">apps-d.docusign.com/admin/admin-dashboard</a>.</li>'
-          +'<li>Go to <b>Users</b> and find the participant\'s account row.</li>'
-          +'<li>Click <b>Actions</b> next to their name, then select <b>Manage AI Agents Access</b>.</li>'
-          +'<li>Under <b>AI Contract Agents Access</b>, enable: <b>Create new AI contract agents</b> and <b>Share, delete, and configure AI contract agents</b>.</li>'
-          +'<li>Click <b>Save</b>.</li>'
-          +'<li>Verify the agent is active: go back to the main app, open the <b>Automation</b> tab, and confirm you can see the <b>Agents</b> section.</li>'
-          +'</ol></div>'
-          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">3. Upload the NDA template</h4>'
-          +'<ol style="margin:0 0 12px;padding-left:20px;">'
-          +'<li>Upload the NDA document template provided in the workshop kit to your environment. This is the template the agent will use to generate agreements.</li>'
-          +'</ol>'
-          +'<h4 style="margin:18px 0 8px;font-size:15px;font-weight:600;">4. Upload a sample NDA to Agreement Manager</h4>'
-          +'<ol style="margin:0 0 12px;padding-left:20px;">'
-          +'<li>Go to the <b>Agreements</b> tab in Agreement Manager.</li>'
-          +'<li>Upload the sample NDA provided in the workshop kit. This gives the agent something to find when testing the "active agreement found" path.</li>'
-          +'</ol>';
-        h.parentNode.insertBefore(prereqHTML,h.nextSibling);
-      }
-    });
+    // === NDA Prerequisites: kept as-is from HTML (has screenshots and AI Control steps) ===
 
     // === Update NDA 1.1 checkpoint ===
     var ndaExpects=doc.querySelectorAll('.expect');
