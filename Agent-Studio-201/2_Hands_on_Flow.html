@@ -476,7 +476,6 @@ li{margin:5px 0;}
           <li>Access to Agreement Desk - can view and manage the Requests page.</li>
           <li>Access to Workflow Builder - can create and publish workflows.</li>
           <li>Permission to manage requests, or at minimum to create and edit requests for the lab Request Type.</li>
-          <li>An admin identity available for the agent step's one-time consent (see Stage 2.5).</li>
           <li><b>Agent Studio build access</b> - enabled by an org admin before Stage 1. Click path below.</li>
         </ul>
         <div class="clickpath">
@@ -511,7 +510,9 @@ li{margin:5px 0;}
       <div class="card">
         <ol>
           <li>Upload the workflow zip from the workshop kit provided by your facilitator. Leave the file zipped — do not extract it first.</li>
-          <li>Save &amp; Publish the workflow.</li>
+          <li>Click <b>Review &amp; Publish</b>.</li>
+          <li>If prompted, click <b>Authorize My Account</b> to complete the one-time agent consent for this environment.</li>
+          <li>Click through <b>Next</b>, then <b>Publish</b>.</li>
         </ol>
         <img src="assets/prereq-import-workflow.jpeg" alt="Imported workflow showing Agent Studio 201 Vendor Contract Review Workflow with Review and Publish button" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
       </div>
@@ -680,10 +681,8 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
 
       <div class="h-check" id="sec-2-7"><input type="checkbox" data-stage="2" id="chk14"><div><h3 style="display:inline">2.7 · Publish the workflow</h3></div></div>
       <ol>
-        <li>Click <b>Review &amp; Publish</b> in the workflow editor.</li>
+        <li>If you have made any changes, click <b>Review &amp; Publish</b> in the workflow editor.</li>
         <li>Click through <b>Next</b>, then <b>Publish</b>.</li>
-        <li>If prompted, click <b>Authorize My Account</b> to complete publishing.</li>
-        <li>Confirm the admin identity from 2.5 has completed the one-time agent consent for this environment.</li>
       </ol>
       <div class="expect"><b>Checkpoint:</b> the workflow shows as <b>Published</b>, and its trigger points at your active Request Type.</div>
       <div class="warn"><b>Must be Published, not Draft.</b> Agreement Desk can only trigger a published workflow. If it still shows Draft when you reach Stage 3, publish it first - this is the single most common reason "nothing happens" when a request is submitted.</div>
