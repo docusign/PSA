@@ -609,8 +609,8 @@ Return these fields (all five required, use "not specified" rather than omitting
 - discount: any commercial discount, or "none"
 
 Classify risk_level:
-- HIGH if any red rule is violated (missing liability cap, no termination rights, bad IP terms)
-- MEDIUM if only orange or yellow rules are violated (payment under 50 days, auto-renewal, missing change of control)
+- HIGH if any critical rule is violated: missing liability cap, no termination rights, or IP rights given away
+- MEDIUM if only non-critical rules are violated: payment under 50 days, auto-renewal, or missing change of control
 - LOW only if all six checklist items pass
 
 Step 4 - Clean Output Rule:
