@@ -523,6 +523,8 @@ li{margin:5px 0;}
       <div class="h-check"><input type="checkbox" data-stage="0" id="p3b"><div><h3 style="display:inline">0.5.4 · Import the workflow</h3><span class="tag">setup</span></div></div>
       <div class="card">
         <ol>
+          <li>Under the <b>Agreements</b> tab, navigate to <b>Workflows</b>.</li>
+          <li>Click <b>Import Workflow</b> (under Create Workflow).</li>
           <li>Upload the workflow zip from the workshop kit provided by your facilitator. Leave the file zipped — do not extract it first.</li>
           <li>Click <b>Review &amp; Publish</b>.</li>
           <li>If prompted, click <b>Authorize My Account</b> to complete the one-time agent consent for this environment.</li>
@@ -641,8 +643,8 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
       <div class="h-check" id="sec-1-5"><input type="checkbox" data-stage="1" id="chk7"><div><h3 style="display:inline">1.5 · Test the agent, then publish</h3></div></div>
       <ol>
         <li>Click <b>Test</b> to test the agent before publishing.</li>
-        <li>Click the <b>+</b> icon, click <b>Add Agreements</b>, and search for one of the agreements uploaded in the prerequisites (e.g. <code>msa_low_risk</code>).</li>
-        <li>Run the prompt: <code>Analyze this vendor contract against our procurement risk checklist. Return risk_level, liability_cap, governing_law, term, and discount. Flag violations with severity and section reference.</code></li>
+        <li>Click the <b>+</b> icon, click <b>Add Agreements</b>, and search for the low-risk document uploaded in the prerequisites.</li>
+        <li>Run the starter prompt configured in 1.2. Optionally, try a more detailed prompt: <code>Analyze this vendor contract against our procurement risk checklist. Return risk_level, liability_cap, governing_law, term, and discount. Flag violations with severity and section reference.</code></li>
         <li>Verify the agent returns the correct <code>risk_level</code> and all five output fields are populated.</li>
         <li>Click <b>Save draft</b>, then <b>Publish</b>.</li>
       </ol>
@@ -656,8 +658,8 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
 
       <div class="h-check" id="sec-2-1"><input type="checkbox" data-stage="2" id="chk8"><div><h3 style="display:inline">2.1 · Verify the Request Type</h3></div></div>
       <ol>
-        <li>Navigate to the <b>Agreements</b> tab and click on <b>Requests</b>.</li>
-        <li>Click on <b>Request Type</b>.</li>
+        <li>Click on <b>Settings</b>.</li>
+        <li>Click on <b>Request Types</b>.</li>
         <li>Verify a Request Type named <b>Agent Studio 201 - Vendor Contracts</b> is listed.</li>
       </ol>
       <div class="expect"><b>Checkpoint:</b> the Request Type <b>Agent Studio 201 - Vendor Contracts</b> is present and active.</div>
@@ -671,25 +673,25 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
 
       <div class="h-check" id="sec-2-2"><input type="checkbox" data-stage="2" id="chk10"><div><h3 style="display:inline">2.2 · Verify the trigger &amp; Request Type</h3></div></div>
       <ol>
-        <li>Open the workflow's start / trigger configuration.</li>
-        <li>Confirm the start method is <b>From Agreement Desk</b>.</li>
+        <li>Navigate to <b>Workflows</b> (under Agreements or Automations).</li>
+        <li>Open the workflow imported during the prerequisites.</li>
+        <li>Click on the <b>Start workflow</b> step.</li>
+        <li>Verify the start method is <b>From Agreement Desk</b>.</li>
         <li>Set the <b>Request Type</b> to <b>Agent Studio 201 - Vendor Contracts</b>.</li>
-        <li>If the trigger has conditions referencing a request status, confirm those status names resolve to real statuses in your tenant.</li>
       </ol>
       <div class="expect"><b>Checkpoint:</b> the trigger names your own imported Request Type, not a placeholder or a missing reference.</div>
-      <div class="note">Request Type and status references are the most common thing to need re-pointing after a workflow import. If you see an error like "Module metadata is undefined" or a missing-request-type error, this is almost always the cause.</div>
 
       <!-- Section 2.4 hidden: Get Document detail removed per spreadsheet -->
       <div class="h-check" id="sec-2-4" style="display:none"><input type="checkbox" data-stage="2" id="chk11"><div><h3 style="display:inline">2.4 · Understand "Get Document from a Request"</h3></div></div>
 
       <div class="h-check" id="sec-2-3"><input type="checkbox" data-stage="2" id="chk12"><div><h3 style="display:inline">2.3 · Execute AI Agent</h3></div></div>
-      <p>Open the <b>Execute AI Agent</b> step in the workflow. Verify the following:</p>
+      <p>Open the <b>Execute AI Agent</b> step in the workflow. Configure the following:</p>
       <ol>
-        <li><b>Agent selected</b> - your published <code>Vendor and Renewal Risk Analyst</code> should already be selected. If the dropdown is empty, go back to Stage 1 and publish your agent.</li>
-        <li><b>Data outputs</b> - confirm the five output fields are visible: <code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>.</li>
-        <li><b>Prompt</b> - verify the chat message / prompt is present in the step configuration.</li>
+        <li><b>Select Agent</b> — from the dropdown, select your published <code>Vendor and Renewal Risk Analyst</code>. If it doesn't appear, go back to Stage 1 and publish your agent.</li>
+        <li><b>Data outputs</b> — confirm the five output fields are visible: <code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>.</li>
+        <li><b>Enter the prompt</b> — in the chat message / prompt field, enter the starter prompt you configured in section 1.2.</li>
       </ol>
-      <div class="expect"><b>Checkpoint:</b> the Execute AI Agent step shows your agent selected, all five data outputs mapped, and the prompt populated.</div>
+      <div class="expect"><b>Checkpoint:</b> the Execute AI Agent step shows your agent selected, all five data outputs mapped, and the prompt entered.</div>
 
       <div class="h-check" id="sec-2-4"><input type="checkbox" data-stage="2" id="chk13"><div><h3 style="display:inline">2.4 · Walk the branch</h3></div></div>
       <p>Open the branch step. Confirm two cases, then follow each path so you know what to expect in Stage 3.</p>

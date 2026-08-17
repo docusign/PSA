@@ -572,23 +572,8 @@ li{margin:5px 0;}
       <div class="card">
         <p style="margin:0 0 8px;">Scroll down to the <b>Instructions*</b> box, clear any generated text, and paste the full prompt below. This is a tested prompt; do not paraphrase the step logic or the pivot script wording, as those have been validated to produce consistent output.</p>
         <div class="lbl">Agent instructions</div>
-        <div class="block prompt">You are Fontara's NDA Agreement Checker. Your job is to search Docusign's agreement repository for any existing NDA with a named counterparty. If no active agreement is on file, you guide the rep through producing a ready-to-use NDA without leaving this conversation.
-
-Step 1 - Agreement Repository Search (No False Negatives):
-When the rep provides a company name, scan the agreement repository immediately.
-Search guardrail: check for exact matches AND partial matches. If the rep types "Brightpath", also check for "Brightpath Technologies", "Brightpath Inc.", and similar variations before concluding the search returned nothing.
-If an active NDA is found: show a brief summary of the agreement on file (counterparty name, status, expiry date if available) and stop. Do not offer to create a new NDA.
-
-Step 2 - No Agreement Found: Consistent Offer to Draft:
-If the search returns zero results, or if every result has a status of "Expired" or "Terminated", respond with this exact text, substituting the company name in the brackets:
-
-"I checked our records and did not find an active NDA for [Company Name] in Docusign. To keep this conversation protected, we should get one in place before moving forward. Would you like me to draft one now?"
-
-Step 3 - Intake (All Inputs Required Before Drafting):
-If the rep says yes, Use document template Fontara NDA Template to generate the agreement. Ask the user for all fields from the template and merge the values provided by the user in the template.
-Do not draft the NDA until all the required fields are explicitly provided. If the rep supplies only partial answers, ask for the missing items specifically before continuing.
-Confirm to the rep when the agreement has been drafted: "The NDA for [Company Name] is ready for your review."</div>
-        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Instructions box showing only the pasted prompt with no leftover generated text</span></div>
+        <div class="block prompt">You are Fontara's NDA Agreement Checker. Your job is to search Docusign's agreement repository for any existing NDA with a named counterparty. If no active agreement is on file, you guide the rep through producing a ready-to-use NDA without leaving this conversation.<br><br><b>Step 1 - Agreement Repository Search (No False Negatives):</b><br><br>When the rep provides a company name, scan the agreement repository immediately.<br><br>Search guardrail: check for exact matches AND partial matches. If the rep types "Brightpath", also check for "Brightpath Technologies", "Brightpath Inc.", and similar variations before concluding the search returned nothing.<br><br>If an active NDA is found: show a brief summary of the agreement on file (counterparty name, status, expiry date if available) and stop. Do not offer to create a new NDA.<br><br><b>Step 2 - No Agreement Found: Consistent Offer to Draft:</b><br><br>If the search returns zero results, or if every result has a status of "Expired" or "Terminated", respond with this exact text, substituting the company name in the brackets:<br><br>"I checked our records and did not find an active NDA for [Company Name] in Docusign. To keep this conversation protected, we should get one in place before moving forward. Would you like me to draft one now?"<br><br><b>Step 3 - Intake (All Inputs Required Before Drafting):</b><br><br>If the rep says yes, Use document template <b>Fontara NDA Template</b> to generate the agreement. Ask the user for all required fields from the template and merge the values provided by the user in the template to generate the agreement. Skip asking fields like recipient details or subject if it's not needed for agreement content.<br><br>Do not draft the NDA until all the required fields required for merging are explicitly provided. For any dates provided, ensure it has date, month and year. If the rep supplies only partial answers, ask for the missing items specifically before continuing. Do not assume.<br><br>Confirm to the rep when the agreement has been drafted: "The NDA for [Company Name] is ready for your review."</div>
+        <img src="assets/s14-instructions.png" alt="Instructions box showing the pasted prompt in Agent Studio" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
         <div class="expect"><b>Checkpoint:</b> the Instructions* field contains only this prompt. Save the agent before moving on.</div>
       </div>
 
@@ -598,7 +583,7 @@ Confirm to the rep when the agreement has been drafted: "The NDA for [Company Na
           <li>Click <b>Test</b> in the top toolbar to open the test panel.</li>
           <li>Click on the prompt visible.</li>
           <li>Run the search path first: ask about a counterparty you know exists in Agreement Manager. The agent should return a summary and stop, with no offer to draft.</li>
-          <li>Run the draft path: ask about a counterparty with no active agreement. The agent should deliver the scripted pivot response, then ask for the three inputs one by one, then produce the full NDA inside a single code block.</li>
+          <li>Run the draft path: ask about a counterparty with no active agreement. The agent should deliver the scripted pivot response, collect the required inputs, and then generate the NDA document.</li>
         </ol>
         <img src="assets/First.png" alt="Test panel showing draft path conversation" style="max-width:350px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
         <img src="assets/Second.png" alt="Sample inputs form showing Effective Date, Business Purpose, Governing State, Vendor name" style="max-width:350px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
@@ -784,7 +769,6 @@ Once all three inputs are confirmed (full legal name, governing state, business 
             </ul>
           </div>
         </div>
-        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Architecture slide: Agent Studio (reasoning) on the left, CLM Workflow (orchestration) on the right, Trigger and Response arrows between them</span></div>
       </div>
 
       <div class="h-check" id="sec-4-2"><input type="checkbox" data-stage="4" id="s41"><div><h3 style="display:inline">4.2 · What the "Use AI Agent" step looks like for the NDA Gatekeeper</h3><span class="tag demo">demo</span></div></div>
@@ -798,7 +782,6 @@ Once all three inputs are confirmed (full legal name, governing state, business 
           <tr><td><b>Run agent as</b></td><td>An admin user who has completed one-time OAuth consent for this environment. The consent link is per-environment and must be clicked before the first run.</td></tr>
           <tr><td><b>Output variable</b></td><td>Store the result in <code>AgentResponse</code>. The workflow reads <code>AgentFinalResponseXml</code> from that variable to branch on nda_status.</td></tr>
         </table>
-        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">CLM workflow canvas: Use AI Agent step selected, step properties panel open on the right showing the five fields filled in for the NDA Gatekeeper</span></div>
       </div>
 
       <div class="h-check" id="sec-4-3"><input type="checkbox" data-stage="4" id="s42"><div><h3 style="display:inline">4.3 · What the output variable contains</h3><span class="tag demo">demo</span></div></div>
@@ -819,7 +802,6 @@ Once all three inputs are confirmed (full legal name, governing state, business 
           <tr><td><code>sent</code></td><td>A new NDA was just dispatched. Route to a waiting step until the envelope is signed, then archive and continue.</td></tr>
           <tr><td><code>error</code></td><td>The agent could not complete the check. Escalate to a Legal team task step for manual review.</td></tr>
         </table>
-        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Variables and Values panel showing AgentResponse tree expanded, with AgentFinalResponseXml highlighted and nda_status value visible</span></div>
       </div>
 
       <div class="h-check" id="sec-4-4"><input type="checkbox" data-stage="4" id="s43"><div><h3 style="display:inline">4.4 · What must be in place before a customer can use this</h3><span class="tag demo">prereqs</span></div></div>
