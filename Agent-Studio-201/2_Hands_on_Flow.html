@@ -269,10 +269,10 @@ li{margin:5px 0;}
       <li class="step" data-target="stage-2"><span class="ring" data-stage="2"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">2</span></span><span class="txt"><span class="t">Import &amp; wire up</span><span class="s">Request Type + workflow</span></span></li>
       <ul class="sub-nav">
         <li data-scroll="sec-2-1">2.1 Verify Request Type</li>
-        <li data-scroll="sec-2-3">2.3 Verify trigger</li>
-        <li data-scroll="sec-2-5">2.5 Execute AI Agent</li>
-        <li data-scroll="sec-2-6">2.6 Walk the branch</li>
-        <li data-scroll="sec-2-7">2.7 Publish workflow</li>
+        <li data-scroll="sec-2-2">2.2 Verify trigger</li>
+        <li data-scroll="sec-2-3">2.3 Execute AI Agent</li>
+        <li data-scroll="sec-2-4">2.4 Walk the branch</li>
+        <li data-scroll="sec-2-5">2.5 Publish workflow</li>
       </ul>
       <li class="step" data-target="stage-3"><span class="ring" data-stage="3"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">Trigger &amp; validate</span><span class="s">Three scenarios</span></span></li>
       <ul class="sub-nav">
@@ -664,7 +664,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
         <p>Moved to prerequisites (0.5.4).</p>
       </div>
 
-      <div class="h-check" id="sec-2-3"><input type="checkbox" data-stage="2" id="chk10"><div><h3 style="display:inline">2.3 · Verify the trigger &amp; Request Type</h3></div></div>
+      <div class="h-check" id="sec-2-2"><input type="checkbox" data-stage="2" id="chk10"><div><h3 style="display:inline">2.2 · Verify the trigger &amp; Request Type</h3></div></div>
       <ol>
         <li>Open the workflow's start / trigger configuration.</li>
         <li>Confirm the start method is <b>From Agreement Desk</b>.</li>
@@ -677,7 +677,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
       <!-- Section 2.4 hidden: Get Document detail removed per spreadsheet -->
       <div class="h-check" id="sec-2-4" style="display:none"><input type="checkbox" data-stage="2" id="chk11"><div><h3 style="display:inline">2.4 · Understand "Get Document from a Request"</h3></div></div>
 
-      <div class="h-check" id="sec-2-5"><input type="checkbox" data-stage="2" id="chk12"><div><h3 style="display:inline">2.5 · Execute AI Agent</h3></div></div>
+      <div class="h-check" id="sec-2-3"><input type="checkbox" data-stage="2" id="chk12"><div><h3 style="display:inline">2.3 · Execute AI Agent</h3></div></div>
       <p>Open the <b>Execute AI Agent</b> step in the workflow. Verify the following:</p>
       <ol>
         <li><b>Agent selected</b> - your published <code>Vendor and Renewal Risk Analyst</code> should already be selected. If the dropdown is empty, go back to Stage 1 and publish your agent.</li>
@@ -686,7 +686,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
       </ol>
       <div class="expect"><b>Checkpoint:</b> the Execute AI Agent step shows your agent selected, all five data outputs mapped, and the prompt populated.</div>
 
-      <div class="h-check" id="sec-2-6"><input type="checkbox" data-stage="2" id="chk13"><div><h3 style="display:inline">2.6 · Walk the branch</h3></div></div>
+      <div class="h-check" id="sec-2-4"><input type="checkbox" data-stage="2" id="chk13"><div><h3 style="display:inline">2.4 · Walk the branch</h3></div></div>
       <p>Open the branch step. Confirm two cases, then follow each path so you know what to expect in Stage 3.</p>
       <table>
         <tbody><tr><th>Case</th><th>Condition</th><th>Path</th></tr>
@@ -694,7 +694,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
         <tr><td>2 · Medium or high risk</td><td><code>risk_level == "MEDIUM"</code> OR <code>risk_level == "HIGH"</code></td><td><b>Assign Owner</b> (Legal team), <b>Send Request Message</b> to notify them, then <b>Change Request Status</b> to Pending Legal Review.</td></tr>
       </tbody></table>
 
-      <div class="h-check" id="sec-2-7"><input type="checkbox" data-stage="2" id="chk14"><div><h3 style="display:inline">2.7 · Publish the workflow</h3></div></div>
+      <div class="h-check" id="sec-2-5"><input type="checkbox" data-stage="2" id="chk14"><div><h3 style="display:inline">2.5 · Publish the workflow</h3></div></div>
       <ol>
         <li>If you have made any changes, click <b>Review &amp; Publish</b> in the workflow editor.</li>
         <li>Click through <b>Next</b>, then <b>Publish</b>.</li>
