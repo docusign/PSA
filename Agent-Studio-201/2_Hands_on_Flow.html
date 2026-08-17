@@ -892,8 +892,8 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
   var checks=[].slice.call(document.querySelectorAll('.h-check input[type=checkbox]'));
 
   // ----- persistence -----
-  function load(){try{return JSON.parse(localStorage.getItem(STORAGE))||{};}catch(e){return {};}}
-  function save(s){try{localStorage.setItem(STORAGE,JSON.stringify(s));}catch(e){}}
+  function load(){try{return JSON.parse(sessionStorage.getItem(STORAGE))||{};}catch(e){return {};}}
+  function save(s){try{sessionStorage.setItem(STORAGE,JSON.stringify(s));}catch(e){}}
   var state=load();
 
   checks.forEach(function(c,i){ if(!c.id) c.id='chk'+i; });
