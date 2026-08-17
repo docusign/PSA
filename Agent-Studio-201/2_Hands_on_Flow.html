@@ -705,8 +705,13 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
         <li>Click <b>Requests</b> in the left menu.</li>
         <li>Click <b>Create Request</b>.</li>
         <li>Select <b>Agent Studio 201 - Vendor Contracts</b> Request Type.</li>
-        <li>Fill in the intake form details (vendor name, requester name, etc.).</li>
-        <li>Upload the contract document.</li>
+        <li>Fill in the form:
+          <ul>
+            <li><b>Vendor Name:</b> Innovate Global Manufacturing</li>
+            <li><b>Requestor Name:</b> Your name</li>
+          </ul>
+        </li>
+        <li>Upload the <b>LOW risk</b> contract document from the workshop kit.</li>
         <li>Click <b>Submit</b>.</li>
       </ol>
 
@@ -714,14 +719,20 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
       <ol>
         <li>Go to <b>Agreements → Requests → Create Request</b>.</li>
         <li>Select <b>Agent Studio 201 - Vendor Contracts</b> Request Type.</li>
-        <li>Fill in the form details and upload the <b>LOW</b> sample MSA.</li>
+        <li>Fill in the form:
+          <ul>
+            <li><b>Vendor Name:</b> Innovate Global Manufacturing</li>
+            <li><b>Requestor Name:</b> Your name</li>
+          </ul>
+        </li>
+        <li>Upload the <b>LOW risk</b> contract document from the workshop kit.</li>
         <li>Click <b>Submit</b>.</li>
         <li>Navigate to <b>Agreements → Workflows</b>, find the workflow, click <b>View Runs</b>.</li>
         <li>Find the latest run and click the instance.</li>
         <li>Confirm the LOW branch fired and status changed to <b>Success</b>.</li>
       </ol>
       <div class="expect">
-        <b>Expect:</b> the workflow triggers → the agent reads the attached document → returns <code>risk_level = LOW</code> → the LOW branch runs → status changes to <b>Success</b>. You then manually send for signature from the Documents tab.
+        <b>Expect:</b> the workflow triggers → the agent reads the attached document → returns <code>risk_level = LOW</code> → the LOW branch runs → status changes to <b>Success</b>.
       </div>
 
       <div class="h-check" id="sec-3-2"><input type="checkbox" data-stage="3" id="chk16"><div><h3 style="display:inline">3.2 · Scenario 2 - MEDIUM/HIGH risk, human review</h3></div></div>
