@@ -306,111 +306,120 @@ img { display: block; max-width: 100%; }
       <p>A customer-facing view showing how Docusign and Microsoft work together across intake, orchestration, and systems of record.</p>
     </div>
     <div class="diagram-wrap" style="background:#fafafa;padding:40px 48px">
-      <svg viewBox="0 0 1200 540" role="img" aria-label="Customer-facing K-12 reference architecture">
+      <svg viewBox="0 0 1060 480" role="img" aria-label="Customer-facing K-12 reference architecture">
         <defs>
-          <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--indigo)"/></marker>
-          <marker id="arrowGrey" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#999"/></marker>
-          <marker id="arrowWarn" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--warn)"/></marker>
-          <filter id="cardShadow"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity=".06"/></filter>
+          <marker id="arrowBlue" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--indigo)"/></marker>
+          <marker id="arrowGrey" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#aaa"/></marker>
+          <marker id="arrowWarn" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--warn)"/></marker>
+          <filter id="ds"><feDropShadow dx="0" dy="1" stdDeviation="3" flood-opacity=".07"/></filter>
         </defs>
 
+        <!-- Three column backgrounds -->
+        <rect x="0" y="0" width="200" height="440" rx="0" fill="none"/>
+        <rect x="250" y="0" width="460" height="440" rx="0" fill="none"/>
+        <rect x="760" y="0" width="300" height="440" rx="0" fill="none"/>
+
         <!-- Column headers -->
-        <text x="95" y="32" text-anchor="middle" class="svg-mono">PEOPLE &amp; WORK SURFACES</text>
-        <text x="500" y="32" text-anchor="middle" class="svg-mono">AGREEMENT ORCHESTRATION</text>
-        <text x="1030" y="32" text-anchor="middle" class="svg-mono">SYSTEMS &amp; INTELLIGENCE</text>
-        <line x1="0" y1="48" x2="1200" y2="48" stroke="var(--line)" stroke-width="1"/>
+        <text x="100" y="20" text-anchor="middle" class="svg-mono">PEOPLE</text>
+        <text x="480" y="20" text-anchor="middle" class="svg-mono">AGREEMENT ORCHESTRATION</text>
+        <text x="910" y="20" text-anchor="middle" class="svg-mono">SYSTEMS OF RECORD</text>
+        <line x1="0" y1="34" x2="1060" y2="34" stroke="var(--line)" stroke-width=".5"/>
 
-        <!-- Left column: Actors -->
-        <rect x="20" y="80" width="180" height="90" rx="10" fill="#fff" stroke="var(--line)" stroke-width="1.5" filter="url(#cardShadow)"/>
-        <circle cx="48" cy="112" r="14" fill="var(--lt)" stroke="var(--indigo)" stroke-width="1"/>
-        <text x="46" y="117" text-anchor="middle" font-size="12" fill="var(--indigo)">&#x1f393;</text>
-        <text x="70" y="112" class="svg-label">Teacher / Admin</text>
-        <text x="70" y="134" class="svg-small">Submits requests, manages approvals</text>
+        <!-- Left: Actor cards -->
+        <rect x="16" y="60" width="168" height="70" rx="8" fill="#fff" stroke="var(--line)" stroke-width="1.2" filter="url(#ds)"/>
+        <text x="100" y="90" text-anchor="middle" class="svg-label">Teacher / Admin</text>
+        <text x="100" y="110" text-anchor="middle" class="svg-small">Requests + approvals</text>
 
-        <rect x="20" y="210" width="180" height="90" rx="10" fill="#fff" stroke="var(--line)" stroke-width="1.5" filter="url(#cardShadow)"/>
-        <circle cx="48" cy="242" r="14" fill="var(--lt)" stroke="var(--indigo)" stroke-width="1"/>
-        <text x="46" y="247" text-anchor="middle" font-size="12" fill="var(--indigo)">&#x1f464;</text>
-        <text x="70" y="242" class="svg-label">Parent / Guardian</text>
-        <text x="70" y="264" class="svg-small">Reviews and signs consent forms</text>
+        <rect x="16" y="180" width="168" height="70" rx="8" fill="#fff" stroke="var(--line)" stroke-width="1.2" filter="url(#ds)"/>
+        <text x="100" y="210" text-anchor="middle" class="svg-label">Parent / Guardian</text>
+        <text x="100" y="230" text-anchor="middle" class="svg-small">Review + sign</text>
 
-        <rect x="20" y="340" width="180" height="90" rx="10" fill="#fff" stroke="var(--line)" stroke-width="1.5" filter="url(#cardShadow)"/>
-        <circle cx="48" cy="372" r="14" fill="var(--lt)" stroke="var(--indigo)" stroke-width="1"/>
-        <text x="46" y="377" text-anchor="middle" font-size="12" fill="var(--indigo)">&#x1f4cb;</text>
-        <text x="70" y="372" class="svg-label">School Staff</text>
-        <text x="70" y="394" class="svg-small">Monitors status, triggers follow-up</text>
+        <rect x="16" y="300" width="168" height="70" rx="8" fill="#fff" stroke="var(--line)" stroke-width="1.2" filter="url(#ds)"/>
+        <text x="100" y="330" text-anchor="middle" class="svg-label">School Staff</text>
+        <text x="100" y="350" text-anchor="middle" class="svg-small">Monitor + follow up</text>
 
-        <!-- Center column: Microsoft -->
-        <rect x="310" y="80" width="190" height="260" rx="12" fill="#f7f3ff" stroke="var(--indigo)" stroke-width="1.8" filter="url(#cardShadow)"/>
-        <rect x="310" y="80" width="190" height="36" rx="12" fill="var(--indigo)"/>
-        <rect x="310" y="98" width="190" height="18" fill="var(--indigo)"/>
-        <text x="405" y="104" text-anchor="middle" font-size="13" font-weight="600" fill="#fff" font-family="DSIndigo,Arial">Microsoft</text>
-        <text x="334" y="146" class="svg-small">Email / Teams</text>
-        <text x="334" y="172" class="svg-small">Copilot Studio</text>
-        <text x="334" y="198" class="svg-small">Power Platform</text>
-        <line x1="330" y1="220" x2="480" y2="220" stroke="var(--line)" stroke-width="1"/>
-        <text x="405" y="250" text-anchor="middle" class="svg-mono">WORK SURFACE</text>
-        <text x="405" y="275" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="DSIndigo,Arial">Intake, collaboration,</text>
-        <text x="405" y="292" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="DSIndigo,Arial">AI assistance</text>
+        <!-- Center: Microsoft box -->
+        <rect x="270" y="56" width="190" height="240" rx="10" fill="#f7f3ff" stroke="var(--indigo)" stroke-width="1.5" filter="url(#ds)"/>
+        <rect x="270" y="56" width="190" height="32" rx="10" fill="var(--indigo)"/>
+        <rect x="270" y="72" width="190" height="16" fill="var(--indigo)"/>
+        <text x="365" y="78" text-anchor="middle" font-size="12" font-weight="600" fill="#fff" font-family="DSIndigo,Arial">Microsoft</text>
+        <text x="292" y="114" class="svg-small">Email / Teams</text>
+        <text x="292" y="138" class="svg-small">Copilot Studio</text>
+        <text x="292" y="162" class="svg-small">Power Platform</text>
+        <line x1="288" y1="180" x2="442" y2="180" stroke="var(--line)" stroke-width=".5"/>
+        <text x="365" y="206" text-anchor="middle" class="svg-mono">WORK SURFACE</text>
 
-        <!-- Center column: Docusign IAM -->
-        <rect x="570" y="80" width="200" height="260" rx="12" fill="#f7f3ff" stroke="var(--indigo)" stroke-width="1.8" filter="url(#cardShadow)"/>
-        <rect x="570" y="80" width="200" height="36" rx="12" fill="var(--indigo)"/>
-        <rect x="570" y="98" width="200" height="18" fill="var(--indigo)"/>
-        <text x="670" y="104" text-anchor="middle" font-size="13" font-weight="600" fill="#fff" font-family="DSIndigo,Arial">Docusign IAM</text>
-        <text x="594" y="146" class="svg-small">Agreement Desk</text>
-        <text x="594" y="172" class="svg-small">Workflow Builder</text>
-        <text x="594" y="198" class="svg-small">eSignature</text>
-        <text x="594" y="224" class="svg-small">Document Generation</text>
-        <line x1="590" y1="244" x2="750" y2="244" stroke="var(--line)" stroke-width="1"/>
-        <text x="670" y="274" text-anchor="middle" class="svg-mono">CONTROL PLANE</text>
-        <text x="670" y="299" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="DSIndigo,Arial">Orchestration, status,</text>
-        <text x="670" y="316" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="DSIndigo,Arial">compliance</text>
+        <!-- Center: Docusign IAM box -->
+        <rect x="510" y="56" width="200" height="240" rx="10" fill="#f7f3ff" stroke="var(--indigo)" stroke-width="1.5" filter="url(#ds)"/>
+        <rect x="510" y="56" width="200" height="32" rx="10" fill="var(--indigo)"/>
+        <rect x="510" y="72" width="200" height="16" fill="var(--indigo)"/>
+        <text x="610" y="78" text-anchor="middle" font-size="12" font-weight="600" fill="#fff" font-family="DSIndigo,Arial">Docusign IAM</text>
+        <text x="534" y="114" class="svg-small">Agreement Desk</text>
+        <text x="534" y="138" class="svg-small">Workflow Builder</text>
+        <text x="534" y="162" class="svg-small">eSignature</text>
+        <text x="534" y="186" class="svg-small">Document Generation</text>
+        <line x1="528" y1="204" x2="692" y2="204" stroke="var(--line)" stroke-width=".5"/>
+        <text x="610" y="230" text-anchor="middle" class="svg-mono">CONTROL PLANE</text>
 
-        <!-- Right column: Systems -->
-        <rect x="880" y="80" width="200" height="100" rx="10" fill="#fff" stroke="var(--line)" stroke-width="1.5" filter="url(#cardShadow)"/>
-        <rect x="880" y="80" width="200" height="4" rx="2" fill="var(--indigo)"/>
-        <text x="980" y="118" text-anchor="middle" class="svg-label">Dynamics 365</text>
-        <text x="980" y="142" text-anchor="middle" class="svg-small">Contact, guardian, and school data</text>
-        <text x="980" y="162" text-anchor="middle" class="svg-small">System of record</text>
+        <!-- Right: Systems -->
+        <rect x="780" y="56" width="200" height="80" rx="8" fill="#fff" stroke="var(--line)" stroke-width="1.2" filter="url(#ds)"/>
+        <rect x="780" y="56" width="200" height="4" rx="2" fill="var(--indigo)"/>
+        <text x="880" y="88" text-anchor="middle" class="svg-label">Dynamics 365</text>
+        <text x="880" y="110" text-anchor="middle" class="svg-small">Contact + school data</text>
 
-        <rect x="880" y="220" width="200" height="100" rx="10" fill="#f0faf4" stroke="var(--green)" stroke-width="1.5" filter="url(#cardShadow)"/>
-        <rect x="880" y="220" width="200" height="4" rx="2" fill="var(--green)"/>
-        <text x="980" y="258" text-anchor="middle" class="svg-label">SharePoint</text>
-        <text x="980" y="282" text-anchor="middle" class="svg-small">Signed document archive</text>
-        <text x="980" y="302" text-anchor="middle" class="svg-small">Configured library path</text>
+        <rect x="780" y="180" width="200" height="80" rx="8" fill="#f0faf4" stroke="var(--green)" stroke-width="1.2" filter="url(#ds)"/>
+        <rect x="780" y="180" width="200" height="4" rx="2" fill="var(--green)"/>
+        <text x="880" y="212" text-anchor="middle" class="svg-label">SharePoint</text>
+        <text x="880" y="234" text-anchor="middle" class="svg-small">Signed document archive</text>
 
-        <rect x="880" y="360" width="200" height="100" rx="10" fill="#fffaf0" stroke="var(--warn)" stroke-width="1.5" stroke-dasharray="6 3" filter="url(#cardShadow)"/>
-        <rect x="880" y="360" width="200" height="4" rx="2" fill="var(--warn)"/>
-        <text x="980" y="398" text-anchor="middle" class="svg-label">Copilot + MCP</text>
-        <text x="980" y="422" text-anchor="middle" class="svg-small">Natural-language queries</text>
-        <text x="980" y="442" text-anchor="middle" class="svg-small">Insights and actions</text>
+        <rect x="780" y="310" width="200" height="80" rx="8" fill="#fffbf0" stroke="var(--warn)" stroke-width="1.2" stroke-dasharray="5 3" filter="url(#ds)"/>
+        <rect x="780" y="310" width="200" height="4" rx="2" fill="var(--warn)"/>
+        <text x="880" y="342" text-anchor="middle" class="svg-label">Copilot + MCP</text>
+        <text x="880" y="364" text-anchor="middle" class="svg-small">Insights + actions</text>
 
-        <!-- Connectors: People to Microsoft -->
-        <path d="M200 120 C240 120, 270 145, 310 160" class="svg-line" fill="none" marker-end="url(#arrowBlue)"/>
-        <path d="M200 255 C240 255, 270 230, 310 215" class="svg-line" fill="none" marker-end="url(#arrowBlue)"/>
-        <path d="M200 385 C240 385, 270 330, 310 320" class="svg-line-muted" fill="none" marker-end="url(#arrowGrey)"/>
+        <!-- Connectors: People to Microsoft (horizontal straight lines) -->
+        <line x1="184" y1="95" x2="270" y2="95" stroke="var(--indigo)" stroke-width="1.8" marker-end="url(#arrowBlue)"/>
+        <line x1="184" y1="215" x2="270" y2="175" stroke="var(--indigo)" stroke-width="1.8" marker-end="url(#arrowBlue)"/>
+        <line x1="184" y1="335" x2="270" y2="270" stroke="#aaa" stroke-width="1.2" marker-end="url(#arrowGrey)"/>
 
-        <!-- Connector: Microsoft to Docusign -->
-        <path d="M500 195 L570 195" class="svg-line" fill="none" stroke-width="2.5" marker-end="url(#arrowBlue)"/>
+        <!-- Connector: Microsoft to Docusign (horizontal) -->
+        <line x1="460" y1="140" x2="510" y2="140" stroke="var(--indigo)" stroke-width="2" marker-end="url(#arrowBlue)"/>
 
-        <!-- Connectors: Docusign to Systems -->
-        <path d="M770 130 C810 130, 840 115, 880 115" class="svg-line" fill="none" marker-end="url(#arrowBlue)"/>
-        <path d="M770 200 C810 200, 840 255, 880 260" class="svg-line" fill="none" marker-end="url(#arrowBlue)"/>
-        <path d="M770 290 C810 310, 840 380, 880 395" stroke="var(--warn)" stroke-width="1.8" stroke-dasharray="6 4" fill="none" marker-end="url(#arrowWarn)"/>
+        <!-- Connectors: Docusign to Systems (horizontal straight) -->
+        <line x1="710" y1="96" x2="780" y2="96" stroke="var(--indigo)" stroke-width="1.8" marker-end="url(#arrowBlue)"/>
+        <line x1="710" y1="220" x2="780" y2="220" stroke="var(--indigo)" stroke-width="1.8" marker-end="url(#arrowBlue)"/>
+        <line x1="710" y1="280" x2="740" y2="280" stroke="var(--warn)" stroke-width="1.5" stroke-dasharray="5 3" fill="none"/>
+        <path d="M740 280 L740 350 L780 350" stroke="var(--warn)" stroke-width="1.5" stroke-dasharray="5 3" fill="none" marker-end="url(#arrowWarn)"/>
 
-        <!-- Labels positioned clearly away from paths -->
-        <text x="240" y="108" class="svg-small" text-anchor="middle">intake</text>
-        <text x="535" y="183" class="svg-small" text-anchor="middle">approved request</text>
-        <text x="825" y="100" class="svg-small" text-anchor="middle">read / write fields</text>
-        <text x="825" y="240" class="svg-small" text-anchor="middle">archive PDF</text>
-        <text x="825" y="370" class="svg-small" text-anchor="middle">optional agent layer</text>
+        <!-- Numbered labels on connectors (small circles) -->
+        <circle cx="227" cy="95" r="9" fill="#fff" stroke="var(--indigo)" stroke-width="1.2"/>
+        <text x="227" y="99" text-anchor="middle" font-size="9" font-weight="600" fill="var(--indigo)">1</text>
+
+        <circle cx="485" cy="140" r="9" fill="#fff" stroke="var(--indigo)" stroke-width="1.2"/>
+        <text x="485" y="144" text-anchor="middle" font-size="9" font-weight="600" fill="var(--indigo)">2</text>
+
+        <circle cx="745" cy="96" r="9" fill="#fff" stroke="var(--indigo)" stroke-width="1.2"/>
+        <text x="745" y="100" text-anchor="middle" font-size="9" font-weight="600" fill="var(--indigo)">3</text>
+
+        <circle cx="745" cy="220" r="9" fill="#fff" stroke="var(--green)" stroke-width="1.2"/>
+        <text x="745" y="224" text-anchor="middle" font-size="9" font-weight="600" fill="var(--green)">4</text>
+
+        <circle cx="740" cy="315" r="9" fill="#fff" stroke="var(--warn)" stroke-width="1.2"/>
+        <text x="740" y="319" text-anchor="middle" font-size="9" font-weight="600" fill="var(--warn)">5</text>
 
         <!-- Legend -->
-        <line x1="30" y1="500" x2="55" y2="500" stroke="var(--indigo)" stroke-width="2.5"/>
-        <text x="62" y="504" class="svg-small">Primary workflow / data path</text>
-        <line x1="280" y1="500" x2="305" y2="500" stroke="var(--warn)" stroke-width="1.8" stroke-dasharray="6 4"/>
-        <text x="312" y="504" class="svg-small">Optional / validate before positioning</text>
+        <line x1="16" y1="430" x2="38" y2="430" stroke="var(--indigo)" stroke-width="2"/>
+        <text x="44" y="434" font-size="11" fill="var(--muted)" font-family="DSIndigo,Arial">Core data path</text>
+        <line x1="160" y1="430" x2="182" y2="430" stroke="var(--warn)" stroke-width="1.5" stroke-dasharray="5 3"/>
+        <text x="188" y="434" font-size="11" fill="var(--muted)" font-family="DSIndigo,Arial">Optional / validate first</text>
       </svg>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:20px;font-size:13px">
+        <div style="display:flex;align-items:baseline;gap:8px"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--indigo);font-size:10px;font-weight:600;color:var(--indigo)">1</span><span style="color:var(--muted)">Intake request</span></div>
+        <div style="display:flex;align-items:baseline;gap:8px"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--indigo);font-size:10px;font-weight:600;color:var(--indigo)">2</span><span style="color:var(--muted)">Approved request</span></div>
+        <div style="display:flex;align-items:baseline;gap:8px"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--indigo);font-size:10px;font-weight:600;color:var(--indigo)">3</span><span style="color:var(--muted)">Read / write fields</span></div>
+        <div style="display:flex;align-items:baseline;gap:8px"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--green);font-size:10px;font-weight:600;color:var(--green)">4</span><span style="color:var(--muted)">Archive PDF</span></div>
+        <div style="display:flex;align-items:baseline;gap:8px"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--warn);font-size:10px;font-weight:600;color:var(--warn)">5</span><span style="color:var(--muted)">Agent layer (optional)</span></div>
+      </div>
     </div>
   </div>
 </section>
