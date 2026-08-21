@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intelligent Agreement Management for K-12 | Docusign</title>
+<style>
+@font-face{font-family:'DSIndigo';src:url('assets/fonts/DSIndigo-Light.woff2') format('woff2'),url('assets/fonts/DSIndigo-Light.woff') format('woff');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'DSIndigo';src:url('assets/fonts/DSIndigo-Medium.woff2') format('woff2'),url('assets/fonts/DSIndigo-Medium.woff') format('woff');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'DSIndigo';src:url('assets/fonts/DSIndigo-SemiBold.woff2') format('woff2'),url('assets/fonts/DSIndigo-SemiBold.woff') format('woff');font-weight:600;font-style:normal;font-display:swap}
+
+:root {
+  --indigo: #4C00FF;
+  --indigo-d: #3a00c2;
+  --coral: #FF5252;
+  --ink: #130032;
+  --muted: #615a75;
+  --txt: #1c1433;
+  --lt: #F4F2FA;
+  --line: #e5e1f0;
+  --green: #0a7d3c;
+  --green-bg: #e8f6ee;
+  --warn: #b27800;
+  --warn-bg: #fff5dc;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DSIndigo', Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.6; color: var(--txt); background: #fff; font-weight: 300; }
+a { color: var(--indigo); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { display: block; max-width: 100%; }
+
+/* Utility bar */
+.util { background: #1a0040; }
+.util-in { max-width: 1400px; margin: 0 auto; padding: 9px 28px; display: flex; justify-content: flex-end; gap: 22px; }
+.util a { color: #e6e0f5; text-decoration: none; font-size: 12.5px; }
+.util a:hover { color: #fff; }
+
+/* Nav */
+.nav { background: #fff; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 20; }
+.nav-in { max-width: 1400px; margin: 0 auto; padding: 0 28px; display: flex; align-items: center; gap: 28px; }
+.nav .brand { display: flex; align-items: center; padding: 14px 0; }
+.nav .brand img { height: 24px; }
+.nav-links { display: flex; gap: 24px; flex: 1; }
+.nav-links a { position: relative; text-decoration: none; color: var(--ink); font-weight: 500; font-size: 15px; padding: 20px 0; }
+.nav-links a:hover { color: var(--indigo); text-decoration: none; }
+.nav-links a.active { color: var(--indigo); font-weight: 600; }
+.nav-links a.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: var(--indigo); }
+.nav-cta { background: var(--indigo); color: #fff; font-weight: 600; font-size: 13px; padding: 11px 20px; border-radius: 8px; white-space: nowrap; text-decoration: none; }
+.nav-cta:hover { background: var(--indigo-d); text-decoration: none; }
+
+/* Hero */
+.hero { background: linear-gradient(100deg, #4C00FF 0%, #7A1FD0 42%, #C0207E 72%, #FF5252 100%); position: relative; overflow: hidden; }
+.hero-in { max-width: 1400px; margin: 0 auto; padding: 80px 28px 88px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.hero-text .kicker { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.65); margin-bottom: 16px; }
+.hero-text h1 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; color: #fff; line-height: 1.1; margin-bottom: 18px; }
+.hero-text p { font-size: 17px; color: rgba(255,255,255,.8); line-height: 1.5; margin-bottom: 28px; }
+.hero-text .btn { display: inline-block; background: #fff; color: var(--indigo); font-weight: 600; font-size: 15px; padding: 14px 28px; border-radius: 8px; text-decoration: none; }
+.hero-text .btn:hover { background: #f3edff; text-decoration: none; }
+.hero-visual { display: flex; align-items: center; justify-content: center; }
+.hero-visual .arch-preview { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); border-radius: 16px; padding: 28px; backdrop-filter: blur(8px); }
+.hero-visual .arch-preview svg { width: 100%; height: auto; min-width: 0; }
+
+/* Sections */
+.wrap { max-width: 1400px; margin: 0 auto; padding: 0 28px; }
+.section { padding: 72px 0; }
+.section-alt { background: var(--lt); }
+.section-head { margin-bottom: 36px; }
+.section-head .kicker { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--indigo); margin-bottom: 10px; }
+.section-head h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 600; color: var(--ink); line-height: 1.15; margin-bottom: 10px; }
+.section-head p { color: var(--muted); max-width: 640px; font-size: 16px; }
+
+/* Solutions accordion */
+.solutions { display: flex; flex-direction: column; gap: 0; }
+.sol-item { border-bottom: 1px solid var(--line); }
+.sol-toggle { width: 100%; background: none; border: none; font-family: inherit; font-size: 17px; font-weight: 600; color: var(--ink); text-align: left; padding: 22px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.sol-toggle::after { content: '\25BC'; font-size: 12px; color: var(--muted); transition: transform .2s; }
+.sol-item.open .sol-toggle::after { transform: rotate(180deg); }
+.sol-body { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+.sol-item.open .sol-body { max-height: 600px; }
+.sol-body-inner { padding: 0 0 24px; color: var(--muted); font-size: 15px; line-height: 1.6; }
+
+/* Product cards */
+.products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.product-card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 28px 24px; transition: box-shadow .2s; }
+.product-card:hover { box-shadow: 0 8px 28px rgba(76,0,255,.08); }
+.product-card .icon { width: 44px; height: 44px; border-radius: 10px; background: var(--lt); display: grid; place-items: center; margin-bottom: 18px; }
+.product-card .icon svg { width: 24px; height: 24px; }
+.product-card h3 { font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 10px; }
+.product-card p { font-size: 14px; color: var(--muted); margin-bottom: 16px; }
+.product-card a { font-size: 14px; font-weight: 600; }
+
+/* Featured banner */
+.featured { background: linear-gradient(100deg, #4C00FF 0%, #7A1FD0 60%, #C0207E 100%); border-radius: 16px; padding: 48px; text-align: center; margin-top: 40px; }
+.featured h3 { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 600; color: #fff; margin-bottom: 12px; }
+.featured p { color: rgba(255,255,255,.8); font-size: 16px; max-width: 640px; margin: 0 auto 24px; }
+.featured .btn-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.featured .btn-w { background: #fff; color: var(--indigo); font-weight: 600; font-size: 14px; padding: 12px 24px; border-radius: 8px; text-decoration: none; }
+.featured .btn-w:hover { background: #f3edff; text-decoration: none; }
+.featured .btn-o { background: transparent; color: #fff; font-weight: 600; font-size: 14px; padding: 12px 24px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,.5); text-decoration: none; }
+.featured .btn-o:hover { border-color: #fff; text-decoration: none; }
+
+/* Architecture diagram */
+.diagram-wrap { border: 1px solid var(--line); background: #fff; border-radius: 14px; padding: 28px; overflow-x: auto; box-shadow: 0 4px 20px rgba(19,0,50,.04); }
+.diagram-wrap svg { display: block; width: 100%; min-width: 940px; height: auto; }
+.svg-label { font: 600 14px 'DSIndigo', Arial, sans-serif; fill: var(--ink); }
+.svg-small { font: 300 12px 'DSIndigo', Arial, sans-serif; fill: var(--muted); }
+.svg-mono { font: 600 11px monospace; fill: var(--muted); letter-spacing: .04em; }
+.svg-box { fill: #fff; stroke: var(--line); stroke-width: 1.5; }
+.svg-box-accent { fill: #f7f3ff; stroke: var(--indigo); stroke-width: 1.5; }
+.svg-box-green { fill: var(--green-bg); stroke: var(--green); stroke-width: 1.5; }
+.svg-box-warn { fill: var(--warn-bg); stroke: var(--warn); stroke-width: 1.5; }
+.svg-line { stroke: var(--indigo); stroke-width: 2; fill: none; }
+.svg-line-muted { stroke: #ccc; stroke-width: 1.5; fill: none; }
+.svg-dash { stroke: var(--warn); stroke-width: 1.8; stroke-dasharray: 6 5; fill: none; }
+.legend { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 16px; font-size: 12px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.legend i { width: 18px; height: 2px; background: var(--indigo); display: inline-block; }
+.legend i.dashed { background: repeating-linear-gradient(90deg, var(--warn) 0 6px, transparent 6px 10px); }
+
+/* Flow steps */
+.flow-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.flow-step { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 22px 20px; position: relative; }
+.flow-step::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--indigo); border-radius: 12px 12px 0 0; opacity: .6; }
+.flow-step .num { font-size: 12px; font-weight: 600; color: var(--indigo); margin-bottom: 8px; }
+.flow-step h4 { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.flow-step p { font-size: 13px; color: var(--muted); }
+
+/* Boundaries table */
+.boundary-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.boundary-table th { text-align: left; padding: 14px 16px; border-bottom: 2px solid var(--line); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.boundary-table td { padding: 16px; border-bottom: 1px solid var(--line); color: var(--muted); vertical-align: top; }
+.boundary-table td:first-child { color: var(--ink); font-weight: 500; width: 20%; }
+.badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.badge-core { background: var(--green-bg); color: var(--green); }
+.badge-warn { background: var(--warn-bg); color: var(--warn); }
+
+/* Reuse cards */
+.reuse-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.reuse-card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 28px 24px; }
+.reuse-card .tag { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--indigo); margin-bottom: 10px; }
+.reuse-card h3 { font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+.reuse-card p { font-size: 14px; color: var(--muted); }
+
+/* Next steps */
+.next-steps { background: var(--lt); border-radius: 16px; padding: 48px; margin-top: 48px; }
+.next-steps .kicker { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.next-steps h2 { font-size: 1.6rem; font-weight: 600; color: var(--ink); margin-bottom: 12px; }
+.next-steps p { color: var(--muted); max-width: 560px; }
+
+/* Footer */
+.footer { border-top: 1px solid var(--line); margin-top: 0; }
+.footer-in { max-width: 1400px; margin: 0 auto; padding: 28px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+.footer-in img { height: 20px; }
+.footer-in p { font-size: 13px; color: var(--muted); }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .hero-in { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .products { grid-template-columns: 1fr 1fr; }
+  .flow-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .nav-in { padding: 0 18px; flex-wrap: wrap; }
+  .nav-links { display: none; }
+  .hero-in { padding: 48px 18px 56px; }
+  .products, .reuse-cards { grid-template-columns: 1fr; }
+  .flow-grid { grid-template-columns: 1fr; }
+  .featured { padding: 32px 20px; }
+}
+@media print {
+  .util, .nav-cta { display: none; }
+  .nav { position: static; }
+  .hero { background: var(--indigo); }
+  .section { padding: 32px 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="util"><div class="util-in"><a href="#">Support</a><a href="#">Developer Center</a><a href="#">My Docusign</a></div></div>
+
+<header class="nav">
+  <div class="nav-in">
+    <div class="brand"><img src="assets/img/docusign-horizontal-black.svg" alt="Docusign"></div>
+    <nav class="nav-links">
+      <a href="#solutions" class="active">Solutions</a>
+      <a href="#products">Products</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#flow">Flow</a>
+      <a href="#reuse">Reuse</a>
+    </nav>
+    <a href="#next-steps" class="nav-cta">Contact a partner</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-in">
+    <div class="hero-text">
+      <div class="kicker">K-12 Education Leaders</div>
+      <h1>Intelligent agreements for every school process.</h1>
+      <p>See how K-12 institutions turn consent forms, enrolment, and operational workflows into governed, automated agreement processes with Docusign and Microsoft.</p>
+      <p style="font-size:14px;color:rgba(255,255,255,.6);margin-bottom:28px">By Kallool Medhi and Amrit Prakash, Principal Partner Solution Architects, Docusign</p>
+      <a href="#architecture" class="btn">Explore the architecture</a>
+    </div>
+    <div class="hero-visual">
+      <div class="arch-preview">
+        <svg viewBox="0 0 360 200" fill="none">
+          <rect x="10" y="20" width="80" height="50" rx="6" fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.3)"/>
+          <text x="25" y="50" font-size="10" fill="rgba(255,255,255,.8)" font-family="DSIndigo,Arial">Teacher</text>
+          <rect x="140" y="10" width="80" height="80" rx="6" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.4)"/>
+          <text x="152" y="42" font-size="9" fill="rgba(255,255,255,.9)" font-family="DSIndigo,Arial">Microsoft</text>
+          <text x="152" y="58" font-size="8" fill="rgba(255,255,255,.6)" font-family="DSIndigo,Arial">Teams / Copilot</text>
+          <text x="152" y="72" font-size="8" fill="rgba(255,255,255,.6)" font-family="DSIndigo,Arial">Power Platform</text>
+          <rect x="140" y="110" width="80" height="80" rx="6" fill="rgba(255,255,255,.18)" stroke="rgba(255,255,255,.5)"/>
+          <text x="148" y="142" font-size="9" fill="#fff" font-family="DSIndigo,Arial">Docusign IAM</text>
+          <text x="148" y="158" font-size="8" fill="rgba(255,255,255,.6)" font-family="DSIndigo,Arial">Agreement Desk</text>
+          <text x="148" y="172" font-size="8" fill="rgba(255,255,255,.6)" font-family="DSIndigo,Arial">Workflow Builder</text>
+          <rect x="270" y="20" width="80" height="50" rx="6" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.25)"/>
+          <text x="280" y="44" font-size="9" fill="rgba(255,255,255,.8)" font-family="DSIndigo,Arial">Dynamics 365</text>
+          <text x="280" y="58" font-size="8" fill="rgba(255,255,255,.5)" font-family="DSIndigo,Arial">Contact data</text>
+          <rect x="270" y="90" width="80" height="50" rx="6" fill="rgba(255,255,255,.1)" stroke="rgba(76,255,150,.3)"/>
+          <text x="282" y="114" font-size="9" fill="rgba(255,255,255,.8)" font-family="DSIndigo,Arial">SharePoint</text>
+          <text x="282" y="128" font-size="8" fill="rgba(255,255,255,.5)" font-family="DSIndigo,Arial">Archive</text>
+          <rect x="270" y="155" width="80" height="40" rx="6" fill="rgba(255,255,255,.08)" stroke="rgba(255,200,50,.3)" stroke-dasharray="4 3"/>
+          <text x="282" y="178" font-size="9" fill="rgba(255,255,255,.7)" font-family="DSIndigo,Arial">Copilot + MCP</text>
+          <line x1="90" y1="45" x2="140" y2="45" stroke="rgba(255,255,255,.4)" stroke-width="1.5" marker-end="url(#ha)"/>
+          <line x1="180" y1="90" x2="180" y2="110" stroke="rgba(255,255,255,.5)" stroke-width="1.5" marker-end="url(#ha)"/>
+          <line x1="220" y1="150" x2="270" y2="45" stroke="rgba(255,255,255,.4)" stroke-width="1.5" marker-end="url(#ha)"/>
+          <line x1="220" y1="150" x2="270" y2="115" stroke="rgba(255,255,255,.4)" stroke-width="1.5" marker-end="url(#ha)"/>
+          <defs><marker id="ha" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6Z" fill="rgba(255,255,255,.5)"/></marker></defs>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="solutions" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Solutions for education</div>
+      <h2>Empower your whole school</h2>
+    </div>
+    <div class="solutions">
+      <div class="sol-item open">
+        <button class="sol-toggle">Move from inbox to action</button>
+        <div class="sol-body"><div class="sol-body-inner">Email-first intake and configurable approvals reduce manual coordination before the document is sent. School staff start with what they already have, an email or request, and Docusign and Microsoft orchestrate the rest: approvals, a data-informed consent form, signature, verified updates, storage, and follow-up intelligence.</div></div>
+      </div>
+      <div class="sol-item">
+        <button class="sol-toggle">Keep records aligned and trusted</button>
+        <div class="sol-body"><div class="sol-body-inner">Verified address and consent fields are written back to the linked Dynamics 365 record automatically. The signed PDF archives to a configured SharePoint location. No manual re-entry, no version confusion.</div></div>
+      </div>
+      <div class="sol-item">
+        <button class="sol-toggle">Make follow-up conversational with AI</button>
+        <div class="sol-body"><div class="sol-body-inner">Copilot Studio can surface agreement status, insights, and next actions when the required tools and connectors are configured. Staff ask natural-language questions about consent completion, missing signatures, or upcoming deadlines.</div></div>
+      </div>
+      <div class="sol-item">
+        <button class="sol-toggle">Reuse the pattern across school processes</button>
+        <div class="sol-body"><div class="sol-body-inner">The same control plane supports other K-12 agreement journeys with a different request type, template, data mapping, and archive rule: enrolment, staff onboarding, supplier agreements, and more.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="products" class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Products</div>
+      <h2>Explore capabilities built for education</h2>
+    </div>
+    <div class="products">
+      <div class="product-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M7 5v-2M17 5v-2"/></svg></div>
+        <h3>Agreement Desk</h3>
+        <p>Request intake, approvals, and status management. Map any school process to a governed agreement workflow.</p>
+        <a href="#architecture">Learn more</a>
+      </div>
+      <div class="product-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="1.5"><path d="M4 4h16v16H4z" rx="2"/><path d="M9 9l3 3 3-3M12 12v5"/></svg></div>
+        <h3>Workflow Builder</h3>
+        <p>Orchestrate data retrieval, form generation, signature, writeback, and archive in one configurable flow.</p>
+        <a href="#architecture">Learn more</a>
+      </div>
+      <div class="product-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="1.5"><path d="M12 20l-3-3h-4a2 2 0 01-2-2V7a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-4l-3 3z"/></svg></div>
+        <h3>Copilot + MCP</h3>
+        <p>Natural-language queries over agreement status, insights, and configured actions through Microsoft Copilot Studio.</p>
+        <a href="#architecture">Learn more</a>
+      </div>
+    </div>
+    <div class="featured">
+      <h3>Docusign Intelligent Agreement Management</h3>
+      <p>A unified platform that connects agreement workflows to Microsoft Dynamics 365, SharePoint, and Copilot for K-12 institutions.</p>
+      <div class="btn-group">
+        <a href="#architecture" class="btn-w">View architecture</a>
+        <a href="#next-steps" class="btn-o">Talk to a partner</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="architecture" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Reference Architecture</div>
+      <h2>From request to trusted record</h2>
+      <p>A customer-facing view showing how Docusign and Microsoft work together across intake, orchestration, and systems of record.</p>
+    </div>
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 1140 460" role="img" aria-label="Customer-facing K-12 reference architecture">
+        <defs>
+          <marker id="arrowBlue" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="var(--indigo)"/></marker>
+          <marker id="arrowMuted" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#ccc"/></marker>
+        </defs>
+        <text x="20" y="24" class="svg-mono">PEOPLE &amp; WORK SURFACES</text>
+        <text x="370" y="24" class="svg-mono">AGREEMENT ORCHESTRATION</text>
+        <text x="860" y="24" class="svg-mono">SYSTEMS &amp; INTELLIGENCE</text>
+        <!-- Left: people -->
+        <rect x="20" y="58" width="160" height="82" rx="8" class="svg-box"/>
+        <text x="44" y="89" class="svg-label">Teacher / admin</text><text x="44" y="111" class="svg-small">Request + approvals</text>
+        <rect x="20" y="180" width="160" height="82" rx="8" class="svg-box"/>
+        <text x="44" y="211" class="svg-label">Parent / guardian</text><text x="44" y="233" class="svg-small">Review + sign</text>
+        <rect x="20" y="302" width="160" height="82" rx="8" class="svg-box"/>
+        <text x="44" y="333" class="svg-label">School staff</text><text x="44" y="355" class="svg-small">Monitor + follow up</text>
+        <!-- Center: Microsoft -->
+        <rect x="260" y="100" width="170" height="220" rx="8" class="svg-box-accent"/>
+        <text x="286" y="138" class="svg-label">Microsoft</text>
+        <text x="286" y="166" class="svg-small">Email / Teams</text>
+        <text x="286" y="190" class="svg-small">Copilot Studio</text>
+        <text x="286" y="214" class="svg-small">Power Platform</text>
+        <text x="286" y="268" class="svg-mono">WORK SURFACE</text>
+        <!-- Center: Docusign IAM -->
+        <rect x="500" y="100" width="190" height="220" rx="8" class="svg-box-accent"/>
+        <text x="528" y="138" class="svg-label">Docusign IAM</text>
+        <text x="528" y="166" class="svg-small">Agreement Desk</text>
+        <text x="528" y="190" class="svg-small">Workflow Builder</text>
+        <text x="528" y="214" class="svg-small">eSignature</text>
+        <text x="528" y="268" class="svg-mono">CONTROL PLANE</text>
+        <!-- Right: systems -->
+        <rect x="790" y="58" width="180" height="92" rx="8" class="svg-box"/>
+        <text x="816" y="92" class="svg-label">Dynamics 365</text><text x="816" y="116" class="svg-small">Contact + school data</text>
+        <rect x="790" y="192" width="180" height="92" rx="8" class="svg-box-green"/>
+        <text x="816" y="226" class="svg-label">SharePoint</text><text x="816" y="250" class="svg-small">Signed document archive</text>
+        <rect x="790" y="330" width="180" height="78" rx="8" class="svg-box-warn"/>
+        <text x="816" y="362" class="svg-label">Copilot + MCP</text><text x="816" y="384" class="svg-small">Insights + actions</text>
+        <!-- Arrows: left to center -->
+        <path d="M180 99 L260 160" class="svg-line" marker-end="url(#arrowBlue)"/>
+        <path d="M180 221 L260 221" class="svg-line" marker-end="url(#arrowBlue)"/>
+        <path d="M180 343 L260 280" class="svg-line-muted" marker-end="url(#arrowMuted)"/>
+        <!-- Arrow: Microsoft to Docusign -->
+        <path d="M430 210 L500 210" class="svg-line" marker-end="url(#arrowBlue)"/>
+        <!-- Arrows: Docusign to right -->
+        <path d="M690 155 L790 104" class="svg-line" marker-end="url(#arrowBlue)"/>
+        <path d="M690 220 L790 238" class="svg-line" marker-end="url(#arrowBlue)"/>
+        <path d="M690 290 L790 365" class="svg-dash" marker-end="url(#arrowMuted)"/>
+        <!-- Labels -->
+        <text x="192" y="118" class="svg-small">intake</text>
+        <text x="438" y="198" class="svg-small">approved</text>
+        <text x="438" y="213" class="svg-small">request</text>
+        <text x="708" y="118" class="svg-small">read / write</text>
+        <text x="708" y="133" class="svg-small">fields</text>
+        <text x="708" y="228" class="svg-small">archive PDF</text>
+        <text x="708" y="340" class="svg-small">optional</text>
+        <text x="708" y="355" class="svg-small">agent layer</text>
+      </svg>
+      <div class="legend"><span><i></i>Primary workflow / data path</span><span><i class="dashed"></i>Optional / validate before positioning</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="flow" class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">End-to-end flow</div>
+      <h2>One request. Eight controlled transitions.</h2>
+      <p>Use this sequence as the talk track for a live demo or as the implementation checklist for a pilot.</p>
+    </div>
+    <div class="flow-grid">
+      <div class="flow-step"><div class="num">01</div><h4>Capture the request</h4><p>Teacher submits excursion details via email or request form.</p></div>
+      <div class="flow-step"><div class="num">02</div><h4>Classify and approve</h4><p>Agreement Desk maps to excursion process and routes approvals.</p></div>
+      <div class="flow-step"><div class="num">03</div><h4>Trigger orchestration</h4><p>Approved status starts the Workflow Builder process.</p></div>
+      <div class="flow-step"><div class="num">04</div><h4>Read the linked record</h4><p>Dynamics 365 retrieves parent/guardian contact and school fields.</p></div>
+      <div class="flow-step"><div class="num">05</div><h4>Generate the agreement</h4><p>Workflow data populates a Web Form or eSignature template.</p></div>
+      <div class="flow-step"><div class="num">06</div><h4>Collect consent</h4><p>Parent reviews and signs, including address-change section.</p></div>
+      <div class="flow-step"><div class="num">07</div><h4>Update and archive</h4><p>Verified fields write to Dynamics 365; PDF archives to SharePoint.</p></div>
+      <div class="flow-step"><div class="num">08</div><h4>Ask and act</h4><p>Copilot queries status and initiates configured actions via MCP.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="boundaries" class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Boundaries</div>
+      <h2>Be precise about what is native, optional, or customer-built.</h2>
+      <p>This section is intentionally explicit so the architecture can be used safely in technical discovery.</p>
+    </div>
+    <div class="diagram-wrap" style="padding:0;overflow:hidden">
+      <table class="boundary-table">
+        <thead><tr><th>Boundary</th><th>Safe architecture wording</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Dynamics writeback</td><td>Write verified workflow fields, such as address and consent, to the linked Dynamics 365 record.</td><td><span class="badge badge-core">Core pattern</span></td></tr>
+          <tr><td>Signed PDF storage</td><td>Archive the completed document to a configured SharePoint site, library, and folder structure.</td><td><span class="badge badge-core">Core pattern</span></td></tr>
+          <tr><td>Docusign Connect</td><td>Use Connect for custom completion events or integrations when middleware and Dynamics APIs are part of the design.</td><td><span class="badge badge-warn">Optional / custom</span></td></tr>
+          <tr><td>Copilot actions</td><td>Copilot can call the tools that are configured and permissioned; high-impact actions should remain human-reviewed.</td><td><span class="badge badge-warn">Configure + validate</span></td></tr>
+          <tr><td>Student and guardian data</td><td>Apply customer security, retention, access, and regional data-residency controls before production rollout.</td><td><span class="badge badge-warn">Customer design</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="reuse" class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Reuse blueprint</div>
+      <h2>Keep the architecture. Swap the school process.</h2>
+      <p>The same control plane supports other K-12 agreement journeys with a different request type, template, data mapping, and archive rule.</p>
+    </div>
+    <div class="reuse-cards">
+      <div class="reuse-card"><div class="tag">Admissions</div><h3>Enrolment and registration</h3><p>Replace the excursion request with enrolment intake, approval, consent, and record creation.</p></div>
+      <div class="reuse-card"><div class="tag">People operations</div><h3>Staff onboarding</h3><p>Use the same orchestration pattern for policy acknowledgements, forms, and HR-system updates.</p></div>
+      <div class="reuse-card"><div class="tag">Procurement</div><h3>Supplier and service agreements</h3><p>Use approvals, data prefill, signing, archival, and Copilot follow-up for school suppliers.</p></div>
+    </div>
+    <div class="next-steps" id="next-steps">
+      <div class="kicker">Next steps</div>
+      <h2>Start with one process, expand from there.</h2>
+      <p>Begin with one agreement type, one Dynamics record type, one SharePoint archive path, and a small set of read-only Copilot questions. Add write actions only after permissions, auditability, and human-review controls are verified.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-in">
+    <img src="assets/img/docusign-horizontal-black.svg" alt="Docusign">
+    <p>Working reference architecture. Revalidate product boundaries against the customer's tenant, region, licensing, and current release status before external commitment.</p>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.sol-toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.sol-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>
