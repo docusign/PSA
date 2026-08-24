@@ -257,11 +257,11 @@ li{margin:5px 0;}
         <li data-scroll="sec-0-3">0.3 Decision tree</li>
         <li data-scroll="sec-0-4">0.4 Objectives</li>
         <li data-scroll="sec-0-5">0.5 Prerequisites</li>
-        <li data-scroll="p1">0.5.1 Products enabled</li>
-        <li data-scroll="p2">0.5.2 Permissions</li>
-        <li data-scroll="p3">0.5.3 Download lab assets</li>
-        <li data-scroll="p3b">0.5.4 Import workflow</li>
-        <li data-scroll="p3c">0.5.5 Upload agreements</li>
+        <li data-scroll="p1" style="padding-left:24px">0.5.1 Products enabled</li>
+        <li data-scroll="p2" style="padding-left:24px">0.5.2 Permissions</li>
+        <li data-scroll="p3" style="padding-left:24px">0.5.3 Download lab assets</li>
+        <li data-scroll="p3b" style="padding-left:24px">0.5.4 Import workflow</li>
+        <li data-scroll="p3c" style="padding-left:24px">0.5.5 Upload agreements</li>
       </ul>
       <li class="step" data-target="stage-1"><span class="ring" data-stage="1"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">1</span></span><span class="txt"><span class="t">Agent Studio</span><span class="s">Build the Risk Analyst</span></span></li>
       <ul class="sub-nav">
@@ -732,7 +732,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
         <li>Click <b>Requests</b> in the left menu.</li>
         <li>Click <b>Create Request</b>.</li>
         <li>Select <b>Agent Studio 201 - Vendor Contracts</b> Request Type.</li>
-        <li>Fill in the form:
+        <li>Fill the form (with sample values of your choice, reference provided below):
           <ul>
             <li><b>Vendor Name:</b> Innovate Global Manufacturing</li>
             <li><b>Requestor Name:</b> Your name</li>
@@ -753,7 +753,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
       </div>
 
       <div class="h-check" id="sec-3-2"><input type="checkbox" data-stage="3" id="chk16"><div><h3 style="display:inline">3.2 · Scenario 2 - MEDIUM/HIGH risk, human review</h3></div></div>
-      <p>Create another request: <b>Agreements → Requests → Create Request → Agent Studio 201 - Vendor Contracts</b>. Upload the <b>HIGH</b> risk contract from the workshop kit, fill in the form, and submit. Navigate to <b>Agreements → Workflows</b>, find the workflow, click <b>View Workflow Runs</b>.</p>
+      <p>Create another request: <b>Agreements → Requests → Create Request → Agent Studio 201 - Vendor Contracts</b>. Upload the <b>MEDIUM or HIGH</b> risk contract from the workshop kit, fill in the form, and submit. Navigate to <b>Agreements → Workflows</b>, find the workflow, click <b>View Workflow Runs</b>.</p>
       <div class="expect">
         <b>Expect:</b> the agent returns <code>MEDIUM</code> or <code>HIGH</code> → the MED/HIGH branch runs → owner assigned (Legal team) → request message sent → status changes to <b>Pending Legal Review</b>.
       </div>
@@ -797,7 +797,7 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
       </div>
 
       <div class="finale">
-        <h3>The message</h3>
+        <h3>Recap</h3>
         <p>Agreement Desk captured the request and the document → Workflow Builder fetched it and orchestrated the run → an Agent Studio Risk Analyst read the contract and scored the risk → deterministic branching sent LOW straight to eSignature, MEDIUM/HIGH to a human, and anything broken back to the submitter. Intake once, analyze with an agent, route with Workflow Builder, sign with eSignature: all inside Docusign, all auditable.</p>
       </div>
 
@@ -806,9 +806,6 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
         <p style="margin:0;">The same four-surface shape carries directly to other scenarios: NDA triage, customer renewals, procurement inbound review, or any department-specific risk workflow. Swap the agent's instructions and the branch thresholds; the architecture doesn't change.&nbsp;</p>
       </div>
 
-      <div class="foot">
-        Agent Studio 201 hands-on lab. Uses Docusign IAM (Agent Studio, Agreement Desk, Workflow Builder, eSignature); confirm exact labels and availability against your account. Synthetic data only. For questions or feedback: <a href="mailto:amrit.prakash@docusign.com">amrit.prakash@docusign.com</a>
-      </div>
     </section>
 
     <!-- ============ STAGE 4 ============ -->
@@ -908,6 +905,10 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
       <div class="finale">
         <h3>The full picture</h3>
         <p>You built one agent - the Vendor and Renewal Risk Analyst - and it runs in two places. In Workflow Builder it handles the front door: a new vendor MSA comes in via Agreement Desk, the agent reviews it, and the workflow routes the request. In CLM it handles the negotiation stage: once a contract is inside CLM and being reviewed, the workflow calls the same agent to score the final version before routing to signature. The agent handles the judgment layer; the workflow surface - Workflow Builder or CLM - handles the process layer. You don't build two agents. You build one good agent, publish it, and put it where the work already happens.</p>
+      </div>
+
+      <div class="foot">
+        Agent Studio 201 · Hands-on lab · Synthetic data only. Menu labels vary by tenant and release, so trust your screen. For questions or feedback: <a href="mailto:amrit.prakash@docusign.com">amrit.prakash@docusign.com</a>
       </div>
     </section>
 
