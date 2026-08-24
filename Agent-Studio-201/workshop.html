@@ -32,7 +32,7 @@ function injectToggle(doc,active){
   card.style.cssText='background:#F4F2FA;border:1px solid #e5e1f0;border-radius:13px;padding:16px 18px;margin:18px 0;box-shadow:0 2px 6px rgba(19,0,50,.05),0 10px 26px rgba(19,0,50,.05);';
   card.innerHTML='<div style="display:inline-flex;gap:0;border:1px solid #e5e1f0;border-radius:9px;overflow:hidden;box-shadow:0 1px 3px rgba(19,0,50,.05);">'
     +'<button data-sc="nda" style="background:'+(active==='nda'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13px;font-weight:500;cursor:pointer;color:'+(active==='nda'?'#fff':'#615a75')+';">Lab 1: NDA</button>'
-    +'<button data-sc="procurement" style="background:'+(active==='procurement'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13px;font-weight:500;cursor:pointer;color:'+(active==='procurement'?'#fff':'#615a75')+';">Lab 2: Procurement</button>'
+    +'<button data-sc="procurement" style="background:'+(active==='procurement'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13px;font-weight:500;cursor:pointer;color:'+(active==='procurement'?'#fff':'#615a75')+';">Lab 2: MSA</button>'
     +'</div>';
 
   var btns=card.querySelectorAll('button');
@@ -101,8 +101,8 @@ function setupFrame(id){
     if(sideFt){
       var links=sideFt.querySelectorAll('a');
       var newUrls=[
-        ['AI Agent Video Playlist','https://dsucustomers.docusign.com/video-playlist-docusign-ai-agents'],
-        ['Agent Studio Support Article','https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43201480b341&topicId=conb2716952-a0f6-4323-a13e-9d23dd290fb0.html&_LANG=enus'],
+        ['Docusign University AI Agent Video Playlist','https://dsucustomers.docusign.com/video-playlist-docusign-ai-agents'],
+        ['Docusign Agent Studio Support Article','https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43201480b341&topicId=conb2716952-a0f6-4323-a13e-9d23dd290fb0.html&_LANG=enus'],
         ['Where Agents Run','https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43201480b341&topicId=concf520b87-7851-4294-8f82-7e6cc377daaf.html&_LANG=enus'],
         ['Agent Setup for Administrators','https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43201480b341&topicId=task-4922.html&_LANG=enus'],
         ['Ready to Deploy Agent Catalog','https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43201480b341&topicId=ref1d59490e-be57-4db7-8542-ec0cc2d64aff.html&_LANG=enus']

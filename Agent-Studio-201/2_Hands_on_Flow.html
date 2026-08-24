@@ -231,7 +231,7 @@ li{margin:5px 0;}
       <a href="2_Hands_on_Flow.html">Hands-on Lab</a>
       <span style="display:inline-flex;gap:0;margin-left:12px;border:1px solid #e5e1f0;border-radius:7px;overflow:hidden;">
         <button onclick="if(window.parent.switchTo)window.parent.switchTo('nda')" style="background:#fff;color:#615a75;border:none;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;">Lab 1: NDA</button>
-        <button onclick="if(window.parent.switchTo)window.parent.switchTo('procurement')" style="background:#4C00FF;color:#fff;border:none;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;">Lab 2: Procurement</button>
+        <button onclick="if(window.parent.switchTo)window.parent.switchTo('procurement')" style="background:#4C00FF;color:#fff;border:none;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;">Lab 2: MSA</button>
       </span>
     </nav>
   </div>
@@ -241,7 +241,7 @@ li{margin:5px 0;}
 <!-- ===================== CONTENT EDITOR TOOLBAR ===================== -->
 <div id="lab-switcher" style="position:fixed;bottom:20px;right:20px;z-index:1000;display:flex;gap:0;align-items:center;background:#1a0040;padding:4px;border-radius:12px;box-shadow:0 8px 24px rgba(19,0,50,.35);font-family:'DSIndigo',Arial,sans-serif;">
   <button onclick="if(window.parent&&window.parent.switchTo)window.parent.switchTo('nda');" style="background:transparent;color:#c9bdf0;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:500;cursor:pointer;">Lab 1: NDA</button>
-  <button disabled style="background:#4C00FF;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:default;">Lab 2: Procurement</button>
+  <button disabled style="background:#4C00FF;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:default;">Lab 2: MSA</button>
 </div>
 
 <div class="wrap">
@@ -256,6 +256,7 @@ li{margin:5px 0;}
         <li data-scroll="sec-0-2">0.2 The flow</li>
         <li data-scroll="sec-0-3">0.3 Decision tree</li>
         <li data-scroll="sec-0-4">0.4 Objectives</li>
+        <li data-scroll="sec-0-5">0.5 Prerequisites</li>
         <li data-scroll="p1">0.5.1 Products enabled</li>
         <li data-scroll="p2">0.5.2 Permissions</li>
         <li data-scroll="p3">0.5.3 Download lab assets</li>
@@ -281,9 +282,9 @@ li{margin:5px 0;}
       <li class="step" data-target="stage-3"><span class="ring" data-stage="3"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">Trigger &amp; validate</span><span class="s">Three scenarios</span></span></li>
       <ul class="sub-nav">
         <li data-scroll="sec-3-0">3.0 Create a request</li>
-        <li data-scroll="sec-3-1">3.1 LOW risk</li>
-        <li data-scroll="sec-3-2">3.2 MEDIUM/HIGH risk</li>
-        <li data-scroll="sec-3-3">3.3 Missing doc fallback</li>
+        <li data-scroll="sec-3-1">3.1 Scenario 1: LOW risk</li>
+        <li data-scroll="sec-3-2">3.2 Scenario 2: MEDIUM/HIGH risk</li>
+        <li data-scroll="sec-3-3">3.3 Scenario 3: Missing doc fallback</li>
         <li data-scroll="sec-3-4">3.4 Validation checklist</li>
         <li data-scroll="sec-3-5">3.5 Limitations</li>
       </ul>
@@ -296,7 +297,7 @@ li{margin:5px 0;}
     </ol>
     <div class="side-foot">
       Self-paced handbook. Tick each step checkbox to fill the progress rings.<br><br>
-      Synthetic data only. Use demo counterparties when testing.<br><br>
+      Synthetic data only.<br><br>
       <strong style="font-size:11px;text-transform:uppercase;letter-spacing:.07em;">Resources</strong><br>
       <a href="https://dsucustomers.docusign.com/video-playlist-docusign-ai-agents" target="_blank">Docusign University AI Agent Video Playlist</a><br>
       <a href="https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43201480b341&topicId=conb2716952-a0f6-4323-a13e-9d23dd290fb0.html&_LANG=enus" target="_blank">Docusign Agent Studio Support Article</a><br>
@@ -466,7 +467,7 @@ li{margin:5px 0;}
       <div class="obj"><div class="lab">Objective 2</div><b>Build a Risk Analyst agent in Agent Studio</b><br>Write instructions and add capabilities that reliably evaluate the request and respond with risk analysis.</div>
       <div class="obj"><div class="lab">Objective 3</div><b>Orchestrate the agent inside Workflow Builder</b><br>Automatically trigger the workflow on Agreement Desk request submission, invoke the agent and capture its structured output into variables, and branch deterministically.</div>
 
-      <h3>0.5 · Prerequisites</h3>
+      <h3 id="sec-0-5">0.5 · Prerequisites</h3>
       <p>A Docusign IAM (Intelligent Agreement Management) environment - sandbox or non-production - with the features and permissions below. Everything uses synthetic data only, no production accounts or real party data.</p>
 
       <div class="h-check"><input type="checkbox" data-stage="0" id="p1"><div><h3 style="display:inline">0.5.1 · Products enabled</h3><span class="tag">setup</span></div></div>
@@ -574,10 +575,10 @@ li{margin:5px 0;}
       <img src="assets/s11-classic-editor.png" alt="Use classic editor highlighted" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
       <ol start="4">
         <li>Click the pencil icon next to <b>My new agent</b>. In the modal that appears, enter:
-          <ul>
-            <li><b>Agent name:</b> <code>Vendor and Renewal Risk Analyst</code></li>
-            <li><b>Description:</b> <code>Review contracts for vendor onboarding and renewals. Extracts key terms and classifies risk; does not negotiate or send.</code></li>
-          </ul>
+          <div class="lbl" style="margin-top:10px;">Agent name</div>
+          <div class="block prompt">Vendor and Renewal Risk Analyst</div>
+          <div class="lbl">Description</div>
+          <div class="block prompt">Review contracts for vendor onboarding and renewals. Extracts key terms and classifies risk; does not negotiate or send.</div>
           Then click <b>Save</b>.
         </li>
       </ol>
@@ -651,7 +652,12 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
       <ol>
         <li>Click <b>Test</b> to test the agent before publishing.</li>
         <li>Click the <b>+</b> icon, click <b>Add Agreements</b>, and search for the low-risk document uploaded in the prerequisites.</li>
-        <li>Run the starter prompt configured in 1.2. Optionally, try a more detailed prompt: <code>Analyze this vendor contract against our procurement risk checklist. Return risk_level, liability_cap, governing_law, term, and discount. Flag violations with severity and section reference.</code></li>
+        <li>Run the starter prompt configured in 1.2, then optionally try a more detailed prompt:
+          <div class="lbl" style="margin-top:8px;">Starter prompt (from 1.2)</div>
+          <div class="block prompt">Extracts key terms from the attached document and classify the risk.</div>
+          <div class="lbl">Detailed prompt (optional)</div>
+          <div class="block prompt">Analyze this vendor contract against our procurement risk checklist. Return risk_level, liability_cap, governing_law, term, and discount. Flag violations with severity and section reference.</div>
+        </li>
         <li>Verify the agent returns the correct <code>risk_level</code> and all five output fields are populated.</li>
         <li>Click <b>Save draft</b>, then <b>Publish</b>.</li>
       </ol>
@@ -684,14 +690,16 @@ If the contract has zero risks, return risk_level as LOW and note "No action req
       <div class="expect"><b>Checkpoint:</b> the trigger names your own imported Request Type, not a placeholder or a missing reference.</div>
 
       <!-- Section 2.4 hidden: Get Document detail removed per spreadsheet -->
-      <div class="h-check" id="sec-2-4" style="display:none"><input type="checkbox" data-stage="2" id="chk11"><div><h3 style="display:inline">2.4 · Understand "Get Document from a Request"</h3></div></div>
+      <div class="h-check" id="sec-2-4-old" style="display:none"><input type="checkbox" data-stage="2" id="chk11"><div><h3 style="display:inline">2.4 · Understand "Get Document from a Request"</h3></div></div>
 
       <div class="h-check" id="sec-2-3"><input type="checkbox" data-stage="2" id="chk12"><div><h3 style="display:inline">2.3 · Execute AI Agent</h3></div></div>
       <p>Open the <b>Execute AI Agent</b> step in the workflow. Configure the following:</p>
       <ol>
         <li><b>Select Agent</b> — from the dropdown, select your published <code>Vendor and Renewal Risk Analyst</code>. If it doesn't appear, go back to Stage 1 and publish your agent.</li>
         <li><b>Data outputs</b> — confirm the five output fields are visible: <code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>.</li>
-        <li><b>Enter the prompt</b> — in the chat message / prompt field, enter: <code>Extracts key terms from the attached document and classify the risk.</code></li>
+        <li><b>Enter the prompt</b> — in the chat message / prompt field, enter:
+          <div class="block prompt">Extracts key terms from the attached document and classify the risk.</div>
+        </li>
       </ol>
       <img src="assets/s23-execute-ai-agent.png" alt="Execute AI Agent step showing agent selected, data outputs, and prompt configured" style="max-width:420px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
       <div class="expect"><b>Checkpoint:</b> the Execute AI Agent step shows your agent selected, all five data outputs mapped, and the prompt entered.</div>

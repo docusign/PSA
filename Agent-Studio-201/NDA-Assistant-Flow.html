@@ -234,7 +234,7 @@ li{margin:5px 0;}
       <a href="NDA-Assistant-Flow.html">Hands-on Lab</a>
       <span style="display:inline-flex;gap:0;margin-left:12px;border:1px solid #e5e1f0;border-radius:7px;overflow:hidden;">
         <button onclick="if(window.parent.switchTo)window.parent.switchTo('nda')" style="background:#4C00FF;color:#fff;border:none;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;">Lab 1: NDA</button>
-        <button onclick="if(window.parent.switchTo)window.parent.switchTo('procurement')" style="background:#fff;color:#615a75;border:none;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;">Lab 2: Procurement</button>
+        <button onclick="if(window.parent.switchTo)window.parent.switchTo('procurement')" style="background:#fff;color:#615a75;border:none;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;">Lab 2: MSA</button>
       </span>
     </nav>
   </div>
@@ -244,7 +244,7 @@ li{margin:5px 0;}
 <!-- ===================== CONTENT EDITOR TOOLBAR ===================== -->
 <div id="lab-switcher" style="position:fixed;bottom:20px;right:20px;z-index:1000;display:flex;gap:0;align-items:center;background:#1a0040;padding:4px;border-radius:12px;box-shadow:0 8px 24px rgba(19,0,50,.35);font-family:'DSIndigo',Arial,sans-serif;">
   <button disabled style="background:#4C00FF;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:default;">Lab 1: NDA</button>
-  <button onclick="if(window.parent&&window.parent.switchTo)window.parent.switchTo('procurement');" style="background:transparent;color:#c9bdf0;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:500;cursor:pointer;">Lab 2: Procurement</button>
+  <button onclick="if(window.parent&&window.parent.switchTo)window.parent.switchTo('procurement');" style="background:transparent;color:#c9bdf0;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:500;cursor:pointer;">Lab 2: MSA</button>
 </div>
 
 <div class="wrap">
@@ -279,15 +279,12 @@ li{margin:5px 0;}
         <li data-scroll="sec-2-1">2.1 Prompt design decisions</li>
         <li data-scroll="sec-2-2">2.2 Run from Ask Iris</li>
       </ul>
-      <li class="step" data-target="stage-3" style="display:none"><span class="ring" data-stage="3"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">Advanced automation</span><span class="s">Direct envelope delivery</span></span></li>
-      <ul class="sub-nav" style="display:none;">
-      </ul>
-      <li class="step" data-target="stage-4"><span class="ring" data-stage="4"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">4</span></span><span class="txt"><span class="t">The CLM connection</span><span class="s">Demo only</span></span></li>
+      <li class="step" data-target="stage-3"><span class="ring" data-stage="3"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">The CLM connection</span><span class="s">Demo only</span></span></li>
       <ul class="sub-nav">
-        <li data-scroll="sec-4-1">4.1 Why CLM calls the agent</li>
-        <li data-scroll="sec-4-2">4.2 Use AI Agent step</li>
-        <li data-scroll="sec-4-3">4.3 Output variable</li>
-        <li data-scroll="sec-4-4">4.4 Customer prerequisites</li>
+        <li data-scroll="sec-3-1">3.1 Why CLM calls the agent</li>
+        <li data-scroll="sec-3-2">3.2 Use AI Agent step</li>
+        <li data-scroll="sec-3-3">3.3 Output variable</li>
+        <li data-scroll="sec-3-4">3.4 Customer prerequisites</li>
       </ul>
     </ol>
     <div class="side-foot">
@@ -664,83 +661,9 @@ li{margin:5px 0;}
     </section>
 
     <!-- ============ STAGE 3 (hidden - envelope delivery is demo-only via CLM) ============ -->
-    <section class="stage" id="stage-3" style="display:none">
-      <div class="stage-head"><h2>Stage 3 · Advanced automation: direct Docusign envelope delivery</h2></div>
 
-      <div class="card tint">
-        <p style="margin:0 0 10px;">Getting a clean NDA draft into a chat window removes most of the friction. But the rep still has to open eSignature, create an envelope, paste the text in, add the recipient, and place signature tags. For a high-volume Sales team that is still three to five manual steps per deal.</p>
-        <p style="margin:0;">This stage connects the agent to a pre-built <b>Docusign Envelope Template</b> so that when the agent collects the three intake inputs, it fills the template fields and dispatches the envelope directly. The rep confirms intent in the chat; execution happens without leaving Iris.</p>
-      </div>
-
-      <div class="h-check" id="sec-3-0"><input type="checkbox" data-stage="3" id="s30"><div><h3 style="display:inline">3.0 · Add the Send Envelopes capability</h3><span class="tag">setup</span></div></div>
-      <div class="card">
-        <p style="margin:0 0 8px;"><b>Agent Studio</b> is where your agents live. It is accessible from the <b>Automations</b> tab in the top navigation. Your NDA Gatekeeper agent is listed there — opening it brings you back to the same setup page you used in Stage 1.</p>
-        <div class="clickpath">
-          <div class="cp-task"><span class="cp-badge">Click path</span>Navigate back to your agent</div>
-          <ol>
-            <li>From the top navigation, click <b>Automations</b>.</li>
-            <li>Under <b>Agents</b> in the left sidebar, find your NDA Gatekeeper agent in the list.</li>
-            <li>Click the agent name to open it in Agent Studio.</li>
-          </ol>
-        </div>
-        <div class="clickpath">
-          <div class="cp-task"><span class="cp-badge">Click path</span>Add Send Envelopes</div>
-          <ol>
-            <li>Scroll down to the <b>Capabilities</b> section.</li>
-            <li>Click <b>Add capability</b> and select <b>Send Envelopes</b>.</li>
-            <li>Confirm it now appears alongside the existing capabilities.</li>
-            <li>Save the agent.</li>
-          </ol>
-        </div>
-        <div class="expect"><b>Checkpoint:</b> the Capabilities section lists Find Agreements, Generate Documents, Party Insights, Ask the User, and Send Envelopes. The agent is saved but not yet republished — you will republish after updating the instructions in 3.2.</div>
-      </div>
-
-      <div class="h-check" id="sec-3-1"><input type="checkbox" data-stage="3" id="s31"><div><h3 style="display:inline">3.1 · Pre-requisite: template sync</h3><span class="tag">setup</span></div></div>
-      <div class="card">
-        <p style="margin:0 0 8px;">Before instructing the agent to trigger envelopes, ensure your standard NDA template is saved as a reusable <b>Envelope Template</b> within your Docusign eSignature account.</p>
-        <ol>
-          <li>In eSignature, create a <b>new NDA Envelope Template</b> or confirm an existing one is ready to use.</li>
-          <li>Label your signer roles clearly (e.g., <b>Signer 1: Internal Sender</b>, <b>Signer 2: Counterparty Recipient</b>). For the purposes of this lab you can use one signer only.</li>
-          <li>Note down the <b>exact name</b> you gave the template — you will need it in 3.2 when updating the agent instructions.</li>
-        </ol>
-        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Envelope Template saved in eSignature with signer roles labeled</span></div>
-      </div>
-
-      <div class="h-check" id="sec-3-2"><input type="checkbox" data-stage="3" id="s32"><div><h3 style="display:inline">3.2 · Replace Step 4 in the instructions</h3><span class="tag">build</span></div></div>
-      <div class="card">
-        <p style="margin:0 0 8px;">Go to your agent in Agent Studio and open the <b>Instructions*</b> field. Find <b>Step 4</b> at the bottom of the prompt. Delete everything from "Step 4" to the end of the field, then paste the replacement Step 4 below. Steps 1, 2, and 3 stay exactly as they are.</p>
-        <div class="lbl">Replacement Step 4 (replaces the existing Step 4 only)</div>
-        <div class="block prompt">Step 4 - Envelope Delivery:
-Once all three inputs are confirmed (full legal name, governing state, business context), use the Send Envelopes capability to fill and send the template named Unilateral_NDA_Template.
-- Pre-fill the counterparty name, governing state, and business context into the template fields.
-- Send the envelope to the recipient email the rep provides. If no email was given during intake, ask for it before sending.
-- Confirm to the rep when the envelope has been dispatched: "The NDA has been sent to [Recipient] for signature. You will receive a copy when it is completed."</div>
-        <p style="margin:10px 0 6px;">After pasting, find <code>Unilateral_NDA_Template</code> in the Step 4 text and replace it with the exact name of your Envelope Template from 3.1.</p>
-        <div class="warn"><b>Name must match exactly.</b> The template name in the instructions must match the exact name of the template in your eSignature account. If the names do not match, the send step will fail silently at runtime with no error shown to the rep.</div>
-        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Instructions field with Steps 1-3 unchanged and the new Step 4 at the bottom; Send Envelopes visible in the capabilities list</span></div>
-        <div class="expect"><b>Checkpoint:</b> Steps 1, 2, and 3 are unchanged; Step 4 references the envelope template by name; the agent is saved and republished.</div>
-      </div>
-
-      <div class="h-check" id="sec-3-3"><input type="checkbox" data-stage="3" id="s33"><div><h3 style="display:inline">3.3 · Seeing the advanced workflow in action</h3><span class="tag">test</span></div></div>
-      <div class="card">
-        <p style="margin:0 0 8px;">You can <b>Test</b> your agent to ensure that it works as intended. Click the <b>Test</b> option to begin testing.</p>
-        <p style="margin:0;">Ask about a counterparty with no active agreement, say yes to the draft offer, provide the recipient details, and watch the agent complete the template fields and send the envelope directly, instead of dumping text into the chat.</p>
-        <div class="shot"><span class="cap">Screenshot placeholder</span><span class="desc">Test run showing the agent completing the template fields and sending the envelope</span></div>
-        <div class="expect"><b>Checkpoint:</b> a pre-filled envelope based on your NDA template is generated and sent to the recipient, with no manual re-typing and no separate eSignature screen.</div>
-      </div>
-
-      <div class="finale">
-        <h3>The message</h3>
-        <p>A Sales rep asked a question in a chat window. The agent checked the repository, found nothing, gathered three inputs, and produced a signed-ready NDA without the rep touching a separate screen or waiting for Legal. The four-step pattern (repository check, consistent pivot, gated intake, structured output) is not NDA-specific. It works for any scenario where the right first move is "check if we already have this, and create it if we don't." MSAs, DPAs, vendor onboarding letters: swap the template name and the three intake questions, and the pattern transfers directly.</p>
-      </div>
-
-      <div class="foot">
-        Agent Studio 201 · Search-to-Draft NDA Assistant hands-on lab · Synthetic data only. Menu labels vary by tenant and release, so trust your screen.
-      </div>
-    </section>
-
-    <section class="stage" id="stage-4">
-      <div class="stage-head"><h2>Stage 4 · The CLM connection</h2></div>
+    <section class="stage" id="stage-3">
+      <div class="stage-head"><h2>Stage 3 · The CLM connection</h2></div>
 
       <div class="demo-banner">
         <span class="icon">&#9654;</span>
@@ -749,7 +672,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         </div>
       </div>
 
-      <div class="h-check" id="sec-4-1"><input type="checkbox" data-stage="4" id="s40"><div><h3 style="display:inline">4.1 · Why CLM calls the agent instead of running it in chat</h3><span class="tag demo">concept</span></div></div>
+      <div class="h-check" id="sec-3-1"><input type="checkbox" data-stage="3" id="s40"><div><h3 style="display:inline">3.1 · Why CLM calls the agent instead of running it in chat</h3><span class="tag demo">concept</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">Ask Iris is conversational: a rep asks a question, the agent responds, the rep acts. That works for one deal at a time. A CLM workflow is deterministic: every inbound NDA request follows the same path, without a human having to remember to ask.</p>
         <p style="margin:0 0 10px;">The "Use AI Agent" step is the bridge. CLM is the orchestration surface; Agent Studio is the reasoning layer. The CLM workflow handles the structured steps (approvals, merges, signatures, archiving). The agent handles the part that requires judgment: check the repository, evaluate what exists, and return a structured answer the workflow can act on.</p>
@@ -775,7 +698,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         </div>
       </div>
 
-      <div class="h-check" id="sec-4-2"><input type="checkbox" data-stage="4" id="s41"><div><h3 style="display:inline">4.2 · What the "Use AI Agent" step looks like for the NDA Gatekeeper</h3><span class="tag demo">demo</span></div></div>
+      <div class="h-check" id="sec-3-2"><input type="checkbox" data-stage="3" id="s41"><div><h3 style="display:inline">3.2 · What the "Use AI Agent" step looks like for the NDA Gatekeeper</h3><span class="tag demo">demo</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">In a CLM workflow for inbound NDA requests, the "Use AI Agent" step is configured with five fields. Here is how each one maps to the NDA Gatekeeper scenario:</p>
         <table>
@@ -788,7 +711,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         </table>
       </div>
 
-      <div class="h-check" id="sec-4-3"><input type="checkbox" data-stage="4" id="s42"><div><h3 style="display:inline">4.3 · What the output variable contains</h3><span class="tag demo">demo</span></div></div>
+      <div class="h-check" id="sec-3-3"><input type="checkbox" data-stage="3" id="s42"><div><h3 style="display:inline">3.3 · What the output variable contains</h3><span class="tag demo">demo</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">After the agent runs, the step processes the response into a structured XML variable the workflow can reference. The top-level fields are:</p>
         <div class="xml-var">
@@ -808,7 +731,7 @@ Once all three inputs are confirmed (full legal name, governing state, business 
         </table>
       </div>
 
-      <div class="h-check" id="sec-4-4"><input type="checkbox" data-stage="4" id="s43"><div><h3 style="display:inline">4.4 · What must be in place before a customer can use this</h3><span class="tag demo">prereqs</span></div></div>
+      <div class="h-check" id="sec-3-4"><input type="checkbox" data-stage="3" id="s43"><div><h3 style="display:inline">3.4 · What must be in place before a customer can use this</h3><span class="tag demo">prereqs</span></div></div>
       <div class="card">
         <p style="margin:0 0 10px;">The "Use AI Agent" step is available in CLM workflows but requires setup that goes beyond Agent Studio alone. Partners and customers need to confirm these items before the pattern goes live.</p>
         <div class="demo-prereq">
