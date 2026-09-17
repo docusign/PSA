@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/Register-concerto/',
+  base: '/PSA/Register-concerto/',
   test: {
     globals: true,
     environment: 'jsdom',
