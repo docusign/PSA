@@ -77,6 +77,7 @@ export default function App() {
 
       <div className="wrap">
         <aside className="aside" role="navigation" aria-label="Steps">
+          <div className="aside-title">Steps</div>
           <ul className="stepper">
             {STEPS.map((step, idx) => {
               const isActive = step.id === currentStep
