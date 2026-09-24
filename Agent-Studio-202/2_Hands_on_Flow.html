@@ -467,9 +467,9 @@ After signature, AI extracts the final agreement data, CLM applies the relevant 
       </div>
 
       <h3 id="sec-0-4">0.4 · Learning objectives</h3>
-      <div class="obj"><div class="lab">Objective 1</div><b>Use Agreement Desk as a structured intake surface</b><br>Import a Request Type, submit a request, and attach the document the rest of the flow depends on.</div>
-      <div class="obj"><div class="lab">Objective 2</div><b>Build a Risk Analyst agent in Agent Studio</b><br>Write instructions and add capabilities that reliably evaluate the request and respond with risk analysis.</div>
-      <div class="obj"><div class="lab">Objective 3</div><b>Orchestrate the agent inside Workflow Builder</b><br>Automatically trigger the workflow on Agreement Desk request submission, invoke the agent and capture its structured output into variables, and branch deterministically.</div>
+      <div class="obj"><div class="lab">Objective 1</div><b>Use Maestro step to initiate a renewal process</b><br>Create a renewal request in CLM, collect updated vendor information through an IAM renewal form, and generate a draft renewal agreement.</div>
+      <div class="obj"><div class="lab">Objective 2</div><b>Use of “AI Agent step in CLM” where Reuse of  the Risk Analyst agent across CLM and IAM</b><br>Invoke the agent created in Scenario 201 to analyze the renewal draft, extract key terms, assign a risk score, and route the agreement based on that result.</div>
+      <div class="obj"><div class="lab">Objective 3</div><b>Use of “AI Data insights” step in CLM</b><br>Extract data from the executed agreement, apply CLM attributes, store the agreement in the appropriate folder, and synchronize the completed contract with IAM Agreement Manager.</div>
 
       <h3 id="sec-0-5">0.5 · Prerequisites</h3>
       <p>A Docusign IAM (Intelligent Agreement Management) environment - sandbox or non-production - with the features and permissions below. Everything uses synthetic data only, no production accounts or real party data.</p>
