@@ -332,7 +332,11 @@ li{margin:5px 0;}
       <h3 id="sec-0-1">0.1 · The scenario</h3>
       <div class="card proc-only">
         <p style="margin:0 0 10px;font-weight:600;font-size:16px;">At Fontara, Procurement and Legal onboard high-value vendors one email thread at a time.</p>
-        <p style="margin:0;">A business user emails a draft vendor contract, Legal manually hunts for the liability cap and governing law, then someone routes it for signature. It is slow, inconsistent, and hard to audit.&nbsp;</p><p style="margin:0;">In this lab you replace that with an automated process: an Agreement Desk request starts a workflow that hands the contract to a Risk Analyst agent, which extracts the key terms and classifies risk. LOW risk goes straight to the vendor for signature; MEDIUM or HIGH risk waits for Legal.</p>
+        <p style="margin:0;">At Fontara, vendor agreements onboarded through Agreement Desk are approaching renewal. Instead of restarting the process through email, CLM identifies agreements due for renewal and automatically creates a renewal request.
+IAM sends the vendor a renewal form to confirm updated business and contract details. Based on the vendor’s responses, CLM generates a draft renewal agreement. The same Risk Analyst agent created in Scenario 201 reviews the renewal draft, extracts the key terms, and assigns a new risk score.
+LOW-risk renewals proceed directly to the vendor for signature. HIGH-risk renewals are routed to Legal for review. During Legal review, AI-Assisted Review analyzes the agreement and proposes fallback clauses; Legal makes the final decision.
+After signature, AI extracts the final agreement data, CLM applies the relevant attributes, and the completed agreement is stored in the appropriate CLM folder and synchronized with IAM Agreement Manager. This creates a connected, auditable process from initial onboarding through renewal and ongoing contract management.
+.&nbsp;</p><p style="margin:0;">In this lab you replace that with an automated process: an Agreement Desk request starts a workflow that hands the contract to a Risk Analyst agent, which extracts the key terms and classifies risk. LOW risk goes straight to the vendor for signature; MEDIUM or HIGH risk waits for Legal.</p>
       </div>
       <div class="card sales-only">
         <p style="margin:0 0 10px;font-weight:600;font-size:16px;">At Fontara, Sales and Customer Success process high-value renewals by emailing Legal and Finance.</p>
