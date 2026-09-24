@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Studio 202 - Hands-on Lab (Search-to-Draft NDA Assistant)</title>
+<style>
+/* ---------- Docusign brand fonts ---------- */
+@font-face{font-family:'DSIndigo';src:url('assets/fonts/DSIndigo-Light.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap;}
+@font-face{font-family:'DSIndigo';src:url('assets/fonts/DSIndigo-Medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'DSIndigo';src:url('assets/fonts/DSIndigo-SemiBold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap;}
+
+/* ---------- Brand tokens ---------- */
+:root{
+  --indigo:#4C00FF;
+  --coral:#FF5252;
+  --ink:#130032;
+  --utility:#1a0040;
+  --surface:#F4F2FA;
+  --hairline:#e5e1f0;
+  --body:#1c1433;
+  --muted:#615a75;
+  --grad:linear-gradient(100deg,#4C00FF 0%,#7A1FD0 42%,#C0207E 72%,#FF5252 100%);
+  --sidebar:300px;
+  --ok:#0a7d3c;
+  --amber:#c47a06;
+  --font:'DSIndigo',Arial,Helvetica,sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;font-family:var(--font);font-weight:300;color:var(--body);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-weight:600;color:var(--ink);line-height:1.25;}
+a{color:var(--indigo);text-decoration:none;}
+a:hover{text-decoration:underline;}
+code{font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;font-size:.91em;font-weight:600;background:#e9e1fb;color:#4c00c9;padding:2px 7px;border:1px solid #d3c2f2;border-radius:6px;}
+
+/* ---------- Utility bar ---------- */
+.utility{background:var(--utility);color:#c9bdf0;font-size:12.5px;padding:7px 26px;display:flex;gap:22px;justify-content:flex-end;align-items:center;}
+.utility a{color:#d9cdff;}
+.utility a:hover{color:#fff;}
+
+/* ---------- Header ---------- */
+header.top{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--hairline);display:flex;align-items:center;justify-content:space-between;padding:14px 26px;}
+header.top .brand{display:flex;align-items:center;gap:26px;}
+header.top img.logo{height:26px;display:block;}
+header.top nav{display:flex;gap:22px;font-size:14px;}
+header.top nav a{color:var(--ink);font-weight:500;}
+header.top .cta{background:var(--ink);color:#fff;padding:8px 15px;border-radius:7px;font-size:13px;font-weight:500;}
+header.top .cta:hover{background:var(--indigo);text-decoration:none;}
+
+/* ---------- Layout ---------- */
+.wrap{display:flex;align-items:flex-start;}
+aside{width:var(--sidebar);flex:0 0 var(--sidebar);position:sticky;top:57px;align-self:flex-start;height:calc(100vh - 57px);overflow-y:auto;background:var(--surface);border-right:1px solid var(--hairline);padding:22px 18px 60px;}
+main{flex:1;min-width:0;padding:34px 46px 120px;max-width:960px;}
+
+.kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);font-weight:600;}
+
+/* ---------- Sidebar stepper ---------- */
+.stepper{list-style:none;margin:14px 0 0;padding:0;}
+.step{display:flex;gap:13px;padding:12px 10px;border-radius:10px;cursor:pointer;align-items:flex-start;position:relative;transition:background .15s ease;}
+.step:hover{background:#eae4fb;}
+.step.active{background:#e6defb;}
+.step .ring{flex:0 0 34px;width:34px;height:34px;position:relative;}
+.step .ring svg{transform:rotate(-90deg);display:block;}
+.step .ring circle.fg{transition:stroke-dashoffset .55s cubic-bezier(.4,0,.2,1),stroke .3s ease;}
+.step .ring .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;color:var(--ink);transition:color .2s ease;}
+.step.done .ring .num{color:var(--ok);}
+.step.done .ring{animation:ringPop .45s cubic-bezier(.34,1.56,.64,1);}
+@keyframes ringPop{0%{transform:scale(1);}45%{transform:scale(1.18);}100%{transform:scale(1);}}
+.step .txt{display:flex;flex-direction:column;gap:2px;min-width:0;padding-top:2px;}
+.step .txt .t{font-weight:600;font-size:14.5px;color:var(--ink);line-height:1.3;}
+.step .txt .s{font-size:11.5px;color:var(--muted);font-weight:400;line-height:1.3;}
+.sub-nav{list-style:none;margin:0 0 4px 22px;padding:6px 0 8px;font-size:12.5px;border-left:2px solid #e5e1f0;}
+.sub-nav li{padding:5px 12px;cursor:pointer;color:var(--ink);font-weight:500;transition:background .12s,color .12s,border-color .12s;border-left:2px solid transparent;margin-left:-2px;}
+.sub-nav li:hover{background:#eae4fb;border-left-color:var(--indigo);color:var(--indigo);}
+
+.side-foot{margin-top:20px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:14px;}
+
+/* ---------- Content blocks ---------- */
+section.stage{padding-top:26px;margin-top:14px;border-top:1px solid var(--hairline);}
+section.stage:first-of-type{border-top:none;}
+.stage-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px;}
+.stage-head h2{margin:0;font-size:27px;}
+.stage-head .time{font-size:12.5px;color:var(--muted);background:#efeaff;padding:3px 10px;border-radius:20px;font-weight:500;}
+
+.hero{position:relative;overflow:hidden;background:var(--grad);color:#fff;border-radius:16px;padding:34px 36px;margin:6px 0 26px;isolation:isolate;}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,.22) 1.4px, transparent 0);background-size:28px 28px;opacity:.55;z-index:0;}
+.hero::after{content:'';position:absolute;top:-60px;right:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16) 0%,rgba(255,255,255,0) 70%);z-index:0;}
+.hero>*{position:relative;z-index:1;}
+.hero h1{color:#fff;margin:8px 0 12px;font-size:33px;}
+.hero p{margin:0;color:#f2ecff;font-size:15.5px;max-width:70ch;}
+.hero .kicker{color:#ffd9df;}
+
+.card{background:#fff;border:1px solid var(--hairline);border-radius:13px;padding:28px 30px;margin:18px 0;box-shadow:0 2px 6px rgba(19,0,50,.05),0 10px 26px rgba(19,0,50,.05);transition:box-shadow .22s ease,transform .22s ease;}
+.card.tint{background:var(--surface);}
+.card h3{margin:0 0 8px;font-size:17.5px;}
+.card h4{margin:14px 0 6px;font-size:14.5px;}
+.card:hover{box-shadow:0 4px 10px rgba(19,0,50,.08),0 16px 34px rgba(19,0,50,.09);transform:translateY(-2px);}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:900px){.grid2{grid-template-columns:1fr;}}
+@media(max-width:768px){
+  .wrap{flex-direction:column;}
+  aside{display:none;}
+  main{padding:20px 16px 80px;max-width:100%;}
+  header.top{padding:10px 16px;}
+  .hero h1{font-size:22px;}
+  .hero{padding:22px 20px;}
+  .stage-head h2{font-size:20px;}
+  .block{font-size:12px;padding:12px 14px;}
+  table{font-size:13px;}
+  .utility{display:none;}
+}
+
+.obj{border-left:4px solid var(--indigo);padding:4px 0 4px 16px;margin:14px 0;}
+.obj .lab{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);font-weight:600;}
+
+/* section heading with checkbox */
+.h-check{display:flex;gap:11px;align-items:flex-start;margin:26px 0 8px;scroll-margin-top:80px;}
+.h-check input{margin-top:6px;width:17px;height:17px;accent-color:var(--indigo);flex:0 0 auto;cursor:pointer;}
+.h-check h3{margin:0;}
+.h-check .tag{font-size:11px;font-weight:600;color:var(--muted);background:#efeaff;padding:2px 9px;border-radius:14px;margin-left:8px;text-transform:uppercase;letter-spacing:.06em;}
+.h-check .tag.demo{color:#92400e;background:#fef3c7;}
+.demo-banner{background:#fffbeb;border:1.5px solid #f59e0b;border-radius:11px;padding:12px 16px;margin:0 0 18px;font-size:13.5px;display:flex;gap:10px;align-items:flex-start;}
+.demo-banner .icon{font-size:18px;line-height:1;flex:0 0 auto;}
+.demo-prereq{background:#f8f8f8;border:1px solid var(--hairline);border-radius:10px;padding:14px 16px;margin:14px 0;}
+.demo-prereq h4{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);}
+.demo-prereq ul{margin:0;padding-left:18px;}
+.demo-prereq li{margin:5px 0;font-size:13.5px;}
+.xml-var{background:#f0f4ff;border:1px solid #c7d4f5;border-radius:8px;padding:10px 14px;margin:10px 0;font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;}
+.xml-var .vname{color:#4C00FF;font-weight:700;}
+.xml-var .vdesc{color:var(--muted);font-size:12px;margin-left:8px;}
+
+/* prompt / code block */
+.block{position:relative;background:var(--ink);color:#eee6ff;border-radius:11px;padding:16px 46px 16px 18px;margin:12px 0;font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;font-size:13px;white-space:pre-wrap;word-break:break-word;line-height:1.55;}
+.block.prompt{background:#1f0a4d;}
+.block .copy{position:absolute;top:9px;right:9px;background:rgba(255,255,255,.14);color:#fff;border:none;border-radius:7px;padding:5px 11px;font-size:11.5px;font-family:var(--font);font-weight:500;cursor:pointer;transition:background .15s ease,transform .15s ease;}
+.block .copy:active{transform:scale(.94);}
+.block .copy:hover{background:var(--indigo);}
+.block .copy.copied{background:var(--ok);}
+.lbl{font-size:12px;font-weight:600;color:var(--indigo);margin:16px 0 2px;text-transform:uppercase;letter-spacing:.05em;}
+
+.expect{background:#f0fff5;border:1px solid #bfe9cf;border-radius:9px;padding:11px 14px;margin:10px 0;font-size:13.5px;}
+.expect b{color:var(--ok);}
+.note{background:#fff7ed;border:1px solid #f4d8b0;border-radius:9px;padding:11px 14px;margin:10px 0;font-size:13.5px;}
+.warn{background:#fff0f0;border:1px solid #f2c2c2;border-radius:9px;padding:11px 14px;margin:10px 0;font-size:13.5px;}
+
+.shot{border:2px dashed #c9bdf0;border-radius:12px;background:#faf9ff;padding:30px 20px;margin:14px 0;text-align:center;}
+.shot .cap{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--indigo);font-weight:600;margin-bottom:5px;}
+.shot .desc{font-size:13px;color:var(--muted);}
+
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;}
+th,td{border:1px solid var(--hairline);padding:9px 11px;text-align:left;vertical-align:top;}
+th{background:var(--surface);font-weight:600;color:var(--ink);}
+tr:nth-child(even) td{background:#faf8ff;}
+
+ol,ul{padding-left:22px;}
+li{margin:5px 0;}
+
+.persona{display:inline-flex;gap:0;border:1px solid var(--hairline);border-radius:9px;overflow:hidden;margin:8px 0 0;box-shadow:0 1px 3px rgba(19,0,50,.05);}
+.persona button{background:#fff;border:none;padding:8px 16px;font-family:var(--font);font-size:13.5px;font-weight:500;cursor:pointer;color:var(--muted);transition:background .16s ease,color .16s ease;}
+.persona button:not(.on):hover{background:#f2eefc;color:var(--ink);}
+.persona button.on{background:var(--indigo);color:#fff;}
+[data-persona="sales"] .proc-only{display:none;}
+[data-persona="procurement"] .sales-only{display:none;}
+
+.finale{background:var(--ink);color:#fff;border-radius:16px;padding:30px 32px;margin:34px 0 0;}
+.finale h3{color:#fff;}
+.finale p{color:#e7deff;margin:8px 0 0;}
+.diagram{font-size:13px;line-height:1.7;}
+.diagram>div{display:flex;gap:12px;align-items:flex-start;padding:12px 4px;margin:0;border-bottom:1px dashed var(--hairline);}
+.diagram>div:last-child{border-bottom:none;}
+.diagram .n{display:inline-flex;flex:0 0 auto;align-items:center;justify-content:center;background:var(--indigo);color:#fff;border-radius:50%;width:22px;height:22px;font-weight:600;font-size:12px;margin:0;}
+.diagram b{display:block;margin-bottom:3px;}
+
+/* ---------- click-path reference ---------- */
+.clickpath{margin:16px 0;}
+.clickpath .cp-task{font-weight:600;font-size:15px;color:var(--ink);margin:22px 0 4px;display:flex;align-items:center;gap:9px;}
+.clickpath .cp-task .cp-badge{background:var(--indigo);color:#fff;border-radius:20px;font-size:11px;font-weight:600;padding:2px 10px;letter-spacing:.03em;}
+.clickpath ol{margin:8px 0 0;padding-left:24px;}
+.clickpath ol li{margin:7px 0;font-size:13.5px;line-height:1.55;}
+.clickpath ol li b{color:var(--ink);}
+.cp-src{font-size:11.5px;color:var(--muted);margin-top:10px;border-top:1px solid var(--hairline);padding-top:8px;}
+
+/* ---------- architecture diagram ---------- */
+.arch{padding:22px 18px 14px;}
+.arch svg{width:100%;height:auto;display:block;}
+.arch-legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--muted);}
+.arch-legend span{display:inline-flex;align-items:center;gap:6px;}
+.arch-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
+
+/* ---------- interactive decision-tree explorer ---------- */
+.explorer .edge{opacity:.4;transition:opacity .3s ease,stroke .3s ease,stroke-width .3s ease;}
+.explorer .edge.active{opacity:1;stroke-width:3;}
+.explorer .edge.active.risk-low{stroke:var(--ok);}
+.explorer .edge.active.risk-high{stroke:var(--coral);}
+.explorer .edge.active.risk-fallback{stroke:var(--amber);}
+.explorer .node-highlight{opacity:0;transition:opacity .3s ease;}
+.explorer .node-highlight.on{opacity:1;}
+.explorer .particle{opacity:0;transition:opacity .2s ease;}
+.explorer .particle.show{opacity:1;}
+
+.explorer-panel{margin-top:16px;padding-top:16px;border-top:1px solid var(--hairline);display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end;}
+.explorer-panel .ctrl{display:flex;flex-direction:column;gap:6px;min-width:180px;}
+.explorer-panel .ctrl label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;}
+.explorer-panel select{font-family:var(--font);font-size:13.5px;padding:8px 12px;border:1px solid var(--hairline);border-radius:8px;background:#fff;color:var(--ink);cursor:pointer;transition:border-color .15s ease;}
+.explorer-panel select:hover{border-color:var(--indigo);}
+.explorer-panel select:disabled{opacity:.5;cursor:not-allowed;}
+.toggle{display:inline-flex;align-items:center;width:46px;height:26px;border-radius:14px;background:#d9cff5;border:none;padding:3px;cursor:pointer;transition:background .2s ease;flex:0 0 auto;}
+.toggle .knob{width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(19,0,50,.3);transition:transform .2s cubic-bezier(.4,0,.2,1);}
+.toggle.on{background:var(--amber);}
+.toggle.on .knob{transform:translateX(20px);}
+.explorer-status{display:flex;gap:32px;margin-left:auto;flex-wrap:wrap;}
+.explorer-status .k{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;}
+.explorer-status .v{display:block;font-size:15px;font-weight:600;color:var(--ink);margin-top:3px;transition:color .2s ease;}
+.explorer-status .v.risk-low{color:var(--ok);}
+.explorer-status .v.risk-high{color:var(--coral);}
+.explorer-status .v.risk-fallback{color:var(--amber);}
+
+.foot{margin-top:40px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:16px;}
+</style>
+</head>
+<body>
+
+<div class="utility">
+  <a href="https://developers.docusign.com/docs/iam/agent-studio/" target="_blank" rel="noopener">Agent Studio Docs ↗</a>
+  <a href="https://developers.docusign.com/docs/iam/maestro/" target="_blank" rel="noopener">Workflow Builder Docs ↗</a>
+  <a href="https://developers.docusign.com/" target="_blank" rel="noopener">Developer Center ↗</a>
+</div>
+
+<header class="top">
+  <div class="brand">
+    <a href="index.html"><img class="logo" src="assets/img/docusign-horizontal-black.svg" alt="Docusign"></a>
+    <nav>
+      <a href="NDA-Assistant-Flow.html">Hands-on Lab</a>
+      <span style="display:inline-flex;gap:0;margin-left:12px;border:1px solid #e5e1f0;border-radius:7px;overflow:hidden;">
+        <button onclick="if(window.parent.switchTo)window.parent.switchTo('nda')" style="background:#4C00FF;color:#fff;border:none;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;">Lab 1: NDA</button>
+        <button onclick="if(window.parent.switchTo)window.parent.switchTo('procurement')" style="background:#fff;color:#615a75;border:none;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;">Lab 2: MSA</button>
+      </span>
+    </nav>
+  </div>
+  <a class="cta" href="https://www.docusign.com/intelligent-agreement-management" target="_blank" rel="noopener">Docusign IAM ↗</a>
+</header>
+
+<!-- ===================== CONTENT EDITOR TOOLBAR ===================== -->
+<div id="lab-switcher" style="position:fixed;bottom:20px;right:20px;z-index:1000;display:flex;gap:0;align-items:center;background:#1a0040;padding:4px;border-radius:12px;box-shadow:0 8px 24px rgba(19,0,50,.35);font-family:'DSIndigo',Arial,sans-serif;">
+  <button disabled style="background:#4C00FF;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:default;">Lab 1: NDA</button>
+  <button onclick="if(window.parent&&window.parent.switchTo)window.parent.switchTo('procurement');" style="background:transparent;color:#c9bdf0;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:500;cursor:pointer;">Lab 2: MSA</button>
+</div>
+
+<div class="wrap">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside>
+    <div class="kicker">Agent Studio · 202</div>
+    <ol class="stepper" id="stepper">
+      <li class="step active" data-target="stage-0"><span class="ring" data-stage="0"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">0</span></span><span class="txt"><span class="t">Before you begin</span><span class="s">Scenario · Flow · Setup</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-0-1">0.1 Purpose</li>
+        <li data-scroll="sec-0-2">0.2 The flow</li>
+        <li data-scroll="sec-0-3">0.3 Conversation flow</li>
+        <li data-scroll="sec-0-4">0.4 Objectives</li>
+        <li data-scroll="sec-0-5">0.5 Prerequisites</li>
+        <li data-scroll="p1" style="padding-left:24px">0.5.1 Products enabled</li>
+        <li data-scroll="p2" style="padding-left:24px">0.5.2 Permissions</li>
+        <li data-scroll="p3" style="padding-left:24px">0.5.3 Download lab assets</li>
+        <li data-scroll="p5" style="padding-left:24px">0.5.4 Complete prerequisites</li>
+      </ul>
+      <li class="step" data-target="stage-1"><span class="ring" data-stage="1"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">1</span></span><span class="txt"><span class="t">Build the agent</span><span class="s">Create · Configure · Instruct · Test</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-1-1">1.1 Accessing Agent Studio</li>
+        <li data-scroll="sec-1-2">1.2 Initial draft</li>
+        <li data-scroll="sec-1-3">1.3 Define what starts this agent</li>
+        <li style="padding-left:24px;" data-scroll="sec-1-3b">1.3.1 Validate capabilities</li>
+        <li data-scroll="sec-1-4">1.4 Master instructions</li>
+        <li data-scroll="sec-1-5">1.5 Test conversation paths</li>
+        <li data-scroll="sec-1-6">1.6 Publish the agent</li>
+      </ul>
+      <li class="step" data-target="stage-2"><span class="ring" data-stage="2"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">2</span></span><span class="txt"><span class="t">Best practices</span><span class="s">Unhappy paths · Ask Iris</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-2-1">2.1 Prompt design decisions</li>
+        <li data-scroll="sec-2-2">2.2 Run from Ask Iris</li>
+      </ul>
+      <li class="step" data-target="stage-3"><span class="ring" data-stage="3"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">The CLM connection</span><span class="s">Demo only</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-3-1">3.1 Why CLM calls the agent</li>
+        <li data-scroll="sec-3-2">3.2 Use AI Agent step</li>
+        <li data-scroll="sec-3-3">3.3 Output variable</li>
+        <li data-scroll="sec-3-4">3.4 Customer prerequisites</li>
+      </ul>
+    </ol>
+    <div class="side-foot">
+      Self-paced handbook. Tick each step checkbox to fill the progress rings.<br><br>
+      Synthetic data only.<br><br>
+      <strong style="font-size:11px;text-transform:uppercase;letter-spacing:.07em;">Resources</strong><br>
+      <a href="https://dsucustomers.docusign.com/video-playlist-docusign-ai-agents" target="_blank">Docusign University AI Agent Video Playlist</a><br>
+      <a href="https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43202480b341&topicId=conb2716952-a0f6-4323-a13e-9d23dd290fb0.html&_LANG=enus" target="_blank">Docusign Agent Studio Support Article</a><br>
+      <a href="https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43202480b341&topicId=concf520b87-7851-4294-8f82-7e6cc377daaf.html&_LANG=enus" target="_blank">Where Agents Run</a><br>
+      <a href="https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43202480b341&topicId=task-4922.html&_LANG=enus" target="_blank">Agent Setup for Administrators</a><br>
+      <a href="https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43202480b341&topicId=ref1d59490e-be57-4db7-8542-ec0cc2d64aff.html&_LANG=enus" target="_blank">Ready to Deploy Agent Catalog</a>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <main>
+
+    <!-- ============ STAGE 0 ============ -->
+    <section class="stage" id="stage-0">
+      <div class="hero">
+        <div class="kicker">Docusign IAM · Building Agents 202</div>
+        <h1>Search-to-Draft NDA Assistant: Agreement Manager search + interactive drafting in Agent Studio</h1>
+        <p>Build an interactive agent that handles real-world friction: it thoroughly searches for an existing agreement, pivots smoothly when nothing is found, gathers the right inputs, and produces a ready to download NDA on the spot.</p>
+      </div>
+
+      <div class="stage-head"><h2>Before you begin</h2></div>
+
+      <h3 id="sec-0-1">0.1 · Purpose &amp; business outcome</h3>
+      <div class="card">
+        <p style="margin:0 0 10px;font-weight:600;font-size:16px;">A Sales rep is about to get on a discovery call with a prospect. Before they share roadmap details or pricing, they need to know: is there an NDA in place?</p>
+        <p style="margin:0 0 10px;">The current answer involves emailing Legal, waiting, and hoping. This lab replaces that with an agent that does the lookup instantly and, when nothing is found, collects the required inputs needed to produce a ready-to-send NDA without leaving the chat window.</p>
+        <p style="margin:0;">The agent uses Docusign <b>Agreement Manager</b> as its source of truth and <b>document generation</b> as its output. Two capabilities, one conversation: confirm coverage or create it, right inside Ask Iris.</p>
+      </div>
+
+      <h3 id="sec-0-2">0.2 · The flow at a glance</h3>
+      <div class="card tint diagram">
+        <div><span class="n">1</span><div><b>Repository check</b>the rep asks about a counterparty in Iris chat. The agent queries Agreement Manager and checks for both exact and partial name matches, so a shorthand like "Brightpath" still finds "Brightpath Technologies" or "Brightpath Inc." No false negatives from typos or abbreviations.</div></div>
+        <div><span class="n">2</span><div><b>Active NDA found: surfaces it and stops</b>if a current agreement exists, the agent returns a summary of what is already on file and does not offer to create anything new. No duplicate paperwork.</div></div>
+        <div><span class="n">3</span><div><b>Nothing found: scripted offer to draft</b>zero results, or agreements that are only expired or terminated, triggers a consistent response offering to draft a new NDA on the spot. Same wording every time, regardless of which rep runs the query.</div></div>
+        <div><span class="n">4</span><div><b>Gated intake: collect required inputs</b>if the rep accepts, the agent collects the required inputs based on the available document template before generating the agreement. It will not proceed with partial information, preventing the agent from inventing details that would make the NDA legally unsound.</div></div>
+        <div><span class="n">5</span><div><b>NDA generated</b>once all inputs are confirmed, the agent generates an NDA from a pre-approved document template and it's available for download to review.</div></div>
+      </div>
+
+      <h3 id="sec-0-3">0.3 · Explore the conversation flow before you build it</h3>
+      <p style="margin:0 0 6px;">This is the exact conversational logic you'll build in Stage 1. Change the control below the diagram and watch the live path light up. That is the branch your agent will take at runtime.</p>
+      <div class="card arch explorer" id="explorer">
+        <svg viewBox="0 0 940 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive flow diagram: user query to thorough search to a branch that either summarizes existing agreements or pivots to interactive intake and NDA generation">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+              <path d="M0,0 L10,5 L0,10 z" fill="context-stroke"></path>
+            </marker>
+            <path id="route-exists" d="M85,130 L430,130 C 500,98 545,66 630,63" fill="none"></path>
+            <path id="route-draft" d="M85,130 L430,130 C 500,168 545,196 627,197 L795,197" fill="none"></path>
+            <path id="route-envelope" d="M85,130 L430,130 C 500,168 545,196 627,197 L627,291 L795,291" fill="none"></path>
+          </defs>
+
+          <!-- base edges -->
+          <line id="edge-user-agent" class="edge active risk-high" x1="155" y1="130" x2="177" y2="130" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
+          <line id="edge-agent-branch" class="edge active risk-high" x1="348" y1="130" x2="367" y2="130" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
+
+          <!-- EXISTS: diamond up to summary -->
+          <path id="edge-branch-exists" class="edge" d="M451,113 C 495,86 515,66 552,64" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
+          <text x="470" y="46" text-anchor="middle" font-size="11" font-weight="600" fill="#0a7d3c">Active found</text>
+
+          <!-- DRAFT: diamond down to pivot / intake -->
+          <path id="edge-branch-draft" class="edge active risk-high" d="M451,147 C 495,174 515,194 552,196" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
+          <text x="462" y="238" text-anchor="middle" font-size="11" font-weight="600" fill="#FF5252">0 results / expired only</text>
+          <line id="edge-pivot-nda" class="edge active risk-high" x1="695" y1="197" x2="722" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
+
+          <!-- ADVANCED: intake down and across to envelope (hidden) -->
+          <path id="edge-intake-env" class="edge" d="M627,229 L627,291 L718,291" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)" style="display:none"></path>
+          <text x="643" y="266" font-size="11" font-weight="600" fill="#c47a06" style="display:none">Part 2</text>
+
+          <!-- Node: User query -->
+          <rect x="15" y="98" width="140" height="64" rx="12" fill="#4C00FF"></rect>
+          <text x="85" y="125" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">User asks</text>
+          <text x="85" y="142" text-anchor="middle" fill="#e7deff" font-size="10.5">"Do we have an NDA?"</text>
+
+          <!-- Node: Agent search -->
+          <rect x="182" y="98" width="166" height="64" rx="12" fill="#6A17C9"></rect>
+          <text x="265" y="120" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Search repository</text>
+          <text x="265" y="135" text-anchor="middle" fill="#e7deff" font-size="10.5">scan Agreements</text>
+          <text x="265" y="150" text-anchor="middle" fill="#c9a9ff" font-size="10"></text>
+
+          <!-- Node: Branch diamond -->
+          <polygon points="430,92 486,130 430,168 374,130" fill="#fff" stroke="#4C00FF" stroke-width="2"></polygon>
+          <text x="430" y="126" text-anchor="middle" fill="#130032" font-size="10.5" font-weight="600">active</text>
+          <text x="430" y="138" text-anchor="middle" fill="#130032" font-size="10.5" font-weight="600">agreement?</text>
+
+          <!-- Node: Summary & stop -->
+          <rect id="nodeSummary" x="555" y="34" width="150" height="58" rx="12" fill="#0a7d3c"></rect>
+          <rect class="node-highlight" data-node="summary" x="551" y="30" width="158" height="66" rx="14" fill="none" stroke="#0a7d3c" stroke-width="2" stroke-dasharray="3 3"></rect>
+          <text x="630" y="59" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Summarize NDA</text>
+          <text x="630" y="76" text-anchor="middle" fill="#d7f5e2" font-size="10.5">List key details</text>
+
+          <!-- Node: Pivot + intake -->
+          <rect id="nodeIntake" x="555" y="165" width="140" height="64" rx="12" fill="#9A1FA8"></rect>
+          <rect class="node-highlight on" data-node="intake" x="551" y="161" width="148" height="72" rx="14" fill="none" stroke="#FF5252" stroke-width="2" stroke-dasharray="3 3"></rect>
+          <text x="625" y="192" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Offer to draft</text>
+          <text x="625" y="209" text-anchor="middle" fill="#f2ddff" font-size="10.5">Collect inputs</text>
+
+          <!-- Node: NDA code block -->
+          <rect id="nodeNDA" x="726" y="165" width="140" height="64" rx="12" fill="#C0207E"></rect>
+          <rect class="node-highlight on" data-node="nda" x="722" y="161" width="148" height="72" rx="14" fill="none" stroke="#C0207E" stroke-width="2" stroke-dasharray="3 3"></rect>
+          <text x="796" y="192" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">NDA generated</text>
+          <text x="796" y="209" text-anchor="middle" fill="#ffe0ef" font-size="10.5">download and review</text>
+
+          <!-- Node: Envelope (advanced - hidden) -->
+          <rect id="nodeEnv" x="726" y="262" width="140" height="58" rx="12" fill="#fff" stroke="#c47a06" stroke-width="2" stroke-dasharray="5 3" style="display:none"></rect>
+          <rect class="node-highlight" data-node="env" x="722" y="258" width="148" height="66" rx="14" fill="none" stroke="#c47a06" stroke-width="2" stroke-dasharray="3 3" style="display:none"></rect>
+          <text x="796" y="287" text-anchor="middle" fill="#130032" font-size="12" font-weight="600" style="display:none">Envelope sent</text>
+          <text x="796" y="303" text-anchor="middle" fill="#615a75" font-size="10.5" style="display:none">Pre-filled template</text>
+
+          <!-- animated particles -->
+          <circle class="particle" id="particle-exists" r="5" fill="#0a7d3c" style="filter:drop-shadow(0 0 5px #0a7d3c)">
+            <animateMotion dur="3.2s" repeatCount="indefinite"><mpath href="#route-exists"></mpath></animateMotion>
+          </circle>
+          <circle class="particle show" id="particle-draft" r="5" fill="#FF5252" style="filter:drop-shadow(0 0 5px #FF5252)">
+            <animateMotion dur="3.6s" repeatCount="indefinite"><mpath href="#route-draft"></mpath></animateMotion>
+          </circle>
+          <circle class="particle" id="particle-envelope" r="5" fill="#c47a06" style="display:none;filter:drop-shadow(0 0 5px #c47a06)">
+            <animateMotion dur="4.2s" repeatCount="indefinite"><mpath href="#route-envelope"></mpath></animateMotion>
+          </circle>
+        </svg>
+
+        <div class="explorer-panel">
+          <div class="ctrl">
+            <label for="ctrlOutcome">Search outcome</label>
+            <select id="ctrlOutcome">
+              <option value="exists">Active Agreement Found</option>
+              <option value="draft">Agreement invalid or not found: draft NDA</option>
+              <option value="envelope" style="display:none">Zero results: send envelope (Part 2)</option>
+            </select>
+          </div>
+          <div class="explorer-status">
+            <div><span class="k">Agent behavior</span><span class="v risk-low" id="statusAgent">Summary list, then stop</span></div>
+            <div><span class="k">Outcome</span><span class="v risk-low" id="statusRoute">No duplicate paperwork, existing NDA surfaced.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <h3 id="sec-0-4">0.4 · Learning objectives</h3>
+      <div class="obj"><div class="lab">Objective 1</div><b>Create an agent from natural language</b><br>Initialize the agent framework in Agent Studio with a single-sentence goal and let AI auto-select the right capabilities.</div>
+      <div class="obj"><div class="lab">Objective 2</div><b>Design for the "unhappy path"</b><br>Write instructions that prevent false negatives (partial-match search), pivot gracefully on zero results, and refuse to guess missing inputs.</div>
+      <div class="obj"><div class="lab">Objective 3</div><b>Produce ready-to-use output</b><br>Automatically generate the final NDA, ready to download.</div>
+
+      <h3 id="sec-0-5">0.5 · Prerequisites</h3>
+      <p>A Docusign IAM (Intelligent Agreement Management) environment - sandbox or non-production - with the features and permissions below. Everything uses synthetic data only, no production accounts or real party data.</p>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p1"><div><h3 style="display:inline">0.5.1 · Products enabled</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <ul>
+          <li><b>Agent Studio</b> - enabled. Your PSA or facilitator will confirm this is switched on for your partner sandbox.</li>
+          <li><b>Agreement Manager</b> - available for storing and searching agreements.</li>
+          <li><b>Document Templates</b> - available for uploading NDA templates.</li>
+        </ul>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p2"><div><h3 style="display:inline">0.5.2 · Permissions</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 8px;">Each participant or pair needs:</p>
+        <ul>
+          <li><b>Agent Studio build access</b> - enabled by an org admin before Stage 1. Click path below.</li>
+        </ul>
+        <div class="clickpath">
+          <div class="cp-task"><span class="cp-badge">Admin</span> Enable Agent Studio build access for participants</div>
+          <ol>
+            <li>Open the <b>Admin</b> tab at <a href="https://apps-d.docusign.com/admin/admin-dashboard" target="_blank" rel="noopener">apps-d.docusign.com/admin/admin-dashboard</a>.</li>
+            <li>Go to <b>AI Control Settings</b> and ensure <b>Agent and chat capabilities</b> are turned on.
+              <img src="assets/prereq-ai-control-settings.png" alt="AI Control Settings - Agent and chat capabilities turned on" style="max-width:450px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
+            </li>
+            <li>In case they are turned off by default, select <b>Turn On Now</b> &amp; click <b>Save</b>.</li>
+            <li>Go to <b>Users</b> and find the participant's account row.</li>
+            <li>Click <b>Actions</b> next to their name, then select <b>Manage AI Agents Access</b>.</li>
+            <li>Under <b>AI Agents Access</b>, enable:<br>
+              &nbsp;&nbsp;- <b>Create new AI contract agents</b><br>
+              &nbsp;&nbsp;- <b>Share, delete, and configure AI contract agents</b>
+              <img src="assets/prereq-ai-agents-access.png" alt="AI Contract Agents Access permissions enabled" style="max-width:450px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
+            </li>
+            <li>Click <b>Save</b>.</li>
+          </ol>
+        </div>
+        <div class="expect"><b>Checkpoint:</b> your user has both AI Contract Agents Access permissions enabled before starting Stage 1.</div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p3"><div><h3 style="display:inline">0.5.3 · Download the lab assets</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 8px;">From the GitHub repo your facilitator provides, download:</p>
+        <table>
+          <tbody><tr><th>Asset</th><th>What it's for</th></tr>
+          <tr><td><code>Fontara NDA template.zip</code></td><td>The NDA document template you'll upload to Document Templates.</td></tr>
+          <tr><td><code>Fontara SmartFactory NDA.docx</code></td><td>A sample NDA agreement to upload to Agreement Manager for testing.</td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p5"><div><h3 style="display:inline">0.5.4 · Complete prerequisites setup</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <ol>
+          <li>Go to <b>Templates → Document Templates</b>.</li>
+          <li>Create a new Document Template by uploading the <b>NDA template</b> provided in the workshop kit.</li>
+          <li>Publish the template.
+            <img src="assets/prereq-document-templates.png" alt="Navigate to Templates then Document Templates" style="max-width:350px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
+          </li>
+          <li>Go to <b>Agreements</b> in your account.</li>
+          <li>Navigate to <b>Completed</b>.</li>
+          <li>Click the <b>+</b> icon and select <b>Upload</b>.</li>
+          <li>Upload the <b>sample NDA</b> provided in the workshop kit.
+            <img src="assets/agre.png" alt="Agreements page showing Upload option" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
+          </li>
+        </ol>
+      </div>
+
+      <h3>0.6 · How to use this handbook</h3>
+      <table>
+        <tbody><tr><th>Element</th><th>What it means</th></tr>
+        <tr><td>Step checkbox</td><td>The box next to each numbered heading. Tick it when done; the sidebar ring for that stage fills.</td></tr>
+        <tr><td>Prompt block</td><td>Copy-paste ready. Use the Copy button in the top-right corner.</td></tr>
+        <tr><td>Checkpoint</td><td>The green box at the end of a step. Don't move on until it's true.</td></tr>
+        <tr><td>Note / warning</td><td>Amber and red boxes flag the gotchas that reliably burn time in workshops.</td></tr>
+      </tbody></table>
+      <div class="cp-src">Menu labels and exact click paths vary slightly by tenant and release. Where this handbook and your screen disagree, trust your screen and check the equivalent tab under the same top-level area.</div>
+    </section>
+
+    <!-- ============ STAGE 1 ============ -->
+    <section class="stage" id="stage-1">
+      <div class="stage-head"><h2>Stage 1 · Build the agent</h2></div>
+      <p>Five steps take you from a blank Automations tab to a working, tested Search-to-Draft NDA Assistant.</p>
+
+      <div class="h-check" id="sec-1-1"><input type="checkbox" data-stage="1" id="s11"><div><h3 style="display:inline">1.1 · Accessing the Agent Studio</h3><span class="tag">build</span></div></div>
+      <div class="card">
+        <div class="clickpath">
+          <div class="cp-task"><span class="cp-badge">Click path</span>Open the creation screen</div>
+          <ol>
+            <li>Go to the tab <b>Automations</b>.</li>
+            <li>Click the <b>Create New</b> button in the top-right corner.</li>
+          </ol>
+        </div>
+        <img src="assets/s11-accessing-agent-studio.png" alt="Automations tab with the Create New button in the top-right corner" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
+        <div class="expect"><b>Checkpoint:</b> you see the agent creation screen with a text block titled "Describe what you want your agent to accomplish...".</div>
+      </div>
+
+      <div class="h-check" id="sec-1-2"><input type="checkbox" data-stage="1" id="s12"><div><h3 style="display:inline">1.2 · Initial draft</h3><span class="tag">build</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 8px;">Initialize the agent framework using natural language to explain its fundamental goal.</p>
+        <ol>
+          <li>Click into the central description text block titled <b>"Describe what you want your agent to accomplish…"</b>.</li>
+          <li>Input the following initialization string:</li>
+        </ol>
+        <div class="lbl">Agent description</div>
+        <div class="block prompt">This agent checks whether an NDA already exists with a company. If no NDA is found, it guides the user toward creating an NDA draft. It returns either matching agreement results or a prepared NDA using an existing template.</div>
+        <ol start="3">
+          <li>Click the <b>Create Agent</b> button in the bottom-right corner.</li>
+        </ol>
+        <div class="note"><b>Note:</b> you can click on the <b>Use classic editor</b> and create the agent from there, but that will require adding all the right capabilities manually. Using AI to create the agent will automatically add the capabilities needed. You should still check to ensure the appropriate capabilities are chosen.</div>
+        <img src="assets/s12-initial-draft.png" alt="Creation screen with the initialization string entered and the Create Agent button" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
+        <div class="expect"><b>Checkpoint:</b> the agent is created with the name and description set. You can see the agent setup page with capabilities and instructions sections.</div>
+      </div>
+
+      <div class="h-check" id="sec-1-3"><input type="checkbox" data-stage="1" id="s13"><div><h3 style="display:inline">1.3 · Define what starts this agent</h3><span class="tag">build</span></div></div>
+      <div class="card">
+        <ol style="margin:10px 0 0;">
+          <li>Under "Define what starts this agent", edit <b>In chat</b>.</li>
+          <li>In the prompt field, type:</li>
+        </ol>
+        <div class="block prompt" style="margin:10px 0;">Check if we have an existing agreement with a company, and if we do not, offer to gather inputs and draft a standard NDA for them.</div>
+        <ol start="3">
+          <li>Click <b>Save</b>, then scroll to the bottom and click <b>Save</b> again.</li>
+        </ol>
+      </div>
+
+      <div class="h-check" id="sec-1-3b"><input type="checkbox" data-stage="1" id="s13b"><div><h3 style="display:inline">1.3.1 · Validate the capabilities</h3><span class="tag">build</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 8px;">When you created the agent from the description in 1.2, Agent Studio pre-selected a set of capabilities. Verify the selection before adding your instructions.</p>
+        <div class="clickpath">
+          <div class="cp-task"><span class="cp-badge">Click path</span>Capabilities section</div>
+          <ol>
+            <li>Scroll down to the <b>Capabilities</b> section on the agent setup page.</li>
+            <li>Confirm the following are selected: <b>Find Agreements</b>, <b>Generate Documents</b>, <b>Party Insights</b>, <b>Ask the User</b>.</li>
+          </ol>
+        </div>
+        <img src="assets/s131-capabilities.png" alt="Capabilities section showing Find Agreements, Generate Documents, Party Insights, and Ask the User" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
+        <div class="expect"><b>Checkpoint:</b> the Capabilities section lists <b>Find Agreements</b>, <b>Generate Documents</b>, <b>Party Insights</b>, and <b>Ask the User</b>.</div>
+      </div>
+
+      <div class="h-check" id="sec-1-4"><input type="checkbox" data-stage="1" id="s14"><div><h3 style="display:inline">1.4 · Deploying the master instructions</h3><span class="tag">build</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 8px;">Scroll down to the <b>Instructions*</b> box, clear any generated text, and paste the full prompt below. This is a tested prompt; do not paraphrase the step logic or the pivot script wording, as those have been validated to produce consistent output.</p>
+        <div class="lbl">Agent instructions</div>
+        <div class="block prompt">You are Fontara's NDA Agreement Checker. Your job is to search Docusign's agreement repository for any existing NDA with a named counterparty. If no active agreement is on file, you guide the rep through producing a ready-to-use NDA without leaving this conversation.<br><br><b>Step 1 - Agreement Repository Search (No False Negatives):</b><br><br>When the rep provides a company name, scan the agreement repository immediately.<br><br>Search guardrail: check for exact matches AND partial matches. If the rep types "Brightpath", also check for "Brightpath Technologies", "Brightpath Inc.", and similar variations before concluding the search returned nothing.<br><br>If an active NDA is found: show a brief summary of the agreement on file (counterparty name, status, expiry date if available) and stop. Do not offer to create a new NDA.<br><br><b>Step 2 - No Agreement Found: Consistent Offer to Draft:</b><br><br>If the search returns zero results, or if every result has a status of "Expired" or "Terminated", respond with this exact text, substituting the company name in the brackets:<br><br>"I checked our records and did not find an active NDA for [Company Name] in Docusign. To keep this conversation protected, we should get one in place before moving forward. Would you like me to draft one now?"<br><br><b>Step 3 - Intake (All Inputs Required Before Drafting):</b><br><br>If the rep says yes, Use document template <b>Fontara NDA Template</b> to generate the agreement. Ask the user for all required fields from the template and merge the values provided by the user in the template to generate the agreement. Skip asking fields like recipient details or subject if it's not needed for agreement content.<br><br>Do not draft the NDA until all the required fields required for merging are explicitly provided. For any dates provided, ensure it has date, month and year. If the rep supplies only partial answers, ask for the missing items specifically before continuing. Do not assume.<br><br>Confirm to the rep when the agreement has been drafted: "The NDA for [Company Name] is ready for your review."</div>
+        <img src="assets/s14-instructions.png" alt="Instructions box showing the pasted prompt in Agent Studio" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
+        <div class="expect"><b>Checkpoint:</b> the Instructions* field contains only this prompt. Save the agent before moving on.</div>
+      </div>
+
+      <div class="h-check" id="sec-1-5"><input type="checkbox" data-stage="1" id="s15"><div><h3 style="display:inline">1.5 · Test both conversation paths</h3><span class="tag">test</span></div></div>
+      <div class="card">
+        <ol>
+          <li>Click <b>Test</b> in the top toolbar to open the test panel.</li>
+          <li>Click on the prompt visible.</li>
+          <li>Run the search path first: ask about a counterparty you know exists in Agreement Manager. The agent should return a summary and stop, with no offer to draft.</li>
+          <li>Run the draft path: ask about a counterparty with no active agreement. The agent should deliver the scripted pivot response, collect the required inputs, and then generate the NDA document.</li>
+        </ol>
+        <img src="assets/First.png" alt="Test panel showing draft path conversation" style="max-width:350px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
+        <img src="assets/Second.png" alt="Sample inputs form showing Effective Date, Business Purpose, Governing State, Vendor name" style="max-width:350px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
+
+        <p style="margin:14px 0 6px;font-weight:600;">Provide sample inputs</p>
+        <p style="margin:0 0 8px;">Let's provide sample inputs for the questions it'll ask</p>
+        <ul style="margin:0 0 14px;padding-left:20px;">
+          <li>Effective Date</li>
+          <li>Business Purpose</li>
+          <li>Governing State</li>
+          <li>Vendor name</li>
+        </ul>
+
+        <ol start="5">
+          <li>Verify the agent does not skip ahead to NDA generation if you provide only one or two of the three inputs. It should ask for what is missing.</li>
+        </ol>
+
+        <div class="expect"><b>Checkpoint:</b> the agent surfaces existing agreements and stops, and produces the NDA only after all three inputs are confirmed.</div>
+      </div>
+
+      <div class="h-check" id="sec-1-6"><input type="checkbox" data-stage="1" id="s16"><div><h3 style="display:inline">1.6 · Publish the agent</h3><span class="tag">build</span></div></div>
+      <div class="card">
+        <ol>
+          <li>Click <b>Save draft</b> to save the current state.</li>
+          <li>Click <b>Publish</b> and confirm.</li>
+        </ol>
+        <img src="assets/s16-publish-agent.png" alt="Agent Studio header showing the Publish button" style="max-width:800px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
+        <div class="warn"><b>Publish is required before Stage 2.</b> A draft agent does not appear in the Ask Iris agent picker. If you skip this step, Stage 2.2 will show an empty list when you try to invoke the agent from chat.</div>
+        <div class="expect"><b>Checkpoint:</b> the agent status shows <b>Published</b> in the Agents list under Automations.</div>
+      </div>
+    </section>
+
+    <!-- ============ STAGE 2 ============ -->
+    <section class="stage" id="stage-2">
+      <div class="stage-head"><h2>Stage 2 · Best practices &amp; the agent in action</h2></div>
+
+      <div class="h-check" id="sec-2-1"><input type="checkbox" data-stage="2" id="s21"><div><h3 style="display:inline">2.1 · Why each prompt design decision was made</h3><span class="tag">design</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">Four specific choices in the instructions prevent failure modes that would otherwise show up in production. Read these before the lab so you can explain them to a customer or modify them deliberately rather than accidentally.</p>
+        <table>
+          <tbody><tr><th>Decision</th><th>What breaks without it</th><th>How the prompt addresses it</th></tr>
+          <tr><td><b>Partial-match search requirement</b></td><td>A rep types "Brightpath" and the agent returns zero results, even though "Brightpath Technologies" is on file. The rep assumes there is no NDA and the deal proceeds unprotected.</td><td>The instructions require the agent to run both exact and partial name searches before reporting zero results. Any variation that shares a root with the input must be checked first.</td></tr>
+          <tr><td><b>Fixed pivot script wording</b></td><td>Left to its own phrasing, the agent might respond "No records found. Let me know if you need anything else" and stop. The rep does not know they can ask for a draft and moves on without one.</td><td>A specific response string is locked into the instructions. When the search comes back empty, the agent delivers the same offer every time, which means every rep sees the same clear next step.</td></tr>
+          <tr><td><b>Hard gate on NDA generation</b></td><td>AI models fill in missing fields rather than asking. An agent given only a company name might invent a governing state or fabricate a business purpose, producing an NDA with incorrect terms that a rep might send without noticing.</td><td>The instructions explicitly forbid generating any NDA text until all three inputs have been confirmed in the conversation. Partial input triggers a follow-up question, not a draft.</td></tr>
+          <tr><td><b>Standardized output</b></td><td>Without explicit formatting or wording instructions, the agent can generate inconsistent outputs. The rep has to manually route for NDA approvals.</td><td>The instructions require a pre-approved document template to be used to generate the NDA, ensuring consistency. Ready to download and send.</td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="h-check" id="sec-2-2"><input type="checkbox" data-stage="2" id="s22"><div><h3 style="display:inline">2.2 · Run the agent from Ask Iris</h3><span class="tag">run</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">This is the rep-facing surface. From Ask Iris, a Sales rep can check NDA status or generate a new agreement without submitting a formal request or leaving the conversation. Run both paths to confirm the published agent behaves identically to the Test panel.</p>
+        <div class="clickpath">
+          <div class="cp-task"><span class="cp-badge">Click path</span>Navigate to Ask Iris</div>
+          <ol>
+            <li>From the top navigation, click <b>Agreements</b>.</li>
+            <li>Select <b>Completed</b> from the left sidebar to open the agreement list view.</li>
+            <li>Click the <b>Ask Iris</b> button.</li>
+          </ol>
+        </div>
+        <div class="clickpath">
+          <div class="cp-task"><span class="cp-badge">Click path</span>Invoke the agent</div>
+          <ol>
+            <li>Inside the Iris chat panel, click the <b>plus sign (+)</b> in the conversation input bar.</li>
+            <li>Select <b>Agents</b> from the menu that appears.</li>
+            <li>Find your published agent in the list and click it to start a conversation.</li>
+            <li>Run the exists path: ask about a counterparty that has an active agreement in your tenant.</li>
+            <li>Start a new conversation and run the draft path: ask about a counterparty with no agreement, confirm the pivot script, complete the intake, and verify the NDA is produced.</li>
+          </ol>
+        </div>
+        <img src="assets/s2-test-panel-chat.png" alt="Iris chat panel showing test mode interaction" style="max-width:350px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
+        <div class="expect"><b>Checkpoint:</b> the agent is findable in the Ask Iris picker and both the exists path and the draft path produce the correct output.</div>
+        <div class="note">If the agent does not appear in the picker, it is still in Draft status. Go back to Agent Studio, publish it (step 1.6), and refresh the chat window.</div>
+      </div>
+      <div class="finale">
+        <h3>Recap</h3>
+        <p>A Sales rep asked a question in a chat window. The agent checked the repository, found nothing, gathered three inputs, and produced a signed-ready NDA without the rep touching a separate screen or waiting for Legal. The four-step pattern (repository check, consistent pivot, gated intake, structured output) is not NDA-specific. It works for any scenario where the right first move is "check if we already have this, and create it if we don't." MSAs, DPAs, vendor onboarding letters: swap the template name and the three intake questions, and the pattern transfers directly.</p>
+      </div>
+    </section>
+
+    <!-- ============ STAGE 3 · CLM ============ -->
+
+    <section class="stage" id="stage-3">
+      <div class="stage-head"><h2>Stage 3 · The CLM connection</h2></div>
+
+      <div class="demo-banner">
+        <span class="icon">&#9654;</span>
+        <div>
+          <strong>Watch, don't build.</strong> This stage is a facilitated demo, not a hands-on exercise. The CLM "Use AI Agent" step requires a CLM license, IAM-CLM interoperability setup, and a per-environment admin consent link that cannot be completed in this lab. The goal is to show where the agent you just built slots into a governed, automated contract workflow.
+        </div>
+      </div>
+
+      <div class="h-check" id="sec-3-1"><input type="checkbox" data-stage="3" id="s40"><div><h3 style="display:inline">3.1 · Why CLM calls the agent instead of running it in chat</h3><span class="tag demo">concept</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">Ask Iris is conversational: a rep asks a question, the agent responds, the rep acts. That works for one deal at a time. A CLM workflow is deterministic: every inbound NDA request follows the same path, without a human having to remember to ask.</p>
+        <p style="margin:0 0 10px;">The "Use AI Agent" step is the bridge. CLM is the orchestration surface; Agent Studio is the reasoning layer. The CLM workflow handles the structured steps (approvals, merges, signatures, archiving). The agent handles the part that requires judgment: check the repository, evaluate what exists, and return a structured answer the workflow can act on.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;">
+          <div style="background:#f5f3ff;border-radius:10px;padding:14px;">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#4C00FF;margin-bottom:8px;">Agent Studio</div>
+            <ul style="margin:0;padding-left:16px;font-size:13px;">
+              <li>Natural language instructions</li>
+              <li>Capabilities (Find Agreements, etc.)</li>
+              <li>Output format in JSON or XML</li>
+              <li>Knowledge base and governance rules</li>
+            </ul>
+          </div>
+          <div style="background:#f0fff5;border-radius:10px;padding:14px;">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a7d3c;margin-bottom:8px;">CLM Workflow</div>
+            <ul style="margin:0;padding-left:16px;font-size:13px;">
+              <li>Selects the published agent</li>
+              <li>Passes a starting prompt and document</li>
+              <li>Stores the agent response as an XML variable</li>
+              <li>Routes downstream steps based on that variable</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-check" id="sec-3-2"><input type="checkbox" data-stage="3" id="s41"><div><h3 style="display:inline">3.2 · What the "Use AI Agent" step looks like for the NDA Gatekeeper</h3><span class="tag demo">demo</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">In a CLM workflow for inbound NDA requests, the "Use AI Agent" step is configured with five fields. Here is how each one maps to the NDA Gatekeeper scenario:</p>
+        <table>
+          <tr><th style="width:30%">Field</th><th>Value for the NDA Gatekeeper</th></tr>
+          <tr><td><b>Agent</b></td><td>Select the published NDA Gatekeeper Assistant from the agent picker.</td></tr>
+          <tr><td><b>Chat Message</b></td><td>The starting prompt the workflow sends, e.g. <em>"Review this NDA request for [Counterparty]. Check the agreement repository and return nda_status as JSON."</em></td></tr>
+          <tr><td><b>Document (optional)</b></td><td>If the inbound NDA has already been uploaded to the CLM record, pass it here so the agent can read it directly.</td></tr>
+          <tr><td><b>Run agent as</b></td><td>An admin user who has completed one-time OAuth consent for this environment. The consent link is per-environment and must be clicked before the first run.</td></tr>
+          <tr><td><b>Output variable</b></td><td>Store the result in <code>AgentResponse</code>. The workflow reads <code>AgentFinalResponseXml</code> from that variable to branch on nda_status.</td></tr>
+        </table>
+      </div>
+
+      <div class="h-check" id="sec-3-3"><input type="checkbox" data-stage="3" id="s42"><div><h3 style="display:inline">3.3 · What the output variable contains</h3><span class="tag demo">demo</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">After the agent runs, the step processes the response into a structured XML variable the workflow can reference. The top-level fields are:</p>
+        <div class="xml-var">
+          <div><span class="vname">AgentResponse.ThreadId</span><span class="vdesc">execution thread identifier</span></div>
+          <div><span class="vname">AgentResponse.RunId</span><span class="vdesc">specific run identifier</span></div>
+          <div><span class="vname">AgentResponse.AgentName</span><span class="vdesc">display name of the agent that ran</span></div>
+          <div><span class="vname">AgentResponse.Intent</span><span class="vdesc">extracted intent if present in the response</span></div>
+          <div><span class="vname">AgentResponse.AgentFinalResponseRaw</span><span class="vdesc">the agent's raw text response</span></div>
+          <div><span class="vname">AgentResponse.AgentFinalResponseXml</span><span class="vdesc">XML-normalized version of the response (use this to branch)</span></div>
+        </div>
+        <p style="margin:10px 0 6px;">For the NDA Gatekeeper, <code>AgentFinalResponseXml</code> contains the nda_status value the instructions require the agent to return. The CLM workflow reads it and routes accordingly:</p>
+        <table>
+          <tr><th>nda_status value</th><th>What the CLM workflow does next</th></tr>
+          <tr><td><code>exists</code></td><td>Skip the NDA creation steps. Route to a notification step that informs the requester an active NDA is already on file.</td></tr>
+          <tr><td><code>sent</code></td><td>A new NDA was just dispatched. Route to a waiting step until the envelope is signed, then archive and continue.</td></tr>
+          <tr><td><code>error</code></td><td>The agent could not complete the check. Escalate to a Legal team task step for manual review.</td></tr>
+        </table>
+      </div>
+
+      <div class="h-check" id="sec-3-4"><input type="checkbox" data-stage="3" id="s43"><div><h3 style="display:inline">3.4 · What must be in place before a customer can use this</h3><span class="tag demo">prereqs</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">The "Use AI Agent" step is available in CLM workflows but requires setup that goes beyond Agent Studio alone. Partners and customers need to confirm these items before the pattern goes live.</p>
+        <div class="demo-prereq">
+          <h4>Licensing</h4>
+          <ul>
+            <li>An active IAM license is required to use agents at all: IAM Professional, IAM Enterprise, IAM for Sales, or IAM Platform.</li>
+            <li>Agent Studio must be available for the customer's IAM site and segment (currently: NA, non-FedRamp, non-HLS, English UI).</li>
+          </ul>
+        </div>
+        <div class="demo-prereq">
+          <h4>CLM-IAM interoperability</h4>
+          <ul>
+            <li>CLM documents must be migrated into Agreement Manager and properly indexed before the agent can search them.</li>
+            <li>Agreement Manager must be enabled for the relevant agreement types (e.g. NDAs) if the pattern involves post-sign repository checks.</li>
+          </ul>
+        </div>
+        <div class="demo-prereq">
+          <h4>Consent link (the step most often missed)</h4>
+          <ul>
+            <li>The "Run agent as" admin user must click a one-time OAuth consent link per environment before the first CLM workflow run.</li>
+            <li>This consent link is environment-specific. Sandbox consent does not carry over to production.</li>
+            <li>Without it, the step fails silently at runtime with no visible error in the workflow log.</li>
+          </ul>
+        </div>
+        <div class="warn"><b>Why this is demo-only today:</b> CLM-IAM interoperability and the consent link cannot be completed in a shared lab environment. In a real customer engagement, these are discovery and setup items that happen before agent configuration begins.</div>
+      </div>
+
+      <div class="finale">
+        <h3>The full picture</h3>
+        <p>You started this lab with a conversational agent that a Sales rep can invoke in a chat window. That same agent, without any changes to its instructions or capabilities, can be called as a step inside a CLM workflow that triggers automatically on every inbound NDA request. The agent handles the judgment layer; the CLM workflow handles the process layer. The combination gives you auditable, repeatable NDA handling at scale, without building two separate systems.</p>
+      </div>
+
+      <div class="foot">
+        Agent Studio 202 · Hands-on lab · Synthetic data only. Menu labels vary by tenant and release, so trust your screen. For questions or feedback: <a href="mailto:amrit.prakash@docusign.com">amrit.prakash@docusign.com</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  var STORAGE='as202-nda-progress';
+  var stepEls=[].slice.call(document.querySelectorAll('.stepper .step'));
+  var checks=[].slice.call(document.querySelectorAll('.h-check input[type=checkbox]'));
+
+  // ----- persistence -----
+  function load(){try{return JSON.parse(sessionStorage.getItem(STORAGE))||{};}catch(e){return {};}}
+  function save(s){try{sessionStorage.setItem(STORAGE,JSON.stringify(s));}catch(e){}}
+  var state=load();
+
+  checks.forEach(function(c,i){ if(!c.id) c.id='chk'+i; });
+
+  // ----- rings -----
+  function ring(stage,pct,done){
+    var el=document.querySelector('.ring[data-stage="'+stage+'"]');
+    if(!el) return;
+    var r=15,c=2*Math.PI*r,off=c*(1-pct);
+    var fg=el.querySelector('circle.fg');
+    if(!fg){
+      el.innerHTML='<svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"/>'+
+        '<circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+c+'"/></svg>'+
+        '<span class="num">'+stage+'</span>';
+      fg=el.querySelector('circle.fg');
+    }
+    requestAnimationFrame(function(){
+      fg.setAttribute('stroke-dashoffset', off);
+      fg.setAttribute('stroke', done?'#0a7d3c':'#4C00FF');
+    });
+    el.querySelector('.num').textContent = done ? '✓' : stage;
+    var li=document.querySelector('.step[data-target="stage-'+stage+'"]');
+    if(li) li.classList.toggle('done',done);
+  }
+  function refresh(){
+    for(var s=0;s<=4;s++){
+      var group=checks.filter(function(c){return c.getAttribute('data-stage')==String(s);});
+      var total=group.length, on=group.filter(function(c){return c.checked;}).length;
+      ring(s, total?on/total:0, total>0 && on===total);
+    }
+  }
+
+  checks.forEach(function(c){ if(state[c.id]) c.checked=true;
+    c.addEventListener('change',function(){ state[c.id]=c.checked; save(state); refresh(); });
+  });
+
+  // ----- sidebar nav + scroll spy -----
+  stepEls.forEach(function(li){
+    li.addEventListener('click',function(){
+      var t=document.getElementById(li.getAttribute('data-target'));
+      if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+  // sub-nav scroll
+  [].slice.call(document.querySelectorAll('.sub-nav li')).forEach(function(li){
+    li.addEventListener('click',function(){
+      var t=document.getElementById(li.getAttribute('data-scroll'));
+      if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+  var sections=[].slice.call(document.querySelectorAll('section.stage'));
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY+140, cur=sections[0].id;
+    sections.forEach(function(s){ if(s.offsetTop<=y) cur=s.id; });
+    stepEls.forEach(function(li){ li.classList.toggle('active',li.getAttribute('data-target')===cur); });
+  });
+
+  // ----- copy buttons -----
+  [].slice.call(document.querySelectorAll('.block')).forEach(function(b){
+    var btn=document.createElement('button');
+    btn.className='copy'; btn.textContent='Copy';
+    btn.addEventListener('click',function(){
+      var txt=b.cloneNode(true); var x=txt.querySelector('.copy'); if(x)x.remove();
+      navigator.clipboard.writeText(txt.textContent.trim()).then(function(){
+        btn.textContent='Copied'; btn.classList.add('copied');
+        setTimeout(function(){btn.textContent='Copy';btn.classList.remove('copied');},1400);
+      });
+    });
+    b.appendChild(btn);
+  });
+
+  // ----- interactive flow explorer -----
+  var explorer=document.getElementById('explorer');
+  if(explorer){
+    var outcomeSel=document.getElementById('ctrlOutcome');
+    var statusAgent=document.getElementById('statusAgent');
+    var statusRoute=document.getElementById('statusRoute');
+
+    var BASE=['edge-user-agent','edge-agent-branch'];
+    var ROUTES={
+      exists:{ cls:'low',
+        edges:BASE.concat(['edge-branch-exists']),
+        nodes:['summary'], particle:'particle-exists',
+        agent:'Summary list, then stop',
+        route:'No duplicate paperwork, existing NDA surfaced.'
+      },
+      draft:{ cls:'high',
+        edges:BASE.concat(['edge-branch-draft','edge-pivot-nda']),
+        nodes:['intake','nda'], particle:'particle-draft',
+        agent:'Pivot script → collect required inputs',
+        route:'NDA generated from document template, ready to download.'
+      }
+    };
+
+    function applyRoute(kind){
+      var r=ROUTES[kind];
+      explorer.querySelectorAll('.edge').forEach(function(e){ e.classList.remove('active','risk-low','risk-high','risk-fallback'); });
+      explorer.querySelectorAll('.particle').forEach(function(p){ p.classList.remove('show'); });
+      explorer.querySelectorAll('.node-highlight').forEach(function(n){ n.classList.remove('on'); });
+      statusAgent.classList.remove('risk-low','risk-high','risk-fallback');
+      statusRoute.classList.remove('risk-low','risk-high','risk-fallback');
+
+      r.edges.forEach(function(id){
+        var el=document.getElementById(id);
+        if(el) el.classList.add('active','risk-'+r.cls);
+      });
+      var particle=document.getElementById(r.particle);
+      if(particle) particle.classList.add('show');
+      r.nodes.forEach(function(n){
+        var hl=explorer.querySelector('.node-highlight[data-node="'+n+'"]');
+        if(hl) hl.classList.add('on');
+      });
+      statusAgent.textContent=r.agent;
+      statusAgent.classList.add('risk-'+r.cls);
+      statusRoute.textContent=r.route;
+      statusRoute.classList.add('risk-'+r.cls);
+    }
+
+    outcomeSel.addEventListener('change',function(){ applyRoute(outcomeSel.value); });
+    applyRoute(outcomeSel.value);
+  }
+
+
+  refresh();
+})();
+</script>
+</body></html>

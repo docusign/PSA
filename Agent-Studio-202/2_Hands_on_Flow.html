@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Studio 202 - Hands-on Lab (Risk-Based Routing)</title>
+<style>
+/* ---------- Docusign brand fonts ---------- */
+@font-face{font-family:'DSIndigo';src:url('assets/fonts/DSIndigo-Light.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap;}
+@font-face{font-family:'DSIndigo';src:url('assets/fonts/DSIndigo-Medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'DSIndigo';src:url('assets/fonts/DSIndigo-SemiBold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap;}
+
+/* ---------- Brand tokens ---------- */
+:root{
+  --indigo:#4C00FF;
+  --coral:#FF5252;
+  --ink:#130032;
+  --utility:#1a0040;
+  --surface:#F4F2FA;
+  --hairline:#e5e1f0;
+  --body:#1c1433;
+  --muted:#615a75;
+  --grad:linear-gradient(100deg,#4C00FF 0%,#7A1FD0 42%,#C0207E 72%,#FF5252 100%);
+  --sidebar:300px;
+  --ok:#0a7d3c;
+  --amber:#c47a06;
+  --font:'DSIndigo',Arial,Helvetica,sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;font-family:var(--font);font-weight:300;color:var(--body);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-weight:600;color:var(--ink);line-height:1.25;}
+a{color:var(--indigo);text-decoration:none;}
+a:hover{text-decoration:underline;}
+code{font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;font-size:.91em;font-weight:600;background:#e9e1fb;color:#4c00c9;padding:2px 7px;border:1px solid #d3c2f2;border-radius:6px;}
+
+/* ---------- Utility bar ---------- */
+.utility{background:var(--utility);color:#c9bdf0;font-size:12.5px;padding:7px 26px;display:flex;gap:22px;justify-content:flex-end;align-items:center;}
+.utility a{color:#d9cdff;}
+.utility a:hover{color:#fff;}
+
+/* ---------- Header ---------- */
+header.top{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--hairline);display:flex;align-items:center;justify-content:space-between;padding:14px 26px;}
+header.top .brand{display:flex;align-items:center;gap:26px;}
+header.top img.logo{height:26px;display:block;}
+header.top nav{display:flex;gap:22px;font-size:14px;}
+header.top nav a{color:var(--ink);font-weight:500;}
+header.top .cta{background:var(--ink);color:#fff;padding:8px 15px;border-radius:7px;font-size:13px;font-weight:500;}
+header.top .cta:hover{background:var(--indigo);text-decoration:none;}
+
+/* ---------- Layout ---------- */
+.wrap{display:flex;align-items:flex-start;}
+aside{width:var(--sidebar);flex:0 0 var(--sidebar);position:sticky;top:57px;align-self:flex-start;height:calc(100vh - 57px);overflow-y:auto;background:var(--surface);border-right:1px solid var(--hairline);padding:22px 18px 60px;}
+main{flex:1;min-width:0;padding:34px 46px 120px;max-width:960px;}
+
+.kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);font-weight:600;}
+
+/* ---------- Sidebar stepper ---------- */
+.stepper{list-style:none;margin:14px 0 0;padding:0;}
+.step{display:flex;gap:13px;padding:12px 10px;border-radius:10px;cursor:pointer;align-items:flex-start;position:relative;transition:background .15s ease;}
+.step:hover{background:#eae4fb;}
+.step.active{background:#e6defb;}
+.step .ring{flex:0 0 34px;width:34px;height:34px;position:relative;}
+.step .ring svg{transform:rotate(-90deg);display:block;}
+.step .ring circle.fg{transition:stroke-dashoffset .55s cubic-bezier(.4,0,.2,1),stroke .3s ease;}
+.step .ring .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;color:var(--ink);transition:color .2s ease;}
+.step.done .ring .num{color:var(--ok);}
+.step.done .ring{animation:ringPop .45s cubic-bezier(.34,1.56,.64,1);}
+@keyframes ringPop{0%{transform:scale(1);}45%{transform:scale(1.18);}100%{transform:scale(1);}}
+.step .txt{display:flex;flex-direction:column;gap:2px;min-width:0;padding-top:2px;}
+.step .txt .t{font-weight:600;font-size:14.5px;color:var(--ink);line-height:1.3;}
+.step .txt .s{font-size:11.5px;color:var(--muted);font-weight:400;line-height:1.3;}
+.sub-nav{list-style:none;margin:0 0 4px 22px;padding:6px 0 8px;font-size:12.5px;border-left:2px solid #e5e1f0;}
+.sub-nav li{padding:5px 12px;cursor:pointer;color:var(--ink);font-weight:500;transition:background .12s,color .12s,border-color .12s;border-left:2px solid transparent;margin-left:-2px;}
+.sub-nav li:hover{background:#eae4fb;border-left-color:var(--indigo);color:var(--indigo);}
+
+.side-foot{margin-top:20px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:14px;}
+
+/* ---------- Content blocks ---------- */
+section.stage{padding-top:26px;margin-top:14px;border-top:1px solid var(--hairline);}
+section.stage:first-of-type{border-top:none;}
+.stage-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px;}
+.stage-head h2{margin:0;font-size:27px;}
+.stage-head .time{font-size:12.5px;color:var(--muted);background:#efeaff;padding:3px 10px;border-radius:20px;font-weight:500;}
+
+.hero{position:relative;overflow:hidden;background:var(--grad);color:#fff;border-radius:16px;padding:34px 36px;margin:6px 0 26px;isolation:isolate;}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,.22) 1.4px, transparent 0);background-size:28px 28px;opacity:.55;z-index:0;}
+.hero::after{content:'';position:absolute;top:-60px;right:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16) 0%,rgba(255,255,255,0) 70%);z-index:0;}
+.hero>*{position:relative;z-index:1;}
+.hero h1{color:#fff;margin:8px 0 12px;font-size:33px;}
+.hero p{margin:0;color:#f2ecff;font-size:15.5px;max-width:70ch;}
+.hero .kicker{color:#ffd9df;}
+
+.card{background:#fff;border:1px solid var(--hairline);border-radius:13px;padding:28px 30px;margin:18px 0;box-shadow:0 2px 6px rgba(19,0,50,.05),0 10px 26px rgba(19,0,50,.05);transition:box-shadow .22s ease,transform .22s ease;}
+.card.tint{background:var(--surface);}
+.card h3{margin:0 0 8px;font-size:17.5px;}
+.card h4{margin:14px 0 6px;font-size:14.5px;}
+.card:hover{box-shadow:0 4px 10px rgba(19,0,50,.08),0 16px 34px rgba(19,0,50,.09);transform:translateY(-2px);}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:900px){.grid2{grid-template-columns:1fr;}}
+@media(max-width:768px){
+  .wrap{flex-direction:column;}
+  aside{display:none;}
+  main{padding:20px 16px 80px;max-width:100%;}
+  header.top{padding:10px 16px;}
+  .hero h1{font-size:22px;}
+  .hero{padding:22px 20px;}
+  .stage-head h2{font-size:20px;}
+  .block{font-size:12px;padding:12px 14px;}
+  table{font-size:13px;}
+  .utility{display:none;}
+  .arch svg{max-width:100%;height:auto;}
+  .explorer-controls{flex-direction:column;}
+}
+
+.obj{border-left:4px solid var(--indigo);padding:4px 0 4px 16px;margin:14px 0;}
+.obj .lab{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);font-weight:600;}
+
+/* section heading with checkbox */
+.h-check{display:flex;gap:11px;align-items:flex-start;margin:26px 0 8px;scroll-margin-top:80px;}
+.h-check input{margin-top:6px;width:17px;height:17px;accent-color:var(--indigo);flex:0 0 auto;cursor:pointer;}
+.h-check h3{margin:0;}
+.h-check .tag{font-size:11px;font-weight:600;color:var(--muted);background:#efeaff;padding:2px 9px;border-radius:14px;margin-left:8px;text-transform:uppercase;letter-spacing:.06em;}
+
+/* prompt / code block */
+.block{position:relative;background:var(--ink);color:#eee6ff;border-radius:11px;padding:16px 46px 16px 18px;margin:12px 0;font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;font-size:13px;white-space:pre-wrap;word-break:break-word;line-height:1.55;}
+.block.prompt{background:#1f0a4d;}
+.block .copy{position:absolute;top:9px;right:9px;background:rgba(255,255,255,.14);color:#fff;border:none;border-radius:7px;padding:5px 11px;font-size:11.5px;font-family:var(--font);font-weight:500;cursor:pointer;transition:background .15s ease,transform .15s ease;}
+.block .copy:active{transform:scale(.94);}
+.block .copy:hover{background:var(--indigo);}
+.block .copy.copied{background:var(--ok);}
+.lbl{font-size:12px;font-weight:600;color:var(--indigo);margin:16px 0 2px;text-transform:uppercase;letter-spacing:.05em;}
+
+.expect{background:#f0fff5;border:1px solid #bfe9cf;border-radius:9px;padding:11px 14px;margin:10px 0;font-size:13.5px;}
+.expect b{color:var(--ok);}
+.note{background:#fff7ed;border:1px solid #f4d8b0;border-radius:9px;padding:11px 14px;margin:10px 0;font-size:13.5px;}
+.warn{background:#fff0f0;border:1px solid #f2c2c2;border-radius:9px;padding:11px 14px;margin:10px 0;font-size:13.5px;}
+
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;}
+th,td{border:1px solid var(--hairline);padding:9px 11px;text-align:left;vertical-align:top;}
+th{background:var(--surface);font-weight:600;color:var(--ink);}
+tr:nth-child(even) td{background:#faf8ff;}
+
+ol,ul{padding-left:22px;}
+li{margin:5px 0;}
+
+.persona{display:inline-flex;gap:0;border:1px solid var(--hairline);border-radius:9px;overflow:hidden;margin:8px 0 0;box-shadow:0 1px 3px rgba(19,0,50,.05);}
+.persona button{background:#fff;border:none;padding:8px 16px;font-family:var(--font);font-size:13.5px;font-weight:500;cursor:pointer;color:var(--muted);transition:background .16s ease,color .16s ease;}
+.persona button:not(.on):hover{background:#f2eefc;color:var(--ink);}
+.persona button.on{background:var(--indigo);color:#fff;}
+[data-persona="sales"] .proc-only{display:none;}
+[data-persona="procurement"] .sales-only{display:none;}
+
+.finale{background:var(--ink);color:#fff;border-radius:16px;padding:30px 32px;margin:34px 0 0;}
+.finale h3{color:#fff;}
+.finale p{color:#e7deff;margin:8px 0 0;}
+.diagram{font-size:13px;line-height:1.7;}
+.diagram>div{display:flex;gap:12px;align-items:flex-start;padding:12px 4px;margin:0;border-bottom:1px dashed var(--hairline);}
+.diagram>div:last-child{border-bottom:none;}
+.diagram .n{display:inline-flex;flex:0 0 auto;align-items:center;justify-content:center;background:var(--indigo);color:#fff;border-radius:50%;width:22px;height:22px;font-weight:600;font-size:12px;margin:0;}
+.diagram b{display:block;margin-bottom:3px;}
+
+/* ---------- click-path reference ---------- */
+.clickpath{margin:16px 0;}
+.clickpath .cp-task{font-weight:600;font-size:15px;color:var(--ink);margin:22px 0 4px;display:flex;align-items:center;gap:9px;}
+.clickpath .cp-task .cp-badge{background:var(--indigo);color:#fff;border-radius:20px;font-size:11px;font-weight:600;padding:2px 10px;letter-spacing:.03em;}
+.clickpath ol{margin:8px 0 0;padding-left:24px;}
+.clickpath ol li{margin:7px 0;font-size:13.5px;line-height:1.55;}
+.clickpath ol li b{color:var(--ink);}
+.cp-src{font-size:11.5px;color:var(--muted);margin-top:10px;border-top:1px solid var(--hairline);padding-top:8px;}
+
+/* ---------- architecture diagram ---------- */
+.arch{padding:22px 18px 14px;}
+.arch svg{width:100%;height:auto;display:block;}
+.arch-legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--muted);}
+.arch-legend span{display:inline-flex;align-items:center;gap:6px;}
+.arch-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
+
+/* ---------- interactive decision-tree explorer ---------- */
+.explorer .edge{opacity:.4;transition:opacity .3s ease,stroke .3s ease,stroke-width .3s ease;}
+.explorer .edge.active{opacity:1;stroke-width:3;}
+.explorer .edge.active.risk-low{stroke:var(--ok);}
+.explorer .edge.active.risk-high{stroke:var(--coral);}
+.explorer .edge.active.risk-fallback{stroke:var(--amber);}
+.explorer .node-highlight{opacity:0;transition:opacity .3s ease;}
+.explorer .node-highlight.on{opacity:1;}
+.explorer .particle{opacity:0;transition:opacity .2s ease;}
+.explorer .particle.show{opacity:1;}
+
+.explorer-panel{margin-top:16px;padding-top:16px;border-top:1px solid var(--hairline);display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end;}
+.explorer-panel .ctrl{display:flex;flex-direction:column;gap:6px;min-width:180px;}
+.explorer-panel .ctrl label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;}
+.explorer-panel select{font-family:var(--font);font-size:13.5px;padding:8px 12px;border:1px solid var(--hairline);border-radius:8px;background:#fff;color:var(--ink);cursor:pointer;transition:border-color .15s ease;}
+.explorer-panel select:hover{border-color:var(--indigo);}
+.explorer-panel select:disabled{opacity:.5;cursor:not-allowed;}
+.toggle{display:inline-flex;align-items:center;width:46px;height:26px;border-radius:14px;background:#d9cff5;border:none;padding:3px;cursor:pointer;transition:background .2s ease;flex:0 0 auto;}
+.toggle .knob{width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(19,0,50,.3);transition:transform .2s cubic-bezier(.4,0,.2,1);}
+.toggle.on{background:var(--amber);}
+.toggle.on .knob{transform:translateX(20px);}
+.explorer-status{display:flex;gap:32px;margin-left:auto;flex-wrap:wrap;}
+.explorer-status .k{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;}
+.explorer-status .v{display:block;font-size:15px;font-weight:600;color:var(--ink);margin-top:3px;transition:color .2s ease;}
+.explorer-status .v.risk-low{color:var(--ok);}
+.explorer-status .v.risk-high{color:var(--coral);}
+.explorer-status .v.risk-fallback{color:var(--amber);}
+
+.foot{margin-top:40px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:16px;}
+
+/* ---------- CLM stage demo styles ---------- */
+.demo-banner{display:flex;gap:14px;align-items:flex-start;background:#fff7ed;border:1px solid #f4d8b0;border-radius:11px;padding:16px 18px;margin:14px 0 22px;}
+.demo-banner .icon{font-size:20px;line-height:1;flex:0 0 auto;margin-top:2px;}
+.xml-var{background:var(--ink);color:#eee6ff;border-radius:11px;padding:16px 18px;margin:12px 0;font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;font-size:13px;}
+.xml-var>div{display:flex;gap:12px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.08);}
+.xml-var>div:last-child{border-bottom:none;}
+.vname{color:#c9bdf0;font-weight:600;min-width:260px;}
+.vdesc{color:#8870cc;}
+</style>
+</head>
+<body data-persona="procurement">
+
+<div class="utility">
+  <a href="https://developers.docusign.com/docs/iam/agent-studio/" target="_blank" rel="noopener">Agent Studio Docs ↗</a>
+  <a href="https://developers.docusign.com/docs/iam/maestro/" target="_blank" rel="noopener">Workflow Builder Docs ↗</a>
+  <a href="https://developers.docusign.com/" target="_blank" rel="noopener">Developer Center ↗</a>
+</div>
+
+<header class="top">
+  <div class="brand">
+    <a href="index.html"><img class="logo" src="assets/img/docusign-horizontal-black.svg" alt="Docusign"></a>
+    <nav>
+      <a href="2_Hands_on_Flow.html">Hands-on Lab</a>
+      <span style="display:inline-flex;gap:0;margin-left:12px;border:1px solid #e5e1f0;border-radius:7px;overflow:hidden;">
+        <button onclick="if(window.parent.switchTo)window.parent.switchTo('nda')" style="background:#fff;color:#615a75;border:none;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;">Lab 1: NDA</button>
+        <button onclick="if(window.parent.switchTo)window.parent.switchTo('procurement')" style="background:#4C00FF;color:#fff;border:none;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;">Lab 2: MSA</button>
+      </span>
+    </nav>
+  </div>
+  <a class="cta" href="https://www.docusign.com/intelligent-agreement-management" target="_blank" rel="noopener">Docusign IAM ↗</a>
+</header>
+
+<!-- ===================== CONTENT EDITOR TOOLBAR ===================== -->
+<div id="lab-switcher" style="position:fixed;bottom:20px;right:20px;z-index:1000;display:flex;gap:0;align-items:center;background:#1a0040;padding:4px;border-radius:12px;box-shadow:0 8px 24px rgba(19,0,50,.35);font-family:'DSIndigo',Arial,sans-serif;">
+  <button onclick="if(window.parent&&window.parent.switchTo)window.parent.switchTo('nda');" style="background:transparent;color:#c9bdf0;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:500;cursor:pointer;">Lab 1: NDA</button>
+  <button disabled style="background:#4C00FF;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:default;">Lab 2: MSA</button>
+</div>
+
+<div class="wrap">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside>
+    <div class="kicker">Agent Studio · 202</div>
+    <ol class="stepper" id="stepper">
+      <li class="step active" data-target="stage-0"><span class="ring" data-stage="0"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">0</span></span><span class="txt"><span class="t">Before you begin</span><span class="s">Scenario · Flow · Setup</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-0-1">0.1 The scenario</li>
+        <li data-scroll="sec-0-2">0.2 The flow</li>
+        <li data-scroll="sec-0-3">0.3 Decision tree</li>
+        <li data-scroll="sec-0-4">0.4 Objectives</li>
+        <li data-scroll="sec-0-5">0.5 Prerequisites</li>
+        <li data-scroll="p1" style="padding-left:24px">0.5.1 Products enabled</li>
+        <li data-scroll="p2" style="padding-left:24px">0.5.2 Permissions</li>
+        <li data-scroll="p3" style="padding-left:24px">0.5.3 Download lab assets</li>
+        <li data-scroll="p3b" style="padding-left:24px">0.5.4 Import workflow</li>
+        <li data-scroll="p3c" style="padding-left:24px">0.5.5 Upload agreements</li>
+      </ul>
+      <li class="step" data-target="stage-1"><span class="ring" data-stage="1"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">1</span></span><span class="txt"><span class="t">Agent Studio</span><span class="s">Build the Risk Analyst</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-1-1">1.1 Create agent &amp; identity</li>
+        <li data-scroll="sec-1-2">1.2 Define trigger</li>
+        <li data-scroll="sec-1-3">1.3 Write instructions</li>
+        <li data-scroll="sec-1-4">1.4 Add capabilities</li>
+        <li data-scroll="sec-1-5">1.5 Test &amp; publish</li>
+      </ul>
+      <li class="step" data-target="stage-2"><span class="ring" data-stage="2"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">2</span></span><span class="txt"><span class="t">Import &amp; wire up</span><span class="s">Request Type + workflow</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-2-1">2.1 Verify Request Type</li>
+        <li data-scroll="sec-2-2">2.2 Verify trigger</li>
+        <li data-scroll="sec-2-3">2.3 Execute AI Agent</li>
+        <li data-scroll="sec-2-4">2.4 Walk the branch</li>
+        <li data-scroll="sec-2-5">2.5 Publish workflow</li>
+      </ul>
+      <li class="step" data-target="stage-3"><span class="ring" data-stage="3"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">3</span></span><span class="txt"><span class="t">Trigger &amp; validate</span><span class="s">Three scenarios</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-3-0">3.0 Create a request</li>
+        <li data-scroll="sec-3-1">3.1 Scenario 1: LOW risk</li>
+        <li data-scroll="sec-3-2">3.2 Scenario 2: MEDIUM/HIGH risk</li>
+        <li data-scroll="sec-3-3">3.3 Scenario 3: Missing doc fallback</li>
+        <li data-scroll="sec-3-4">3.4 Validation checklist</li>
+        <li data-scroll="sec-3-5">3.5 Limitations</li>
+      </ul>
+      <li class="step" data-target="stage-4"><span class="ring" data-stage="4"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">4</span></span><span class="txt"><span class="t">The CLM connection</span><span class="s">Demo only</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-4-1">4.1 Two stages, one agent</li>
+        <li data-scroll="sec-4-2">4.2 Use AI Agent step</li>
+        <li data-scroll="sec-4-3">4.3 Output variable</li>
+      </ul>
+    </ol>
+    <div class="side-foot">
+      Self-paced handbook. Tick each step checkbox to fill the progress rings.<br><br>
+      Synthetic data only.<br><br>
+      <strong style="font-size:11px;text-transform:uppercase;letter-spacing:.07em;">Resources</strong><br>
+      <a href="https://dsucustomers.docusign.com/video-playlist-docusign-ai-agents" target="_blank">Docusign University AI Agent Video Playlist</a><br>
+      <a href="https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43202480b341&topicId=conb2716952-a0f6-4323-a13e-9d23dd290fb0.html&_LANG=enus" target="_blank">Docusign Agent Studio Support Article</a><br>
+      <a href="https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43202480b341&topicId=concf520b87-7851-4294-8f82-7e6cc377daaf.html&_LANG=enus" target="_blank">Where Agents Run</a><br>
+      <a href="https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43202480b341&topicId=task-4922.html&_LANG=enus" target="_blank">Agent Setup for Administrators</a><br>
+      <a href="https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43202480b341&topicId=ref1d59490e-be57-4db7-8542-ec0cc2d64aff.html&_LANG=enus" target="_blank">Ready to Deploy Agent Catalog</a>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <main>
+
+    <!-- ============ STAGE 0 ============ -->
+    <section class="stage" id="stage-0">
+      <div class="hero">
+        <div class="kicker">Docusign IAM · Building Agents 202</div>
+        <h1>Risk-based routing: Docusign Agreement Desk + Agent Studio + Workflow Builder</h1>
+        <p>Build a risk-scoring agent, wire it into a Workflow Builder pipeline, and watch contracts route themselves — low risk to signature, high risk to human review.</p>
+      </div>
+
+      <div class="card tint">
+        <h3>Pick your persona</h3>
+        <p style="margin:4px 0 0;font-size:14px;">We will implement one repeatable architecture, two business motions. Procurement onboards vendors; Sales renews and expands customers. The same agent handles both , the toggle changes the category you select, who reviews escalations, and the closing status.</p><p style="margin:4px 0 0;font-size:14px;"><br></p>
+        <div class="persona" id="persona">
+          <button data-p="procurement" class="on">Procurement / SI</button>
+          <button data-p="sales">Sales / Renewal</button>
+        </div>
+      </div>
+
+      <div class="stage-head"><h2>Before you begin</h2></div>
+
+      <h3 id="sec-0-1">0.1 · The scenario</h3>
+      <div class="card proc-only">
+        <p style="margin:0 0 10px;font-weight:600;font-size:16px;">At Fontara, Procurement and Legal onboard high-value vendors one email thread at a time.</p>
+        <p style="margin:0;">A business user emails a draft vendor contract, Legal manually hunts for the liability cap and governing law, then someone routes it for signature. It is slow, inconsistent, and hard to audit.&nbsp;</p><p style="margin:0;">In this lab you replace that with an automated process: an Agreement Desk request starts a workflow that hands the contract to a Risk Analyst agent, which extracts the key terms and classifies risk. LOW risk goes straight to the vendor for signature; MEDIUM or HIGH risk waits for Legal.</p>
+      </div>
+      <div class="card sales-only">
+        <p style="margin:0 0 10px;font-weight:600;font-size:16px;">At Fontara, Sales and Customer Success process high-value renewals by emailing Legal and Finance.</p>
+        <p style="margin:0;">Reps email draft renewal orders for review, so pricing and clause policy get applied inconsistently, high-value deals stall, and nobody can see where a renewal is stuck. In this lab you replace that with an automated process: an Agreement Desk request starts a workflow that hands the order form to a Risk Analyst agent, which extracts discount, term, and governing law and classifies risk. LOW risk goes straight to the customer for signature; MEDIUM or HIGH risk waits for Finance and Legal.</p>
+      </div>
+
+      <h3 id="sec-0-2">0.2 · The flow at a glance</h3>
+      <div class="card">
+        <h3>Four surfaces, one loop</h3>
+        <table>
+          <tbody><tr><th>Docusign Layer</th><th>Role in this lab</th></tr>
+          <tr><td><b>Agreement Desk</b></td><td>Intake and status hub. The business user starts here, uploads the contract, and can always see where the request sits.</td></tr>
+          <tr><td><b>Workflow Builder</b></td><td>The orchestrator. Starts from the Desk request, fetches the document, calls the agent, and owns all the deterministic branching.</td></tr>
+          <tr><td><b>Agent Studio</b></td><td>The governed intelligence layer. Your Risk Analyst agent is a role-based digital team member with natural-language instructions and scoped data access - it reasons, it does not decide the routing.</td></tr>
+          <tr><td><b>eSignature</b></td><td>The commit step. Nothing reaches a signer unless a branch explicitly allows it.</td></tr>
+        </tbody></table>
+        <p style="margin:12px 0 0;font-weight:600;">Email with contract → Agreement Desk request submitted → Workflow triggered automatically → Execute Risk Analyst agent → Workflow branches on risk_level → Status update &amp; approval routing.</p>
+      </div>
+
+      <div class="note">
+        <b>Where this sits in the bigger picture :</b> Docusign IAM is the governed agreement layer for agentic architectures - Agreement Manager, Agreement Desk, Workflow Builder, and CLM are the surfaces where agents actually live inside customer workflows, pre-sign through post-sign. Agent Studio is the control plane where you design and govern those agents.&nbsp;</div><div class="note">This lab builds one concrete pattern so you can adapt the same shape elsewhere. Embedding agents into CLM workflows via the "Use AI Agent" step is its own pattern, not covered in depth in this lab.
+      </div>
+
+      <h3 id="sec-0-3">0.3 · Explore the decision tree before you build it</h3>
+      <p style="margin:0 0 6px;">This is the exact routing logic you'll build and exercise across Stages 1 to 3. Change the controls below the diagram and watch the live path light up - that's the same branch your agent and workflow will take at runtime.</p>
+      <div class="card arch explorer" id="explorer">
+        <svg viewBox="0 0 940 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive flow diagram: Agreement Desk to Risk Analyst agent to a risk branch that routes to human review, eSignature, or back to the submitter">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="context-stroke"></path>
+            </marker>
+            <path id="route-low" d="M85,197 L746,197" fill="none"></path>
+            <path id="route-high" d="M85,197 L408,197 L408,73 L567,197 L746,197" fill="none"></path>
+            <path id="route-fallback" d="M85,197 L258,197 L258,298 L70,298 L70,232" fill="none"></path>
+          </defs>
+
+          <!-- connective edges -->
+          <line id="edge-ad-agent" class="edge active risk-high" x1="155" y1="197" x2="186" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
+          <line id="edge-agent-branch" class="edge active risk-high" x1="330" y1="197" x2="363" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
+
+          <!-- LOW: straight through -->
+          <line id="edge-branch-low" class="edge" x1="453" y1="197" x2="500" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
+          <text x="476" y="187" text-anchor="middle" font-size="11" font-weight="600" fill="#0a7d3c">LOW</text>
+
+          <!-- MEDIUM/HIGH: up to review, back down to signature -->
+          <path id="edge-branch-high" class="edge active risk-high" d="M408,157 V105" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
+          <text x="422" y="136" font-size="11" font-weight="600" fill="#FF5252">MED / HIGH</text>
+          <path id="edge-review-sign" class="edge active risk-high" d="M520,74 C 545,74 555,120 567,161" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
+          <text x="555" y="120" font-size="11" font-weight="600" fill="#FF5252">Approved</text>
+
+          <line id="edge-sign-done" class="edge active risk-high" x1="633" y1="197" x2="660" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
+
+          <!-- fallback: down to returned, looped back to intake -->
+          <line id="edge-agent-fallback" class="edge" x1="258" y1="229" x2="258" y2="268" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
+          <text x="272" y="253" font-size="11" font-weight="600" fill="#c47a06">No doc / bad output</text>
+          <path id="edge-fallback-loop" class="edge" d="M185,299 C 140,330 90,310 70,232" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
+          <text x="180" y="355" font-size="11" font-weight="600" fill="#c47a06">Returned to submitter</text>
+
+          <!-- Node: Agreement Desk -->
+          <rect x="15" y="165" width="140" height="64" rx="12" fill="#4C00FF"></rect>
+          <text x="85" y="192" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">Agreement Desk</text>
+          <text x="85" y="209" text-anchor="middle" fill="#e7deff" font-size="10.5">Intake + document</text>
+
+          <!-- Node: Risk Analyst agent -->
+          <rect x="187" y="165" width="143" height="64" rx="12" fill="#9A1FA8"></rect>
+          <text x="258" y="188" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Risk Analyst Agent</text>
+          <text x="258" y="205" text-anchor="middle" fill="#f2ddff" font-size="10.5">analyzes attached doc</text>
+
+          <!-- Node: Branch diamond -->
+          <polygon points="408,157 453,197 408,237 363,197" fill="#fff" stroke="#4C00FF" stroke-width="2"></polygon>
+          <text x="408" y="193" text-anchor="middle" fill="#130032" font-size="10.5" font-weight="600">risk</text>
+          <text x="408" y="205" text-anchor="middle" fill="#130032" font-size="10.5" font-weight="600">_level?</text>
+
+          <!-- Node: Human review -->
+          <rect id="nodeReview" x="340" y="46" width="180" height="56" rx="12" fill="#fff" stroke="#FF5252" stroke-width="2"></rect>
+          <rect class="node-highlight on" data-node="review" x="336" y="42" width="188" height="64" rx="14" fill="none" stroke="#FF5252" stroke-width="2" stroke-dasharray="3 3"></rect>
+          <text x="430" y="69" text-anchor="middle" fill="#130032" font-size="12.5" font-weight="600">Human review</text>
+          <text x="430" y="85" text-anchor="middle" fill="#615a75" font-size="10.5" class="proc-only">Legal approval</text>
+          <text x="430" y="85" text-anchor="middle" fill="#615a75" font-size="10.5" class="sales-only">Finance / Legal approval</text>
+
+          <!-- Node: Status Approved -->
+          <rect id="nodeStatus" x="501" y="165" width="133" height="64" rx="12" fill="#0a7d3c"></rect>
+          <rect class="node-highlight on" data-node="status" x="497" y="161" width="141" height="72" rx="14" fill="none" stroke="#0a7d3c" stroke-width="2" stroke-dasharray="3 3"></rect>
+          <text x="567" y="190" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="600">Update Status</text>
+          <text x="567" y="207" text-anchor="middle" fill="#d7f5e2" font-size="10.5">Approved</text>
+
+          <!-- Node: eSignature -->
+          <rect id="nodeSign" x="661" y="165" width="170" height="64" rx="12" fill="#C0207E"></rect>
+          <rect class="node-highlight on" data-node="sign" x="657" y="161" width="178" height="72" rx="14" fill="none" stroke="#C0207E" stroke-width="2" stroke-dasharray="3 3"></rect>
+          <text x="746" y="190" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">eSignature</text>
+          <text x="746" y="207" text-anchor="middle" fill="#ffe0ef" font-size="10.5">Send for signature</text>
+
+          <!-- Node: Returned -->
+          <rect id="nodeFallback" x="185" y="269" width="150" height="56" rx="12" fill="#fff" stroke="#8a7fb0" stroke-width="2" stroke-dasharray="5 3"></rect>
+          <rect class="node-highlight" data-node="fallback" x="181" y="265" width="158" height="64" rx="14" fill="none" stroke="#c47a06" stroke-width="2" stroke-dasharray="3 3"></rect>
+          <text x="260" y="292" text-anchor="middle" fill="#130032" font-size="12" font-weight="600">Returned</text>
+          <text x="260" y="308" text-anchor="middle" fill="#615a75" font-size="10.5">No envelope sent</text>
+
+          <!-- animated particles -->
+          <circle class="particle" id="particle-low" r="5" fill="#0a7d3c" style="filter:drop-shadow(0 0 5px #0a7d3c)">
+            <animateMotion dur="3.2s" repeatCount="indefinite"><mpath href="#route-low"></mpath></animateMotion>
+          </circle>
+          <circle class="particle show" id="particle-high" r="5" fill="#FF5252" style="filter:drop-shadow(0 0 5px #FF5252)">
+            <animateMotion dur="4s" repeatCount="indefinite"><mpath href="#route-high"></mpath></animateMotion>
+          </circle>
+          <circle class="particle" id="particle-fallback" r="5" fill="#c47a06" style="filter:drop-shadow(0 0 5px #c47a06)">
+            <animateMotion dur="3.6s" repeatCount="indefinite"><mpath href="#route-fallback"></mpath></animateMotion>
+          </circle>
+        </svg>
+
+        <div class="explorer-panel">
+          <div class="ctrl">
+            <label for="ctrlRisk">Agent returns risk_level</label>
+            <select id="ctrlRisk">
+              <option value="low">LOW - Auto Approved</option>
+              <option value="medium">MEDIUM/HIGH - Route for Approvals</option>
+            </select>
+          </div>
+          <div class="ctrl">
+            <label for="ctrlMissing">Missing / unreadable document</label>
+            <button type="button" class="toggle" id="ctrlMissing" role="switch" aria-checked="false" aria-label="Toggle missing document scenario"><span class="knob"></span></button>
+          </div>
+          <div class="explorer-status">
+            <div><span class="k">Agent status</span><span class="v risk-high" id="statusAgent">HIGH</span></div>
+            <div><span class="k">Routing</span><span class="v risk-high" id="statusRoute">Human review first, then eSignature.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <h3 id="sec-0-4">0.4 · Learning objectives</h3>
+      <div class="obj"><div class="lab">Objective 1</div><b>Use Agreement Desk as a structured intake surface</b><br>Import a Request Type, submit a request, and attach the document the rest of the flow depends on.</div>
+      <div class="obj"><div class="lab">Objective 2</div><b>Build a Risk Analyst agent in Agent Studio</b><br>Write instructions and add capabilities that reliably evaluate the request and respond with risk analysis.</div>
+      <div class="obj"><div class="lab">Objective 3</div><b>Orchestrate the agent inside Workflow Builder</b><br>Automatically trigger the workflow on Agreement Desk request submission, invoke the agent and capture its structured output into variables, and branch deterministically.</div>
+
+      <h3 id="sec-0-5">0.5 · Prerequisites</h3>
+      <p>A Docusign IAM (Intelligent Agreement Management) environment - sandbox or non-production - with the features and permissions below. Everything uses synthetic data only, no production accounts or real party data.</p>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p1"><div><h3 style="display:inline">0.5.1 · Products enabled</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <ul>
+          <li><b>Agreement Desk</b> - available and configurable (Request Types, forms, statuses).</li>
+          <li><b>Workflow Builder</b> - enabled, with permission to create and publish workflows.</li>
+          <li><b>Agent Studio</b> and agents-in-workflows - enabled. Your PSA or facilitator will confirm this is switched on for your partner sandbox.</li>
+        </ul>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p2"><div><h3 style="display:inline">0.5.2 · Permissions</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 8px;">Each participant or pair needs:</p>
+        <ul>
+          <li>Access to Agreement Desk - can view and manage the Requests page.</li>
+          <li>Access to Workflow Builder - can create and publish workflows.</li>
+          <li>Permission to manage requests, or at minimum to create and edit requests for the lab Request Type.</li>
+          <li><b>Agent Studio build access</b> - enabled by an org admin before Stage 1. Click path below.</li>
+        </ul>
+        <div class="clickpath">
+          <div class="cp-task"><span class="cp-badge">Admin</span> Enable Agent Studio and Agreement Desk access for participants</div>
+          <ol>
+            <li>Open the <b>Admin</b> tab at <a href="https://apps-d.docusign.com/admin/admin-dashboard" target="_blank" rel="noopener">apps-d.docusign.com/admin/admin-dashboard</a>.</li>
+            <li>Go to <b>AI Control Settings</b> and ensure <b>Agent and chat capabilities</b> are turned on.
+              <img src="assets/prereq-ai-control-settings.png" alt="AI Control Settings - Agent and chat capabilities turned on" style="max-width:450px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
+            </li>
+            <li>In case they are turned off by default, select <b>Turn On Now</b> &amp; click <b>Save</b>.</li>
+            <li>Go to <b>Users</b> and find the participant's account row.</li>
+            <li>Click <b>Actions</b> next to their name, then select <b>Manage AI Agents Access</b>.</li>
+            <li>Under <b>AI Agents Access</b>, enable:<br>
+              &nbsp;&nbsp;- <b>Create new AI contract agents</b><br>
+              &nbsp;&nbsp;- <b>Share, delete, and configure AI contract agents</b>
+              <img src="assets/prereq-ai-agents-access.png" alt="AI Contract Agents Access permissions enabled" style="max-width:450px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
+            </li>
+            <li>Click <b>Save</b>.</li>
+            <li>Go to the <b>Agreement Desk Access</b> tab.</li>
+            <li>Enable <b>Configure Agreement Desk settings</b>.</li>
+            <li>Click <b>Save</b>.
+              <img src="assets/prereq-agreement-desk-access.png" alt="Agreement Desk Access tab with Configure Agreement Desk settings enabled" style="max-width:450px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
+            </li>
+          </ol>
+        </div>
+        <div class="cp-src">Menu labels vary slightly by tenant. If "Manage AI Agents Access" is not visible under Actions, confirm Agent Studio is enabled on the account - see 0.6.1.</div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p3"><div><h3 style="display:inline">0.5.3 · Download the lab assets</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 8px;">From the GitHub repo your facilitator provides, download:</p>
+        <table>
+          <tbody><tr><th>Asset</th><th>What it's for</th></tr>
+          <tr><td><code>Agent Studio 202 Vendor Contract Review Workflow.zip</code></td><td>The prebuilt workflow and Request Type. Leave it zipped — do not extract.</td></tr>
+          <tr><td><code>Agent Studio 202 - Vendor Contracts.zip</code></td><td>The Agreement Desk Request Type — automatically added when you import the workflow.</td></tr>
+          <tr><td><code>MSA_high.docx</code>, <code>MSA_low.docx</code>, <code>MSA_medium.docx</code></td><td>Sample agreements for testing the three risk paths.</td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p3b"><div><h3 style="display:inline">0.5.4 · Import the workflow</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <ol>
+          <li>Under the <b>Agreements</b> tab, navigate to <b>Workflows</b>.</li>
+          <li>Click <b>Import Workflow</b> (under Create Workflow).</li>
+          <li>Upload the workflow zip from the workshop kit provided by your facilitator. Leave the file zipped — do not extract it first.</li>
+          <li>Click <b>Review &amp; Publish</b>.</li>
+          <li>If prompted, click <b>Authorize My Account</b> to complete the one-time agent consent for this environment.</li>
+          <li>Click through <b>Next</b>, then <b>Publish</b>.</li>
+        </ol>
+        <img src="assets/prereq-import-workflow.jpeg" alt="Imported workflow showing Agent Studio 202 Vendor Contract Review Workflow with Review and Publish button" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p3c"><div><h3 style="display:inline">0.5.5 · Upload sample agreements</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <ol>
+          <li>Go to <b>Agreements</b> in your account.</li>
+          <li>Navigate to <b>Completed</b>.</li>
+          <li>Click the <b>+</b> icon and select <b>Upload</b>.</li>
+          <li>Upload the sample agreements (<code>MSA_high.docx</code>, <code>MSA_low.docx</code>, <code>MSA_medium.docx</code>) from the workshop kit.</li>
+        </ol>
+        <img src="assets/agre.png" alt="Agreements page showing Upload option" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
+      </div>
+
+
+      <h3>0.6 · How to use this handbook</h3>
+      <table>
+        <tbody><tr><th>Element</th><th>What it means</th></tr>
+        <tr><td>Step checkbox</td><td>The box next to each numbered heading. Tick it when done; the sidebar ring for that stage fills.</td></tr>
+        <tr><td>Prompt block</td><td>Copy-paste ready. Use the Copy button in the top-right corner.</td></tr>
+        <tr><td>Checkpoint</td><td>The green box at the end of a step. Don't move on until it's true.</td></tr>
+        <tr><td>Persona toggle</td><td>Switches the page between the Procurement and Sales motions.</td></tr>
+      </tbody></table>
+      <div class="cp-src">Menu labels and exact click paths vary slightly by tenant and release. Where this handbook and your screen disagree, trust your screen and check the equivalent tab under the same top-level area.</div>
+    </section>
+
+    <!-- ============ STAGE 1 ============ -->
+    <section class="stage" id="stage-1">
+      <div class="stage-head"><h2>Stage 1 · Agent Studio</h2></div>
+      <p>Build the agent first. It's the only artifact in this lab you create from scratch, it's where the actual skill lives, and the workflow you configure in Stage 2 needs to point at it - so it has to exist first.</p>
+
+      <div class="h-check" id="sec-1-1"><input type="checkbox" data-stage="1" id="chk4"><div><h3 style="display:inline">1.1 · Create the agent &amp; set identity</h3></div></div>
+      <ol>
+        <li>Open the <b>Agents tab</b>&nbsp;(under Automations).</li>
+        <li>Click on&nbsp;<b>Create New</b>.</li>
+        <li>Click on Use classic editor.</li>
+      </ol>
+      <img src="assets/s11-classic-editor.png" alt="Use classic editor highlighted" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
+      <ol start="4">
+        <li>Click the pencil icon next to <b>My new agent</b>. In the modal that appears, enter:
+          <div class="lbl" style="margin-top:10px;">Agent name</div>
+          <div class="block prompt">Vendor and Renewal Risk Analyst</div>
+          <div class="lbl">Description</div>
+          <div class="block prompt">Review contracts for vendor onboarding and renewals. Extracts key terms and classifies risk; does not negotiate or send.</div>
+          Then click <b>Save</b>.
+        </li>
+      </ol>
+      <div class="warn"><b>Use this exact name.</b> In Stage 2.2 you'll select this agent inside the imported workflow. Matching the name the workbook expects makes that step unambiguous - and makes it much easier for your facilitator to help when something doesn't line up.</div>
+      <img src="assets/s11-procurement-identity.png" alt="Vendor and Renewal Risk Analyst agent configuration" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
+
+      <div class="h-check" id="sec-1-2"><input type="checkbox" data-stage="1" id="chk4b"><div><h3 style="display:inline">1.2 · Define what starts this agent</h3></div></div>
+      <ol>
+        <li>Click <b>In chat</b> under "Define what starts this agent".</li>
+        <li>In the prompt field, type:</li>
+      </ol>
+      <div class="block prompt" style="margin:10px 0;">Extracts key terms from the attached document and classify the risk.</div>
+      <ol start="3">
+        <li>Click <b>Save</b>, then scroll to the bottom and click <b>Save</b> again.</li>
+        <li>Now click <b>In a workflow</b> (next to "In chat").</li>
+        <li>Add the following outputs:</li>
+      </ol>
+      <table>
+        <tbody><tr><th>Output name</th><th>Format</th></tr>
+        <tr><td><code>risk_level</code></td><td>String</td></tr>
+        <tr><td><code>liability_cap</code></td><td>String</td></tr>
+        <tr><td><code>governing_law</code></td><td>String</td></tr>
+        <tr><td><code>term</code></td><td>String</td></tr>
+        <tr><td><code>discount</code></td><td>String</td></tr>
+      </tbody></table>
+      <ol start="6"><li>Scroll to the bottom and click <b>Save</b>.</li></ol>
+
+      <div class="h-check" id="sec-1-3"><input type="checkbox" data-stage="1" id="chk5"><div><h3 style="display:inline">1.3 · Write the instructions</h3></div></div>
+      <p>Paste this into the Agent's <b>Instructions</b> field. There is no separate output-schema builder in Agent Studio - the response shape you want is described here, in plain language, so be explicit about field names and allowed values.</p>
+      <div class="lbl">Instructions</div>
+      <div class="block prompt">Role & Core Objective:
+You are an expert Risk and Compliance Assistant. Your job is to analyze the attached vendor contract for legal and financial risks and return findings in a structured Risk format.
+
+Step 1 - Document Analysis:
+Read the attached document or retrieve the documents from the Request. Identify the vendor name, contract type, effective date, expiry date, and key commercial terms.
+
+Step 2 - The Risk Checklist:
+Analyze the contract against these procurement standards. If a clause violates these rules, it is a "Risky Clause":
+- Payment Terms: Must be 50 days or more. (Below 50 days is out-of-standard).
+- Renewal: Auto-renewal clauses are out-of-standard.
+- Termination: Missing a "Right to Terminate Without Cause" is out-of-standard.
+- Liability: Missing a clear Liability Cap is out-of-standard.
+- Intellectual Property (IP): Giving away company IP rights is out-of-standard.
+- Change of Control: Missing protection if the vendor is acquired is out-of-standard.
+
+Classify risk_level:
+- HIGH if any critical rule is violated: missing liability cap, no termination rights, or IP rights given away
+- MEDIUM if only non-critical rules are violated: payment under 50 days, auto-renewal, or missing change of control
+- LOW only if all six checklist items pass
+
+Step 3 - Clean Output Rule:
+If the contract has zero risks, return risk_level as LOW and note "No action required." If you cannot confidently determine a key term from the document, choose MEDIUM or HIGH and explain why in that field value
+
+Step 4 - Final Output:
+Using the data from the documents and the risk checklist evaluation, return the following fields (all fields are required, use "not specified" when a value doesn't exist instead of omitting the field):
+- risk_level: HIGH, MEDIUM, or LOW
+- liability_cap: short description of the limitation of liability extracted from the document
+- governing_law: the governing jurisdiction
+- term: total term or renewal period
+- discount: any commercial discount, or "none"<button class="copy">Copy</button></div>
+      <div class="note"><b>Best practice for Agent Studio:</b> spend time testing before publishing. Every minute making an agent's output predictable saves ten minutes debugging downstream workflow branches that don't fire.</div>
+
+      <div class="h-check" id="sec-1-4"><input type="checkbox" data-stage="1" id="chk6"><div><h3 style="display:inline">1.4 · Add capabilities</h3></div></div>
+      <ol>
+        <li>Under <b>Capabilities</b>, click <b>Add</b>.</li>
+        <li>Select <b>Manage Requests</b>, <b>Find Agreements</b> and <b>Review Documents</b>.</li>
+        <li>Click <b>Add Capabilities</b>.</li>
+      </ol>
+      <img src="assets/s14-capabilities.png" alt="Capabilities section showing Manage Requests, Find Agreements, and Review Documents added" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
+
+      <div class="h-check" id="sec-1-5"><input type="checkbox" data-stage="1" id="chk7"><div><h3 style="display:inline">1.5 · Test the agent, then publish</h3></div></div>
+      <ol>
+        <li>Click <b>Test</b> to test the agent before publishing.</li>
+        <li>Click the <b>+</b> icon, click <b>Add Agreements</b>, and search for the low-risk document uploaded in the prerequisites.</li>
+        <li>Run the starter prompt configured in 1.2, then optionally try a more detailed prompt:
+          <div class="lbl" style="margin-top:8px;">Starter prompt (from 1.2)</div>
+          <div class="block prompt">Extracts key terms from the attached document and classify the risk.</div>
+          <div class="lbl">Detailed prompt (optional)</div>
+          <div class="block prompt">Analyze this vendor contract against our procurement risk checklist. Return risk_level, liability_cap, governing_law, term, and discount. Flag violations with severity and section reference.</div>
+        </li>
+        <li>Verify the agent returns the correct <code>risk_level</code> and all five output fields are populated.</li>
+        <li>Click <b>Save draft</b>, then <b>Publish</b>.</li>
+      </ol>
+      <div class="warn"><b>It must be Published, not Draft.</b> A draft agent will not appear in the workflow's agent picker in Stage 2.</div>
+    </section>
+
+    <!-- ============ STAGE 2 ============ -->
+    <section class="stage" id="stage-2">
+      <div class="stage-head"><h2>Stage 2 · Import &amp; wire up</h2></div>
+      <p>Both the Request Type and the workflow are prebuilt and supplied as ZIPs, so the whole room starts from an identical, working configuration. Your job here is to verify the tenant-specific references point at <i>your</i> objects, and publish. What matters is <b>understanding what's inside</b> - open each step as you verify it.</p>
+
+      <div class="h-check" id="sec-2-1"><input type="checkbox" data-stage="2" id="chk8"><div><h3 style="display:inline">2.1 · Verify the Request Type</h3></div></div>
+      <ol>
+        <li>Click on <b>Settings</b>.</li>
+        <li>Click on <b>Request Types</b>.</li>
+        <li>Verify a Request Type named <b>Agent Studio 202 - Vendor Contracts</b> is listed.</li>
+      </ol>
+      <div class="expect"><b>Checkpoint:</b> the Request Type <b>Agent Studio 202 - Vendor Contracts</b> is present and active.</div>
+      <div class="note">The Request Type was automatically created when you imported the workflow in the prerequisites (0.5.4).</div>
+
+
+      <div class="h-check" id="sec-2-2"><input type="checkbox" data-stage="2" id="chk10"><div><h3 style="display:inline">2.2 · Verify the trigger &amp; Request Type</h3></div></div>
+      <ol>
+        <li>Navigate to <b>Workflows</b> (under Agreements or Automations).</li>
+        <li>Open the workflow imported during the prerequisites.</li>
+        <li>Click on the <b>Start workflow</b> step.</li>
+        <li>Verify the start method is <b>From Agreement Desk</b>.</li>
+        <li>Set the <b>Request Type</b> to <b>Agent Studio 202 - Vendor Contracts</b>.</li>
+      </ol>
+      <div class="expect"><b>Checkpoint:</b> the trigger names your own imported Request Type, not a placeholder or a missing reference.</div>
+
+      <!-- Section 2.4 hidden: Get Document detail removed per spreadsheet -->
+      <div class="h-check" id="sec-2-4-old" style="display:none"><input type="checkbox" data-stage="2" id="chk11"><div><h3 style="display:inline">2.4 · Understand "Get Document from a Request"</h3></div></div>
+
+      <div class="h-check" id="sec-2-3"><input type="checkbox" data-stage="2" id="chk12"><div><h3 style="display:inline">2.3 · Execute AI Agent</h3></div></div>
+      <p>Open the <b>Execute AI Agent</b> step in the workflow. Configure the following:</p>
+      <ol>
+        <li><b>Select Agent</b> — from the dropdown, select your published <code>Vendor and Renewal Risk Analyst</code>. If it doesn't appear, go back to Stage 1 and publish your agent.</li>
+        <li><b>Data outputs</b> — confirm the five output fields are visible: <code>risk_level</code>, <code>liability_cap</code>, <code>governing_law</code>, <code>term</code>, <code>discount</code>.</li>
+        <li><b>Enter the prompt</b> — in the chat message / prompt field, enter:
+          <div class="block prompt">Extracts key terms from the attached document and classify the risk.</div>
+        </li>
+      </ol>
+      <img src="assets/s23-execute-ai-agent.png" alt="Execute AI Agent step showing agent selected, data outputs, and prompt configured" style="max-width:420px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;">
+      <div class="expect"><b>Checkpoint:</b> the Execute AI Agent step shows your agent selected, all five data outputs mapped, and the prompt entered.</div>
+
+      <div class="h-check" id="sec-2-4"><input type="checkbox" data-stage="2" id="chk13"><div><h3 style="display:inline">2.4 · Walk the branch</h3></div></div>
+      <p>Open the branch step. Confirm two cases, then follow each path so you know what to expect in Stage 3.</p>
+      <table>
+        <tbody><tr><th>Case</th><th>Condition</th><th>Path</th></tr>
+        <tr><td>1 · Low risk</td><td><code>risk_level == "LOW"</code></td><td><b>Change Request Status</b> to Approved. The request owner can then send the document for eSignature.</td></tr>
+        <tr><td>2 · Medium or high risk</td><td><code>risk_level == "MEDIUM"</code> OR <code>risk_level == "HIGH"</code></td><td><b>Assign Owner</b> (Legal team), <b>Send Request Message</b> to notify them, then <b>Change Request Status</b> to Pending Legal Review.</td></tr>
+      </tbody></table>
+
+      <div class="h-check" id="sec-2-5"><input type="checkbox" data-stage="2" id="chk14"><div><h3 style="display:inline">2.5 · Publish the workflow</h3></div></div>
+      <ol>
+        <li>If you have made any changes, click <b>Review &amp; Publish</b> in the workflow editor.</li>
+        <li>Click through <b>Next</b>, then <b>Publish</b>.</li>
+      </ol>
+      <div class="expect"><b>Checkpoint:</b> the workflow shows as <b>Published</b>, and its trigger points at your active Request Type.</div>
+      <div class="warn"><b>Must be Published, not Draft.</b> Agreement Desk can only trigger a published workflow. If it still shows Draft when you reach Stage 3, publish it first - this is the single most common reason "nothing happens" when a request is submitted.</div>
+    </section>
+
+    <!-- ============ STAGE 3 ============ -->
+    <section class="stage" id="stage-3">
+      <div class="stage-head"><h2>Stage 3 · Trigger &amp; validate</h2></div>
+      <p>Create a request in Agreement Desk, upload a contract, and confirm the workflow fires correctly.</p>
+
+      <div class="h-check" id="sec-3-0"><input type="checkbox" data-stage="3" id="chk15a"><div><h3 style="display:inline">3.0 · Create a request in Agreement Desk</h3></div></div>
+      <ol>
+        <li>Open the <b>Agreements</b> tab.</li>
+        <li>Click <b>Requests</b> in the left menu.</li>
+        <li>Click <b>Create Request</b>.</li>
+        <li>Select <b>Agent Studio 202 - Vendor Contracts</b> Request Type.</li>
+        <li>Fill the form (with sample values of your choice, reference provided below):
+          <ul>
+            <li><b>Vendor Name:</b> use the name matching your document — <b>Keranos Digital Media</b> (LOW), <b>Pine Care</b> (MEDIUM), or <b>DataVault Dynamics</b> (HIGH)</li>
+            <li><b>Requestor Name:</b> Your name</li>
+          </ul>
+        </li>
+        <li>Upload the <b>LOW risk</b> contract document from the workshop kit.</li>
+        <li>Click <b>Submit</b>.</li>
+      </ol>
+
+      <div class="h-check" id="sec-3-1"><input type="checkbox" data-stage="3" id="chk15"><div><h3 style="display:inline">3.1 · Scenario 1 - LOW risk, straight through</h3></div></div>
+      <ol>
+        <li>Navigate to <b>Agreements → Workflows</b>, find the workflow, click <b>View Workflow Runs</b>.</li>
+        <li>Find the latest run and click the instance.</li>
+        <li>Confirm the LOW branch fired and request status changed to <b>Approved</b>.</li>
+      </ol>
+      <div class="expect">
+        <b>Expect:</b> the workflow triggers → the agent reads the attached document → returns <code>risk_level = LOW</code> → the LOW branch runs → status changes to <b>Approved</b>.
+      </div>
+
+      <div class="h-check" id="sec-3-2"><input type="checkbox" data-stage="3" id="chk16"><div><h3 style="display:inline">3.2 · Scenario 2 - MEDIUM/HIGH risk, human review</h3></div></div>
+      <p>Create another request: <b>Agreements → Requests → Create Request → Agent Studio 202 - Vendor Contracts</b>. Upload the <b>MEDIUM or HIGH</b> risk contract from the workshop kit, fill in the form, and submit. Navigate to <b>Agreements → Workflows</b>, find the workflow, click <b>View Workflow Runs</b>.</p>
+      <div class="expect">
+        <b>Expect:</b> the agent returns <code>MEDIUM</code> or <code>HIGH</code> → the MED/HIGH branch runs → owner assigned (Legal team) → request message sent → status changes to <b>Pending Legal Review</b>.
+      </div>
+
+      <div class="h-check" id="sec-3-3"><input type="checkbox" data-stage="3" id="chk17"><div><h3 style="display:inline">3.3 · Scenario 3 - missing or malformed document, fallback</h3></div></div>
+      <p>Create another request but either skip the document upload entirely, or attach a deliberately unusable file (an empty document, or an image with no readable text).</p>
+      <div class="expect">
+        <b>Expect:</b> the agent cannot determine risk from the missing/unreadable document → defaults to <code>risk_level = HIGH</code> → the HIGH branch fires → routed to Legal for human review.
+      </div>
+
+      <div class="h-check" id="sec-3-4"><input type="checkbox" data-stage="3" id="chk18"><div><h3 style="display:inline">3.4 · Validation checklist</h3></div></div>
+      <div class="card">
+        <ul>
+          <li><b>Agent</b> - returns the expected outputs; <code>risk_level</code> is always one of the three literal values (LOW, MEDIUM, HIGH); capabilities let it read the document but not send anything.</li>
+          <li><b>Agreement Desk</b> - the Request Type imported and activated cleanly; requests carry one document; statuses advance at each stage.</li>
+          <li><b>Workflow</b> - published, not draft; the trigger fires only for the right Request Type; both branches are reachable; the agent reads the attached document correctly.</li>
+        </ul>
+      </div>
+
+      <h3 id="sec-3-5">3.5 · Limitations &amp; guardrails</h3>
+      <div class="card">
+        <h4>Agent step constraints</h4>
+        <ul style="margin:0 0 10px;">
+          <li>Request size, execution timeout, and rate limits all apply to the agent step.&nbsp;</li>
+          <li>Use short sample documents and simple prompts in workshops and demos.&nbsp;</li>
+          <li>Agent output is probabilistic. Validate the shape, and always have a fallback branch - which is exactly why Scenario 3 exists.</li>
+        </ul>
+        <h4>Import constraints</h4>
+        <ul style="margin:0 0 10px;">
+          <li>Imported workflows arrive as drafts and need tenant-specific references re-pointed - Request Types, statuses, agents, connected systems, recipients.</li>
+          <li>Agent and newer step types may not map cleanly on import; verify them step by step rather than assuming.</li>
+          <li>Always do a test pass after importing, before declaring anything ready. That's what Stage 3 is.</li>
+        </ul>
+        <h4>Design guardrails</h4>
+        <ul style="margin:0;">
+          <li><b>Humans in the loop for consequential calls.</b> LOW can be automated; MEDIUM and HIGH should not be. Give the reviewer the agent's reasoning so review is fast, not skipped.</li>
+          <li><b>The agent scores, the workflow decides.</b> Keep routing logic deterministic and auditable in Workflow Builder rather than asking the agent to take actions.</li>
+          <li><b>Scope capabilities tightly.</b> A review agent needs to read documents. It does not need to send envelopes.</li>
+          <li><b>Fail closed.</b> When in doubt, return the request - never send for signature on an assumption.</li>
+        </ul>
+      </div>
+
+      <div class="finale">
+        <h3>Recap</h3>
+        <p>Agreement Desk captured the request and the document → Workflow Builder fetched it and orchestrated the run → an Agent Studio Risk Analyst read the contract and scored the risk → deterministic branching sent LOW straight to eSignature, MEDIUM/HIGH to a human, and anything broken back to the submitter. Intake once, analyze with an agent, route with Workflow Builder, sign with eSignature: all inside Docusign, all auditable.</p>
+      </div>
+
+      <div class="card tint">
+        <h3>Reuse the pattern</h3>
+        <p style="margin:0;">The same four-surface shape carries directly to other scenarios: NDA triage, customer renewals, procurement inbound review, or any department-specific risk workflow. Swap the agent's instructions and the branch thresholds; the architecture doesn't change.&nbsp;</p>
+      </div>
+
+    </section>
+
+    <!-- ============ STAGE 4 ============ -->
+    <section class="stage" id="stage-4">
+      <div class="stage-head"><h2>Stage 4 · The CLM connection</h2></div>
+
+      <div class="demo-banner">
+        <span class="icon">&#9654;</span>
+        <div>
+          <strong>Watch, don't build.</strong> This stage is a facilitated demo, not a hands-on exercise. The CLM "Use AI Agent" step requires a CLM license, CLM-IAM interoperability setup, a PSO-enabled account setting, and a per-environment admin consent link that cannot be completed in a shared lab environment. The goal is to show where the same agent you just built slots into a governed CLM contract workflow.
+        </div>
+      </div>
+
+      <div class="h-check" id="sec-4-1"><input type="checkbox" data-stage="4" id="chk19"><div><h3 style="display:inline">4.1 · Two stages in the lifecycle, one agent</h3><span class="tag demo">concept</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">This lab's Workflow Builder workflow handles <b>intake</b>: a new vendor MSA is submitted via Agreement Desk, the agent reviews it, and the workflow routes to signature or legal review. That covers the front door.</p>
+        <p style="margin:0 0 10px;">CLM handles a different point in the same lifecycle: <b>negotiation and execution</b>. An MSA is already inside CLM, being redlined and reviewed. Once the legal team finishes a round of changes, the CLM workflow can call the same agent again - now to extract the final risk posture before the document routes for signature. Same agent, different trigger, different moment in the process.</p>
+        <p style="margin:0 0 12px;">The "Use AI Agent" step is the bridge. CLM is the orchestration surface; Agent Studio is the reasoning layer. CLM handles the structured steps - approvals, merges, signatures, archiving. The agent handles the part that requires judgment: read the current version of the document and return a structured answer the workflow can act on.</p>
+
+        <div class="arch">
+          <svg viewBox="0 0 780 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture diagram: Workflow Builder intake path on the left, CLM negotiation path on the right, Agent Studio in the center shared by both">
+            <defs>
+              <marker id="arr-indigo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="#4C00FF"/></marker>
+              <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="#0a7d3c"/></marker>
+            </defs>
+            <rect x="8" y="24" width="184" height="70" rx="10" fill="#e9e1fb" stroke="#4C00FF" stroke-width="1.5"/>
+            <text x="100" y="46" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4C00FF" letter-spacing=".05em">THIS LAB</text>
+            <text x="100" y="63" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">Agreement Desk</text>
+            <text x="100" y="81" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">+ Workflow Builder Workflow</text>
+            <rect x="8" y="142" width="184" height="62" rx="10" fill="#f0fff5" stroke="#0a7d3c" stroke-width="1.5"/>
+            <text x="100" y="164" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0a7d3c" letter-spacing=".05em">CLM PATTERN</text>
+            <text x="100" y="182" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">CLM Workflow Designer</text>
+            <rect x="278" y="54" width="224" height="122" rx="12" fill="#1f0a4d" stroke="#4C00FF" stroke-width="1.5"/>
+            <text x="390" y="80" text-anchor="middle" font-size="10.5" font-weight="700" fill="#d9cdff" letter-spacing=".07em">AGENT STUDIO</text>
+            <text x="390" y="101" text-anchor="middle" font-size="13.5" font-weight="600" fill="#fff">Vendor and Renewal</text>
+            <text x="390" y="119" text-anchor="middle" font-size="13.5" font-weight="600" fill="#fff">Risk Analyst</text>
+            <text x="390" y="140" text-anchor="middle" font-size="11.5" fill="#c9bdf0">same published agent</text>
+            <text x="390" y="158" text-anchor="middle" font-size="11.5" fill="#c9bdf0">both workflow surfaces</text>
+            <rect x="588" y="24" width="184" height="70" rx="10" fill="#e9e1fb" stroke="#4C00FF" stroke-width="1.5"/>
+            <text x="680" y="46" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4C00FF" letter-spacing=".05em">MAESTRO OUTPUT</text>
+            <text x="680" y="63" text-anchor="middle" font-size="13" fill="#130032"><tspan font-weight="600">risk_level</tspan> variable</text>
+            <text x="680" y="81" text-anchor="middle" font-size="11.5" fill="#615a75">LOW / MEDIUM / HIGH</text>
+            <rect x="588" y="142" width="184" height="62" rx="10" fill="#f0fff5" stroke="#0a7d3c" stroke-width="1.5"/>
+            <text x="680" y="164" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0a7d3c" letter-spacing=".05em">CLM OUTPUT</text>
+            <text x="680" y="183" text-anchor="middle" font-size="11.5" fill="#130032">AgentFinalResponseXml</text>
+            <line x1="193" y1="59" x2="276" y2="93" stroke="#4C00FF" stroke-width="2" marker-end="url(#arr-indigo)"/>
+            <text x="224" y="69" text-anchor="middle" font-size="10" fill="#4C00FF" font-weight="600">calls</text>
+            <line x1="503" y1="93" x2="585" y2="59" stroke="#4C00FF" stroke-width="2" marker-end="url(#arr-indigo)"/>
+            <text x="556" y="69" text-anchor="middle" font-size="10" fill="#4C00FF" font-weight="600">returns</text>
+            <line x1="193" y1="173" x2="276" y2="141" stroke="#0a7d3c" stroke-width="2" marker-end="url(#arr-green)"/>
+            <text x="224" y="168" text-anchor="middle" font-size="10" fill="#0a7d3c" font-weight="600">calls</text>
+            <line x1="503" y1="141" x2="585" y2="173" stroke="#0a7d3c" stroke-width="2" marker-end="url(#arr-green)"/>
+            <text x="556" y="168" text-anchor="middle" font-size="10" fill="#0a7d3c" font-weight="600">returns</text>
+          </svg>
+          <div class="arch-legend">
+            <span><i style="background:#4C00FF;"></i>Workflow Builder path (this lab)</span>
+            <span><i style="background:#0a7d3c;"></i>CLM path</span>
+            <span><i style="background:#1f0a4d;"></i>Agent Studio (shared reasoning layer)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-check" id="sec-4-2"><input type="checkbox" data-stage="4" id="chk20"><div><h3 style="display:inline">4.2 · What the "Use AI Agent" step looks like in a CLM workflow</h3><span class="tag demo">demo</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">In a CLM workflow for MSA negotiation, the "Use AI Agent" step is configured with five fields. Here is how each one maps to the Vendor Risk Analyst scenario:</p>
+        <table>
+          <tr><th style="width:28%">Field</th><th>Value for the Vendor and Renewal Risk Analyst</th></tr>
+          <tr><td><b>Agent</b></td><td>Select the published <code>Vendor and Renewal Risk Analyst</code> from the agent picker. This is the same agent built in Stage 1 - no second version needed.</td></tr>
+          <tr><td><b>Chat Message</b></td><td>The prompt the workflow sends at step execution, for example: <em>"Analyze this MSA and return JSON with risk_level, liability_cap, governing_law, term, and discount."</em> Same prompt shape as the Workflow Builder version.</td></tr>
+          <tr><td><b>Document (optional)</b></td><td>Pass the current CLM agreement document here so the agent reads the live negotiated version, not a cached copy.</td></tr>
+          <tr><td><b>Run agent as</b></td><td>An admin user who has completed one-time OAuth consent for this environment. Consent is per-environment - sandbox consent does not carry to production. The step fails silently if consent has not been completed.</td></tr>
+          <tr><td><b>Output variable</b></td><td>Name the output variable, for example <code>AgentResponse</code>. The workflow then reads <code>AgentResponse.AgentFinalResponseXml</code> to branch on risk_level.</td></tr>
+        </table>
+      </div>
+
+      <div class="h-check" id="sec-4-3"><input type="checkbox" data-stage="4" id="chk21"><div><h3 style="display:inline">4.3 · What the output variable contains</h3><span class="tag demo">demo</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">After the step runs, the agent's response is processed into a structured XML variable. The top-level fields are:</p>
+        <div class="xml-var">
+          <div><span class="vname">AgentResponse.ThreadId</span><span class="vdesc">execution thread identifier</span></div>
+          <div><span class="vname">AgentResponse.RunId</span><span class="vdesc">specific run identifier</span></div>
+          <div><span class="vname">AgentResponse.AgentName</span><span class="vdesc">display name of the agent that ran</span></div>
+          <div><span class="vname">AgentResponse.Intent</span><span class="vdesc">extracted intent, if present in the response</span></div>
+          <div><span class="vname">AgentResponse.AgentFinalResponseRaw</span><span class="vdesc">the agent's raw text response (JSON string)</span></div>
+          <div><span class="vname">AgentResponse.AgentFinalResponseXml</span><span class="vdesc">XML-normalized version - use this field for branching</span></div>
+        </div>
+        <p style="margin:12px 0 6px;">The CLM workflow reads <code>AgentFinalResponseXml</code> to find <code>risk_level</code> and routes accordingly. Unlike Workflow Builder, which maps agent output directly to named variables, CLM requires the workflow to navigate the XML structure.</p>
+        <table>
+          <tr><th style="width:22%">risk_level value</th><th>What the CLM workflow does next</th></tr>
+          <tr><td><code>LOW</code></td><td>Route to the signature step. No human review required.</td></tr>
+          <tr><td><code>MEDIUM</code> or <code>HIGH</code></td><td>Route to a Legal task step. The task surfaces the agent's extracted terms (liability_cap, governing_law) so the reviewer can act without re-reading the full MSA.</td></tr>
+          <tr><td>empty or unexpected</td><td>Route to a fallback task for manual triage. Do not proceed to signature.</td></tr>
+        </table>
+        <div class="note"><b>Key difference from Workflow Builder:</b> in Workflow Builder the agent step maps output fields directly to workflow variables (<code>risk_level</code>, <code>liability_cap</code>, etc.). In CLM those fields sit inside <code>AgentFinalResponseXml</code> and the workflow must parse the XML path to read them. Design CLM branch conditions accordingly.</div>
+      </div>
+
+      <div class="finale">
+        <h3>The full picture</h3>
+        <p>You built one agent - the Vendor and Renewal Risk Analyst - and it runs in two places. In Workflow Builder it handles the front door: a new vendor MSA comes in via Agreement Desk, the agent reviews it, and the workflow routes the request. In CLM it handles the negotiation stage: once a contract is inside CLM and being reviewed, the workflow calls the same agent to score the final version before routing to signature. The agent handles the judgment layer; the workflow surface - Workflow Builder or CLM - handles the process layer. You don't build two agents. You build one good agent, publish it, and put it where the work already happens.</p>
+      </div>
+
+      <div class="foot">
+        Agent Studio 202 · Hands-on lab · Synthetic data only. Menu labels vary by tenant and release, so trust your screen. For questions or feedback: <a href="mailto:amrit.prakash@docusign.com">amrit.prakash@docusign.com</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  var STORAGE='as202-progress';
+  var stepEls=[].slice.call(document.querySelectorAll('.stepper .step'));
+  var checks=[].slice.call(document.querySelectorAll('.h-check input[type=checkbox]'));
+
+  // ----- persistence -----
+  function load(){try{return JSON.parse(sessionStorage.getItem(STORAGE))||{};}catch(e){return {};}}
+  function save(s){try{sessionStorage.setItem(STORAGE,JSON.stringify(s));}catch(e){}}
+  var state=load();
+
+  checks.forEach(function(c,i){ if(!c.id) c.id='chk'+i; });
+
+  // ----- rings (built once, then animate the stroke) -----
+  function ring(stage,pct,done){
+    var el=document.querySelector('.ring[data-stage="'+stage+'"]');
+    if(!el) return;
+    var r=15,c=2*Math.PI*r,off=c*(1-pct);
+    var fg=el.querySelector('circle.fg');
+    if(!fg){
+      el.innerHTML='<svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"/>'+
+        '<circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+c+'"/></svg>'+
+        '<span class="num">'+stage+'</span>';
+      fg=el.querySelector('circle.fg');
+    }
+    requestAnimationFrame(function(){
+      fg.setAttribute('stroke-dashoffset', off);
+      fg.setAttribute('stroke', done?'#0a7d3c':'#4C00FF');
+    });
+    el.querySelector('.num').textContent = done ? '✓' : stage;
+    var li=document.querySelector('.step[data-target="stage-'+stage+'"]');
+    if(li) li.classList.toggle('done',done);
+  }
+  function refresh(){
+    for(var s=0;s<=3;s++){
+      var group=checks.filter(function(c){return c.getAttribute('data-stage')==String(s);});
+      var total=group.length, on=group.filter(function(c){return c.checked;}).length;
+      ring(s, total?on/total:0, total>0 && on===total);
+    }
+  }
+
+  checks.forEach(function(c){ if(state[c.id]) c.checked=true;
+    c.addEventListener('change',function(){ state[c.id]=c.checked; save(state); refresh(); });
+  });
+
+  // ----- sidebar nav + scroll spy -----
+  stepEls.forEach(function(li){
+    li.addEventListener('click',function(){
+      var t=document.getElementById(li.getAttribute('data-target'));
+      if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+  // sub-nav scroll
+  [].slice.call(document.querySelectorAll('.sub-nav li')).forEach(function(li){
+    li.addEventListener('click',function(){
+      var t=document.getElementById(li.getAttribute('data-scroll'));
+      if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+  var sections=[].slice.call(document.querySelectorAll('section.stage'));
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY+140, cur=sections[0].id;
+    sections.forEach(function(s){ if(s.offsetTop<=y) cur=s.id; });
+    stepEls.forEach(function(li){ li.classList.toggle('active',li.getAttribute('data-target')===cur); });
+  });
+
+  // ----- copy buttons -----
+  [].slice.call(document.querySelectorAll('.block')).forEach(function(b){
+    var btn=document.createElement('button');
+    btn.className='copy'; btn.textContent='Copy';
+    btn.addEventListener('click',function(){
+      var txt=b.cloneNode(true); var x=txt.querySelector('.copy'); if(x)x.remove();
+      navigator.clipboard.writeText(txt.textContent.trim()).then(function(){
+        btn.textContent='Copied'; btn.classList.add('copied');
+        setTimeout(function(){btn.textContent='Copy';btn.classList.remove('copied');},1400);
+      });
+    });
+    b.appendChild(btn);
+  });
+
+  // ----- persona toggle -----
+  var pbtns=[].slice.call(document.querySelectorAll('#persona button'));
+  function setPersona(p){
+    document.body.setAttribute('data-persona',p);
+    pbtns.forEach(function(x){x.classList.toggle('on',x.getAttribute('data-p')===p);});
+    state.persona=p; save(state);
+  }
+  pbtns.forEach(function(x){x.addEventListener('click',function(){setPersona(x.getAttribute('data-p'));});});
+  if(state.persona) setPersona(state.persona);
+
+  // ----- interactive decision-tree explorer -----
+  var explorer=document.getElementById('explorer');
+  if(explorer){
+    var riskSel=document.getElementById('ctrlRisk');
+    var missingToggle=document.getElementById('ctrlMissing');
+    var statusAgent=document.getElementById('statusAgent');
+    var statusRoute=document.getElementById('statusRoute');
+
+    var BASE=['edge-ad-getdoc','edge-getdoc-agent'];
+    var ROUTES={
+      low:{
+        edges:BASE.concat(['edge-agent-branch','edge-branch-low','edge-sign-done']),
+        nodes:['sign'], particle:'particle-low',
+        agent:'LOW', route:'Straight to eSignature - no human step.'
+      },
+      high:{
+        edges:BASE.concat(['edge-agent-branch','edge-branch-high','edge-review-sign','edge-sign-done']),
+        nodes:['review','sign'], particle:'particle-high',
+        agent:'MEDIUM / HIGH', route:'Human review first, then eSignature.'
+      },
+      fallback:{
+        edges:BASE.concat(['edge-agent-fallback','edge-fallback-loop']),
+        nodes:['fallback'], particle:'particle-fallback',
+        agent:'No valid result', route:'Returned to submitter - no envelope.'
+      }
+    };
+
+    function applyRoute(kind){
+      explorer.querySelectorAll('.edge').forEach(function(e){ e.classList.remove('active','risk-low','risk-high','risk-fallback'); });
+      explorer.querySelectorAll('.particle').forEach(function(p){ p.classList.remove('show'); });
+      explorer.querySelectorAll('.node-highlight').forEach(function(n){ n.classList.remove('on'); });
+      statusAgent.classList.remove('risk-low','risk-high','risk-fallback');
+      statusRoute.classList.remove('risk-low','risk-high','risk-fallback');
+
+      var r=ROUTES[kind];
+      r.edges.forEach(function(id){
+        var el=document.getElementById(id);
+        if(el) el.classList.add('active','risk-'+kind);
+      });
+      var particle=document.getElementById(r.particle);
+      if(particle) particle.classList.add('show');
+      r.nodes.forEach(function(n){
+        var hl=explorer.querySelector('.node-highlight[data-node="'+n+'"]');
+        if(hl) hl.classList.add('on');
+      });
+      statusAgent.textContent=r.agent;
+      statusAgent.classList.add('risk-'+kind);
+      statusRoute.textContent=r.route;
+      statusRoute.classList.add('risk-'+kind);
+    }
+
+    function updateExplorer(){
+      var missing=missingToggle.getAttribute('aria-checked')==='true';
+      riskSel.disabled=missing;
+      if(missing){ applyRoute('fallback'); return; }
+      // MEDIUM and HIGH share the human-review route
+      applyRoute(riskSel.value==='low' ? 'low' : 'high');
+      if(riskSel.value==='medium'){ statusAgent.textContent='MEDIUM/HIGH'; }
+    }
+
+    riskSel.addEventListener('change',updateExplorer);
+    missingToggle.addEventListener('click',function(){
+      var cur=missingToggle.getAttribute('aria-checked')==='true';
+      missingToggle.setAttribute('aria-checked', cur ? 'false':'true');
+      missingToggle.classList.toggle('on', !cur);
+      updateExplorer();
+    });
+    updateExplorer();
+  }
+
+
+  refresh();
+})();
+</script>
+
+
+</body></html>

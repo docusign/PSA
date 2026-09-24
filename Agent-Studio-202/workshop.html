@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Studio 202 - Workshop</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{background:#fff;}
+.frame-wrap{position:relative;width:100%;height:100vh;}
+.frame-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:none;}
+.frame-wrap iframe.active{display:block;}
+</style>
+</head>
+<body>
+
+<div class="frame-wrap">
+  <iframe id="frame-nda" src="NDA-Assistant-Flow.html"></iframe>
+  <iframe id="frame-procurement" src="2_Hands_on_Flow.html"></iframe>
+</div>
+
+<script>
+var current=localStorage.getItem('as202-tab')||'nda';
+if(current!=='nda'&&current!=='procurement') current='nda';
+
+function injectToggle(doc,active){
+  var existing=doc.getElementById('lab-toggle');
+  if(existing) existing.parentNode.removeChild(existing);
+
+  var card=doc.createElement('div');
+  card.id='lab-toggle';
+  card.style.cssText='background:#F4F2FA;border:1px solid #e5e1f0;border-radius:13px;padding:16px 18px;margin:18px 0;box-shadow:0 2px 6px rgba(19,0,50,.05),0 10px 26px rgba(19,0,50,.05);';
+  card.innerHTML='<div style="display:inline-flex;gap:0;border:1px solid #e5e1f0;border-radius:9px;overflow:hidden;box-shadow:0 1px 3px rgba(19,0,50,.05);">'
+    +'<button data-sc="nda" style="background:'+(active==='nda'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13px;font-weight:500;cursor:pointer;color:'+(active==='nda'?'#fff':'#615a75')+';">Lab 1: NDA</button>'
+    +'<button data-sc="procurement" style="background:'+(active==='procurement'?'#4C00FF':'#fff')+';border:none;padding:8px 16px;font-family:DSIndigo,Arial,sans-serif;font-size:13px;font-weight:500;cursor:pointer;color:'+(active==='procurement'?'#fff':'#615a75')+';">Lab 2: MSA</button>'
+    +'</div>';
+
+  var btns=card.querySelectorAll('button');
+  btns.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      switchTo(btn.getAttribute('data-sc'));
+    });
+  });
+
+  return card;
+}
+
+function init(){
+  document.getElementById('frame-'+current).classList.add('active');
+}
+init();
+
+function switchTo(tab){
+  if(current===tab) return;
+  current=tab;
+  localStorage.setItem('as202-tab',tab);
+  document.querySelectorAll('.frame-wrap iframe').forEach(function(f){f.classList.remove('active');});
+  document.getElementById('frame-'+tab).classList.add('active');
+  setupFrame('frame-nda');
+  setupFrame('frame-procurement');
+}
+
+function setupFrame(id){
+  var iframe=document.getElementById(id);
+  var doc;
+  try{doc=iframe.contentDocument||iframe.contentWindow.document;}catch(e){return;}
+  if(!doc||!doc.body) return;
+
+  var tab=id.replace('frame-','');
+
+  // Hide the persona card and prerequisites in procurement page
+  if(tab==='procurement'){
+    var personaCards=doc.querySelectorAll('.card.tint');
+    personaCards.forEach(function(c){
+      if(c.querySelector('#persona')){c.style.display='none';}
+    });
+    doc.body.setAttribute('data-persona','procurement');
+
+    // Hide old prerequisites (0.6) and how to use this handbook (0.7), inject new prereqs
+    var headings=doc.querySelectorAll('h3');
+    headings.forEach(function(h){
+      if(h.textContent.indexOf('How to use this handbook')!==-1){
+        var el=h;
+        while(el){
+          var next=el.nextElementSibling;
+          if(!next) break;
+          if(next.tagName==='H3') break;
+          next.style.display='none';
+          el=next;
+        }
+        h.style.display='none';
+        if(h.previousElementSibling && h.previousElementSibling.tagName==='H3' && h.previousElementSibling.innerHTML.trim()==='<br>'){
+          h.previousElementSibling.style.display='none';
+        }
+      }
+      // Lab 2 prerequisites: kept as-is from HTML (has screenshots and all steps)
+    });
+
+    // Fix broken resource links
+    var sideFt=doc.querySelector('.side-foot');
+    if(sideFt){
+      var links=sideFt.querySelectorAll('a');
+      var newUrls=[
+        ['Docusign University AI Agent Video Playlist','https://dsucustomers.docusign.com/video-playlist-docusign-ai-agents'],
+        ['Docusign Agent Studio Support Article','https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43202480b341&topicId=conb2716952-a0f6-4323-a13e-9d23dd290fb0.html&_LANG=enus'],
+        ['Where Agents Run','https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43202480b341&topicId=concf520b87-7851-4294-8f82-7e6cc377daaf.html&_LANG=enus'],
+        ['Agent Setup for Administrators','https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43202480b341&topicId=task-4922.html&_LANG=enus'],
+        ['Ready to Deploy Agent Catalog','https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43202480b341&topicId=ref1d59490e-be57-4db7-8542-ec0cc2d64aff.html&_LANG=enus']
+      ];
+      for(var i=0;i<links.length&&i<newUrls.length;i++){
+        links[i].href=newUrls[i][1];
+        links[i].textContent=newUrls[i][0];
+      }
+      // Remove "Fontara is an approved demo company" text
+      var footText=sideFt.childNodes;
+      for(var i=0;i<footText.length;i++){
+        if(footText[i].nodeType===3 && footText[i].textContent.indexOf('Fontara')!==-1){
+          footText[i].textContent=footText[i].textContent.replace('Synthetic data only. Fontara is an approved demo company.','Synthetic data only.');
+        }
+      }
+    }
+
+    // SVG diagram: kept as-is from HTML (already has correct nodes and labels)
+  }
+
+  // Insert toggle after the stepper (stages list) in the sidebar - only on active frame
+  if(tab===current){
+    var stepper=doc.getElementById('stepper');
+    if(stepper){
+      var toggle=injectToggle(doc,current);
+      toggle.style.cssText='background:#F4F2FA;border:1px solid #e5e1f0;border-radius:13px;padding:16px 18px;margin:18px 0 0;box-shadow:0 2px 6px rgba(19,0,50,.05);';
+      stepper.parentNode.insertBefore(toggle,stepper.nextSibling);
+    }
+  }
+}
+
+document.getElementById('frame-nda').addEventListener('load',function(){setupFrame('frame-nda');});
+document.getElementById('frame-procurement').addEventListener('load',function(){setupFrame('frame-procurement');});
+</script>
+</body>
+</html>
