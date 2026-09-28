@@ -260,8 +260,10 @@ li{margin:5px 0;}
         <li data-scroll="p1" style="padding-left:24px">0.5.1 Products enabled</li>
         <li data-scroll="p2" style="padding-left:24px">0.5.2 Permissions</li>
         <li data-scroll="p3" style="padding-left:24px">0.5.3 Download lab assets</li>
-        <li data-scroll="p3b" style="padding-left:24px">0.5.4 Import workflow</li>
-        <li data-scroll="p3c" style="padding-left:24px">0.5.5 Upload agreements</li>
+        <li data-scroll="p3clm" style="padding-left:24px">0.5.4 Import workflow in CLM</li>
+        <li data-scroll="p3template" style="padding-left:24px">0.5.5 Upload the template</li>
+        <li data-scroll="p3b" style="padding-left:24px">0.5.6 Import workflow in IAM</li>
+        <li data-scroll="p3c" style="padding-left:24px">0.5.7 Upload sample agreements</li>
       </ul>
       <li class="step" data-target="stage-1"><span class="ring" data-stage="1"><svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg><span class="num">1</span></span><span class="txt"><span class="t">Agent Studio</span><span class="s">Build the Risk Analyst</span></span></li>
       <ul class="sub-nav">
@@ -489,6 +491,8 @@ After signature, AI extracts the final agreement data, CLM applies the relevant 
         <ul>
           <li>Access to Agreement Desk - can view and manage the Requests page.</li>
           <li>Access to Workflow Builder - can create and publish workflows.</li>
+          <li>Access to the CLM <b>Use AI Agent</b> step.</li>
+          <li>CLM-IAM interoperability enabled for the environment.</li>
           <li>Permission to manage requests, or at minimum to create and edit requests for the lab Request Type.</li>
           <li><b>Agent Studio build access</b> - enabled by an org admin before Stage 1. Click path below.</li>
         </ul>
@@ -525,11 +529,30 @@ After signature, AI extracts the final agreement data, CLM applies the relevant 
           <tbody><tr><th>Asset</th><th>What it's for</th></tr>
           <tr><td><code>Agent Studio 202 Vendor Contract Review Workflow.zip</code></td><td>The prebuilt workflow and Request Type. Leave it zipped — do not extract.</td></tr>
           <tr><td><code>Agent Studio 202 - Vendor Contracts.zip</code></td><td>The Agreement Desk Request Type — automatically added when you import the workflow.</td></tr>
+          <tr><td>CLM workflow JSON file</td><td>The workflow to import through CLM Admin.</td></tr>
+          <tr><td>Template file</td><td>The template to upload into the folder created under Agreements.</td></tr>
           <tr><td><code>MSA_high.docx</code>, <code>MSA_low.docx</code>, <code>MSA_medium.docx</code></td><td>Sample agreements for testing the three risk paths.</td></tr>
         </tbody></table>
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="0" id="p3b"><div><h3 style="display:inline">0.5.4 · Import the workflow</h3><span class="tag">setup</span></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p3clm"><div><h3 style="display:inline">0.5.4 · Import the workflow in CLM</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <ol>
+          <li>Under <b>CLM Admin</b>, navigate to <b>Workflow</b>.</li>
+          <li>Under <b>Advanced CLM Workflow</b>, import the workflow JSON file.</li>
+          <li>Click <b>Save &amp; Publish</b>.</li>
+        </ol>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p3template"><div><h3 style="display:inline">0.5.5 · Upload the template</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <ol>
+          <li>Under the <b>Agreements</b> header, create a folder.</li>
+          <li>Upload the template file into that folder.</li>
+        </ol>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p3b"><div><h3 style="display:inline">0.5.6 · Import the workflow in IAM</h3><span class="tag">setup</span></div></div>
       <div class="card">
         <ol>
           <li>Under the <b>Agreements</b> tab, navigate to <b>Workflows</b>.</li>
@@ -542,7 +565,7 @@ After signature, AI extracts the final agreement data, CLM applies the relevant 
         <img src="assets/prereq-import-workflow.jpeg" alt="Imported workflow showing Agent Studio 202 Vendor Contract Review Workflow with Review and Publish button" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
       </div>
 
-      <div class="h-check"><input type="checkbox" data-stage="0" id="p3c"><div><h3 style="display:inline">0.5.5 · Upload sample agreements</h3><span class="tag">setup</span></div></div>
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p3c"><div><h3 style="display:inline">0.5.7 · Upload sample agreements</h3><span class="tag">setup</span></div></div>
       <div class="card">
         <ol>
           <li>Go to <b>Agreements</b> in your account.</li>
