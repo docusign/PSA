@@ -177,6 +177,20 @@ li{margin:5px 0;}
 .arch-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
 .renewal-flow{margin:16px 0 24px;overflow-x:auto;border:1px solid var(--hairline);border-radius:12px;background:#fff;}
 .renewal-flow svg{display:block;width:100%;min-width:1120px;height:auto;}
+.renewal-flow .route{fill:none;stroke:#aeb4c0;stroke-width:2;opacity:.28;transition:opacity .2s ease,stroke .2s ease,stroke-width .2s ease;}
+.renewal-flow .route.is-active{opacity:1;stroke:#4C00FF;stroke-width:3;}
+.renewal-flow .route.is-active.route-low{stroke:#0a7d3c;}
+.renewal-flow .route.is-active.route-high{stroke:#FF5252;}
+.renewal-controls{display:flex;align-items:end;gap:18px;flex-wrap:wrap;padding:16px 18px;border-top:1px solid var(--hairline);background:var(--surface);}
+.renewal-controls .control{display:flex;flex-direction:column;gap:6px;}
+.renewal-controls label{font-size:12px;font-weight:600;color:var(--ink);}
+.renewal-controls select{min-width:180px;padding:8px 10px;border:1px solid var(--hairline);border-radius:7px;background:#fff;color:var(--ink);font:500 13px var(--font);}
+.renewal-controls .approval-control{display:flex;align-items:center;gap:8px;min-height:36px;font-weight:500;}
+.renewal-controls input[type="checkbox"]{width:17px;height:17px;accent-color:var(--indigo);}
+.renewal-controls button{padding:8px 13px;border:1px solid var(--hairline);border-radius:7px;background:#fff;color:var(--ink);font:600 13px var(--font);cursor:pointer;}
+.renewal-controls button:hover{border-color:var(--indigo);color:var(--indigo);}
+.renewal-status{flex:1 1 260px;min-width:220px;padding:8px 11px;border-left:3px solid var(--indigo);background:#fff;font-size:13px;color:var(--ink);}
+@media(max-width:768px){.renewal-controls{align-items:stretch;gap:12px;padding:14px;}.renewal-controls .control,.renewal-controls select,.renewal-controls button{width:100%;}.renewal-status{flex-basis:100%;}}
 
 /* ---------- interactive decision-tree explorer ---------- */
 .explorer .edge{opacity:.4;transition:opacity .3s ease,stroke .3s ease,stroke-width .3s ease;}
@@ -305,19 +319,19 @@ li{margin:5px 0;}
           <text x="65" y="196" text-anchor="middle" transform="rotate(-90 65 196)" fill="#130032" font-family="DSIndigo,Arial,sans-serif" font-size="14" font-weight="600">CLM</text>
           <text x="65" y="418" text-anchor="middle" transform="rotate(-90 65 418)" fill="#130032" font-family="DSIndigo,Arial,sans-serif" font-size="14" font-weight="600">IAM</text>
 
-          <g fill="none" stroke="#687386" stroke-width="2" marker-end="url(#renewal-arrow)">
-            <path d="M164 184H198"/>
-            <path d="M251 224V398"/>
-            <path d="M357 431H414V298"/>
-            <path d="M478 260V184H536"/>
-            <path d="M658 184H695"/>
-            <path d="M727 154V111H783"/>
-            <path d="M843 144V184H887"/>
-            <path d="M759 184H887"/>
-            <path d="M997 184H1023"/>
-            <path d="M1133 184H1153"/>
-            <path d="M1253 184H1273"/>
-            <path d="M1373 184H1390"/>
+          <g marker-end="url(#renewal-arrow)">
+            <path id="route-start-request" class="route route-common" d="M164 184H198"/>
+            <path id="route-request-form" class="route route-common" d="M251 224V398"/>
+            <path id="route-form-draft" class="route route-common" d="M357 431H414V298"/>
+            <path id="route-draft-agent" class="route route-common" d="M478 260V184H536"/>
+            <path id="route-agent-risk" class="route route-common" d="M658 184H695"/>
+            <path id="route-risk-legal" class="route route-high" d="M727 154V111H783"/>
+            <path id="route-legal-signature" class="route route-high" d="M843 144V184H887"/>
+            <path id="route-risk-signature" class="route route-low" d="M759 184H887"/>
+            <path id="route-signature-extraction" class="route route-postsign" d="M997 184H1023"/>
+            <path id="route-extraction-attributes" class="route route-postsign" d="M1133 184H1153"/>
+            <path id="route-attributes-storage" class="route route-postsign" d="M1253 184H1273"/>
+            <path id="route-storage-end" class="route route-postsign" d="M1373 184H1390"/>
           </g>
 
           <g font-family="DSIndigo,Arial,sans-serif" font-size="13" text-anchor="middle">
@@ -370,6 +384,21 @@ li{margin:5px 0;}
             <text x="1028" y="293" fill="#3c3425"><tspan x="1028">After signing, the agreement is stored</tspan><tspan x="1028" dy="17">in CLM and IAM Agreement Manager</tspan></text>
           </g>
         </svg>
+        <div class="renewal-controls" aria-label="Renewal flow controls">
+          <div class="control">
+            <label for="renewal-risk">Risk Analyst score</label>
+            <select id="renewal-risk">
+              <option value="low">LOW</option>
+              <option value="high" selected>HIGH</option>
+            </select>
+          </div>
+          <label class="approval-control" for="legal-approved">
+            <input id="legal-approved" type="checkbox">
+            Legal approval granted
+          </label>
+          <button id="renewal-reset" type="button">Reset</button>
+          <div class="renewal-status" id="renewal-status" role="status" aria-live="polite">HIGH risk selected. The request is routed to Legal Review and waits for Legal approval.</div>
+        </div>
       </div>
 
       <h3 id="sec-0-3">0.3 Learning objectives</h3>
@@ -441,5 +470,47 @@ li{margin:5px 0;}
   </main>
 </div>
 
+<script>
+(function(){
+  var riskSelect=document.getElementById('renewal-risk');
+  var legalApproval=document.getElementById('legal-approved');
+  var status=document.getElementById('renewal-status');
+  var flow=document.querySelector('.renewal-flow');
+  var reset=document.getElementById('renewal-reset');
+  var common=['route-start-request','route-request-form','route-form-draft','route-draft-agent','route-agent-risk'];
+  var postSign=['route-signature-extraction','route-extraction-attributes','route-attributes-storage','route-storage-end'];
+
+  function updateFlow(){
+    flow.querySelectorAll('.route').forEach(function(route){route.classList.remove('is-active');});
+    common.forEach(function(id){document.getElementById(id).classList.add('is-active');});
+
+    if(riskSelect.value==='low'){
+      document.getElementById('route-risk-signature').classList.add('is-active');
+      postSign.forEach(function(id){document.getElementById(id).classList.add('is-active');});
+      status.textContent='LOW risk: the renewal proceeds directly to signature, then AI data extraction, attribute application, and storage. Legal approval is not required.';
+      return;
+    }
+
+    document.getElementById('route-risk-legal').classList.add('is-active');
+    if(legalApproval.checked){
+      document.getElementById('route-legal-signature').classList.add('is-active');
+      postSign.forEach(function(id){document.getElementById(id).classList.add('is-active');});
+      status.textContent='HIGH risk: Legal Review is complete and approved. The renewal proceeds to signature, data extraction, attribute application, and storage.';
+    }else{
+      status.textContent='HIGH risk: the request is routed to Legal Review and waits for Legal approval.';
+    }
+  }
+
+  riskSelect.addEventListener('change',updateFlow);
+  legalApproval.addEventListener('change',updateFlow);
+  reset.addEventListener('click',function(){
+    riskSelect.value='high';
+    legalApproval.checked=false;
+    updateFlow();
+    riskSelect.focus();
+  });
+  updateFlow();
+})();
+</script>
 
 </body></html>
