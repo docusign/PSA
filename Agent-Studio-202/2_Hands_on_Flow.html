@@ -251,18 +251,22 @@ li{margin:5px 0;}
     <div class="kicker">Agent Studio · 202</div>
     <ul class="sub-nav" aria-label="Page outline">
       <li><a href="#sec-0-1">1 What this scenario covers</a></li>
-      <li><a href="#sec-0-2">0.2 What is inherited from Scenario 201</a></li>
+      <li><a href="#sec-0-2">0.2 Learning objectives</a></li>
+      <li style="padding-left:24px">Initiate a renewal process</li>
+      <li style="padding-left:24px">Reuse the Risk Analyst agent across CLM and IAM</li>
+      <li style="padding-left:24px">Process completed agreement data with AI Data Insights</li>
+      <li><a href="#sec-0-3">0.3 What is inherited from Scenario 201</a></li>
       <li style="padding-left:24px">Published agent</li>
       <li style="padding-left:24px">Agent instructions</li>
       <li style="padding-left:24px">Agent capabilities</li>
       <li style="padding-left:24px">Agent output fields</li>
-      <li><a href="#sec-0-3">0.3 What is not included</a></li>
+      <li><a href="#sec-0-4">0.4 What is not included</a></li>
       <li style="padding-left:24px">No Agreement Desk intake</li>
       <li style="padding-left:24px">No new agent creation</li>
       <li style="padding-left:24px">No new document submission</li>
-      <li><a href="#sec-0-4">0.4 Prerequisites</a></li>
-      <li><a href="#sec-0-5">0.5 Required permissions</a></li>
-      <li><a href="#sec-0-6">0.6 Workshop assets and sample agreements</a></li>
+      <li><a href="#sec-0-5">0.5 Prerequisites</a></li>
+      <li><a href="#sec-0-6">0.6 Required permissions</a></li>
+      <li><a href="#sec-0-7">0.7 Workshop assets and sample agreements</a></li>
     </ul>
   </aside>
 
@@ -279,7 +283,12 @@ li{margin:5px 0;}
       <p>The vendor’s responses are used to generate a draft renewal contract in CLM. The same Risk Analyst agent reviews the draft and assigns a risk score. LOW-risk renewals go directly to the vendor for signature. HIGH-risk renewals are routed to Legal, where AI-Assisted Review analyzes the agreement and proposes fallback clauses before approval.</p>
       <p>Once signed, the completed renewal contract is processed by AI for data extraction. CLM applies the extracted attributes, stores the agreement in the appropriate folder, and synchronizes the contract with IAM Agreement Manager—creating a complete, auditable renewal process from intake through post-signature management.</p>
 
-      <h3 id="sec-0-2">0.2 What is inherited from Scenario 201</h3>
+      <h3 id="sec-0-2">0.2 Learning objectives</h3>
+      <div class="obj"><div class="lab">Objective 1</div><b>Use CLM and IAM to initiate a renewal process</b><br>Create a renewal request in CLM, collect updated vendor information through an IAM renewal form, and generate a draft renewal agreement.</div>
+      <div class="obj"><div class="lab">Objective 2</div><b>Reuse the Risk Analyst agent across CLM and IAM</b><br>Invoke the agent created in Scenario 201 to analyze the renewal draft, extract key terms, assign a risk score, and route the agreement based on that result.</div>
+      <div class="obj"><div class="lab">Objective 3</div><b>Process completed agreements with AI Data Insights</b><br>Extract data from the executed agreement, apply CLM attributes, store the agreement in the appropriate folder, and synchronize it with IAM Agreement Manager.</div>
+
+      <h3 id="sec-0-3">0.3 What is inherited from Scenario 201</h3>
       <ul>
         <li>Published agent</li>
         <li>Agent instructions</li>
@@ -287,16 +296,16 @@ li{margin:5px 0;}
         <li>Agent output fields</li>
       </ul>
 
-      <h3 id="sec-0-3">0.3 What is not included</h3>
+      <h3 id="sec-0-4">0.4 What is not included</h3>
       <ul>
         <li>No Agreement Desk intake</li>
         <li>No new agent creation</li>
         <li>No new document submission</li>
       </ul>
 
-      <h3 id="sec-0-4">0.4 Prerequisites</h3>
-      <h3 id="sec-0-5">0.5 Required permissions</h3>
-      <h3 id="sec-0-6">0.6 Workshop assets and sample agreements</h3>
+      <h3 id="sec-0-5">0.5 Prerequisites</h3>
+      <h3 id="sec-0-6">0.6 Required permissions</h3>
+      <h3 id="sec-0-7">0.7 Workshop assets and sample agreements</h3>
     </section>
   </main>
 </div>
