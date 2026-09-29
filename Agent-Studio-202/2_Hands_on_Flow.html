@@ -255,18 +255,21 @@ li{margin:5px 0;}
       <li style="padding-left:24px">Initiate a renewal process</li>
       <li style="padding-left:24px">Reuse the Risk Analyst agent across CLM and IAM</li>
       <li style="padding-left:24px">Process completed agreement data with AI Data Insights</li>
-      <li><a href="#sec-0-3">0.3 What is inherited from Scenario 201</a></li>
+      <li><a href="#sec-0-3">0.3 Products enabled</a></li>
+      <li><a href="#sec-0-4">0.4 Required permissions</a></li>
+      <li><a href="#sec-0-5">0.5 Import the workflow in CLM</a></li>
+      <li><a href="#sec-0-6">0.6 Upload the template</a></li>
+      <li><a href="#sec-0-7">0.7 Import the workflow in IAM</a></li>
+      <li><a href="#sec-0-8">0.8 What is inherited from Scenario 201</a></li>
       <li style="padding-left:24px">Published agent</li>
       <li style="padding-left:24px">Agent instructions</li>
       <li style="padding-left:24px">Agent capabilities</li>
       <li style="padding-left:24px">Agent output fields</li>
-      <li><a href="#sec-0-4">0.4 What is not included</a></li>
+      <li><a href="#sec-0-9">0.9 What is not included</a></li>
       <li style="padding-left:24px">No Agreement Desk intake</li>
       <li style="padding-left:24px">No new agent creation</li>
       <li style="padding-left:24px">No new document submission</li>
-      <li><a href="#sec-0-5">0.5 Prerequisites</a></li>
-      <li><a href="#sec-0-6">0.6 Required permissions</a></li>
-      <li><a href="#sec-0-7">0.7 Workshop assets and sample agreements</a></li>
+      <li><a href="#sec-0-10">0.10 Workshop assets</a></li>
     </ul>
   </aside>
 
@@ -288,7 +291,46 @@ li{margin:5px 0;}
       <div class="obj"><div class="lab">Objective 2</div><b>Reuse the Risk Analyst agent across CLM and IAM</b><br>Invoke the agent created in Scenario 201 to analyze the renewal draft, extract key terms, assign a risk score, and route the agreement based on that result.</div>
       <div class="obj"><div class="lab">Objective 3</div><b>Process completed agreements with AI Data Insights</b><br>Extract data from the executed agreement, apply CLM attributes, store the agreement in the appropriate folder, and synchronize it with IAM Agreement Manager.</div>
 
-      <h3 id="sec-0-3">0.3 What is inherited from Scenario 201</h3>
+      <h3 id="sec-0-3">0.3 Products enabled</h3>
+      <ul>
+        <li><b>Workflow Builder</b> - enabled, with permission to create and publish workflows.</li>
+        <li><b>Agent Studio and agents-in-workflows</b> - enabled for your partner sandbox. The agent is created in Scenario 201.</li>
+        <li><b>CLM Use AI Agent step</b> - available in the workflow step list.</li>
+        <li><b>CLM-IAM interoperability</b> - enabled.</li>
+      </ul>
+
+      <h3 id="sec-0-4">0.4 Required permissions</h3>
+      <p>Each participant or pair needs:</p>
+      <ul>
+        <li>Access to Workflow Builder - can create and publish workflows.</li>
+        <li>Access to the CLM Use AI Agent step.</li>
+        <li>Access to CLM-IAM interoperability.</li>
+      </ul>
+
+      <h3 id="sec-0-5">0.5 Import the workflow in CLM</h3>
+      <ol>
+        <li>Under <b>CLM Admin</b>, navigate to <b>Workflow</b>.</li>
+        <li>Under <b>Advanced CLM Workflow</b>, import the JSON file.</li>
+        <li>Click <b>Save &amp; Publish</b> the workflow.</li>
+      </ol>
+
+      <h3 id="sec-0-6">0.6 Upload the template</h3>
+      <ol>
+        <li>Create a folder under the <b>Agreements</b> header.</li>
+        <li>Upload the template file into the folder.</li>
+      </ol>
+
+      <h3 id="sec-0-7">0.7 Import the workflow in IAM</h3>
+      <ol>
+        <li>Under the <b>Agreements</b> tab, navigate to <b>Workflows</b>.</li>
+        <li>Click <b>Import Workflow</b> (under Create Workflow).</li>
+        <li>Upload the workflow ZIP file from the workshop kit. Leave it zipped; do not extract it first.</li>
+        <li>Click <b>Review &amp; Publish</b>.</li>
+        <li>If prompted, click <b>Authorize My Account</b> to complete the one-time agent consent for this environment.</li>
+        <li>Click through <b>Next</b>, then <b>Publish</b>.</li>
+      </ol>
+
+      <h3 id="sec-0-8">0.8 What is inherited from Scenario 201</h3>
       <ul>
         <li>Published agent</li>
         <li>Agent instructions</li>
@@ -296,16 +338,19 @@ li{margin:5px 0;}
         <li>Agent output fields</li>
       </ul>
 
-      <h3 id="sec-0-4">0.4 What is not included</h3>
+      <h3 id="sec-0-9">0.9 What is not included</h3>
       <ul>
         <li>No Agreement Desk intake</li>
         <li>No new agent creation</li>
         <li>No new document submission</li>
       </ul>
 
-      <h3 id="sec-0-5">0.5 Prerequisites</h3>
-      <h3 id="sec-0-6">0.6 Required permissions</h3>
-      <h3 id="sec-0-7">0.7 Workshop assets and sample agreements</h3>
+      <h3 id="sec-0-10">0.10 Workshop assets</h3>
+      <ul>
+        <li>CLM workflow JSON file</li>
+        <li>Renewal template file</li>
+        <li>IAM workflow ZIP file from the workshop kit</li>
+      </ul>
     </section>
   </main>
 </div>
