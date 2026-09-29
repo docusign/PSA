@@ -256,6 +256,11 @@ li{margin:5px 0;}
   <aside>
     <div class="kicker">Agent Studio · 202</div>
     <ul class="sub-nav" aria-label="Page outline">
+      <li><a href="#scenario201-stage-0">Scenario 201 MSA · Before you begin</a></li>
+      <li><a href="#stage-1">Scenario 201 MSA · Stage 1 Agent Studio</a></li>
+      <li><a href="#stage-2">Scenario 201 MSA · Stage 2 Import &amp; wire up</a></li>
+      <li><a href="#stage-3">Scenario 201 MSA · Stage 3 Trigger &amp; validate</a></li>
+      <li><a href="#stage-4">Scenario 201 MSA · Stage 4 CLM connection</a></li>
       <li><a href="#sec-0-1">1 What this scenario covers</a></li>
       <li><a href="#sec-0-2">0.2 Renewal flow</a></li>
       <li><a href="#sec-0-3">0.3 Learning objectives</a></li>
@@ -288,205 +293,265 @@ li{margin:5px 0;}
       <li style="padding-left:24px"><a href="#flow-step-8">8 Extract data and apply attributes</a></li>
       <li style="padding-left:24px"><a href="#flow-step-9">9 Store the executed agreement</a></li>
       <li style="padding-left:24px"><a href="#flow-step-10">10 Validate end to end</a></li>
-      <li><a href="#stage-1">Scenario 201 MSA workshop content</a></li>
-      <li style="padding-left:24px"><a href="#stage-1">Stage 1 · Agent Studio</a></li>
-      <li style="padding-left:24px"><a href="#stage-2">Stage 2 · Import &amp; wire up</a></li>
-      <li style="padding-left:24px"><a href="#stage-3">Stage 3 · Trigger &amp; validate</a></li>
-      <li style="padding-left:24px"><a href="#stage-4">Stage 4 · The CLM connection</a></li>
     </ul>
   </aside>
 
   <!-- ===================== MAIN ===================== -->
   <main>
-    <section class="stage" id="stage-0">
+  <div class="note"><b>Scenario 201 MSA reference.</b> This preserves the complete original MSA workshop from Before you begin through the CLM connection. The 202 renewal scenario follows it; use the 202 renewal flow and setup outline for this workshop's process.</div>
+
+    <!-- ============ STAGE 0 ============ -->
+    <section class="stage" id="scenario201-stage-0">
       <div class="hero">
         <div class="kicker">Docusign IAM · Building Agents 202</div>
-        <h1>Agent Studio 202 · MSA Scenario Outline</h1>
+        <h1>Risk-based routing: Docusign Agreement Desk + Agent Studio + Workflow Builder</h1>
+        <p>Build a risk-scoring agent, wire it into a Workflow Builder pipeline, and watch contracts route themselves — low risk to signature, high risk to human review.</p>
       </div>
 
-      <h3 id="sec-0-1">1 What this scenario covers</h3>
-      <p>At Fontara, the vendor contracts onboarded through Agreement Desk are now approaching renewal. Instead of starting a new email thread, CLM automatically creates a renewal request and sends the vendor a renewal form through IAM.</p>
-      <p>The vendor’s responses are used to generate a draft renewal contract in CLM. The same Risk Analyst agent reviews the draft and assigns a risk score. LOW-risk renewals go directly to the vendor for signature. HIGH-risk renewals are routed to Legal, where AI-Assisted Review analyzes the agreement and proposes fallback clauses before approval.</p>
-      <p>Once signed, the completed renewal contract is processed by AI for data extraction. CLM applies the extracted attributes, stores the agreement in the appropriate folder, and synchronizes the contract with IAM Agreement Manager—creating a complete, auditable renewal process from intake through post-signature management.</p>
-
-      <h3 id="sec-0-2">0.2 Renewal flow</h3>
-      <div class="renewal-flow">
-        <svg viewBox="0 0 1450 510" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="renewal-flow-title renewal-flow-desc">
-          <title id="renewal-flow-title">Vendor contract renewal process across CLM and IAM</title>
-          <desc id="renewal-flow-desc">CLM creates a renewal request. IAM sends the vendor a renewal form. CLM generates a draft contract, which the Risk Analyst scores. Low-risk renewals go to signature; high-risk renewals go through Legal Review with AI Assisted Review before signature. After signing, AI extracts data, CLM applies attributes, and the agreement is stored in a folder in CLM and IAM Agreement Manager.</desc>
-          <defs>
-            <marker id="renewal-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#687386"/></marker>
-          </defs>
-
-          <rect x="48" y="42" width="1382" height="300" rx="9" fill="#fff" stroke="#667085" stroke-width="1.5"/>
-          <rect x="48" y="342" width="1382" height="150" rx="9" fill="#fff" stroke="#667085" stroke-width="1.5"/>
-          <rect x="48" y="42" width="34" height="300" fill="#f4f2fa" stroke="#667085" stroke-width="1.5"/>
-          <rect x="48" y="342" width="34" height="150" fill="#f4f2fa" stroke="#667085" stroke-width="1.5"/>
-          <text x="65" y="196" text-anchor="middle" transform="rotate(-90 65 196)" fill="#130032" font-family="DSIndigo,Arial,sans-serif" font-size="14" font-weight="600">CLM</text>
-          <text x="65" y="418" text-anchor="middle" transform="rotate(-90 65 418)" fill="#130032" font-family="DSIndigo,Arial,sans-serif" font-size="14" font-weight="600">IAM</text>
-
-          <g marker-end="url(#renewal-arrow)">
-            <path id="route-start-request" class="route route-common" d="M164 184H198"/>
-            <path id="route-request-form" class="route route-common" d="M251 224V398"/>
-            <path id="route-form-draft" class="route route-common" d="M357 431H414V298"/>
-            <path id="route-draft-agent" class="route route-common" d="M478 260V184H536"/>
-            <path id="route-agent-risk" class="route route-common" d="M658 184H695"/>
-            <path id="route-risk-legal" class="route route-high" d="M727 154V111H783"/>
-            <path id="route-legal-signature" class="route route-high" d="M843 144V184H887"/>
-            <path id="route-risk-signature" class="route route-low" d="M759 184H887"/>
-            <path id="route-signature-extraction" class="route route-postsign" d="M997 184H1023"/>
-            <path id="route-extraction-attributes" class="route route-postsign" d="M1133 184H1153"/>
-            <path id="route-attributes-storage" class="route route-postsign" d="M1253 184H1273"/>
-            <path id="route-storage-end" class="route route-postsign" d="M1373 184H1390"/>
-          </g>
-
-          <g font-family="DSIndigo,Arial,sans-serif" font-size="13" text-anchor="middle">
-            <ellipse cx="130" cy="184" rx="34" ry="25" fill="#e5efff" stroke="#2672ff" stroke-width="1.5"/>
-            <text x="130" y="189" fill="#130032">Start</text>
-
-            <rect x="198" y="144" width="106" height="80" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
-            <text x="251" y="172" fill="#130032"><tspan x="251">Create</tspan><tspan x="251" dy="17">renewal request</tspan><tspan x="251" dy="17">in CLM</tspan></text>
-
-            <rect x="237" y="398" width="120" height="66" rx="4" fill="#fff" stroke="#17864b" stroke-width="1.5"/>
-            <text x="297" y="424" fill="#130032"><tspan x="297">Send vendor</tspan><tspan x="297" dy="17">renewal form</tspan></text>
-
-            <rect x="414" y="224" width="128" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
-            <text x="478" y="251" fill="#130032"><tspan x="478">Generate</tspan><tspan x="478" dy="17">draft contract</tspan></text>
-
-            <rect x="536" y="147" width="122" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
-            <text x="597" y="176" fill="#130032"><tspan x="597">Risk Analyst</tspan><tspan x="597" dy="17">Agent</tspan></text>
-
-            <polygon points="727,154 759,184 727,214 695,184" fill="#fff6d8" stroke="#e1a900" stroke-width="1.5"/>
-            <text x="727" y="180" fill="#130032"><tspan x="727">Risk</tspan><tspan x="727" dy="15">score?</tspan></text>
-            <text x="674" y="177" text-anchor="end" fill="#687386" font-size="11">High</text>
-            <text x="824" y="177" fill="#687386" font-size="11">Low</text>
-
-            <rect x="783" y="79" width="120" height="65" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
-            <text x="843" y="106" fill="#130032"><tspan x="843">Legal</tspan><tspan x="843" dy="17">Review</tspan></text>
-
-            <rect x="887" y="147" width="110" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
-            <text x="942" y="176" fill="#130032"><tspan x="942">Send for</tspan><tspan x="942" dy="17">Signature</tspan></text>
-
-            <rect x="1023" y="147" width="110" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
-            <text x="1078" y="176" fill="#130032"><tspan x="1078">AI data</tspan><tspan x="1078" dy="17">extraction</tspan></text>
-
-            <rect x="1153" y="147" width="100" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
-            <text x="1203" y="176" fill="#130032"><tspan x="1203">Apply</tspan><tspan x="1203" dy="17">attributes</tspan></text>
-
-            <rect x="1273" y="147" width="100" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
-            <text x="1323" y="176" fill="#130032"><tspan x="1323">Store in a</tspan><tspan x="1323" dy="17">folder</tspan></text>
-
-            <ellipse cx="1400" cy="184" rx="29" ry="25" fill="#e5efff" stroke="#2672ff" stroke-width="1.5"/>
-            <text x="1400" y="189" fill="#130032">End</text>
-          </g>
-
-          <g font-family="DSIndigo,Arial,sans-serif" font-size="12" font-style="italic" text-anchor="middle">
-            <path d="M850 59V72L843 79" fill="none" stroke="#d99a00"/>
-            <rect x="746" y="2" width="208" height="58" rx="4" fill="#fff5dc" stroke="#e1a900"/>
-            <text x="850" y="25" fill="#3c3425"><tspan x="850">AI Assisted Review (AIAR) runs an</tspan><tspan x="850" dy="16">analysis and proposes fallback clauses</tspan></text>
-
-            <path d="M1007 269L965 221" fill="none" stroke="#d99a00"/>
-            <rect x="900" y="269" width="256" height="62" rx="4" fill="#fff5dc" stroke="#e1a900"/>
-            <text x="1028" y="293" fill="#3c3425"><tspan x="1028">After signing, the agreement is stored</tspan><tspan x="1028" dy="17">in CLM and IAM Agreement Manager</tspan></text>
-          </g>
-        </svg>
-        <div class="renewal-controls" aria-label="Renewal flow controls">
-          <div class="control">
-            <label for="renewal-risk">Risk Analyst score</label>
-            <select id="renewal-risk">
-              <option value="low">LOW</option>
-              <option value="high" selected>HIGH</option>
-            </select>
-          </div>
-          <label class="approval-control" for="legal-approved">
-            <input id="legal-approved" type="checkbox">
-            Legal approval granted
-          </label>
-          <button id="renewal-reset" type="button">Reset</button>
-          <div class="renewal-status" id="renewal-status" role="status" aria-live="polite">HIGH risk selected. The request is routed to Legal Review and waits for Legal approval.</div>
+      <div class="card tint">
+        <h3>Pick your persona</h3>
+        <p style="margin:4px 0 0;font-size:14px;">We will implement one repeatable architecture, two business motions. Procurement onboards vendors; Sales renews and expands customers. The same agent handles both , the toggle changes the category you select, who reviews escalations, and the closing status.</p><p style="margin:4px 0 0;font-size:14px;"><br></p>
+        <div class="persona" id="persona">
+          <button data-p="procurement" class="on">Procurement / SI</button>
+          <button data-p="sales">Sales / Renewal</button>
         </div>
       </div>
 
-      <h3 id="sec-0-3">0.3 Learning objectives</h3>
-      <div class="obj"><div class="lab">Objective 1</div><b>Use CLM and IAM to initiate a renewal process</b><br>Create a renewal request in CLM, collect updated vendor information through an IAM renewal form, and generate a draft renewal agreement.</div>
-      <div class="obj"><div class="lab">Objective 2</div><b>Reuse the Risk Analyst agent across CLM and IAM</b><br>Invoke the agent created in Scenario 201 to analyze the renewal draft, extract key terms, assign a risk score, and route the agreement based on that result.</div>
-      <div class="obj"><div class="lab">Objective 3</div><b>Process completed agreements with AI Data Insights</b><br>Extract data from the executed agreement, apply CLM attributes, store the agreement in the appropriate folder, and synchronize it with IAM Agreement Manager.</div>
+      <div class="stage-head"><h2>Before you begin</h2></div>
 
-      <h3 id="sec-0-4">0.4 Products enabled</h3>
-      <ul>
-        <li><b>Workflow Builder</b> - enabled, with permission to create and publish workflows.</li>
-        <li><b>Agent Studio and agents-in-workflows</b> - enabled for your partner sandbox. The agent is created in Scenario 201.</li>
-        <li><b>CLM Use AI Agent step</b> - available in the workflow step list.</li>
-        <li><b>CLM-IAM interoperability</b> - enabled.</li>
-      </ul>
+      <h3 id="scenario201-sec-0-1">0.1 · The scenario</h3>
+      <div class="card proc-only">
+        <p style="margin:0 0 10px;font-weight:600;font-size:16px;">At Fontara, Procurement and Legal onboard high-value vendors one email thread at a time.</p>
+        <p style="margin:0;">A business user emails a draft vendor contract, Legal manually hunts for the liability cap and governing law, then someone routes it for signature. It is slow, inconsistent, and hard to audit.&nbsp;</p><p style="margin:0;">In this lab you replace that with an automated process: an Agreement Desk request starts a workflow that hands the contract to a Risk Analyst agent, which extracts the key terms and classifies risk. LOW risk goes straight to the vendor for signature; MEDIUM or HIGH risk waits for Legal.</p>
+      </div>
+      <div class="card sales-only">
+        <p style="margin:0 0 10px;font-weight:600;font-size:16px;">At Fontara, Sales and Customer Success process high-value renewals by emailing Legal and Finance.</p>
+        <p style="margin:0;">Reps email draft renewal orders for review, so pricing and clause policy get applied inconsistently, high-value deals stall, and nobody can see where a renewal is stuck. In this lab you replace that with an automated process: an Agreement Desk request starts a workflow that hands the order form to a Risk Analyst agent, which extracts discount, term, and governing law and classifies risk. LOW risk goes straight to the customer for signature; MEDIUM or HIGH risk waits for Finance and Legal.</p>
+      </div>
 
-      <h3 id="sec-0-5">0.5 Required permissions</h3>
-      <p>Each participant or pair needs:</p>
-      <ul>
-        <li>Access to Workflow Builder - can create and publish workflows.</li>
-        <li>Access to the CLM Use AI Agent step.</li>
-        <li>Access to CLM-IAM interoperability.</li>
-      </ul>
+      <h3 id="scenario201-sec-0-2">0.2 · The flow at a glance</h3>
+      <div class="card">
+        <h3>Four surfaces, one loop</h3>
+        <table>
+          <tbody><tr><th>Docusign Layer</th><th>Role in this lab</th></tr>
+          <tr><td><b>Agreement Desk</b></td><td>Intake and status hub. The business user starts here, uploads the contract, and can always see where the request sits.</td></tr>
+          <tr><td><b>Workflow Builder</b></td><td>The orchestrator. Starts from the Desk request, fetches the document, calls the agent, and owns all the deterministic branching.</td></tr>
+          <tr><td><b>Agent Studio</b></td><td>The governed intelligence layer. Your Risk Analyst agent is a role-based digital team member with natural-language instructions and scoped data access - it reasons, it does not decide the routing.</td></tr>
+          <tr><td><b>eSignature</b></td><td>The commit step. Nothing reaches a signer unless a branch explicitly allows it.</td></tr>
+        </tbody></table>
+        <p style="margin:12px 0 0;font-weight:600;">Email with contract → Agreement Desk request submitted → Workflow triggered automatically → Execute Risk Analyst agent → Workflow branches on risk_level → Status update &amp; approval routing.</p>
+      </div>
 
-      <h3 id="sec-0-6">0.6 Import the workflow in CLM</h3>
-      <ol>
-        <li>Under <b>CLM Admin</b>, navigate to <b>Workflow</b>.</li>
-        <li>Under <b>Advanced CLM Workflow</b>, import the JSON file.</li>
-        <li>Click <b>Save &amp; Publish</b> the workflow.</li>
-      </ol>
+      <div class="note">
+        <b>Where this sits in the bigger picture :</b> Docusign IAM is the governed agreement layer for agentic architectures - Agreement Manager, Agreement Desk, Workflow Builder, and CLM are the surfaces where agents actually live inside customer workflows, pre-sign through post-sign. Agent Studio is the control plane where you design and govern those agents.&nbsp;</div><div class="note">This lab builds one concrete pattern so you can adapt the same shape elsewhere. Embedding agents into CLM workflows via the "Use AI Agent" step is its own pattern, not covered in depth in this lab.
+      </div>
 
-      <h3 id="sec-0-7">0.7 Upload the template</h3>
-      <ol>
-        <li>Create a folder under the <b>Agreements</b> header.</li>
-        <li>Upload the template file into the folder.</li>
-      </ol>
+      <h3 id="scenario201-sec-0-3">0.3 · Explore the decision tree before you build it</h3>
+      <p style="margin:0 0 6px;">This is the exact routing logic you'll build and exercise across Stages 1 to 3. Change the controls below the diagram and watch the live path light up - that's the same branch your agent and workflow will take at runtime.</p>
+      <div class="card arch explorer" id="explorer">
+        <svg viewBox="0 0 940 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive flow diagram: Agreement Desk to Risk Analyst agent to a risk branch that routes to human review, eSignature, or back to the submitter">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="context-stroke"></path>
+            </marker>
+            <path id="route-low" d="M85,197 L746,197" fill="none"></path>
+            <path id="route-high" d="M85,197 L408,197 L408,73 L567,197 L746,197" fill="none"></path>
+            <path id="route-fallback" d="M85,197 L258,197 L258,298 L70,298 L70,232" fill="none"></path>
+          </defs>
 
-      <h3 id="sec-0-8">0.8 Import the workflow in IAM</h3>
-      <ol>
-        <li>Under the <b>Agreements</b> tab, navigate to <b>Workflows</b>.</li>
-        <li>Click <b>Import Workflow</b> (under Create Workflow).</li>
-        <li>Upload the workflow ZIP file from the workshop kit. Leave it zipped; do not extract it first.</li>
-        <li>Click <b>Review &amp; Publish</b>.</li>
-        <li>If prompted, click <b>Authorize My Account</b> to complete the one-time agent consent for this environment.</li>
-        <li>Click through <b>Next</b>, then <b>Publish</b>.</li>
-      </ol>
+          <!-- connective edges -->
+          <line id="edge-ad-agent" class="edge active risk-high" x1="155" y1="197" x2="186" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
+          <line id="edge-agent-branch" class="edge active risk-high" x1="330" y1="197" x2="363" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
 
-      <h3 id="sec-0-9">0.9 What is inherited from Scenario 201</h3>
-      <ul>
-        <li>Published agent</li>
-        <li>Agent instructions</li>
-        <li>Agent capabilities</li>
-        <li>Agent output fields</li>
-      </ul>
+          <!-- LOW: straight through -->
+          <line id="edge-branch-low" class="edge" x1="453" y1="197" x2="500" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
+          <text x="476" y="187" text-anchor="middle" font-size="11" font-weight="600" fill="#0a7d3c">LOW</text>
 
-      <h3 id="sec-0-10">0.10 What is not included</h3>
-      <ul>
-        <li>No Agreement Desk intake</li>
-        <li>No new agent creation</li>
-        <li>No new document submission</li>
-      </ul>
+          <!-- MEDIUM/HIGH: up to review, back down to signature -->
+          <path id="edge-branch-high" class="edge active risk-high" d="M408,157 V105" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
+          <text x="422" y="136" font-size="11" font-weight="600" fill="#FF5252">MED / HIGH</text>
+          <path id="edge-review-sign" class="edge active risk-high" d="M520,74 C 545,74 555,120 567,161" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
+          <text x="555" y="120" font-size="11" font-weight="600" fill="#FF5252">Approved</text>
 
-      <h3 id="sec-0-11">0.11 Workshop assets</h3>
-      <ul>
-        <li>CLM workflow JSON file</li>
-        <li>Renewal template file</li>
-        <li>IAM workflow ZIP file from the workshop kit</li>
-      </ul>
+          <line id="edge-sign-done" class="edge active risk-high" x1="633" y1="197" x2="660" y2="197" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
 
-      <h3 id="sec-0-12">0.12 End to End Flow</h3>
-      <ol class="end-to-end-flow">
-        <li id="flow-step-1">Start the CLM renewal</li>
-        <li id="flow-step-2">Collect vendor renewal details</li>
-        <li id="flow-step-3">Generate the draft contract</li>
-        <li id="flow-step-4">Analyze with Risk Analyst Agent</li>
-        <li id="flow-step-5">Route by risk score</li>
-        <li id="flow-step-6">Legal review and AI Assisted Review</li>
-        <li id="flow-step-7">Send for signature</li>
-        <li id="flow-step-8">Extract data and apply attributes</li>
-        <li id="flow-step-9">Store the executed agreement</li>
-        <li id="flow-step-10">Validate end to end</li>
-      </ol>
+          <!-- fallback: down to returned, looped back to intake -->
+          <line id="edge-agent-fallback" class="edge" x1="258" y1="229" x2="258" y2="268" stroke="#c9bdf0" stroke-width="2.5" marker-end="url(#arrow)"></line>
+          <text x="272" y="253" font-size="11" font-weight="600" fill="#c47a06">No doc / bad output</text>
+          <path id="edge-fallback-loop" class="edge" d="M185,299 C 140,330 90,310 70,232" stroke="#c9bdf0" stroke-width="2.5" fill="none" marker-end="url(#arrow)"></path>
+          <text x="180" y="355" font-size="11" font-weight="600" fill="#c47a06">Returned to submitter</text>
+
+          <!-- Node: Agreement Desk -->
+          <rect x="15" y="165" width="140" height="64" rx="12" fill="#4C00FF"></rect>
+          <text x="85" y="192" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">Agreement Desk</text>
+          <text x="85" y="209" text-anchor="middle" fill="#e7deff" font-size="10.5">Intake + document</text>
+
+          <!-- Node: Risk Analyst agent -->
+          <rect x="187" y="165" width="143" height="64" rx="12" fill="#9A1FA8"></rect>
+          <text x="258" y="188" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">Risk Analyst Agent</text>
+          <text x="258" y="205" text-anchor="middle" fill="#f2ddff" font-size="10.5">analyzes attached doc</text>
+
+          <!-- Node: Branch diamond -->
+          <polygon points="408,157 453,197 408,237 363,197" fill="#fff" stroke="#4C00FF" stroke-width="2"></polygon>
+          <text x="408" y="193" text-anchor="middle" fill="#130032" font-size="10.5" font-weight="600">risk</text>
+          <text x="408" y="205" text-anchor="middle" fill="#130032" font-size="10.5" font-weight="600">_level?</text>
+
+          <!-- Node: Human review -->
+          <rect id="nodeReview" x="340" y="46" width="180" height="56" rx="12" fill="#fff" stroke="#FF5252" stroke-width="2"></rect>
+          <rect class="node-highlight on" data-node="review" x="336" y="42" width="188" height="64" rx="14" fill="none" stroke="#FF5252" stroke-width="2" stroke-dasharray="3 3"></rect>
+          <text x="430" y="69" text-anchor="middle" fill="#130032" font-size="12.5" font-weight="600">Human review</text>
+          <text x="430" y="85" text-anchor="middle" fill="#615a75" font-size="10.5" class="proc-only">Legal approval</text>
+          <text x="430" y="85" text-anchor="middle" fill="#615a75" font-size="10.5" class="sales-only">Finance / Legal approval</text>
+
+          <!-- Node: Status Approved -->
+          <rect id="nodeStatus" x="501" y="165" width="133" height="64" rx="12" fill="#0a7d3c"></rect>
+          <rect class="node-highlight on" data-node="status" x="497" y="161" width="141" height="72" rx="14" fill="none" stroke="#0a7d3c" stroke-width="2" stroke-dasharray="3 3"></rect>
+          <text x="567" y="190" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="600">Update Status</text>
+          <text x="567" y="207" text-anchor="middle" fill="#d7f5e2" font-size="10.5">Approved</text>
+
+          <!-- Node: eSignature -->
+          <rect id="nodeSign" x="661" y="165" width="170" height="64" rx="12" fill="#C0207E"></rect>
+          <rect class="node-highlight on" data-node="sign" x="657" y="161" width="178" height="72" rx="14" fill="none" stroke="#C0207E" stroke-width="2" stroke-dasharray="3 3"></rect>
+          <text x="746" y="190" text-anchor="middle" fill="#fff" font-size="12.5" font-weight="600">eSignature</text>
+          <text x="746" y="207" text-anchor="middle" fill="#ffe0ef" font-size="10.5">Send for signature</text>
+
+          <!-- Node: Returned -->
+          <rect id="nodeFallback" x="185" y="269" width="150" height="56" rx="12" fill="#fff" stroke="#8a7fb0" stroke-width="2" stroke-dasharray="5 3"></rect>
+          <rect class="node-highlight" data-node="fallback" x="181" y="265" width="158" height="64" rx="14" fill="none" stroke="#c47a06" stroke-width="2" stroke-dasharray="3 3"></rect>
+          <text x="260" y="292" text-anchor="middle" fill="#130032" font-size="12" font-weight="600">Returned</text>
+          <text x="260" y="308" text-anchor="middle" fill="#615a75" font-size="10.5">No envelope sent</text>
+
+          <!-- animated particles -->
+          <circle class="particle" id="particle-low" r="5" fill="#0a7d3c" style="filter:drop-shadow(0 0 5px #0a7d3c)">
+            <animateMotion dur="3.2s" repeatCount="indefinite"><mpath href="#route-low"></mpath></animateMotion>
+          </circle>
+          <circle class="particle show" id="particle-high" r="5" fill="#FF5252" style="filter:drop-shadow(0 0 5px #FF5252)">
+            <animateMotion dur="4s" repeatCount="indefinite"><mpath href="#route-high"></mpath></animateMotion>
+          </circle>
+          <circle class="particle" id="particle-fallback" r="5" fill="#c47a06" style="filter:drop-shadow(0 0 5px #c47a06)">
+            <animateMotion dur="3.6s" repeatCount="indefinite"><mpath href="#route-fallback"></mpath></animateMotion>
+          </circle>
+        </svg>
+
+        <div class="explorer-panel">
+          <div class="ctrl">
+            <label for="ctrlRisk">Agent returns risk_level</label>
+            <select id="ctrlRisk">
+              <option value="low">LOW - Auto Approved</option>
+              <option value="medium">MEDIUM/HIGH - Route for Approvals</option>
+            </select>
+          </div>
+          <div class="ctrl">
+            <label for="ctrlMissing">Missing / unreadable document</label>
+            <button type="button" class="toggle" id="ctrlMissing" role="switch" aria-checked="false" aria-label="Toggle missing document scenario"><span class="knob"></span></button>
+          </div>
+          <div class="explorer-status">
+            <div><span class="k">Agent status</span><span class="v risk-high" id="statusAgent">HIGH</span></div>
+            <div><span class="k">Routing</span><span class="v risk-high" id="statusRoute">Human review first, then eSignature.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <h3 id="scenario201-sec-0-4">0.4 · Learning objectives</h3>
+      <div class="obj"><div class="lab">Objective 1</div><b>Use Agreement Desk as a structured intake surface</b><br>Import a Request Type, submit a request, and attach the document the rest of the flow depends on.</div>
+      <div class="obj"><div class="lab">Objective 2</div><b>Build a Risk Analyst agent in Agent Studio</b><br>Write instructions and add capabilities that reliably evaluate the request and respond with risk analysis.</div>
+      <div class="obj"><div class="lab">Objective 3</div><b>Orchestrate the agent inside Workflow Builder</b><br>Automatically trigger the workflow on Agreement Desk request submission, invoke the agent and capture its structured output into variables, and branch deterministically.</div>
+
+      <h3 id="scenario201-sec-0-5">0.5 · Prerequisites</h3>
+      <p>A Docusign IAM (Intelligent Agreement Management) environment - sandbox or non-production - with the features and permissions below. Everything uses synthetic data only, no production accounts or real party data.</p>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p1"><div><h3 style="display:inline">0.5.1 · Products enabled</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <ul>
+          <li><b>Agreement Desk</b> - available and configurable (Request Types, forms, statuses).</li>
+          <li><b>Workflow Builder</b> - enabled, with permission to create and publish workflows.</li>
+          <li><b>Agent Studio</b> and agents-in-workflows - enabled. Your PSA or facilitator will confirm this is switched on for your partner sandbox.</li>
+        </ul>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p2"><div><h3 style="display:inline">0.5.2 · Permissions</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 8px;">Each participant or pair needs:</p>
+        <ul>
+          <li>Access to Agreement Desk - can view and manage the Requests page.</li>
+          <li>Access to Workflow Builder - can create and publish workflows.</li>
+          <li>Permission to manage requests, or at minimum to create and edit requests for the lab Request Type.</li>
+          <li><b>Agent Studio build access</b> - enabled by an org admin before Stage 1. Click path below.</li>
+        </ul>
+        <div class="clickpath">
+          <div class="cp-task"><span class="cp-badge">Admin</span> Enable Agent Studio and Agreement Desk access for participants</div>
+          <ol>
+            <li>Open the <b>Admin</b> tab at <a href="https://apps-d.docusign.com/admin/admin-dashboard" target="_blank" rel="noopener">apps-d.docusign.com/admin/admin-dashboard</a>.</li>
+            <li>Go to <b>AI Control Settings</b> and ensure <b>Agent and chat capabilities</b> are turned on.
+              <img src="assets/prereq-ai-control-settings.png" alt="AI Control Settings - Agent and chat capabilities turned on" style="max-width:450px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
+            </li>
+            <li>In case they are turned off by default, select <b>Turn On Now</b> &amp; click <b>Save</b>.</li>
+            <li>Go to <b>Users</b> and find the participant's account row.</li>
+            <li>Click <b>Actions</b> next to their name, then select <b>Manage AI Agents Access</b>.</li>
+            <li>Under <b>AI Agents Access</b>, enable:<br>
+              &nbsp;&nbsp;- <b>Create new AI contract agents</b><br>
+              &nbsp;&nbsp;- <b>Share, delete, and configure AI contract agents</b>
+              <img src="assets/prereq-ai-agents-access.png" alt="AI Contract Agents Access permissions enabled" style="max-width:450px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
+            </li>
+            <li>Click <b>Save</b>.</li>
+            <li>Go to the <b>Agreement Desk Access</b> tab.</li>
+            <li>Enable <b>Configure Agreement Desk settings</b>.</li>
+            <li>Click <b>Save</b>.
+              <img src="assets/prereq-agreement-desk-access.png" alt="Agreement Desk Access tab with Configure Agreement Desk settings enabled" style="max-width:450px;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
+            </li>
+          </ol>
+        </div>
+        <div class="cp-src">Menu labels vary slightly by tenant. If "Manage AI Agents Access" is not visible under Actions, confirm Agent Studio is enabled on the account - see 0.6.1.</div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p3"><div><h3 style="display:inline">0.5.3 · Download the lab assets</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 8px;">From the GitHub repo your facilitator provides, download:</p>
+        <table>
+          <tbody><tr><th>Asset</th><th>What it's for</th></tr>
+          <tr><td><code>Agent Studio 202 Vendor Contract Review Workflow.zip</code></td><td>The prebuilt workflow and Request Type. Leave it zipped — do not extract.</td></tr>
+          <tr><td><code>Agent Studio 202 - Vendor Contracts.zip</code></td><td>The Agreement Desk Request Type — automatically added when you import the workflow.</td></tr>
+          <tr><td><code>MSA_high.docx</code>, <code>MSA_low.docx</code>, <code>MSA_medium.docx</code></td><td>Sample agreements for testing the three risk paths.</td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p3b"><div><h3 style="display:inline">0.5.4 · Import the workflow</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <ol>
+          <li>Under the <b>Agreements</b> tab, navigate to <b>Workflows</b>.</li>
+          <li>Click <b>Import Workflow</b> (under Create Workflow).</li>
+          <li>Upload the workflow zip from the workshop kit provided by your facilitator. Leave the file zipped — do not extract it first.</li>
+          <li>Click <b>Review &amp; Publish</b>.</li>
+          <li>If prompted, click <b>Authorize My Account</b> to complete the one-time agent consent for this environment.</li>
+          <li>Click through <b>Next</b>, then <b>Publish</b>.</li>
+        </ol>
+        <img src="assets/prereq-import-workflow.jpeg" alt="Imported workflow showing Agent Studio 202 Vendor Contract Review Workflow with Review and Publish button" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p3c"><div><h3 style="display:inline">0.5.5 · Upload sample agreements</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <ol>
+          <li>Go to <b>Agreements</b> in your account.</li>
+          <li>Navigate to <b>Completed</b>.</li>
+          <li>Click the <b>+</b> icon and select <b>Upload</b>.</li>
+          <li>Upload the sample agreements (<code>MSA_high.docx</code>, <code>MSA_low.docx</code>, <code>MSA_medium.docx</code>) from the workshop kit.</li>
+        </ol>
+        <img src="assets/agre.png" alt="Agreements page showing Upload option" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:10px 0;display:block;">
+      </div>
+
+
+      <h3>0.6 · How to use this handbook</h3>
+      <table>
+        <tbody><tr><th>Element</th><th>What it means</th></tr>
+        <tr><td>Step checkbox</td><td>The box next to each numbered heading. Tick it when done; the sidebar ring for that stage fills.</td></tr>
+        <tr><td>Prompt block</td><td>Copy-paste ready. Use the Copy button in the top-right corner.</td></tr>
+        <tr><td>Checkpoint</td><td>The green box at the end of a step. Don't move on until it's true.</td></tr>
+        <tr><td>Persona toggle</td><td>Switches the page between the Procurement and Sales motions.</td></tr>
+      </tbody></table>
+      <div class="cp-src">Menu labels and exact click paths vary slightly by tenant and release. Where this handbook and your screen disagree, trust your screen and check the equivalent tab under the same top-level area.</div>
     </section>
+
+
 
   <section class="stage" id="stage-reference-intro"><div class="stage-head"><h2>Scenario 201 · MSA Workshop Reference</h2></div><div class="note">The following build, import, validation, and CLM material is carried forward from the Agent Studio 201 MSA workshop. This 202 scenario reuses the published Risk Analyst agent for the renewal flow above.</div></section>
 
@@ -841,6 +906,198 @@ Using the data from the documents and the risk checklist evaluation, return the 
         Agent Studio 202 · Hands-on lab · Synthetic data only. Menu labels vary by tenant and release, so trust your screen. For questions or feedback: <a href="mailto:amrit.prakash@docusign.com">amrit.prakash@docusign.com</a>
       </div>
     </section>
+
+
+    <section class="stage" id="stage-0">
+      <div class="hero">
+        <div class="kicker">Docusign IAM · Building Agents 202</div>
+        <h1>Agent Studio 202 · MSA Scenario Outline</h1>
+      </div>
+
+      <h3 id="sec-0-1">1 What this scenario covers</h3>
+      <p>At Fontara, the vendor contracts onboarded through Agreement Desk are now approaching renewal. Instead of starting a new email thread, CLM automatically creates a renewal request and sends the vendor a renewal form through IAM.</p>
+      <p>The vendor’s responses are used to generate a draft renewal contract in CLM. The same Risk Analyst agent reviews the draft and assigns a risk score. LOW-risk renewals go directly to the vendor for signature. HIGH-risk renewals are routed to Legal, where AI-Assisted Review analyzes the agreement and proposes fallback clauses before approval.</p>
+      <p>Once signed, the completed renewal contract is processed by AI for data extraction. CLM applies the extracted attributes, stores the agreement in the appropriate folder, and synchronizes the contract with IAM Agreement Manager—creating a complete, auditable renewal process from intake through post-signature management.</p>
+
+      <h3 id="sec-0-2">0.2 Renewal flow</h3>
+      <div class="renewal-flow">
+        <svg viewBox="0 0 1450 510" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="renewal-flow-title renewal-flow-desc">
+          <title id="renewal-flow-title">Vendor contract renewal process across CLM and IAM</title>
+          <desc id="renewal-flow-desc">CLM creates a renewal request. IAM sends the vendor a renewal form. CLM generates a draft contract, which the Risk Analyst scores. Low-risk renewals go to signature; high-risk renewals go through Legal Review with AI Assisted Review before signature. After signing, AI extracts data, CLM applies attributes, and the agreement is stored in a folder in CLM and IAM Agreement Manager.</desc>
+          <defs>
+            <marker id="renewal-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#687386"/></marker>
+          </defs>
+
+          <rect x="48" y="42" width="1382" height="300" rx="9" fill="#fff" stroke="#667085" stroke-width="1.5"/>
+          <rect x="48" y="342" width="1382" height="150" rx="9" fill="#fff" stroke="#667085" stroke-width="1.5"/>
+          <rect x="48" y="42" width="34" height="300" fill="#f4f2fa" stroke="#667085" stroke-width="1.5"/>
+          <rect x="48" y="342" width="34" height="150" fill="#f4f2fa" stroke="#667085" stroke-width="1.5"/>
+          <text x="65" y="196" text-anchor="middle" transform="rotate(-90 65 196)" fill="#130032" font-family="DSIndigo,Arial,sans-serif" font-size="14" font-weight="600">CLM</text>
+          <text x="65" y="418" text-anchor="middle" transform="rotate(-90 65 418)" fill="#130032" font-family="DSIndigo,Arial,sans-serif" font-size="14" font-weight="600">IAM</text>
+
+          <g marker-end="url(#renewal-arrow)">
+            <path id="route-start-request" class="route route-common" d="M164 184H198"/>
+            <path id="route-request-form" class="route route-common" d="M251 224V398"/>
+            <path id="route-form-draft" class="route route-common" d="M357 431H414V298"/>
+            <path id="route-draft-agent" class="route route-common" d="M478 260V184H536"/>
+            <path id="route-agent-risk" class="route route-common" d="M658 184H695"/>
+            <path id="route-risk-legal" class="route route-high" d="M727 154V111H783"/>
+            <path id="route-legal-signature" class="route route-high" d="M843 144V184H887"/>
+            <path id="route-risk-signature" class="route route-low" d="M759 184H887"/>
+            <path id="route-signature-extraction" class="route route-postsign" d="M997 184H1023"/>
+            <path id="route-extraction-attributes" class="route route-postsign" d="M1133 184H1153"/>
+            <path id="route-attributes-storage" class="route route-postsign" d="M1253 184H1273"/>
+            <path id="route-storage-end" class="route route-postsign" d="M1373 184H1390"/>
+          </g>
+
+          <g font-family="DSIndigo,Arial,sans-serif" font-size="13" text-anchor="middle">
+            <ellipse cx="130" cy="184" rx="34" ry="25" fill="#e5efff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="130" y="189" fill="#130032">Start</text>
+
+            <rect x="198" y="144" width="106" height="80" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="251" y="172" fill="#130032"><tspan x="251">Create</tspan><tspan x="251" dy="17">renewal request</tspan><tspan x="251" dy="17">in CLM</tspan></text>
+
+            <rect x="237" y="398" width="120" height="66" rx="4" fill="#fff" stroke="#17864b" stroke-width="1.5"/>
+            <text x="297" y="424" fill="#130032"><tspan x="297">Send vendor</tspan><tspan x="297" dy="17">renewal form</tspan></text>
+
+            <rect x="414" y="224" width="128" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="478" y="251" fill="#130032"><tspan x="478">Generate</tspan><tspan x="478" dy="17">draft contract</tspan></text>
+
+            <rect x="536" y="147" width="122" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="597" y="176" fill="#130032"><tspan x="597">Risk Analyst</tspan><tspan x="597" dy="17">Agent</tspan></text>
+
+            <polygon points="727,154 759,184 727,214 695,184" fill="#fff6d8" stroke="#e1a900" stroke-width="1.5"/>
+            <text x="727" y="180" fill="#130032"><tspan x="727">Risk</tspan><tspan x="727" dy="15">score?</tspan></text>
+            <text x="674" y="177" text-anchor="end" fill="#687386" font-size="11">High</text>
+            <text x="824" y="177" fill="#687386" font-size="11">Low</text>
+
+            <rect x="783" y="79" width="120" height="65" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="843" y="106" fill="#130032"><tspan x="843">Legal</tspan><tspan x="843" dy="17">Review</tspan></text>
+
+            <rect x="887" y="147" width="110" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="942" y="176" fill="#130032"><tspan x="942">Send for</tspan><tspan x="942" dy="17">Signature</tspan></text>
+
+            <rect x="1023" y="147" width="110" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="1078" y="176" fill="#130032"><tspan x="1078">AI data</tspan><tspan x="1078" dy="17">extraction</tspan></text>
+
+            <rect x="1153" y="147" width="100" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="1203" y="176" fill="#130032"><tspan x="1203">Apply</tspan><tspan x="1203" dy="17">attributes</tspan></text>
+
+            <rect x="1273" y="147" width="100" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="1323" y="176" fill="#130032"><tspan x="1323">Store in a</tspan><tspan x="1323" dy="17">folder</tspan></text>
+
+            <ellipse cx="1400" cy="184" rx="29" ry="25" fill="#e5efff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="1400" y="189" fill="#130032">End</text>
+          </g>
+
+          <g font-family="DSIndigo,Arial,sans-serif" font-size="12" font-style="italic" text-anchor="middle">
+            <path d="M850 59V72L843 79" fill="none" stroke="#d99a00"/>
+            <rect x="746" y="2" width="208" height="58" rx="4" fill="#fff5dc" stroke="#e1a900"/>
+            <text x="850" y="25" fill="#3c3425"><tspan x="850">AI Assisted Review (AIAR) runs an</tspan><tspan x="850" dy="16">analysis and proposes fallback clauses</tspan></text>
+
+            <path d="M1007 269L965 221" fill="none" stroke="#d99a00"/>
+            <rect x="900" y="269" width="256" height="62" rx="4" fill="#fff5dc" stroke="#e1a900"/>
+            <text x="1028" y="293" fill="#3c3425"><tspan x="1028">After signing, the agreement is stored</tspan><tspan x="1028" dy="17">in CLM and IAM Agreement Manager</tspan></text>
+          </g>
+        </svg>
+        <div class="renewal-controls" aria-label="Renewal flow controls">
+          <div class="control">
+            <label for="renewal-risk">Risk Analyst score</label>
+            <select id="renewal-risk">
+              <option value="low">LOW</option>
+              <option value="high" selected>HIGH</option>
+            </select>
+          </div>
+          <label class="approval-control" for="legal-approved">
+            <input id="legal-approved" type="checkbox">
+            Legal approval granted
+          </label>
+          <button id="renewal-reset" type="button">Reset</button>
+          <div class="renewal-status" id="renewal-status" role="status" aria-live="polite">HIGH risk selected. The request is routed to Legal Review and waits for Legal approval.</div>
+        </div>
+      </div>
+
+      <h3 id="sec-0-3">0.3 Learning objectives</h3>
+      <div class="obj"><div class="lab">Objective 1</div><b>Use CLM and IAM to initiate a renewal process</b><br>Create a renewal request in CLM, collect updated vendor information through an IAM renewal form, and generate a draft renewal agreement.</div>
+      <div class="obj"><div class="lab">Objective 2</div><b>Reuse the Risk Analyst agent across CLM and IAM</b><br>Invoke the agent created in Scenario 201 to analyze the renewal draft, extract key terms, assign a risk score, and route the agreement based on that result.</div>
+      <div class="obj"><div class="lab">Objective 3</div><b>Process completed agreements with AI Data Insights</b><br>Extract data from the executed agreement, apply CLM attributes, store the agreement in the appropriate folder, and synchronize it with IAM Agreement Manager.</div>
+
+      <h3 id="sec-0-4">0.4 Products enabled</h3>
+      <ul>
+        <li><b>Workflow Builder</b> - enabled, with permission to create and publish workflows.</li>
+        <li><b>Agent Studio and agents-in-workflows</b> - enabled for your partner sandbox. The agent is created in Scenario 201.</li>
+        <li><b>CLM Use AI Agent step</b> - available in the workflow step list.</li>
+        <li><b>CLM-IAM interoperability</b> - enabled.</li>
+      </ul>
+
+      <h3 id="sec-0-5">0.5 Required permissions</h3>
+      <p>Each participant or pair needs:</p>
+      <ul>
+        <li>Access to Workflow Builder - can create and publish workflows.</li>
+        <li>Access to the CLM Use AI Agent step.</li>
+        <li>Access to CLM-IAM interoperability.</li>
+      </ul>
+
+      <h3 id="sec-0-6">0.6 Import the workflow in CLM</h3>
+      <ol>
+        <li>Under <b>CLM Admin</b>, navigate to <b>Workflow</b>.</li>
+        <li>Under <b>Advanced CLM Workflow</b>, import the JSON file.</li>
+        <li>Click <b>Save &amp; Publish</b> the workflow.</li>
+      </ol>
+
+      <h3 id="sec-0-7">0.7 Upload the template</h3>
+      <ol>
+        <li>Create a folder under the <b>Agreements</b> header.</li>
+        <li>Upload the template file into the folder.</li>
+      </ol>
+
+      <h3 id="sec-0-8">0.8 Import the workflow in IAM</h3>
+      <ol>
+        <li>Under the <b>Agreements</b> tab, navigate to <b>Workflows</b>.</li>
+        <li>Click <b>Import Workflow</b> (under Create Workflow).</li>
+        <li>Upload the workflow ZIP file from the workshop kit. Leave it zipped; do not extract it first.</li>
+        <li>Click <b>Review &amp; Publish</b>.</li>
+        <li>If prompted, click <b>Authorize My Account</b> to complete the one-time agent consent for this environment.</li>
+        <li>Click through <b>Next</b>, then <b>Publish</b>.</li>
+      </ol>
+
+      <h3 id="sec-0-9">0.9 What is inherited from Scenario 201</h3>
+      <ul>
+        <li>Published agent</li>
+        <li>Agent instructions</li>
+        <li>Agent capabilities</li>
+        <li>Agent output fields</li>
+      </ul>
+
+      <h3 id="sec-0-10">0.10 What is not included</h3>
+      <ul>
+        <li>No Agreement Desk intake</li>
+        <li>No new agent creation</li>
+        <li>No new document submission</li>
+      </ul>
+
+      <h3 id="sec-0-11">0.11 Workshop assets</h3>
+      <ul>
+        <li>CLM workflow JSON file</li>
+        <li>Renewal template file</li>
+        <li>IAM workflow ZIP file from the workshop kit</li>
+      </ul>
+
+      <h3 id="sec-0-12">0.12 End to End Flow</h3>
+      <ol class="end-to-end-flow">
+        <li id="flow-step-1">Start the CLM renewal</li>
+        <li id="flow-step-2">Collect vendor renewal details</li>
+        <li id="flow-step-3">Generate the draft contract</li>
+        <li id="flow-step-4">Analyze with Risk Analyst Agent</li>
+        <li id="flow-step-5">Route by risk score</li>
+        <li id="flow-step-6">Legal review and AI Assisted Review</li>
+        <li id="flow-step-7">Send for signature</li>
+        <li id="flow-step-8">Extract data and apply attributes</li>
+        <li id="flow-step-9">Store the executed agreement</li>
+        <li id="flow-step-10">Validate end to end</li>
+      </ol>
+    </section>
+
 
   </main>
 </div>
