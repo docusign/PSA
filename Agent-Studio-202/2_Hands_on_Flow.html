@@ -175,6 +175,8 @@ li{margin:5px 0;}
 .arch-legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--muted);}
 .arch-legend span{display:inline-flex;align-items:center;gap:6px;}
 .arch-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
+.renewal-flow{margin:16px 0 24px;overflow-x:auto;border:1px solid var(--hairline);border-radius:12px;background:#fff;}
+.renewal-flow svg{display:block;width:100%;min-width:1120px;height:auto;}
 
 /* ---------- interactive decision-tree explorer ---------- */
 .explorer .edge{opacity:.4;transition:opacity .3s ease,stroke .3s ease,stroke-width .3s ease;}
@@ -251,25 +253,26 @@ li{margin:5px 0;}
     <div class="kicker">Agent Studio · 202</div>
     <ul class="sub-nav" aria-label="Page outline">
       <li><a href="#sec-0-1">1 What this scenario covers</a></li>
-      <li><a href="#sec-0-2">0.2 Learning objectives</a></li>
+      <li><a href="#sec-0-2">0.2 Renewal flow</a></li>
+      <li><a href="#sec-0-3">0.3 Learning objectives</a></li>
       <li style="padding-left:24px">Initiate a renewal process</li>
       <li style="padding-left:24px">Reuse the Risk Analyst agent across CLM and IAM</li>
       <li style="padding-left:24px">Process completed agreement data with AI Data Insights</li>
-      <li><a href="#sec-0-3">0.3 Products enabled</a></li>
-      <li><a href="#sec-0-4">0.4 Required permissions</a></li>
-      <li><a href="#sec-0-5">0.5 Import the workflow in CLM</a></li>
-      <li><a href="#sec-0-6">0.6 Upload the template</a></li>
-      <li><a href="#sec-0-7">0.7 Import the workflow in IAM</a></li>
-      <li><a href="#sec-0-8">0.8 What is inherited from Scenario 201</a></li>
+      <li><a href="#sec-0-4">0.4 Products enabled</a></li>
+      <li><a href="#sec-0-5">0.5 Required permissions</a></li>
+      <li><a href="#sec-0-6">0.6 Import the workflow in CLM</a></li>
+      <li><a href="#sec-0-7">0.7 Upload the template</a></li>
+      <li><a href="#sec-0-8">0.8 Import the workflow in IAM</a></li>
+      <li><a href="#sec-0-9">0.9 What is inherited from Scenario 201</a></li>
       <li style="padding-left:24px">Published agent</li>
       <li style="padding-left:24px">Agent instructions</li>
       <li style="padding-left:24px">Agent capabilities</li>
       <li style="padding-left:24px">Agent output fields</li>
-      <li><a href="#sec-0-9">0.9 What is not included</a></li>
+      <li><a href="#sec-0-10">0.10 What is not included</a></li>
       <li style="padding-left:24px">No Agreement Desk intake</li>
       <li style="padding-left:24px">No new agent creation</li>
       <li style="padding-left:24px">No new document submission</li>
-      <li><a href="#sec-0-10">0.10 Workshop assets</a></li>
+      <li><a href="#sec-0-11">0.11 Workshop assets</a></li>
     </ul>
   </aside>
 
@@ -286,12 +289,95 @@ li{margin:5px 0;}
       <p>The vendor’s responses are used to generate a draft renewal contract in CLM. The same Risk Analyst agent reviews the draft and assigns a risk score. LOW-risk renewals go directly to the vendor for signature. HIGH-risk renewals are routed to Legal, where AI-Assisted Review analyzes the agreement and proposes fallback clauses before approval.</p>
       <p>Once signed, the completed renewal contract is processed by AI for data extraction. CLM applies the extracted attributes, stores the agreement in the appropriate folder, and synchronizes the contract with IAM Agreement Manager—creating a complete, auditable renewal process from intake through post-signature management.</p>
 
-      <h3 id="sec-0-2">0.2 Learning objectives</h3>
+      <h3 id="sec-0-2">0.2 Renewal flow</h3>
+      <div class="renewal-flow">
+        <svg viewBox="0 0 1450 510" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="renewal-flow-title renewal-flow-desc">
+          <title id="renewal-flow-title">Vendor contract renewal process across CLM and IAM</title>
+          <desc id="renewal-flow-desc">CLM creates a renewal request. IAM sends the vendor a renewal form. CLM generates a draft contract, which the Risk Analyst scores. Low-risk renewals go to signature; high-risk renewals go through Legal Review with AI Assisted Review before signature. After signing, AI extracts data, CLM applies attributes, and the agreement is stored in a folder in CLM and IAM Agreement Manager.</desc>
+          <defs>
+            <marker id="renewal-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#687386"/></marker>
+          </defs>
+
+          <rect x="48" y="42" width="1382" height="300" rx="9" fill="#fff" stroke="#667085" stroke-width="1.5"/>
+          <rect x="48" y="342" width="1382" height="150" rx="9" fill="#fff" stroke="#667085" stroke-width="1.5"/>
+          <rect x="48" y="42" width="34" height="300" fill="#f4f2fa" stroke="#667085" stroke-width="1.5"/>
+          <rect x="48" y="342" width="34" height="150" fill="#f4f2fa" stroke="#667085" stroke-width="1.5"/>
+          <text x="65" y="196" text-anchor="middle" transform="rotate(-90 65 196)" fill="#130032" font-family="DSIndigo,Arial,sans-serif" font-size="14" font-weight="600">CLM</text>
+          <text x="65" y="418" text-anchor="middle" transform="rotate(-90 65 418)" fill="#130032" font-family="DSIndigo,Arial,sans-serif" font-size="14" font-weight="600">IAM</text>
+
+          <g fill="none" stroke="#687386" stroke-width="2" marker-end="url(#renewal-arrow)">
+            <path d="M164 184H198"/>
+            <path d="M251 224V398"/>
+            <path d="M357 431H414V298"/>
+            <path d="M478 260V184H536"/>
+            <path d="M658 184H695"/>
+            <path d="M727 154V111H783"/>
+            <path d="M843 144V184H887"/>
+            <path d="M759 184H887"/>
+            <path d="M997 184H1023"/>
+            <path d="M1133 184H1153"/>
+            <path d="M1253 184H1273"/>
+            <path d="M1373 184H1390"/>
+          </g>
+
+          <g font-family="DSIndigo,Arial,sans-serif" font-size="13" text-anchor="middle">
+            <ellipse cx="130" cy="184" rx="34" ry="25" fill="#e5efff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="130" y="189" fill="#130032">Start</text>
+
+            <rect x="198" y="144" width="106" height="80" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="251" y="172" fill="#130032"><tspan x="251">Create</tspan><tspan x="251" dy="17">renewal request</tspan><tspan x="251" dy="17">in CLM</tspan></text>
+
+            <rect x="237" y="398" width="120" height="66" rx="4" fill="#fff" stroke="#17864b" stroke-width="1.5"/>
+            <text x="297" y="424" fill="#130032"><tspan x="297">Send vendor</tspan><tspan x="297" dy="17">renewal form</tspan></text>
+
+            <rect x="414" y="224" width="128" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="478" y="251" fill="#130032"><tspan x="478">Generate</tspan><tspan x="478" dy="17">draft contract</tspan></text>
+
+            <rect x="536" y="147" width="122" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="597" y="176" fill="#130032"><tspan x="597">Risk Analyst</tspan><tspan x="597" dy="17">Agent</tspan></text>
+
+            <polygon points="727,154 759,184 727,214 695,184" fill="#fff6d8" stroke="#e1a900" stroke-width="1.5"/>
+            <text x="727" y="180" fill="#130032"><tspan x="727">Risk</tspan><tspan x="727" dy="15">score?</tspan></text>
+            <text x="674" y="177" text-anchor="end" fill="#687386" font-size="11">High</text>
+            <text x="824" y="177" fill="#687386" font-size="11">Low</text>
+
+            <rect x="783" y="79" width="120" height="65" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="843" y="106" fill="#130032"><tspan x="843">Legal</tspan><tspan x="843" dy="17">Review</tspan></text>
+
+            <rect x="887" y="147" width="110" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="942" y="176" fill="#130032"><tspan x="942">Send for</tspan><tspan x="942" dy="17">Signature</tspan></text>
+
+            <rect x="1023" y="147" width="110" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="1078" y="176" fill="#130032"><tspan x="1078">AI data</tspan><tspan x="1078" dy="17">extraction</tspan></text>
+
+            <rect x="1153" y="147" width="100" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="1203" y="176" fill="#130032"><tspan x="1203">Apply</tspan><tspan x="1203" dy="17">attributes</tspan></text>
+
+            <rect x="1273" y="147" width="100" height="74" rx="4" fill="#fff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="1323" y="176" fill="#130032"><tspan x="1323">Store in a</tspan><tspan x="1323" dy="17">folder</tspan></text>
+
+            <ellipse cx="1400" cy="184" rx="29" ry="25" fill="#e5efff" stroke="#2672ff" stroke-width="1.5"/>
+            <text x="1400" y="189" fill="#130032">End</text>
+          </g>
+
+          <g font-family="DSIndigo,Arial,sans-serif" font-size="12" font-style="italic" text-anchor="middle">
+            <path d="M850 59V72L843 79" fill="none" stroke="#d99a00"/>
+            <rect x="746" y="2" width="208" height="58" rx="4" fill="#fff5dc" stroke="#e1a900"/>
+            <text x="850" y="25" fill="#3c3425"><tspan x="850">AI Assisted Review (AIAR) runs an</tspan><tspan x="850" dy="16">analysis and proposes fallback clauses</tspan></text>
+
+            <path d="M1007 269L965 221" fill="none" stroke="#d99a00"/>
+            <rect x="900" y="269" width="256" height="62" rx="4" fill="#fff5dc" stroke="#e1a900"/>
+            <text x="1028" y="293" fill="#3c3425"><tspan x="1028">After signing, the agreement is stored</tspan><tspan x="1028" dy="17">in CLM and IAM Agreement Manager</tspan></text>
+          </g>
+        </svg>
+      </div>
+
+      <h3 id="sec-0-3">0.3 Learning objectives</h3>
       <div class="obj"><div class="lab">Objective 1</div><b>Use CLM and IAM to initiate a renewal process</b><br>Create a renewal request in CLM, collect updated vendor information through an IAM renewal form, and generate a draft renewal agreement.</div>
       <div class="obj"><div class="lab">Objective 2</div><b>Reuse the Risk Analyst agent across CLM and IAM</b><br>Invoke the agent created in Scenario 201 to analyze the renewal draft, extract key terms, assign a risk score, and route the agreement based on that result.</div>
       <div class="obj"><div class="lab">Objective 3</div><b>Process completed agreements with AI Data Insights</b><br>Extract data from the executed agreement, apply CLM attributes, store the agreement in the appropriate folder, and synchronize it with IAM Agreement Manager.</div>
 
-      <h3 id="sec-0-3">0.3 Products enabled</h3>
+      <h3 id="sec-0-4">0.4 Products enabled</h3>
       <ul>
         <li><b>Workflow Builder</b> - enabled, with permission to create and publish workflows.</li>
         <li><b>Agent Studio and agents-in-workflows</b> - enabled for your partner sandbox. The agent is created in Scenario 201.</li>
@@ -299,7 +385,7 @@ li{margin:5px 0;}
         <li><b>CLM-IAM interoperability</b> - enabled.</li>
       </ul>
 
-      <h3 id="sec-0-4">0.4 Required permissions</h3>
+      <h3 id="sec-0-5">0.5 Required permissions</h3>
       <p>Each participant or pair needs:</p>
       <ul>
         <li>Access to Workflow Builder - can create and publish workflows.</li>
@@ -307,20 +393,20 @@ li{margin:5px 0;}
         <li>Access to CLM-IAM interoperability.</li>
       </ul>
 
-      <h3 id="sec-0-5">0.5 Import the workflow in CLM</h3>
+      <h3 id="sec-0-6">0.6 Import the workflow in CLM</h3>
       <ol>
         <li>Under <b>CLM Admin</b>, navigate to <b>Workflow</b>.</li>
         <li>Under <b>Advanced CLM Workflow</b>, import the JSON file.</li>
         <li>Click <b>Save &amp; Publish</b> the workflow.</li>
       </ol>
 
-      <h3 id="sec-0-6">0.6 Upload the template</h3>
+      <h3 id="sec-0-7">0.7 Upload the template</h3>
       <ol>
         <li>Create a folder under the <b>Agreements</b> header.</li>
         <li>Upload the template file into the folder.</li>
       </ol>
 
-      <h3 id="sec-0-7">0.7 Import the workflow in IAM</h3>
+      <h3 id="sec-0-8">0.8 Import the workflow in IAM</h3>
       <ol>
         <li>Under the <b>Agreements</b> tab, navigate to <b>Workflows</b>.</li>
         <li>Click <b>Import Workflow</b> (under Create Workflow).</li>
@@ -330,7 +416,7 @@ li{margin:5px 0;}
         <li>Click through <b>Next</b>, then <b>Publish</b>.</li>
       </ol>
 
-      <h3 id="sec-0-8">0.8 What is inherited from Scenario 201</h3>
+      <h3 id="sec-0-9">0.9 What is inherited from Scenario 201</h3>
       <ul>
         <li>Published agent</li>
         <li>Agent instructions</li>
@@ -338,14 +424,14 @@ li{margin:5px 0;}
         <li>Agent output fields</li>
       </ul>
 
-      <h3 id="sec-0-9">0.9 What is not included</h3>
+      <h3 id="sec-0-10">0.10 What is not included</h3>
       <ul>
         <li>No Agreement Desk intake</li>
         <li>No new agent creation</li>
         <li>No new document submission</li>
       </ul>
 
-      <h3 id="sec-0-10">0.10 Workshop assets</h3>
+      <h3 id="sec-0-11">0.11 Workshop assets</h3>
       <ul>
         <li>CLM workflow JSON file</li>
         <li>Renewal template file</li>
