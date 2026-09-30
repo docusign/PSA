@@ -254,7 +254,7 @@ details.collapsible > table{margin:0;}
       </li>
       <ul class="sub-nav">
         <li data-scroll="uc1-scenario">2.0 Scenario overview</li>
-        <li data-scroll="auth">2.1 Authenticate CLI</li>
+        <li data-scroll="auth">2.1 Working folder &amp; Auth</li>
         <li data-scroll="scaffold">2.2 Scaffold workspace</li>
         <li data-scroll="iam-package">2.3 IAM package overview</li>
         <li data-scroll="get-catalog">2.4 Get catalog</li>
@@ -544,16 +544,43 @@ Tip: Use 'ds' as a short alias for 'docusign'</code></pre>
         </ul>
       </div>
 
-      <!-- 2.1 Auth -->
+      <!-- 2.1 Create working folder & Auth -->
       <div class="card" id="auth">
         <div class="h-check">
           <input type="checkbox" data-stage="2" id="chk-2-1">
           <div>
-            <h3>2.1 Authenticate the CLI</h3>
+            <h3>2.1 Create Your Working Folder &amp; Authenticate</h3>
             <span class="tag">Exercise</span>
           </div>
         </div>
-        <p>Before running any other commands, authenticate the CLI against your Docusign account. The <code>docusign auth login</code> command uses the OAuth PKCE (Proof Key for Code Exchange) flow - it opens your browser for login, retrieves a token, and stores your credentials locally.</p>
+
+        <h4>Step 1 - Create a working folder</h4>
+        <p>Before running any CLI commands, manually create a folder on your Desktop called <code>docusign-cli</code>. This keeps all your workshop files in one place.</p>
+
+        <table>
+          <tr><th>OS</th><th>What to do</th></tr>
+          <tr><td><strong>macOS</strong></td><td>Right-click on your Desktop, select <strong>New Folder</strong>, name it <code>docusign-cli</code></td></tr>
+          <tr><td><strong>Windows</strong></td><td>Right-click on your Desktop, select <strong>New &gt; Folder</strong>, name it <code>docusign-cli</code></td></tr>
+        </table>
+
+        <h4>Step 2 - Open your terminal and navigate into it</h4>
+
+        <p><strong>macOS:</strong></p>
+        <pre><code>$ cd ~/Desktop/docusign-cli</code></pre>
+
+        <p><strong>Windows (PowerShell as Administrator):</strong></p>
+        <pre><code>cd $HOME\Desktop\docusign-cli</code></pre>
+
+        <div class="callout callout-amber">
+          <div class="callout-icon">&#9888;</div>
+          <div>
+            <strong>Why this matters</strong>
+            <p>The CLI scaffold command and all subsequent commands create files inside whatever directory your terminal is currently in. If you skip this step, files will land in your home directory or wherever you last navigated.</p>
+          </div>
+        </div>
+
+        <h4>Step 3 - Authenticate the CLI</h4>
+        <p>Now authenticate the CLI against your Docusign demo account. The <code>docusign auth login</code> command uses OAuth PKCE - it opens your browser for login, retrieves a token, and stores your credentials locally. You must authenticate before running any other CLI commands.</p>
 
         <pre><code>$ docusign auth login -h</code></pre>
         <p>Output:</p>
@@ -632,37 +659,7 @@ Feature Availability:
           </div>
         </div>
 
-        <p>Before scaffolding, create a dedicated working folder so all CLI output lands in one place. Pick the option for your OS below.</p>
-
-        <h4>macOS / Linux</h4>
-        <p><strong>Option A - Terminal (recommended):</strong></p>
-        <pre><code>$ mkdir ~/docusign-workshop &amp;&amp; cd ~/docusign-workshop</code></pre>
-        <p><strong>Option B - Manually:</strong></p>
-        <ol>
-          <li>Create a new folder anywhere on your machine (e.g. <code>docusign-workshop</code> on your Desktop).</li>
-          <li>Open a terminal window and <code>cd</code> into it:</li>
-        </ol>
-        <pre><code>$ cd ~/Desktop/docusign-workshop</code></pre>
-
-        <h4>Windows (PowerShell)</h4>
-        <p><strong>Option A - PowerShell (recommended):</strong></p>
-        <pre><code>mkdir $HOME\docusign-workshop; cd $HOME\docusign-workshop</code></pre>
-        <p><strong>Option B - Manually:</strong></p>
-        <ol>
-          <li>Create a new folder (e.g. <code>docusign-workshop</code>) on your Desktop or Documents.</li>
-          <li>Open PowerShell and <code>cd</code> into it:</li>
-        </ol>
-        <pre><code>cd $HOME\Desktop\docusign-workshop</code></pre>
-
-        <div class="callout callout-amber">
-          <div class="callout-icon">&#9888;</div>
-          <div>
-            <strong>Why this matters</strong>
-            <p><code>docusign scaffold</code> creates the workspace folder inside whatever directory your terminal is currently in. If you skip this step, it will land in your home directory or wherever you last navigated.</p>
-          </div>
-        </div>
-
-        <p>Now scaffold the project structure. Use lowercase <code>agreement-manager</code> (PascalCase breaks the directory layout in v1.0.7+).</p>
+        <p>Make sure your terminal is still inside the <code>docusign-cli</code> folder you created in 2.1. Now scaffold the project structure. Use lowercase <code>agreement-manager</code> for the features flag (PascalCase breaks the directory layout in v1.0.7+).</p>
         <pre><code>$ docusign scaffold -w demo-workspace -p demo-project -f agreement-manager</code></pre>
 
         <h4>Command Usage</h4>
@@ -1024,7 +1021,7 @@ Global config: ~/.docusign/
 
         <h4>Go into your project directory</h4>
         <p>From your terminal, navigate into the project folder created during scaffolding:</p>
-        <pre><code>PS C:\Users\Docusign.PSA\docusign-workshop\demo-workspace\demo-project></code></pre>
+        <pre><code>PS C:\Users\Docusign.PSA\Desktop\docusign-cli\demo-workspace\demo-project></code></pre>
 
         <h4>Open the project in VS Code</h4>
         <p>Run the following command to open the current directory in VS Code:</p>
