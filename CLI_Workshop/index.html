@@ -133,7 +133,7 @@ section.stage:first-of-type{border-top:none;padding-top:0;}
 .code-wrap{position:relative;margin:14px 0 20px;}
 pre{position:relative;background:var(--ink);color:#eee6ff;border-radius:11px;padding:16px 54px 16px 18px;margin:12px 0 18px;font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.6;overflow-x:auto;}
 pre code{background:transparent;color:inherit;padding:0;border:none;font-weight:400;font-size:inherit;}
-.code-copy, .copy-btn{position:absolute;top:9px;right:9px;background:rgba(255,255,255,.14);color:#fff;border:none;border-radius:7px;padding:5px 11px;font-size:11.5px;font-family:var(--font);font-weight:500;cursor:pointer;transition:background .15s ease,transform .15s ease;}
+.code-copy, .copy-btn{position:absolute;top:9px;right:9px;z-index:2;background:rgba(255,255,255,.14);color:#fff;border:none;border-radius:7px;padding:5px 11px;font-size:11.5px;font-family:var(--font);font-weight:500;cursor:pointer;transition:background .15s ease,transform .15s ease;}
 .code-copy:active, .copy-btn:active{transform:scale(.94);}
 .code-copy:hover, .copy-btn:hover{background:var(--indigo);}
 .code-copy.copied, .copy-btn.copied{background:var(--ok);}
@@ -415,7 +415,7 @@ details.collapsible > table{margin:0;}
         </table>
 
         <p><strong>Verify installation:</strong></p>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>$ node --version
+        <pre><code>$ node --version
 
 $ npm --version</code></pre>
         <p>Both commands should return a version number (e.g., v20.11.0 and 10.2.4). If either command is not recognized, restart your terminal and try again.</p>
@@ -461,9 +461,9 @@ PS C:\Users\Docusign.PSA\Documents\cli-toolkit-test\test08072026> npm --version
           </div>
         </div>
         <p>Install the npm package globally:</p>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>$ npm i -g @docusign/cli</code></pre>
+        <pre><code>$ npm i -g @docusign/cli</code></pre>
         <p>OR, if you are not an admin / on macOS/Linux requiring elevated privileges:</p>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>$ sudo npm i -g @docusign/cli</code></pre>
+        <pre><code>$ sudo npm i -g @docusign/cli</code></pre>
         <div class="callout callout-blue">
           <div class="callout-icon">📝</div>
           <div>
@@ -482,7 +482,7 @@ PS C:\Users\Docusign.PSA\Documents\cli-toolkit-test\test08072026> npm --version
           </div>
         </div>
         <p>After installation, you can verify the CLI is installed and accessible by running the root command. The help output will be displayed.</p>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>$ docusign</code></pre>
+        <pre><code>$ docusign</code></pre>
         <p>Expected output:</p>
         <pre><code>╔══════════════════════╗  v1.0.0-beta
 ║    DOCUSIGN CLI      ║  Workspace: No workspace found
@@ -564,7 +564,7 @@ Tip: Use 'ds' as a short alias for 'docusign'</code></pre>
         </div>
 
         <h4>Command Usage</h4>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>$ docusign scaffold -h</code></pre>
+        <pre><code>$ docusign scaffold -h</code></pre>
         <p>Output:</p>
         <pre><code>Usage: docusign scaffold [options]
 
@@ -594,7 +594,7 @@ Options:
 
         <h4>Example Execution</h4>
         <p>The following example creates a workspace named <code>my-docusign-workspace</code> and a project named <code>fontara</code>, and sets up one feature: Agreement Manager.</p>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>$ docusign scaffold -w my-docusign-workspace -p fontara -f Agreement-Manager</code></pre>
+        <pre><code>$ docusign scaffold -w my-docusign-workspace -p fontara -f Agreement-Manager</code></pre>
 
         <h4>Output and Structure</h4>
         <p>Upon successful execution, the CLI creates the following structure:</p>
@@ -642,7 +642,7 @@ Global config: ~/.docusign/
         </div>
         <p>The <code>docusign auth login</code> command is the primary method for securely authenticating the Docusign CLI using the OAuth PKCE (Proof Key for Code Exchange) flow. This command handles the browser-based login, token retrieval, and local storage of credentials.</p>
 
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>$ docusign auth login -h</code></pre>
+        <pre><code>$ docusign auth login -h</code></pre>
         <p>Output:</p>
         <pre><code>Usage: docusign auth login [options]
 
@@ -667,7 +667,7 @@ Options:
         </details>
 
         <h4>Login to the Demo Environment</h4>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>$ docusign auth login</code></pre>
+        <pre><code>$ docusign auth login</code></pre>
         <p>After completing the browser login, if your credentials are associated with more than one Docusign account, the CLI will prompt you to <strong>choose the account you want to work with</strong>. Select the account that has Agreement Manager enabled for this exercise. Once selected, the CLI confirms your user, account, token, and feature availability:</p>
         <pre><code>✔ Logging into demo (use -e to change the environment), continue? Yes
 ▌ Logging into Docusign...
@@ -737,9 +737,9 @@ Feature Availability:
         </div>
         <p>First, run the <strong>Get Catalog</strong> command to verify that the IAM Toolkit is successfully connected to Agreement Manager. This command retrieves the existing agreement types and fields from your account and generates a catalog that serves as the reference when building your Agreement Manager IAM package. This is a representation of the "Is-State" of your current Agreement Manager configuration.</p>
         <p>First, navigate into your workspace directory so the catalog files are written to the right place:</p>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>$ cd my-docusign-workspace/fontara</code></pre>
+        <pre><code>$ cd my-docusign-workspace/fontara</code></pre>
         <p>Then run:</p>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>$ docusign agm get catalog</code></pre>
+        <pre><code>$ docusign agm get catalog</code></pre>
         <p>This command fetches your existing Agreement Manager configuration into two files: <strong>"standard-catalog.json"</strong> and <strong>"custom-catalog.json"</strong>.</p>
 
         <div class="callout callout-amber">
@@ -922,7 +922,7 @@ Feature Availability:
         </table>
 
         <p>Example:</p>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>{
+        <pre><code>{
     "key": "C_AnnualCost",
     "displayName": "Annual Cost",
     "category": "FinancialCategory",
@@ -954,7 +954,7 @@ Feature Availability:
         </table>
 
         <p>Example:</p>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>"customAgreementTypes": [
+        <pre><code>"customAgreementTypes": [
   {
     "key": "C_InternshipOfferLetter",
     "displayName": "Internship Offer Letter",
@@ -981,7 +981,7 @@ Feature Availability:
         </table>
 
         <p>Example:</p>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>{
+        <pre><code>{
     "key": "ConsultingDocumentData",
     "displayName": "Consulting Agreement",
     "fields": {
@@ -1008,7 +1008,7 @@ Feature Availability:
 
         <h4>Open the project in VS Code</h4>
         <p>Run the following command to open the current directory in VS Code:</p>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>$ code .</code></pre>
+        <pre><code>$ code .</code></pre>
 
         <h4>Check your workspace</h4>
         <p>It should look like this:</p>
@@ -1039,7 +1039,7 @@ Feature Availability:
 
         <h4>Copy the completed manifest file</h4>
         <p>Copy the sample manifest below into <code>{workspace}/{project}/agreement-manager/configs/agreement-manager-manifest.json</code>:</p>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>{
+        <pre><code>{
   "version": "1.0.0",
   "defaultLocale": "en",
   "namespace": "com.bugbash.filmproduction.fields@1.0.0",
@@ -1170,7 +1170,7 @@ Feature Availability:
           </div>
         </div>
         <p>Now that you have copied the manifest and the agreements for <code>test</code> and <code>train</code>, you can upload your Agreement Manager package with the following command:</p>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>$ docusign agm upload</code></pre>
+        <pre><code>$ docusign agm upload</code></pre>
         <p>Output:</p>
         <pre><code>Common Usage:
 
@@ -1240,7 +1240,7 @@ Computing file hashes and checking for duplicates...
 
         <h4>1. Generate Testing CSV</h4>
         <p>To programmatically compare your expected values with the actual extracted values, first generate the testing template file, <code>testing.csv</code>, by running:</p>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>$ docusign agm test --generate-test-template</code></pre>
+        <pre><code>$ docusign agm test --generate-test-template</code></pre>
 
         <details class="collapsible">
           <summary>Click here to view details on the different options</summary>
@@ -1286,7 +1286,7 @@ Computing file hashes and checking for duplicates...
 
         <h4>3. Run the test</h4>
         <p>Once the ground truth values have been entered into the testing.csv, you can start the testing by running the following command:</p>
-        <pre><button class="code-copy" onclick="copyCode(this)">Copy</button><code>$ docusign agm test --run</code></pre>
+        <pre><code>$ docusign agm test --run</code></pre>
         <table>
           <tr><th>Option</th><th>Description</th><th>Default Value</th></tr>
           <tr><td>--partial-match</td><td>If true, comparison of string values is done by token (word). If false, comparison of string values is done by exact match</td><td>false</td></tr>
@@ -1712,14 +1712,18 @@ Computing file hashes and checking for duplicates...
 
   // ----- auto-inject copy buttons on all pre blocks -----
   [].slice.call(document.querySelectorAll('pre')).forEach(function(pre){
-    if(pre.querySelector('.code-copy') || pre.querySelector('.copy-btn')) return;
-    if(pre.closest('.code-wrap') && pre.closest('.code-wrap').querySelector('.code-copy')) return;
+    if(pre.parentElement && pre.parentElement.classList.contains('pre-wrap')) return;
+    var wrapper = document.createElement('div');
+    wrapper.className = 'pre-wrap';
+    wrapper.style.cssText = 'position:relative;margin:12px 0 18px;';
+    pre.parentNode.insertBefore(wrapper, pre);
+    pre.style.margin = '0';
+    wrapper.appendChild(pre);
     var btn = document.createElement('button');
     btn.className = 'copy-btn';
     btn.textContent = 'Copy';
     btn.onclick = function(){ copyCode(btn); };
-    pre.style.position = 'relative';
-    pre.appendChild(btn);
+    wrapper.appendChild(btn);
   });
 
   refreshProgress();
