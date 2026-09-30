@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Docusign IAM Toolkit — Hands-on Workshop</title>
+<title>Docusign IAM Toolkit -Hands-on Workshop</title>
 <style>
 /* ---------- Docusign brand fonts ---------- */
 @font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-Light.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap;}
@@ -307,7 +307,7 @@ details.collapsible > table{margin:0;}
     <div class="hero">
       <div class="hero-tag">HANDS-ON WORKSHOP</div>
       <h1>Docusign IAM Toolkit</h1>
-      <p class="sub">Simplify the implementation of Docusign Agreement Manager — configure custom fields and types, train and validate AI extractions, deploy across accounts, and ingest agreements in bulk, all through the Docusign CLI.</p>
+      <p class="sub">Simplify the implementation of Docusign Agreement Manager -configure custom fields and types, train and validate AI extractions, deploy across accounts, and ingest agreements in bulk, all through the Docusign CLI.</p>
       <div class="hero-pills">
         <span class="hero-pill">🧰 Agreement Manager</span>
         <span class="hero-pill">⌨️ CLI Toolkit</span>
@@ -336,7 +336,7 @@ details.collapsible > table{margin:0;}
           <li>Map additional standard and custom fields to both standard and custom types</li>
           <li>Provide AI training datasets for custom extractions</li>
           <li>Validate extraction accuracy through automated testing</li>
-          <li>Deploy validated Agreement Manager configurations across Docusign accounts (not covered in this handbook — see instructions below)</li>
+          <li>Deploy validated Agreement Manager configurations across Docusign accounts (not covered in this handbook -see instructions below)</li>
           <li>Ingest agreements in bulk</li>
         </ul>
         <p>This manual provides a detailed guide for installing and setting up the IAM Toolkit, followed by instructions on how to use its features through the Docusign CLI.</p>
@@ -352,7 +352,7 @@ details.collapsible > table{margin:0;}
         <p>This handbook is designed to be self-paced and self-contained. You can follow it during a facilitated session or work through it independently. Each section is tagged so you know what to expect:</p>
         <table>
           <tr><th>Tag</th><th>What it means</th></tr>
-          <tr><td><span class="badge badge-green">Setup</span></td><td>One-time configuration steps — do these before the exercises.</td></tr>
+          <tr><td><span class="badge badge-green">Setup</span></td><td>One-time configuration steps -do these before the exercises.</td></tr>
           <tr><td><span class="badge badge-purple">Theory</span></td><td>Background and concepts, so you understand what you're doing and why.</td></tr>
           <tr><td><span class="badge badge-blue">Exercise</span></td><td>A hands-on step. Follow along and run the commands in order.</td></tr>
         </table>
@@ -376,7 +376,7 @@ details.collapsible > table{margin:0;}
             <span class="tag">Prerequisite</span>
           </div>
         </div>
-        <p>A Docusign demo account. This is a workshop, so use a demo (developer) account only — do not use a production account. To create a demo account, visit <a href="https://www.docusign.com/developers/sandbox" target="_blank" rel="noopener">https://www.docusign.com/developers/sandbox</a>.</p>
+        <p>A Docusign demo account. This is a workshop, so use a demo (developer) account only -do not use a production account. To create a demo account, visit <a href="https://www.docusign.com/developers/sandbox" target="_blank" rel="noopener">https://www.docusign.com/developers/sandbox</a>.</p>
       </div>
 
       <div class="card" id="prereq-terminal">
@@ -432,7 +432,7 @@ PS C:\Users\Tamara.Flores\Documents\cli-toolkit-test\test08072026> npm --version
           <div class="callout-icon">📝</div>
           <div>
             <strong>Note</strong>
-            <p>The <code>$</code> symbol represents your terminal prompt — do not type it. Only type the text that follows.</p>
+            <p>The <code>$</code> symbol represents your terminal prompt -do not type it. Only type the text that follows.</p>
           </div>
         </div>
       </div>
@@ -446,7 +446,7 @@ PS C:\Users\Tamara.Flores\Documents\cli-toolkit-test\test08072026> npm --version
           </div>
         </div>
         <p>You'll need a code editor to create and modify JSON configuration files (such as <code>agreement-manager-manifest.json</code>) and CSV files (such as <code>testing.csv</code>).</p>
-        <p><strong>Recommended:</strong> <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">Visual Studio Code</a> — A free, cross-platform editor with built-in JSON validation, syntax highlighting, and an integrated terminal (Ctrl + `) that lets you edit files and run CLI commands in one window.</p>
+        <p><strong>Recommended:</strong> <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">Visual Studio Code</a> -A free, cross-platform editor with built-in JSON validation, syntax highlighting, and an integrated terminal (Ctrl + `) that lets you edit files and run CLI commands in one window.</p>
         <p>Download for your OS:</p>
         <ul class="plainlist">
           <li>macOS: <a href="https://code.visualstudio.com/docs/setup/mac" target="_blank" rel="noopener">https://code.visualstudio.com/docs/setup/mac</a></li>
@@ -534,7 +534,7 @@ Tip: Use 'ds' as a short alias for 'docusign'</code></pre>
       <div class="card" id="uc1-scenario">
         <div class="obj">
           <span class="lab">The Scenario</span>
-          <p style="margin:6px 0 0;font-weight:500;font-size:15px;">A partner is standing up Agreement Manager for a customer for the very first time. There is no existing configuration to preserve — you are defining custom fields, custom agreement types, and standard-type extensions from scratch, training AI extraction, validating accuracy in a demo account, and only then promoting the proven configuration to production.</p>
+          <p style="margin:6px 0 0;font-weight:500;font-size:15px;">A partner is standing up Agreement Manager for a customer for the very first time. There is no existing configuration to preserve -you are defining custom fields, custom agreement types, and standard-type extensions from scratch, training AI extraction, validating accuracy in a demo account, and only then promoting the proven configuration to production.</p>
         </div>
 
         <div class="callout callout-teal">
@@ -783,7 +783,7 @@ Feature Availability:
         <h4>Standard catalog</h4>
         <p>The standard catalog contains information about Agreement Manager's out-of-the-box standard fields and standard agreement types, including any additional fields mapped to the standard types.</p>
         <details class="collapsible">
-          <summary>Example standard catalog entry — click to expand</summary>
+          <summary>Example standard catalog entry -click to expand</summary>
           <div class="collapsible-body">
             <pre><code>{
   "standardAgreementTypes": [
@@ -843,7 +843,7 @@ Feature Availability:
         <h4>Custom catalog</h4>
         <p>The custom catalog contains information about Agreement Manager's existing custom fields and custom agreement types, including any additional fields mapped to the custom types.</p>
         <details class="collapsible">
-          <summary>Example custom catalog entry — click to expand</summary>
+          <summary>Example custom catalog entry -click to expand</summary>
           <div class="collapsible-body">
             <pre><code>{
   "customAgreementTypes": [
@@ -1381,7 +1381,7 @@ Computing file hashes and checking for duplicates...
           <div class="callout-icon">⚠️</div>
           <div>
             <strong>Watch-out in your customer projects</strong>
-            <p>Test in a demo account before touching production. Only <strong>custom</strong> extractions can be tuned — improving standard-field accuracy is not supported at this time. Respect the package limits (100 custom fields, 200 custom types, 50 AI extractions, max 15 custom types with AI enabled) and provide 3–10 quality training agreements per AI-enabled type. See <a href="#create-package">Manifest &amp; schema</a>, <a href="#test-package">Testing reference</a>, and <a href="#reference">Validation errors</a>.</p>
+            <p>Test in a demo account before touching production. Only <strong>custom</strong> extractions can be tuned -improving standard-field accuracy is not supported at this time. Respect the package limits (100 custom fields, 200 custom types, 50 AI extractions, max 15 custom types with AI enabled) and provide 3–10 quality training agreements per AI-enabled type. See <a href="#create-package">Manifest &amp; schema</a>, <a href="#test-package">Testing reference</a>, and <a href="#reference">Validation errors</a>.</p>
           </div>
         </div>
       </div>
@@ -1416,7 +1416,7 @@ Computing file hashes and checking for duplicates...
 
         <div class="obj">
           <span class="lab">The Scenario</span>
-          <p style="margin:4px 0 0;font-size:14.5px;">A customer is already live on Agreement Manager and needs changes at scale — new custom fields, new agreement types, refreshed extraction descriptions, or extended mappings. Rather than editing production directly, you pull the current configuration down, change it locally, validate it safely in a demo account, and then promote the finalized changes back to production.</p>
+          <p style="margin:4px 0 0;font-size:14.5px;">A customer is already live on Agreement Manager and needs changes at scale -new custom fields, new agreement types, refreshed extraction descriptions, or extended mappings. Rather than editing production directly, you pull the current configuration down, change it locally, validate it safely in a demo account, and then promote the finalized changes back to production.</p>
         </div>
 
         <div class="callout callout-teal">
@@ -1455,7 +1455,7 @@ Computing file hashes and checking for duplicates...
           <div class="callout-icon">⚠️</div>
           <div>
             <strong>Watch-outs</strong>
-            <p>The Toolkit updates existing fields and types in place — it overwrites their properties from the manifest but <strong>cannot delete</strong> a custom field or type once created, and mapped additional fields currently cannot be unmapped. Re-running <code>upload</code> with no manifest changes is a safe no-op. These constraints apply when you evolve a live configuration.</p>
+            <p>The Toolkit updates existing fields and types in place -it overwrites their properties from the manifest but <strong>cannot delete</strong> a custom field or type once created, and mapped additional fields currently cannot be unmapped. Re-running <code>upload</code> with no manifest changes is a safe no-op. These constraints apply when you evolve a live configuration.</p>
           </div>
         </div>
       </div>
@@ -1478,7 +1478,7 @@ Computing file hashes and checking for duplicates...
 
         <div class="obj">
           <span class="lab">The Scenario</span>
-          <p style="margin:4px 0 0;font-size:14.5px;">You have a proven Agreement Manager configuration in one account and want the exact same setup in another — a new region, a new business unit, or another customer. Because the configuration is already validated, you copy it as-is from the source account to the target account with no additional training or testing.</p>
+          <p style="margin:4px 0 0;font-size:14.5px;">You have a proven Agreement Manager configuration in one account and want the exact same setup in another -a new region, a new business unit, or another customer. Because the configuration is already validated, you copy it as-is from the source account to the target account with no additional training or testing.</p>
         </div>
 
         <div class="callout callout-teal">
@@ -1508,7 +1508,7 @@ Computing file hashes and checking for duplicates...
           <div class="callout-icon">⚠️</div>
           <div>
             <strong>Watch-outs</strong>
-            <p>Confirm you authenticate against the correct environment on both ends — use <code>-e production</code> when either the source or target is a production account. The <code>catalog-to-manifest</code> export lands in the <strong>export</strong> folder; move it to <strong>configs</strong> before uploading.</p>
+            <p>Confirm you authenticate against the correct environment on both ends -use <code>-e production</code> when either the source or target is a production account. The <code>catalog-to-manifest</code> export lands in the <strong>export</strong> folder; move it to <strong>configs</strong> before uploading.</p>
           </div>
         </div>
       </div>
@@ -1538,7 +1538,7 @@ Computing file hashes and checking for duplicates...
           <div class="callout-icon">🎯</div>
           <div>
             <strong>Partner Opportunity</strong>
-            <p>Agreements land in Agreement Manager with their fields already populated from a metadata file — no manual field entry and no reliance on extraction alone for values you already hold in another system. Docusign recommends testing with a subset of documents in your developer account before uploading the full set with metadata in production; the steps below reflect this process.</p>
+            <p>Agreements land in Agreement Manager with their fields already populated from a metadata file -no manual field entry and no reliance on extraction alone for values you already hold in another system. Docusign recommends testing with a subset of documents in your developer account before uploading the full set with metadata in production; the steps below reflect this process.</p>
           </div>
         </div>
 
@@ -1615,7 +1615,7 @@ Computing file hashes and checking for duplicates...
         <table>
           <tr><th style="width:40%;">Limit</th><th>Value / rule</th></tr>
           <tr><td>Maximum custom fields</td><td><strong>300</strong></td></tr>
-          <tr><td>Maximum custom AI extractions</td><td><strong>50</strong> — Up to <strong>50 custom fields</strong> can have AI extraction enabled, or a combination of <strong>custom fields</strong> and <strong>custom agreement types</strong> can be used (for example, <strong>35 custom fields</strong> and <strong>15 custom types</strong>).<br><br><strong>Important:</strong> No more than <strong>15 custom agreement types</strong> can have AI extraction enabled.</td></tr>
+          <tr><td>Maximum custom AI extractions</td><td><strong>50</strong> -Up to <strong>50 custom fields</strong> can have AI extraction enabled, or a combination of <strong>custom fields</strong> and <strong>custom agreement types</strong> can be used (for example, <strong>35 custom fields</strong> and <strong>15 custom types</strong>).<br><br><strong>Important:</strong> No more than <strong>15 custom agreement types</strong> can have AI extraction enabled.</td></tr>
           <tr><td>Maximum custom agreement types</td><td><strong>200</strong></td></tr>
           <tr><td>Naming</td><td>Custom field names and labels must not duplicate standard field names and labels. Custom agreement type names and labels must not duplicate standard agreement type names and labels.</td></tr>
           <tr><td>Field references</td><td>Every custom field newly defined in the manifest must be referenced in fields.customFields of at least one agreement type (standard or custom) in the manifest. This validation does not apply to fields already in the custom catalog. All labels in fields.additionalStandardFields must exist in the standard catalog. All labels in fields.customFields must match a custom field label defined in the manifest's fields array.</td></tr>
