@@ -1726,8 +1726,8 @@ Computing file hashes and checking for duplicates...
 
   // ----- code copy function -----
   window.copyCode = function(btn){
-    var wrap = btn.closest('.code-wrap') || btn.parentElement;
-    var codeEl = wrap.querySelector('code') || wrap.querySelector('pre');
+    var wrap = btn.closest('.code-wrap') || btn.closest('pre') || btn.parentElement;
+    var codeEl = wrap.querySelector('code') || (wrap.tagName === 'PRE' ? wrap : wrap.querySelector('pre'));
     if(!codeEl) return;
     var text = codeEl.innerText
       .split('\n')
@@ -1763,6 +1763,18 @@ Computing file hashes and checking for duplicates...
     document.body.removeChild(ta);
     if(cb) cb();
   }
+
+  // ----- auto-inject copy buttons on all pre blocks -----
+  [].slice.call(document.querySelectorAll('pre')).forEach(function(pre){
+    if(pre.querySelector('.code-copy') || pre.querySelector('.copy-btn')) return;
+    if(pre.closest('.code-wrap') && pre.closest('.code-wrap').querySelector('.code-copy')) return;
+    var btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = 'Copy';
+    btn.onclick = function(){ copyCode(btn); };
+    pre.style.position = 'relative';
+    pre.appendChild(btn);
+  });
 
   refreshProgress();
 })();
