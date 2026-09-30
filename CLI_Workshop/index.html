@@ -250,12 +250,12 @@ details.collapsible > table{margin:0;}
           <svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"></circle><circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.24777960769379" stroke-dashoffset="94.24777960769379"></circle></svg>
           <span class="num">2</span>
         </span>
-        <span class="txt"><span class="t">First-Time Customization</span><span class="s">Scaffold · Auth · Package · Test</span></span>
+        <span class="txt"><span class="t">First-Time Customization</span><span class="s">Auth · Scaffold · Package · Test</span></span>
       </li>
       <ul class="sub-nav">
         <li data-scroll="uc1-scenario">2.0 Scenario overview</li>
-        <li data-scroll="scaffold">2.1 Scaffold workspace</li>
-        <li data-scroll="auth">2.2 Authenticate CLI</li>
+        <li data-scroll="auth">2.1 Authenticate CLI</li>
+        <li data-scroll="scaffold">2.2 Scaffold workspace</li>
         <li data-scroll="iam-package">2.3 IAM package overview</li>
         <li data-scroll="get-catalog">2.4 Get catalog</li>
         <li data-scroll="create-package">2.5 Understand manifest</li>
@@ -544,103 +544,16 @@ Tip: Use 'ds' as a short alias for 'docusign'</code></pre>
         </ul>
       </div>
 
-      <!-- 2.1 Scaffold -->
-      <div class="card" id="scaffold">
+      <!-- 2.1 Auth -->
+      <div class="card" id="auth">
         <div class="h-check">
           <input type="checkbox" data-stage="2" id="chk-2-1">
           <div>
-            <h3>2.1 Scaffold Your Workspace</h3>
+            <h3>2.1 Authenticate the CLI</h3>
             <span class="tag">Exercise</span>
           </div>
         </div>
-        <p>The first step of using the Docusign CLI is to create a workspace that will be used to store your assets. The <code>docusign scaffold</code> command is used to create a structured workspace and project directory for organizing your Docusign CLI configurations, tests, and files.</p>
-
-        <div class="callout callout-blue">
-          <div class="callout-icon">📝</div>
-          <div>
-            <strong>Note</strong>
-            <p>The scaffold command creates a workspace directory structure at the location from where you run the command.</p>
-          </div>
-        </div>
-
-        <h4>Command Usage</h4>
-        <pre><code>$ docusign scaffold -h</code></pre>
-        <p>Output:</p>
-        <pre><code>Usage: docusign scaffold [options]
-
-Create a new workspace and project structure
-
-Options:
-  -w, --workspace &lt;name&gt;     Workspace name (default: "docusign-workspace")
-  -p, --project &lt;name&gt;       Project name (auto-increments if not specified)
-  -f, --features &lt;features&gt;  Comma-separated list of features (default: "Agreement-Manager")
-  --no-ai-skills             Create workspace without adding AI skills
-  --dry-run                  Show what would be created without creating it
-  -h, --help                 display help for command</code></pre>
-
-        <details class="collapsible">
-          <summary>Click here to view details on the different options</summary>
-          <div class="collapsible-body">
-            <table>
-              <tr><th>Option</th><th>Description</th><th>Default Value</th></tr>
-              <tr><td>-w, --workspace</td><td>The name of the root directory for your project files.</td><td>"docusign-workspace"</td></tr>
-              <tr><td>-p, --project</td><td>The name of the specific project within the workspace.</td><td>Auto-increments (e.g., project-1)</td></tr>
-              <tr><td>-f, --features</td><td>A comma-separated list of sub-directories to create under the project, used to group related configurations or scripts.</td><td>"Agreement-Manager"</td></tr>
-              <tr><td>--no-ai-skills</td><td>Creates a workspace without adding AI skills for coding assistants (Claude, Copilot, Gemini, Cursor).</td><td>AI skills installed by default</td></tr>
-              <tr><td>--dry-run</td><td>Shows the file structure that would be created without actually creating it.</td><td>N/A</td></tr>
-            </table>
-          </div>
-        </details>
-
-        <h4>Example Execution</h4>
-        <p>The following example creates a workspace named <code>my-docusign-workspace</code> and a project named <code>fontara</code>, and sets up one feature: Agreement Manager.</p>
-        <pre><code>$ docusign scaffold -w my-docusign-workspace -p fontara -f Agreement-Manager</code></pre>
-
-        <h4>Output and Structure</h4>
-        <p>Upon successful execution, the CLI creates the following structure:</p>
-        <div class="tree">./my-docusign-workspace/
-  .env
-  .claude/skills/          (AI skills for Claude Code)
-  .github/instructions/    (AI instructions for GitHub Copilot)
-  .gemini/                 (AI instructions for Gemini CLI)
-  .cursor/rules/           (AI rules for Cursor)
-  fontara/
-    Agreement-Manager/
-      configs/
-      tests/
-      files/
-        train/
-        test/
-      README.md
-    README.md
-Global config: ~/.docusign/
-  config.json
-  workspaces.json</div>
-
-        <p>The resulting directory structure is designed to separate different aspects of your Docusign CLI usage:</p>
-        <table>
-          <tr><th>Directory/File</th><th>Description</th></tr>
-          <tr><td>my-docusign-workspace/</td><td>The top-level workspace directory, containing all projects.</td></tr>
-          <tr><td>.env</td><td>Environment file for setting local variables (e.g., API keys, environment URLs) specific to this workspace.</td></tr>
-          <tr><td>fontara/</td><td>The project directory.</td></tr>
-          <tr><td>fontara/README.md</td><td>General description and instructions for the project.</td></tr>
-          <tr><td>fontara/agreement-manager/</td><td>A feature directory for grouping related configurations and assets.</td></tr>
-          <tr><td>configs/</td><td>Directory for storing configuration files (e.g., JSON definitions, YAML).</td></tr>
-          <tr><td>tests/</td><td>Directory for storing expected test data in a csv file.</td></tr>
-          <tr><td>files/</td><td>Directory containing agreements used for testing extraction accuracy and training custom agreement types</td></tr>
-        </table>
-      </div>
-
-      <!-- 2.2 Auth -->
-      <div class="card" id="auth">
-        <div class="h-check">
-          <input type="checkbox" data-stage="2" id="chk-2-2">
-          <div>
-            <h3>2.2 Authenticate the CLI</h3>
-            <span class="tag">Exercise</span>
-          </div>
-        </div>
-        <p>The <code>docusign auth login</code> command is the primary method for securely authenticating the Docusign CLI using the OAuth PKCE (Proof Key for Code Exchange) flow. This command handles the browser-based login, token retrieval, and local storage of credentials.</p>
+        <p>Before running any other commands, authenticate the CLI against your Docusign account. The <code>docusign auth login</code> command uses the OAuth PKCE (Proof Key for Code Exchange) flow - it opens your browser for login, retrieves a token, and stores your credentials locally.</p>
 
         <pre><code>$ docusign auth login -h</code></pre>
         <p>Output:</p>
@@ -696,7 +609,7 @@ Feature Availability:
 ───────────────────────────────────────────────────────────────────────────
 ✔   Agreement Manager Plan: Agreement Manager is enabled (trial)
 ✔   Agreement Manager Migration: Up to date
-✔   CLI Version: v1.1.1-beta (latest)</code></pre>
+✔   CLI Version: v1.0.0-beta (latest)</code></pre>
 
         <details class="collapsible">
           <summary>Click here to see other login alternatives (not relevant to this exercise)</summary>
@@ -707,6 +620,113 @@ Feature Availability:
             <pre><code>$ docusign auth login --no-browser</code></pre>
           </div>
         </details>
+      </div>
+
+      <!-- 2.2 Scaffold -->
+      <div class="card" id="scaffold">
+        <div class="h-check">
+          <input type="checkbox" data-stage="2" id="chk-2-2">
+          <div>
+            <h3>2.2 Scaffold the Workspace &amp; Project</h3>
+            <span class="tag">Exercise</span>
+          </div>
+        </div>
+
+        <p>Before scaffolding, create a dedicated working folder so all CLI output lands in one place. Pick the option for your OS below.</p>
+
+        <h4>macOS / Linux</h4>
+        <p><strong>Option A - Terminal (recommended):</strong></p>
+        <pre><code>$ mkdir ~/docusign-workshop &amp;&amp; cd ~/docusign-workshop</code></pre>
+        <p><strong>Option B - Manually:</strong></p>
+        <ol>
+          <li>Create a new folder anywhere on your machine (e.g. <code>docusign-workshop</code> on your Desktop).</li>
+          <li>Open a terminal window and <code>cd</code> into it:</li>
+        </ol>
+        <pre><code>$ cd ~/Desktop/docusign-workshop</code></pre>
+
+        <h4>Windows (PowerShell)</h4>
+        <p><strong>Option A - PowerShell (recommended):</strong></p>
+        <pre><code>mkdir $HOME\docusign-workshop; cd $HOME\docusign-workshop</code></pre>
+        <p><strong>Option B - Manually:</strong></p>
+        <ol>
+          <li>Create a new folder (e.g. <code>docusign-workshop</code>) on your Desktop or Documents.</li>
+          <li>Open PowerShell and <code>cd</code> into it:</li>
+        </ol>
+        <pre><code>cd $HOME\Desktop\docusign-workshop</code></pre>
+
+        <div class="callout callout-amber">
+          <div class="callout-icon">&#9888;</div>
+          <div>
+            <strong>Why this matters</strong>
+            <p><code>docusign scaffold</code> creates the workspace folder inside whatever directory your terminal is currently in. If you skip this step, it will land in your home directory or wherever you last navigated.</p>
+          </div>
+        </div>
+
+        <p>Now scaffold the project structure. Use lowercase <code>agreement-manager</code> (PascalCase breaks the directory layout in v1.0.7+).</p>
+        <pre><code>$ docusign scaffold -w demo-workspace -p demo-project -f agreement-manager</code></pre>
+
+        <h4>Command Usage</h4>
+        <pre><code>$ docusign scaffold -h</code></pre>
+        <p>Output:</p>
+        <pre><code>Usage: docusign scaffold [options]
+
+Create a new workspace and project structure
+
+Options:
+  -w, --workspace &lt;name&gt;     Workspace name (default: "docusign-workspace")
+  -p, --project &lt;name&gt;       Project name (auto-increments if not specified)
+  -f, --features &lt;features&gt;  Comma-separated list of features (default: "agreement-manager")
+  --no-ai-skills             Create workspace without adding AI skills
+  --dry-run                  Show what would be created without creating it
+  -h, --help                 display help for command</code></pre>
+
+        <details class="collapsible">
+          <summary>Click here to view details on the different options</summary>
+          <div class="collapsible-body">
+            <table>
+              <tr><th>Option</th><th>Description</th><th>Default Value</th></tr>
+              <tr><td>-w, --workspace</td><td>The name of the root directory for your project files.</td><td>"docusign-workspace"</td></tr>
+              <tr><td>-p, --project</td><td>The name of the specific project within the workspace.</td><td>Auto-increments (e.g., project-1)</td></tr>
+              <tr><td>-f, --features</td><td>A comma-separated list of sub-directories to create under the project, used to group related configurations or scripts.</td><td>"agreement-manager"</td></tr>
+              <tr><td>--no-ai-skills</td><td>Creates a workspace without adding AI skills for coding assistants (Claude, Copilot, Gemini, Cursor).</td><td>AI skills installed by default</td></tr>
+              <tr><td>--dry-run</td><td>Shows the file structure that would be created without actually creating it.</td><td>N/A</td></tr>
+            </table>
+          </div>
+        </details>
+
+        <h4>Output and Structure</h4>
+        <p>Upon successful execution, the CLI creates the following structure:</p>
+        <div class="tree">./demo-workspace/
+  .env
+  .claude/skills/          (AI skills for Claude Code)
+  .github/instructions/    (AI instructions for GitHub Copilot)
+  .gemini/                 (AI instructions for Gemini CLI)
+  .cursor/rules/           (AI rules for Cursor)
+  demo-project/
+    agreement-manager/
+      configs/
+      tests/
+      files/
+        train/
+        test/
+      README.md
+    README.md
+Global config: ~/.docusign/
+  config.json
+  workspaces.json</div>
+
+        <p>The resulting directory structure is designed to separate different aspects of your Docusign CLI usage:</p>
+        <table>
+          <tr><th>Directory/File</th><th>Description</th></tr>
+          <tr><td>demo-workspace/</td><td>The top-level workspace directory, containing all projects.</td></tr>
+          <tr><td>.env</td><td>Environment file for setting local variables (e.g., API keys, environment URLs) specific to this workspace.</td></tr>
+          <tr><td>demo-project/</td><td>The project directory.</td></tr>
+          <tr><td>demo-project/README.md</td><td>General description and instructions for the project.</td></tr>
+          <tr><td>demo-project/agreement-manager/</td><td>A feature directory for grouping related configurations and assets.</td></tr>
+          <tr><td>configs/</td><td>Directory for storing configuration files (e.g., JSON definitions, YAML).</td></tr>
+          <tr><td>tests/</td><td>Directory for storing expected test data in a csv file.</td></tr>
+          <tr><td>files/</td><td>Directory containing agreements used for testing extraction accuracy and training custom agreement types.</td></tr>
+        </table>
       </div>
 
       <!-- 2.3 IAM Package Overview -->
@@ -737,7 +757,7 @@ Feature Availability:
         </div>
         <p>First, run the <strong>Get Catalog</strong> command to verify that the IAM Toolkit is successfully connected to Agreement Manager. This command retrieves the existing agreement types and fields from your account and generates a catalog that serves as the reference when building your Agreement Manager IAM package. This is a representation of the "Is-State" of your current Agreement Manager configuration.</p>
         <p>First, navigate into your workspace directory so the catalog files are written to the right place:</p>
-        <pre><code>$ cd my-docusign-workspace/fontara</code></pre>
+        <pre><code>$ cd demo-workspace/demo-project</code></pre>
         <p>Then run:</p>
         <pre><code>$ docusign agm get catalog</code></pre>
         <p>This command fetches your existing Agreement Manager configuration into two files: <strong>"standard-catalog.json"</strong> and <strong>"custom-catalog.json"</strong>.</p>
@@ -1004,7 +1024,7 @@ Feature Availability:
 
         <h4>Go into your project directory</h4>
         <p>From your terminal, navigate into the project folder created during scaffolding:</p>
-        <pre><code>PS C:\Users\Docusign.PSA\Documents\cli-toolkit-test\test08072026\my-docusign-workspace\fontara></code></pre>
+        <pre><code>PS C:\Users\Docusign.PSA\docusign-workshop\demo-workspace\demo-project></code></pre>
 
         <h4>Open the project in VS Code</h4>
         <p>Run the following command to open the current directory in VS Code:</p>
