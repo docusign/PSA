@@ -59,7 +59,7 @@ header.top .cta:hover{background:var(--indigo);text-decoration:none;}
 /* ---------- Layout ---------- */
 .wrap{display:flex;align-items:flex-start;}
 aside{width:var(--sidebar);flex:0 0 var(--sidebar);position:sticky;top:57px;align-self:flex-start;height:calc(100vh - 57px);overflow-y:auto;background:var(--surface);border-right:1px solid var(--hairline);padding:22px 18px 60px;}
-main{flex:1;min-width:0;padding:34px 46px 120px;max-width:960px;}
+main{flex:1;min-width:0;padding:34px 46px 120px;}
 
 .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);font-weight:600;}
 
@@ -205,7 +205,7 @@ details.collapsible > table{margin:0;}
     <a href="index.html"><img class="logo" src="https://docusign.github.io/PSA/Bengaluru-meetup/assets/img/docusign-horizontal-black.svg" alt="Docusign"></a>
     <nav>
       <a href="#stage-0">IAM Toolkit Handbook</a>
-      <a href="https://github.com/docusign/PSA/tree/main/EMEA_CLI_Workshop/Workshop-Kit" target="_blank" rel="noopener">Workshop Kit (GitHub) ↗</a>
+      <a href="https://github.com/docusign/PSA/tree/main/CLI_Workshop/Workshop-Kit" target="_blank" rel="noopener">Workshop Kit (GitHub) ↗</a>
     </nav>
   </div>
   <a class="cta" href="https://www.docusign.com/intelligent-agreement-management" target="_blank" rel="noopener">Docusign IAM ↗</a>
@@ -294,8 +294,8 @@ details.collapsible > table{margin:0;}
       Self-paced handbook. Tick each step checkbox to fill the progress rings.<br><br>
       <strong style="font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink);">Resources</strong><br>
       <a href="https://www.npmjs.com/package/@docusign/cli" target="_blank" rel="noopener">@docusign/cli (npm) ↗</a>
-      <a href="https://github.com/docusign/PSA/tree/main/EMEA_CLI_Workshop" target="_blank" rel="noopener">GitHub: EMEA CLI Workshop Repo ↗</a>
-      <a href="https://github.com/docusign/PSA/tree/main/EMEA_CLI_Workshop/Workshop-Kit" target="_blank" rel="noopener">GitHub: Workshop Kit Assets ↗</a>
+      <a href="https://github.com/docusign/PSA/tree/main/CLI_Workshop" target="_blank" rel="noopener">GitHub: CLI Workshop Repo ↗</a>
+      <a href="https://github.com/docusign/PSA/tree/main/CLI_Workshop/Workshop-Kit" target="_blank" rel="noopener">GitHub: Workshop Kit Assets ↗</a>
       <a href="https://developers.docusign.com/docs/iam/" target="_blank" rel="noopener">Docusign IAM Developer Center ↗</a>
     </div>
   </aside>
@@ -423,9 +423,9 @@ $ npm --version</code></pre>
         </div>
         <p>Both commands should return a version number (e.g., v20.11.0 and 10.2.4). If either command is not recognized, restart your terminal and try again.</p>
         <p>For example:</p>
-        <pre><code>PS C:\Users\Tamara.Flores\Documents\cli-toolkit-test\test08072026> node --version
+        <pre><code>PS C:\Users\Docusign.PSA\Documents\cli-toolkit-test\test08072026> node --version
 v24.17.0
-PS C:\Users\Tamara.Flores\Documents\cli-toolkit-test\test08072026> npm --version
+PS C:\Users\Docusign.PSA\Documents\cli-toolkit-test\test08072026> npm --version
 11.13.0</code></pre>
 
         <div class="callout callout-blue">
@@ -698,14 +698,14 @@ Options:
 Opening browser...
 ✔ Browser opened
 (Complete the login in your browser)
-Multiple accounts found for tamara.flores@docusign.com:
+Multiple accounts found for docusign.psa@docusign.com:
 ✔ Select which account to use: [24] EPPC
       Account ID: 197c3762-1f04-4f45-ac67-231e885b6bb0
       Base URL: https://demo.docusign.net
-✔ Login Successful! Welcome, Tamara Flores Caceres!
+✔ Login Successful! Welcome, Docusign PSA!
 User Information:
-  Name: Tamara Flores Caceres
-  Email: tamara.flores@docusign.com
+  Name: Docusign PSA
+  Email: docusign.psa@docusign.com
   User ID: 06358a56-563f-4ca8-b7e6-604520ecc01c
 Account Information:
   Account: EPPC
@@ -1043,7 +1043,7 @@ Feature Availability:
 
         <h4>Go into your project directory</h4>
         <p>From your terminal, navigate into the project folder created during scaffolding:</p>
-        <pre><code>PS C:\Users\Tamara.Flores\Documents\cli-toolkit-test\test08072026\my-docusign-workspace\fontara></code></pre>
+        <pre><code>PS C:\Users\Docusign.PSA\Documents\cli-toolkit-test\test08072026\my-docusign-workspace\fontara></code></pre>
 
         <h4>Open the project in VS Code</h4>
         <p>Run the following command to open the current directory in VS Code:</p>
@@ -1055,24 +1055,28 @@ Feature Availability:
         <h4>Check your workspace</h4>
         <p>It should look like this:</p>
         <div class="shot-wrap">
-          <img class="shot" src="screenshots/cli_toolkit_0_vscode_workspace_empty.png" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/docusign/PSA/main/EMEA_CLI_Workshop/screenshots/cli_toolkit_0_vscode_workspace_empty.png'" alt="Empty workspace in VS Code">
+          <img class="shot" src="screenshots/cli_toolkit_0_vscode_workspace_empty.png" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/docusign/PSA/main/CLI_Workshop/screenshots/cli_toolkit_0_vscode_workspace_empty.png'" alt="Empty workspace in VS Code">
           <div class="shot-caption"><span class="badge badge-purple">VS Code</span> Empty workspace created by scaffolding</div>
         </div>
 
         <h4>Remove the sample files from the train and test folders</h4>
         <p>Delete the sample files that were created in the <code>files/train/</code> and <code>files/test/</code> folders.</p>
         <div class="shot-wrap">
-          <img class="shot" src="screenshots/cli_toolkit_2_deletedfiles_vscode.png" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/docusign/PSA/main/EMEA_CLI_Workshop/screenshots/cli_toolkit_2_deletedfiles_vscode.png'" alt="Sample files removed from train and test folders in VS Code">
+          <img class="shot" src="screenshots/cli_toolkit_2_deletedfiles_vscode.png" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/docusign/PSA/main/CLI_Workshop/screenshots/cli_toolkit_2_deletedfiles_vscode.png'" alt="Sample files removed from train and test folders in VS Code">
           <div class="shot-caption"><span class="badge badge-purple">VS Code</span> Sample placeholder files removed from train and test folders</div>
         </div>
 
         <h4>Download the sample agreements</h4>
-        <p>Download the sample agreements here (2 zip folders called <code>train</code> and <code>test</code>): <a href="https://github.com/docusign/PSA/tree/main/EMEA_CLI_Workshop/Workshop-Kit" target="_blank" rel="noopener">Workshop Kit (GitHub) ↗</a>.</p>
+        <p>Download the sample agreements (2 zip folders called <code>train</code> and <code>test</code>):</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin:10px 0 16px;">
+          <a href="https://github.com/docusign/PSA/raw/main/CLI_Workshop/Workshop-Kit/train-20260707T174928Z-3-001.zip" style="display:inline-flex;align-items:center;gap:8px;background:var(--indigo);color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:background .15s;" onmouseover="this.style.background='#6A17C9'" onmouseout="this.style.background='#4C00FF'">&#11015; Download train.zip</a>
+          <a href="https://github.com/docusign/PSA/raw/main/CLI_Workshop/Workshop-Kit/test-20260707T174950Z-3-001.zip" style="display:inline-flex;align-items:center;gap:8px;background:var(--indigo);color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:background .15s;" onmouseover="this.style.background='#6A17C9'" onmouseout="this.style.background='#4C00FF'">&#11015; Download test.zip</a>
+        </div>
 
         <h4>Add the files into the corresponding folders</h4>
         <p>Place the downloaded agreements into the matching <code>files/train/</code> and <code>files/test/</code> folders.</p>
         <div class="shot-wrap">
-          <img class="shot" src="screenshots/cli_toolkit_1_files_vscode.png" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/docusign/PSA/main/EMEA_CLI_Workshop/screenshots/cli_toolkit_1_files_vscode.png'" alt="Downloaded agreement files added to the folders in VS Code">
+          <img class="shot" src="screenshots/cli_toolkit_1_files_vscode.png" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/docusign/PSA/main/CLI_Workshop/screenshots/cli_toolkit_1_files_vscode.png'" alt="Downloaded agreement files added to the folders in VS Code">
           <div class="shot-caption"><span class="badge badge-purple">VS Code</span> Downloaded agreement files added into matching folders</div>
         </div>
 
@@ -1249,7 +1253,7 @@ Computing file hashes and checking for duplicates...
         <h4>Verify the agreements in Docusign</h4>
         <p>In Docusign, you can check that the agreements have been ingested into Agreement Manager. It can take some minutes for Docusign Iris to extract the key datapoints.</p>
         <div class="shot-wrap">
-          <img class="shot" src="screenshots/cli_toolkit_2_agm.png" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/docusign/PSA/main/EMEA_CLI_Workshop/screenshots/cli_toolkit_2_agm.png'" alt="Ingested agreements shown in Agreement Manager">
+          <img class="shot" src="screenshots/cli_toolkit_2_agm.png" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/docusign/PSA/main/CLI_Workshop/screenshots/cli_toolkit_2_agm.png'" alt="Ingested agreements shown in Agreement Manager">
           <div class="shot-caption"><span class="badge badge-purple">Agreement Manager</span> Ingested agreements and AI extracted attributes in Agreement Manager UI</div>
         </div>
 
@@ -1328,7 +1332,7 @@ Computing file hashes and checking for duplicates...
           <div class="callout-icon">💡</div>
           <div>
             <strong>For this exercise</strong>
-            <p>To save time, we have prepared a sample testing CSV with the ground truth values already filled in for the custom fields of the Film Production Agreements we are evaluating. <strong>Download it here (<a href="https://github.com/docusign/PSA/blob/main/EMEA_CLI_Workshop/Workshop-Kit/testing.csv" target="_blank" rel="noopener">testing.csv on GitHub ↗</a>) and replace the CSV you just generated with it, so you don't have to fill in the truth values yourself.</strong></p>
+            <p>To save time, we have prepared a sample testing CSV with the ground truth values already filled in for the custom fields of the Film Production Agreements we are evaluating. <strong>Download it here (<a href="https://github.com/docusign/PSA/blob/main/CLI_Workshop/Workshop-Kit/testing.csv" target="_blank" rel="noopener">testing.csv on GitHub ↗</a>) and replace the CSV you just generated with it, so you don't have to fill in the truth values yourself.</strong></p>
           </div>
         </div>
 
