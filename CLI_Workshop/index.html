@@ -1199,23 +1199,13 @@ Options:
   -h, --help      display help for command</code></pre>
 
         <h4>Confirm the upload succeeded</h4>
-        <p>When the manifest is uploaded correctly, you'll see output similar to this. Confirm the prompt to ingest the training files:</p>
-        <pre><code>✔ Agreement Manager manifest passed validation!
+        <p>When the manifest is uploaded correctly, you'll see output similar to this:</p>
+        <pre><code>▌ Uploading Agreement Manager Manifest
+
+✔ Agreement Manager manifest passed validation!
 ✔ Manifest import successful!
 Refreshing custom agreement types
-Ingest 3 training file(s) for C_FilmProductionAgreement? (y/n): y</code></pre>
-
-        <h4>Ingest the training and test files</h4>
-        <p>The CLI will ask you to ingest both the training files and the test files. We will test in the next exercise, so agree to both prompts. The output should look like this:</p>
-        <pre><code>Ingest 3 training file(s) for C_FilmProductionAgreement? (y/n): y
-Computing file hashes and checking for duplicates...
-✔ Hash computation complete
-✔ Ingested 3 training file(s) for Film Production Agreement
 Film Production Agreement: Refreshed (3 agreements referenced)
-Ingest Test Files? Say yes if you plan on testing your agreement manager configuration. (y/n): y
-Computing file hashes and checking for duplicates...
-✔ Hash computation complete
-✔ Refreshed 3 test agreement(s)
 ✔ Upload completed successfully!</code></pre>
 
         <h4>Verify the agreements in Docusign</h4>
@@ -1228,9 +1218,9 @@ Computing file hashes and checking for duplicates...
         <h4>What Happens After the Agreement Manager IAM Package is Uploaded?</h4>
         <p>After successfully uploading your Agreement Manager IAM package:</p>
         <ul class="plainlist">
-          <li>Custom fields and custom agreement types are created in Agreement Manager. In this case, the custom Film Distribution Agreement type and the three fields we configured: Shooting Location, Production Budget and Distribution Territory.</li>
+          <li>Custom fields and custom agreement types are created in Agreement Manager. In this case, the custom Film Production Agreement type and the four fields we configured: Production Budget, Shooting Location, Distribution Territory, and Residual Rate.</li>
           <li>Additional standard and custom fields are mapped to the specified agreement types.</li>
-          <li>Example agreements are uploaded to train the AI for custom agreement types where customExtractionEnabled is set to true.</li>
+          <li>Training agreements referenced in the manifest's <code>docs</code> array are associated with their custom agreement types.</li>
           <li>AI extraction is enabled in the Agreement Manager UI for custom agreement types and custom fields where customExtractionEnabled is set to true.</li>
         </ul>
       </div>
@@ -1253,9 +1243,20 @@ Computing file hashes and checking for duplicates...
           </div>
         </details>
 
-        <p>Once you have your test agreements in the following directory: <code>{workspace}/{project}/agreement-manager/files/test/</code>, you will need to perform the following 3 steps:</p>
+        <p>Once you have your test agreements in the following directory: <code>{workspace}/{project}/agreement-manager/files/test/</code>, you will need to perform the following steps:</p>
 
-        <h4>1. Generate Testing CSV</h4>
+        <h4>1. Set up test agreements</h4>
+        <p>First, ingest your test agreements into Agreement Manager by running:</p>
+        <pre><code>$ docusign agm test --setup</code></pre>
+        <p>The CLI will detect your test files and ask to ingest them. Type <code>y</code> to confirm:</p>
+        <pre><code>▌ Setting up Agreement Manager testing
+
+Found 3 test agreements that have not been ingested into Agreement Manager yet
+Do you want to ingest 3 test agreements into Agreement Manager? (y/n): y
+✔ Successfully ingested 3 test agreements
+✔ Test setup successfully!</code></pre>
+
+        <h4>2. Generate Testing CSV</h4>
         <p>To programmatically compare your expected values with the actual extracted values, first generate the testing template file, <code>testing.csv</code>, by running:</p>
         <pre><code>$ docusign agm test --generate-test-template</code></pre>
 
@@ -1271,9 +1272,7 @@ Computing file hashes and checking for duplicates...
           </div>
         </details>
 
-        <p>When you run this command, the Toolkit performs two actions:</p>
-        <p><strong>Action 1: Uploads your test agreements to Agreement Manager</strong><br>The test agreements in your test folder are uploaded and processed by the AI to extract values for standard fields and AI-enabled custom fields.</p>
-        <p><strong>Action 2: Generates the testing.csv file</strong><br>The file is created based on the uploaded test agreements.</p>
+        <p>This command generates the <code>testing.csv</code> file based on the test agreements you ingested in step 1.</p>
         <ul class="plainlist">
           <li><strong>Column A</strong> contains the actual names of the test agreements. This value is pre-filled by the CLI.</li>
           <li><strong>Column B</strong> contains the Agreement ID. This value is also pre-filled by the CLI.</li>
@@ -1289,7 +1288,7 @@ Computing file hashes and checking for duplicates...
           </div>
         </div>
 
-        <h4>2. Enter the Ground Truth values in the Generated Testing CSV</h4>
+        <h4>3. Enter the Ground Truth values in the Generated Testing CSV</h4>
         <p>Open the testing.csv file and enter the expected (ground truth) values for the relevant standard and custom fields for each test agreement, or review and update the values if you used the --prefill-extractions option. The values you enter will be treated as the ground truth and compared against the actual AI-extracted values to calculate accuracy across both standard and custom fields.</p>
         <p>You only need to fill in values for the fields you want to test. Leave other fields blank if they are not present in the agreement or not relevant for testing. The Toolkit will treat blank cells as fields that should not be tested.</p>
 
@@ -1301,7 +1300,7 @@ Computing file hashes and checking for duplicates...
           </div>
         </div>
 
-        <h4>3. Run the test</h4>
+        <h4>4. Run the test</h4>
         <p>Once the ground truth values have been entered into the testing.csv, you can start the testing by running the following command:</p>
         <pre><code>$ docusign agm test --run</code></pre>
         <table>
