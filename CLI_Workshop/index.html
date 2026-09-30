@@ -683,7 +683,7 @@ Options:
             <table>
               <tr><th>Option</th><th>Description</th><th>Default Value</th></tr>
               <tr><td>-w, --workspace</td><td>The name of the root directory for your project files.</td><td>"docusign-workspace"</td></tr>
-              <tr><td>-p, --project</td><td>The name of the specific project within the workspace.</td><td>Auto-increments (e.g., project-1)</td></tr>
+              <tr><td>-p, --project</td><td>The name of the specific project within the workspace.</td><td>Auto-increments (e.g., project_001)</td></tr>
               <tr><td>-f, --features</td><td>A comma-separated list of sub-directories to create under the project, used to group related configurations or scripts.</td><td>"agreement-manager"</td></tr>
               <tr><td>--no-ai-skills</td><td>Creates a workspace without adding AI skills for coding assistants (Claude, Copilot, Gemini, Cursor).</td><td>AI skills installed by default</td></tr>
               <tr><td>--dry-run</td><td>Shows the file structure that would be created without actually creating it.</td><td>N/A</td></tr>
@@ -699,7 +699,7 @@ Options:
   .github/instructions/    (AI instructions for GitHub Copilot)
   .gemini/                 (AI instructions for Gemini CLI)
   .cursor/rules/           (AI rules for Cursor)
-  project-1/
+  project_001/
     agreement-manager/
       configs/
       tests/
@@ -717,9 +717,9 @@ Global config: ~/.docusign/
           <tr><th>Directory/File</th><th>Description</th></tr>
           <tr><td>docusign-workspace/</td><td>The top-level workspace directory, containing all projects.</td></tr>
           <tr><td>.env</td><td>Environment file for setting local variables (e.g., API keys, environment URLs) specific to this workspace.</td></tr>
-          <tr><td>project-1/</td><td>The project directory (auto-named).</td></tr>
-          <tr><td>project-1/README.md</td><td>General description and instructions for the project.</td></tr>
-          <tr><td>project-1/agreement-manager/</td><td>A feature directory for grouping related configurations and assets.</td></tr>
+          <tr><td>project_001/</td><td>The project directory (auto-named).</td></tr>
+          <tr><td>project_001/README.md</td><td>General description and instructions for the project.</td></tr>
+          <tr><td>project_001/agreement-manager/</td><td>A feature directory for grouping related configurations and assets.</td></tr>
           <tr><td>configs/</td><td>Directory for storing configuration files (e.g., JSON definitions, YAML).</td></tr>
           <tr><td>tests/</td><td>Directory for storing expected test data in a csv file.</td></tr>
           <tr><td>files/</td><td>Directory containing agreements used for testing extraction accuracy and training custom agreement types.</td></tr>
@@ -754,7 +754,7 @@ Global config: ~/.docusign/
         </div>
         <p>First, run the <strong>Get Catalog</strong> command to verify that the IAM Toolkit is successfully connected to Agreement Manager. This command retrieves the existing agreement types and fields from your account and generates a catalog that serves as the reference when building your Agreement Manager IAM package. This is a representation of the "Is-State" of your current Agreement Manager configuration.</p>
         <p>First, navigate into your workspace directory so the catalog files are written to the right place:</p>
-        <pre><code>$ cd docusign-workspace/project-1</code></pre>
+        <pre><code>$ cd docusign-workspace/project_001</code></pre>
         <p>Then run:</p>
         <pre><code>$ docusign agm get catalog</code></pre>
         <p>This command fetches your existing Agreement Manager configuration into two files: <strong>"standard-catalog.json"</strong> and <strong>"custom-catalog.json"</strong>.</p>
@@ -1021,7 +1021,7 @@ Global config: ~/.docusign/
 
         <h4>Go into your project directory</h4>
         <p>From your terminal, navigate into the project folder created during scaffolding:</p>
-        <pre><code>PS C:\Users\Docusign.PSA\Desktop\docusign-workshop\docusign-workspace\project-1></code></pre>
+        <pre><code>PS C:\Users\Docusign.PSA\Desktop\docusign-workshop\docusign-workspace\project_001></code></pre>
 
         <h4>Open the project in VS Code</h4>
         <p>Run the following command to open the current directory in VS Code:</p>
