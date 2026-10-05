@@ -926,6 +926,7 @@ Using the data from the documents and the risk checklist evaluation, return the 
           <desc id="renewal-flow-desc">CLM creates a renewal request. IAM sends the vendor a renewal form. CLM generates a draft contract, which the Risk Analyst scores. Low-risk renewals go to signature; high-risk renewals go through Legal Review with AI Assisted Review before signature. After signing, AI extracts data, CLM applies attributes, and the agreement is stored in a folder in CLM and IAM Agreement Manager.</desc>
           <defs>
             <marker id="renewal-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#687386"/></marker>
+            <marker id="renewal-note-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#d99a00"/></marker>
           </defs>
 
           <rect x="48" y="42" width="1382" height="300" rx="9" fill="#fff" stroke="#667085" stroke-width="1.5"/>
@@ -991,11 +992,11 @@ Using the data from the documents and the risk checklist evaluation, return the 
           </g>
 
           <g font-family="DSIndigo,Arial,sans-serif" font-size="12" font-style="italic" text-anchor="middle">
-            <path d="M1002 109H950L903 111" fill="none" stroke="#d99a00"/>
+            <path d="M1002 109H950L903 111" fill="none" stroke="#d99a00" marker-end="url(#renewal-note-arrow)"/>
             <rect x="1002" y="52" width="340" height="64" rx="4" fill="#fff5dc" stroke="#e1a900"/>
             <text x="1172" y="77" fill="#3c3425"><tspan x="1172">AI Assisted Review (AIAR) runs an</tspan><tspan x="1172" dy="17">analysis and proposes fallback clauses</tspan></text>
 
-            <path d="M1028 269L942 221" fill="none" stroke="#d99a00"/>
+            <path d="M1028 269L942 221" fill="none" stroke="#d99a00" marker-end="url(#renewal-note-arrow)"/>
             <rect x="900" y="269" width="256" height="62" rx="4" fill="#fff5dc" stroke="#e1a900"/>
             <text x="1028" y="293" fill="#3c3425"><tspan x="1028">After signing, the agreement is stored</tspan><tspan x="1028" dy="17">in CLM and IAM Agreement Manager</tspan></text>
           </g>
