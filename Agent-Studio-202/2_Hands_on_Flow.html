@@ -1090,7 +1090,21 @@ Using the data from the documents and the risk checklist evaluation, return the 
           <p>Choose the workflow you imported using the JSON file, select <b>Start Workflow</b>, and then choose the <b>Renewal</b> template.</p>
           <img src="assets/renewal-wf-workflow.png" alt="CLM Admin Workflows configuration with Renewal WF selected and the Start Workflow action visible." style="display:block;width:100%;max-width:1112px;height:auto;border:1px solid #e5e1f0;border-radius:8px;margin:12px 0 16px;">
         </li>
-        <li id="flow-step-2">Collect vendor renewal details</li>
+        <li id="flow-step-2">Collect vendor renewal details
+          <p>Next, gather vendor renewal details using the Maestro workflow step.</p>
+          <table>
+            <thead>
+              <tr><th>Setting</th><th>Configuration</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><b>Step Name</b></td><td>Maestro Workflow</td></tr>
+              <tr><td><b>Step Description</b></td><td>Call Maestro workflow to invite Vendor &amp; Collect details</td></tr>
+              <tr><td><b>Maestro Workflows</b></td><td>Select the Renewal Workflow</td></tr>
+              <tr><td><b>Payload</b></td><td>Use your JSON variable</td></tr>
+              <tr><td><b>Output</b></td><td>Create a new variable to store the output</td></tr>
+            </tbody>
+          </table>
+        </li>
         <li id="flow-step-3">Generate the draft contract</li>
         <li id="flow-step-4">Analyze with Risk Analyst Agent</li>
         <li id="flow-step-5">Route by risk score</li>
