@@ -1110,7 +1110,23 @@ Using the data from the documents and the risk checklist evaluation, return the 
           <p>The Vendor Renewal Form will be emailed directly to the vendor to complete. After the form submission, the system will indicate that the task has been completed. The contract draft is generated in CLM.</p>
           <img src="assets/vendor-renewal-form.png" alt="Vendor Renewal Form showing renewal dates, value, currency, vendor signer name, and signer email fields." style="display:block;width:100%;max-width:604px;height:auto;border:1px solid #e5e1f0;border-radius:8px;margin:12px 0 16px;">
         </li>
-        <li id="flow-step-4">Analyze with Risk Analyst Agent</li>
+        <li id="flow-step-4">Analyze with Risk Analyst Agent
+          <p>IT invokes the AI Agent to evaluate potential risks using CLM's <b>Use AI Agent</b> workflow step.</p>
+          <table>
+            <thead>
+              <tr><th>Setting</th><th>Configuration</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><b>Step Name</b></td><td>Use AI Agent</td></tr>
+              <tr><td><b>Step Description</b></td><td>Analyze the agreement for contractual risks and return risk assessment.</td></tr>
+              <tr><td><b>Agent</b></td><td>Select the Agent “Vendor &amp; Renewal Risk Analyst” from the dropdown list.</td></tr>
+              <tr><td><b>Chat Message</b></td><td>Use your JSON variable</td></tr>
+              <tr><td><b>Document</b></td><td>Create a new variable to store the output</td></tr>
+              <tr><td><b>Run Agent</b></td><td>Select the User</td></tr>
+              <tr><td><b>Output</b></td><td>Create a new XML variable to store the Agent output value</td></tr>
+            </tbody>
+          </table>
+        </li>
         <li id="flow-step-5">Route by risk score</li>
         <li id="flow-step-6">Legal review and AI Assisted Review</li>
         <li id="flow-step-7">Send for signature</li>
