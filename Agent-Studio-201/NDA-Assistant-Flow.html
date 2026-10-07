@@ -469,6 +469,29 @@ li{margin:5px 0;}
           </ol>
         </div>
         <div class="expect"><b>Checkpoint:</b> your user has both AI Contract Agents Access permissions enabled before starting Stage 1.</div>
+        <div class="warn"><b>Caching issue — Automations tab not visible?</b> After enabling agents from the Admin UI, it may take some time for the Automations tab to appear. Please try clearing your cache manually if you face this issue by following the steps below:
+          <ol>
+            <li>Open <b>Developer Tools</b> in your browser (e.g. on Chrome: click the three-dot menu → <b>More Tools</b> → <b>Developer Tools</b>, or press <code>Cmd+Option+I</code> on Mac).</li>
+            <li>Select the <b>Console</b> tab.</li>
+            <li>Copy-paste the script below and press <b>Enter</b> (you may need to allow the console to run scripts first):</li>
+          </ol>
+<div class="block prompt">(() => {
+  const pattern = /^devx-iam\/account-settings\/[^/]+\/[^/]+$/;
+  const keys = Object.keys(localStorage);
+  let count = 0;
+  keys.forEach((key) => {
+    if (pattern.test(key)) {
+      localStorage.removeItem(key);
+      count++;
+      console.log(`Deleted: ${key}`);
+    }
+  });
+  console.log(` Done! Cleared ${count} matching item(s).`);
+})();</div>
+          <ol start="4">
+            <li>Perform an <b>Empty Cache and Hard Reload</b>: right-click the browser refresh button and select it, or press <b>Shift+Cmd+R</b> (Mac) / <b>Shift+Ctrl+R</b> (Windows).</li>
+          </ol>
+        </div>
       </div>
 
       <div class="h-check"><input type="checkbox" data-stage="0" id="p3"><div><h3 style="display:inline">0.5.3 · Download the lab assets</h3><span class="tag">setup</span></div></div>
