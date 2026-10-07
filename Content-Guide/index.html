@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSU Content Guide — Building with Claude</title>
+<style>
+@font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-Light.woff2') format('woff2');font-weight:300;font-display:swap;}
+@font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-Medium.woff2') format('woff2');font-weight:500;font-display:swap;}
+@font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-SemiBold.woff2') format('woff2');font-weight:600;font-display:swap;}
+:root{--indigo:#4C00FF;--ink:#130032;--surface:#F4F2FA;--hairline:#e5e1f0;--body:#1c1433;--muted:#615a75;--ok:#0a7d3c;--font:'DSIndigo',Arial,Helvetica,sans-serif;}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0 auto;font-family:var(--font);font-weight:300;color:var(--body);background:#fff;line-height:1.65;-webkit-font-smoothing:antialiased;max-width:780px;padding:40px 28px 100px;}
+h1{font-weight:600;color:var(--ink);font-size:28px;margin:0 0 6px;}
+h2{font-weight:600;color:var(--ink);font-size:20px;margin:36px 0 10px;padding-top:36px;border-top:1px solid var(--hairline);}
+h3{font-weight:600;color:var(--ink);font-size:16px;margin:20px 0 6px;}
+a{color:var(--indigo);}
+code{font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:.88em;background:#e9e1fb;color:#4c00c9;padding:2px 6px;border-radius:5px;}
+p{margin:0 0 12px;}
+ol,ul{padding-left:22px;margin:8px 0 12px;}
+li{margin:5px 0;}
+.sub{color:var(--muted);font-size:15px;margin:0 0 32px;}
+.block{background:#1f0a4d;color:#eee6ff;border-radius:10px;padding:14px 52px 14px 16px;margin:10px 0;font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:12.5px;white-space:pre-wrap;word-break:break-word;line-height:1.55;position:relative;}
+.block .copy{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.14);color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-family:var(--font);cursor:pointer;}
+.block .copy:hover{background:var(--indigo);}
+.block .copy.copied{background:var(--ok);}
+table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:13.5px;}
+th,td{border:1px solid var(--hairline);padding:8px 11px;text-align:left;vertical-align:top;}
+th{background:var(--surface);font-weight:600;color:var(--ink);}
+.note{background:#fff7ed;border:1px solid #f4d8b0;border-radius:8px;padding:10px 14px;margin:10px 0;font-size:13.5px;}
+.warn{background:#fff0f0;border:1px solid #f2c2c2;border-radius:8px;padding:10px 14px;margin:10px 0;font-size:13.5px;}
+</style>
+</head>
+<body>
+
+<img src="https://docusign.github.io/PSA/Bengaluru-meetup/assets/img/docusign-horizontal-black.svg" alt="Docusign" style="height:22px;display:block;margin-bottom:28px;">
+
+<h1>Building DSU Content with Claude</h1>
+<p class="sub">A practical guide for PSA team members creating workshop labs and hands-on content.</p>
+
+<h2>1. Start from this template</h2>
+<p>Copy the starter template below. Save it as <code>my-lab.html</code>, open it in a browser to confirm it renders, then paste the full HTML into Claude with your prompt in Section 2. All fonts, colors, and components are included — no dependencies to install.</p>
+
+<div class="block">&#60;!DOCTYPE html&#62;
+&#60;html lang="en"&#62;&#60;head&#62;
+&#60;meta charset="UTF-8"&#62;
+&#60;meta name="viewport" content="width=device-width, initial-scale=1.0"&#62;
+&#60;title&#62;My Lab Title&#60;/title&#62;
+&#60;style&#62;
+&#64;font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-Light.woff2') format('woff2');font-weight:300;font-display:swap;}
+&#64;font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-Medium.woff2') format('woff2');font-weight:500;font-display:swap;}
+&#64;font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-SemiBold.woff2') format('woff2');font-weight:600;font-display:swap;}
+:root{--indigo:#4C00FF;--coral:#FF5252;--ink:#130032;--utility:#1a0040;--surface:#F4F2FA;--hairline:#e5e1f0;--body:#1c1433;--muted:#615a75;--grad:linear-gradient(100deg,#4C00FF 0%,#7A1FD0 42%,#C0207E 72%,#FF5252 100%);--sidebar:300px;--ok:#0a7d3c;--amber:#c47a06;--font:'DSIndigo',Arial,Helvetica,sans-serif;}
+*{box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{margin:0;font-family:var(--font);font-weight:300;color:var(--body);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-weight:600;color:var(--ink);line-height:1.25;}
+a{color:var(--indigo);text-decoration:none;}a:hover{text-decoration:underline;}
+code{font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:.91em;font-weight:600;background:#e9e1fb;color:#4c00c9;padding:2px 7px;border:1px solid #d3c2f2;border-radius:6px;}
+.utility{background:var(--utility);color:#c9bdf0;font-size:12.5px;padding:7px 26px;display:flex;gap:22px;justify-content:flex-end;}
+.utility a{color:#d9cdff;}.utility a:hover{color:#fff;}
+header.top{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--hairline);display:flex;align-items:center;justify-content:space-between;padding:14px 26px;}
+header.top .brand{display:flex;align-items:center;gap:26px;}
+header.top img.logo{height:26px;display:block;}
+header.top nav{display:flex;gap:22px;font-size:14px;}
+header.top nav a{color:var(--ink);font-weight:500;}
+.wrap{display:flex;align-items:flex-start;}
+aside{width:var(--sidebar);flex:0 0 var(--sidebar);position:sticky;top:57px;align-self:flex-start;height:calc(100vh - 57px);overflow-y:auto;background:var(--surface);border-right:1px solid var(--hairline);padding:22px 18px 60px;}
+main{flex:1;min-width:0;padding:34px 46px 120px;max-width:960px;}
+.kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);font-weight:600;}
+.stepper{list-style:none;margin:14px 0 0;padding:0;}
+.step{display:flex;gap:13px;padding:12px 10px;border-radius:10px;cursor:pointer;align-items:flex-start;transition:background .15s ease;}
+.step:hover{background:#eae4fb;}.step.active{background:#e6defb;}
+.step .ring{flex:0 0 34px;width:34px;height:34px;position:relative;}
+.step .ring svg{transform:rotate(-90deg);display:block;}
+.step .ring circle.fg{transition:stroke-dashoffset .55s cubic-bezier(.4,0,.2,1);}
+.step .ring .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;color:var(--ink);}
+.step.done .ring .num{color:var(--ok);}
+.step .txt{display:flex;flex-direction:column;gap:2px;min-width:0;padding-top:2px;}
+.step .txt .t{font-weight:600;font-size:14.5px;color:var(--ink);line-height:1.3;}
+.step .txt .s{font-size:11.5px;color:var(--muted);font-weight:400;}
+.side-foot{margin-top:20px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:14px;}
+section.stage{padding-top:26px;margin-top:14px;border-top:1px solid var(--hairline);}
+section.stage:first-of-type{border-top:none;}
+.stage-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px;}
+.stage-head h2{margin:0;font-size:27px;}
+.stage-head .time{font-size:12.5px;color:var(--muted);background:#efeaff;padding:3px 10px;border-radius:20px;font-weight:500;}
+.hero{position:relative;overflow:hidden;background:var(--grad);color:#fff;border-radius:16px;padding:34px 36px;margin:6px 0 26px;isolation:isolate;}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.22) 1.4px,transparent 0);background-size:28px 28px;opacity:.55;z-index:0;}
+.hero::after{content:'';position:absolute;top:-60px;right:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16) 0%,rgba(255,255,255,0) 70%);z-index:0;}
+.hero&#62;*{position:relative;z-index:1;}
+.hero h1{color:#fff;margin:8px 0 12px;font-size:33px;}
+.hero p{margin:0;color:#f2ecff;font-size:15.5px;max-width:70ch;}
+.hero .kicker{color:#ffd9df;}
+.card{background:#fff;border:1px solid var(--hairline);border-radius:13px;padding:28px 30px;margin:18px 0;box-shadow:0 2px 6px rgba(19,0,50,.05),0 10px 26px rgba(19,0,50,.05);}
+.card.tint{background:var(--surface);}
+.h-check{display:flex;gap:11px;align-items:flex-start;margin:26px 0 8px;scroll-margin-top:80px;}
+.h-check input{margin-top:6px;width:17px;height:17px;accent-color:var(--indigo);flex:0 0 auto;cursor:pointer;}
+.h-check h3{margin:0;}
+.h-check .tag{font-size:11px;font-weight:600;color:var(--muted);background:#efeaff;padding:2px 9px;border-radius:14px;margin-left:8px;text-transform:uppercase;letter-spacing:.06em;}
+.block{position:relative;background:var(--ink);color:#eee6ff;border-radius:11px;padding:16px 46px 16px 18px;margin:12px 0;font-family:'SF Mono',ui-monospace,Menlo,monospace;font-size:13px;white-space:pre-wrap;word-break:break-word;line-height:1.55;}
+.block.prompt{background:#1f0a4d;}
+.block .copy{position:absolute;top:9px;right:9px;background:rgba(255,255,255,.14);color:#fff;border:none;border-radius:7px;padding:5px 11px;font-size:11.5px;font-family:var(--font);font-weight:500;cursor:pointer;}
+.block .copy:hover{background:var(--indigo);}.block .copy.copied{background:var(--ok);}
+.lbl{font-size:12px;font-weight:600;color:var(--indigo);margin:16px 0 2px;text-transform:uppercase;letter-spacing:.05em;}
+.expect{background:#f0fff5;border:1px solid #bfe9cf;border-radius:9px;padding:11px 14px;margin:10px 0;font-size:13.5px;}
+.expect b{color:var(--ok);}
+.note{background:#fff7ed;border:1px solid #f4d8b0;border-radius:9px;padding:11px 14px;margin:10px 0;font-size:13.5px;}
+.warn{background:#fff0f0;border:1px solid #f2c2c2;border-radius:9px;padding:11px 14px;margin:10px 0;font-size:13.5px;}
+.shot{border:2px dashed #c9bdf0;border-radius:12px;background:#faf9ff;padding:30px 20px;margin:14px 0;text-align:center;}
+.shot .cap{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--indigo);font-weight:600;margin-bottom:5px;}
+.shot .desc{font-size:13px;color:var(--muted);}
+.clickpath{margin:16px 0;}
+.clickpath .cp-task{font-weight:600;font-size:15px;color:var(--ink);margin:22px 0 4px;display:flex;align-items:center;gap:9px;}
+.clickpath .cp-task .cp-badge{background:var(--indigo);color:#fff;border-radius:20px;font-size:11px;font-weight:600;padding:2px 10px;}
+.clickpath ol{margin:8px 0 0;padding-left:24px;}
+.clickpath ol li{margin:7px 0;font-size:13.5px;line-height:1.55;}
+.cp-src{font-size:11.5px;color:var(--muted);margin-top:10px;border-top:1px solid var(--hairline);padding-top:8px;}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;}
+th,td{border:1px solid var(--hairline);padding:9px 11px;text-align:left;vertical-align:top;}
+th{background:var(--surface);font-weight:600;color:var(--ink);}
+tr:nth-child(even) td{background:#faf8ff;}
+ol,ul{padding-left:22px;}li{margin:5px 0;}
+.finale{background:var(--ink);color:#fff;border-radius:16px;padding:30px 32px;margin:34px 0 0;}
+.finale h3{color:#fff;}.finale p{color:#e7deff;margin:8px 0 0;}
+.foot{margin-top:40px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:16px;}
+&#64;media(max-width:768px){.wrap{flex-direction:column;}aside{display:none;}main{padding:20px 16px 80px;max-width:100%;}header.top{padding:10px 16px;}.hero h1{font-size:22px;}.hero{padding:22px 20px;}.stage-head h2{font-size:20px;}.block{font-size:12px;}.utility{display:none;}}
+&#60;/style&#62;
+&#60;/head&#62;
+&#60;body&#62;
+
+&#60;div class="utility"&#62;
+  &#60;a href="#" target="_blank"&#62;Docs ↗&#60;/a&#62;
+&#60;/div&#62;
+
+&#60;header class="top"&#62;
+  &#60;div class="brand"&#62;
+    &#60;a href="#"&#62;&#60;img class="logo" src="https://docusign.github.io/PSA/Bengaluru-meetup/assets/img/docusign-horizontal-black.svg" alt="Docusign"&#62;&#60;/a&#62;
+    &#60;nav&#62;&#60;a href="#"&#62;Hands-on Lab&#60;/a&#62;&#60;/nav&#62;
+  &#60;/div&#62;
+&#60;/header&#62;
+
+&#60;div class="wrap"&#62;
+  &#60;aside&#62;
+    &#60;div class="kicker"&#62;Workshop&#60;/div&#62;
+    &#60;div style="font-weight:600;font-size:15px;color:var(--ink);margin:4px 0 18px;line-height:1.3;"&#62;My Lab Title&#60;/div&#62;
+    &#60;ul class="stepper"&#62;
+      &#60;li class="step active" data-target="stage-0"&#62;
+        &#60;span class="ring"&#62;&#60;svg width="34" height="34"&#62;&#60;circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"&#62;&#60;/circle&#62;&#60;circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.248" stroke-dashoffset="94.248"&#62;&#60;/circle&#62;&#60;/svg&#62;&#60;span class="num"&#62;0&#60;/span&#62;&#60;/span&#62;
+        &#60;span class="txt"&#62;&#60;span class="t"&#62;Before you begin&#60;/span&#62;&#60;span class="s"&#62;Setup · Prerequisites&#60;/span&#62;&#60;/span&#62;
+      &#60;/li&#62;
+      &#60;li class="step" data-target="stage-1"&#62;
+        &#60;span class="ring"&#62;&#60;svg width="34" height="34"&#62;&#60;circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"&#62;&#60;/circle&#62;&#60;circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="94.248" stroke-dashoffset="94.248"&#62;&#60;/circle&#62;&#60;/svg&#62;&#60;span class="num"&#62;1&#60;/span&#62;&#60;/span&#62;
+        &#60;span class="txt"&#62;&#60;span class="t"&#62;Stage 1 title&#60;/span&#62;&#60;span class="s"&#62;Subtitle&#60;/span&#62;&#60;/span&#62;
+      &#60;/li&#62;
+    &#60;/ul&#62;
+    &#60;div class="side-foot"&#62;Your org · Your name&#60;/div&#62;
+  &#60;/aside&#62;
+
+  &#60;main&#62;
+
+    &#60;!-- ===== STAGE 0 ===== --&#62;
+    &#60;section class="stage" id="stage-0"&#62;
+      &#60;div class="hero"&#62;
+        &#60;div class="kicker"&#62;Hands-on Lab&#60;/div&#62;
+        &#60;h1&#62;My Lab Title&#60;/h1&#62;
+        &#60;p&#62;One sentence describing what participants will build and why it matters.&#60;/p&#62;
+      &#60;/div&#62;
+
+      &#60;div class="stage-head"&#62;&#60;h2&#62;Before you begin&#60;/h2&#62;&#60;/div&#62;
+
+      &#60;div class="h-check"&#62;&#60;input type="checkbox" data-stage="0"&#62;&#60;div&#62;&#60;h3 style="display:inline"&#62;0.1 · Prerequisites&#60;/h3&#62;&#60;span class="tag"&#62;setup&#60;/span&#62;&#60;/div&#62;&#60;/div&#62;
+      &#60;div class="card"&#62;
+        &#60;ul&#62;
+          &#60;li&#62;Prerequisite 1&#60;/li&#62;
+          &#60;li&#62;Prerequisite 2&#60;/li&#62;
+        &#60;/ul&#62;
+        &#60;div class="expect"&#62;&#60;b&#62;Checkpoint:&#60;/b&#62; describe what success looks like here.&#60;/div&#62;
+      &#60;/div&#62;
+    &#60;/section&#62;
+
+    &#60;!-- ===== STAGE 1 ===== --&#62;
+    &#60;section class="stage" id="stage-1"&#62;
+      &#60;div class="stage-head"&#62;&#60;h2&#62;Stage 1 · Title&#60;/h2&#62;&#60;span class="time"&#62;~20 min&#60;/span&#62;&#60;/div&#62;
+      &#60;p&#62;Brief intro to this stage.&#60;/p&#62;
+
+      &#60;div class="h-check"&#62;&#60;input type="checkbox" data-stage="1"&#62;&#60;div&#62;&#60;h3 style="display:inline"&#62;1.1 · Step title&#60;/h3&#62;&#60;span class="tag"&#62;build&#60;/span&#62;&#60;/div&#62;&#60;/div&#62;
+      &#60;div class="card"&#62;
+        &#60;div class="clickpath"&#62;
+          &#60;div class="cp-task"&#62;&#60;span class="cp-badge"&#62;Click path&#60;/span&#62; Task description&#60;/div&#62;
+          &#60;ol&#62;
+            &#60;li&#62;Step 1&#60;/li&#62;
+            &#60;li&#62;Step 2&#60;/li&#62;
+          &#60;/ol&#62;
+        &#60;/div&#62;
+        &#60;div class="lbl"&#62;Prompt&#60;/div&#62;
+        &#60;div class="block prompt"&#62;Your copy-paste prompt goes here.&#60;/div&#62;
+        &#60;div class="shot"&#62;&#60;span class="cap"&#62;Screenshot&#60;/span&#62;&#60;span class="desc"&#62;What this screenshot shows&#60;/span&#62;&#60;/div&#62;
+        &#60;div class="expect"&#62;&#60;b&#62;Checkpoint:&#60;/b&#62; what the participant should see when done.&#60;/div&#62;
+      &#60;/div&#62;
+
+      &#60;div class="finale"&#62;
+        &#60;h3&#62;Recap&#60;/h3&#62;
+        &#60;p&#62;What participants just accomplished.&#60;/p&#62;
+      &#60;/div&#62;
+      &#60;div class="foot"&#62;Your org · Lab name · Synthetic data only.&#60;/div&#62;
+    &#60;/section&#62;
+
+  &#60;/main&#62;
+&#60;/div&#62;
+
+&#60;script&#62;
+// Copy buttons
+document.querySelectorAll('.block').forEach(b=&#62;{
+  const btn=document.createElement('button');btn.className='copy';btn.textContent='Copy';
+  btn.onclick=()=&#62;{navigator.clipboard.writeText(b.innerText.replace('Copy','').trim());btn.textContent='Copied';btn.classList.add('copied');setTimeout(()=&#62;{btn.textContent='Copy';btn.classList.remove('copied');},1500);};
+  b.appendChild(btn);
+});
+// Sidebar progress
+const CIRC=94.248;
+document.querySelectorAll('.h-check input').forEach(cb=&#62;{
+  cb.addEventListener('change',()=&#62;{
+    const stage=cb.dataset.stage;
+    const total=document.querySelectorAll(`.h-check input[data-stage="${stage}"]`).length;
+    const done=document.querySelectorAll(`.h-check input[data-stage="${stage}"]:checked`).length;
+    const ring=document.querySelector(`.step[data-target="stage-${stage}"] circle.fg`);
+    if(ring)ring.style.strokeDashoffset=CIRC-(CIRC*(done/total));
+    if(done===total)document.querySelector(`.step[data-target="stage-${stage}"]`)?.classList.add('done');
+    else document.querySelector(`.step[data-target="stage-${stage}"]`)?.classList.remove('done');
+  });
+});
+// Sidebar active on scroll
+document.querySelectorAll('.step[data-target]').forEach(s=&#62;{
+  s.onclick=()=&#62;document.getElementById(s.dataset.target)?.scrollIntoView({behavior:'smooth'});
+});
+window.addEventListener('scroll',()=&#62;{
+  let cur='stage-0';
+  document.querySelectorAll('section.stage').forEach(s=&#62;{if(s.getBoundingClientRect().top&#60;120)cur=s.id;});
+  document.querySelectorAll('.step[data-target]').forEach(s=&#62;s.classList.toggle('active',s.dataset.target===cur));
+},{passive:true});
+&#60;/script&#62;
+&#60;/body&#62;&#60;/html&#62;<button class="copy">Copy</button></div>
+
+<h2>2. The starting prompt</h2>
+<p>Paste the base file into Claude, then describe your content. Ask for one stage at a time.</p>
+
+<div class="block">Here is an existing Docusign workshop HTML page [paste file].
+
+Create a new lab on [your topic] using the exact same design, CSS, and components.
+
+My outline:
+- Stage 0: Before you begin (prerequisites: [list])
+- Stage 1: [Title] — steps: [list]
+- Stage 2: [Title] — steps: [list]
+
+Use .h-check headings for steps, .card for content, .expect for checkpoints, .warn for gotchas.
+Generate Stage 1 only. Return just the &lt;section&gt; HTML, not the full file.<button class="copy">Copy</button></div>
+
+<div class="note"><b>Ask for one stage at a time.</b> Easier to review, and cheaper to regenerate if something is wrong.</div>
+
+<h2>3. Editing an existing section</h2>
+<p>Never paste the full file for a small change. Paste only the relevant section.</p>
+
+<div class="block">Here is section 1.3 of my workshop HTML [paste only that section].
+
+Changes:
+1. Rename "Capabilities" to "Tools" everywhere in this section.
+2. Update the checkpoint text to: "[new text]"
+3. Add a .warn block after step 2: "[warning text]"
+
+Return only the updated HTML for this section.<button class="copy">Copy</button></div>
+
+<h2>4. Component reference</h2>
+<p>Every component is a CSS class on a <code>&lt;div&gt;</code>. These are the ones you'll use most:</p>
+
+<table>
+  <tr><th>Class</th><th>What it is</th><th>When to use</th></tr>
+  <tr><td><code>.card</code></td><td>White card with shadow</td><td>Step content, click paths, any structured block</td></tr>
+  <tr><td><code>.card.tint</code></td><td>Card with lavender background</td><td>Intro/context blocks, concept explanations</td></tr>
+  <tr><td><code>.h-check</code></td><td>Section heading + checkbox</td><td>Every numbered step heading</td></tr>
+  <tr><td><code>.expect</code></td><td>Green checkpoint box</td><td>End of every step — what success looks like</td></tr>
+  <tr><td><code>.warn</code></td><td>Red warning box</td><td>Known gotchas, things that break if skipped</td></tr>
+  <tr><td><code>.note</code></td><td>Amber note box</td><td>Optional context, helpful background</td></tr>
+  <tr><td><code>.block.prompt</code></td><td>Dark code block with Copy button</td><td>Any text the participant copies and pastes</td></tr>
+  <tr><td><code>.clickpath</code></td><td>Click path container</td><td>UI navigation sequences (use <code>.cp-badge</code> for actor label)</td></tr>
+</table>
+
+<h3>Screenshots</h3>
+<p>Use a placeholder while you don't have a screenshot yet:</p>
+<div class="block">&lt;div class="shot"&gt;&lt;span class="cap"&gt;Screenshot&lt;/span&gt;&lt;span class="desc"&gt;What this shows&lt;/span&gt;&lt;/div&gt;<button class="copy">Copy</button></div>
+<p>Replace with a real image once you have the asset. Drop screenshots in an <code>assets/</code> subfolder, use lowercase hyphenated names like <code>s11-agent-setup.png</code>.</p>
+<div class="block">&lt;img src="assets/s11-agent-setup.png" alt="Description" style="max-width:100%;width:100%;border:1px solid #e5e1f0;border-radius:10px;margin:14px 0;display:block;"&gt;<button class="copy">Copy</button></div>
+
+<h2>5. Token efficiency tips</h2>
+<ul>
+  <li><b>Paste only the section you're changing</b>, not the full file. The CSS alone is 220+ lines Claude doesn't need to re-read.</li>
+  <li><b>Write content as plain bullet points first</b>, then ask Claude to wrap in HTML. Iterating plain text is cheaper.</li>
+  <li><b>Keep one conversation going</b> for a single lab — context stays warm.</li>
+  <li><b>Ask Claude to return only the changed snippet</b> — "return only this section, not the full file" saves 800+ lines of unchanged output.</li>
+</ul>
+
+<div class="warn"><b>Biggest trap:</b> pasting the full file and asking Claude to "update it." Instead, paste the 10–20 line section, get the fix, apply it manually. 30 seconds and a fraction of the cost.</div>
+
+<h2>6. Publishing</h2>
+<ol>
+  <li>Open locally in Chrome and check all sections render correctly.</li>
+  <li>Test the Copy button on at least one prompt block.</li>
+  <li>Confirm all screenshots load — no broken images.</li>
+  <li>Resize to mobile width (~375px) — sidebar hides, layout stacks vertically.</li>
+  <li>Create a folder in the repo root, add your HTML + <code>assets/</code> subfolder.</li>
+  <li>Commit and push. GitHub Pages deploys in ~60 seconds at <code>docusign.github.io/PSA/your-folder/</code>.</li>
+</ol>
+
+<div class="warn"><b>SSO:</b> if <code>git push</code> returns 403, go to <a href="https://github.com/settings/connections/applications" target="_blank">GitHub Settings → Applications</a>, find GitHub CLI, and authorize the docusign org.</div>
+
+<p style="margin-top:48px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:16px;">PSA Team · Internal use only · Questions: Amrit Prakash</p>
+
+<script>
+document.querySelectorAll('.copy').forEach(btn=>{
+  btn.onclick=()=>{
+    const text=btn.parentElement.innerText.replace(/Copy|Copied/g,'').trim();
+    navigator.clipboard.writeText(text);
+    btn.textContent='Copied';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},1500);
+  };
+});
+</script>
+</body>
+</html>
