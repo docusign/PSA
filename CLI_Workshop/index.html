@@ -1223,6 +1223,20 @@ Film Production Agreement: Refreshed (3 agreements referenced)
           <li>Training agreements referenced in the manifest's <code>docs</code> array are associated with their custom agreement types.</li>
           <li>AI extraction is enabled in the Agreement Manager UI for custom agreement types and custom fields where customExtractionEnabled is set to true.</li>
         </ul>
+
+        <div class="callout callout-amber">
+          <div class="callout-icon">❗</div>
+          <div>
+            <strong>Note</strong>
+            <p>Sometimes the uploaded training agreement might be categorised with a standard agreement type, as IRIS might not have finished reprocessing. In that case, run the following command to reprocess the documents with the standard extracted agreement types:</p>
+            <div class="code-wrap">
+              <button class="code-copy" onclick="copyCode(this)">Copy</button>
+              <pre><code>$ docusign agm reprocess \
+  --agreement-types "Agreement type name" \
+  --custom-data</code></pre>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- 2.8 Test Package -->
