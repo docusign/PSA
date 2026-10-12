@@ -1159,6 +1159,22 @@ Using the data from the documents and the risk checklist evaluation, return the 
             </tbody>
           </table>
         </li>
+        <li>Add a <b>Send for Signature</b> step in the workflow.
+          <p>Connect the <b>Low</b> output from <b>Decision 1</b> to <b>Send for Signature 1</b>. Configure the step using the following values.</p>
+          <table>
+            <thead>
+              <tr><th>Configuration field</th><th>Value to enter or select</th><th>Build instruction / description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><b>Step name and description</b></td><td><code>Send for Signature 1</code></td><td>Name the step <b>Send for Signature 1</b> and describe that it sends the renewal document for signature.</td></tr>
+              <tr><td><b>Sender</b></td><td><code>1 User Selected</code></td><td>Select the user who will send the agreement for signature.</td></tr>
+              <tr><td><b>Recipient</b></td><td><code>1 Recipient(s) Selected</code></td><td>Select one recipient for the signature request.</td></tr>
+              <tr><td><b>Document source</b></td><td><code>Documents</code></td><td>Select <b>Documents</b> as the source for the document to send.</td></tr>
+              <tr><td><b>Document</b></td><td><code>GeneratedRenewalDocument</code></td><td>Select <b>GeneratedRenewalDocument</b> as the document to send for signature.</td></tr>
+              <tr><td><b>Next step</b></td><td><code>Wait for Signature 1</code></td><td>Connect the output from <b>Send for Signature 1</b> to the <b>Wait for Signature 1</b> step.</td></tr>
+            </tbody>
+          </table>
+        </li>
       </ol>
 
       <h3 id="sec-0-14">0.14 End to End flow</h3>
