@@ -290,11 +290,10 @@ li{margin:5px 0;}
       <li style="padding-left:24px"><a href="#flow-step-3">3 Generate the draft contract</a></li>
       <li style="padding-left:24px"><a href="#flow-step-4">4 Analyze with Risk Analyst Agent</a></li>
       <li style="padding-left:24px"><a href="#flow-step-5">5 Route by risk score</a></li>
-      <li style="padding-left:24px"><a href="#flow-step-6">6 Legal review and AI Assisted Review</a></li>
-      <li style="padding-left:24px"><a href="#flow-step-7">7 Send for signature</a></li>
-      <li style="padding-left:24px"><a href="#flow-step-8">8 Extract data and apply attributes</a></li>
-      <li style="padding-left:24px"><a href="#flow-step-9">9 Store the executed agreement</a></li>
-      <li style="padding-left:24px"><a href="#flow-step-10">10 Validate end to end</a></li>
+      <li style="padding-left:24px"><a href="#flow-step-6">6 Send for signature</a></li>
+      <li style="padding-left:24px"><a href="#flow-step-7">7 Extract data and apply attributes</a></li>
+      <li style="padding-left:24px"><a href="#flow-step-8">8 Store the executed agreement</a></li>
+      <li style="padding-left:24px"><a href="#flow-step-9">9 Validate end to end</a></li>
     </ul>
   </aside>
 
@@ -1320,8 +1319,7 @@ Using the data from the documents and the risk checklist evaluation, return the 
           <img src="assets/clm-tasks-risk-routing.png" alt="CLM Tasks page showing assigned Review Data, Legal Approval, and Fill Form tasks." style="display:block;width:100%;max-width:559px;height:auto;border:1px solid #e5e1f0;border-radius:8px;margin:12px 0 16px;">
           <p>If the risk output is low, the document proceeds straight to the signature phase.</p>
         </li>
-        <li id="flow-step-6">Legal review and AI Assisted Review</li>
-        <li id="flow-step-7">Send for signature
+        <li id="flow-step-6">Send for signature
           <p>Following signature completion, the &quot;AI Data insights&quot; workflow step in CLM Workflow will be utilized to extract contract fields.</p>
           <table>
             <thead>
@@ -1336,13 +1334,13 @@ Using the data from the documents and the risk checklist evaluation, return the 
           </table>
           <img src="assets/ai-data-insights-step.png" alt="Workflow Builder AI Data Insights step properties and output variable settings." style="display:block;width:100%;max-width:563px;height:auto;border:1px solid #e5e1f0;border-radius:8px;margin:12px 0 16px;">
         </li>
-        <li id="flow-step-8">Extract data and apply attributes
+        <li id="flow-step-7">Extract data and apply attributes
           <p>After extraction finishes, the process routes to attribute review as set up in the workflow; this task is accessible within your CLM tasks.</p>
         </li>
-        <li id="flow-step-9">Store the executed agreement
+        <li id="flow-step-8">Store the executed agreement
           <p>The completed document will then be moved to the Renewal Folder.</p>
         </li>
-        <li id="flow-step-10">Validate end to end</li>
+        <li id="flow-step-9">Validate end to end</li>
       </ol>
     </section>
 
