@@ -15,11 +15,13 @@ body{background:#fff;}
 <body>
 
 <div class="frame-wrap">
-  <iframe id="frame-procurement" class="active" src="2_Hands_on_Flow.html" title="Agent Studio 202 MSA workshop"></iframe>
+  <iframe id="frame-procurement" class="active" title="Agent Studio 202 MSA workshop"></iframe>
 </div>
 
 <script>
-document.getElementById('frame-procurement').classList.add('active');
+var workshopFrame=document.getElementById('frame-procurement');
+workshopFrame.src='2_Hands_on_Flow.html?cb='+Date.now();
+workshopFrame.classList.add('active');
 </script>
 </body>
 </html>
