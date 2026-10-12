@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Studio 202 | Workshop Assets</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #130032;
+      --indigo: #4c00ff;
+      --muted: #615a75;
+      --line: #e5e1f0;
+      --surface: #f4f2fa;
+      --green: #087a3e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #fff;
+      font: 16px/1.55 Arial, Helvetica, sans-serif;
+    }
+    header {
+      border-bottom: 1px solid var(--line);
+      padding: 16px max(24px, calc((100% - 960px) / 2));
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    a { color: var(--indigo); }
+    header a { color: var(--ink); font-weight: 700; text-decoration: none; }
+    main { max-width: 960px; margin: 0 auto; padding: 42px 24px 80px; }
+    .eyebrow { margin: 0 0 8px; color: var(--indigo); font-size: 12px; font-weight: 700; text-transform: uppercase; }
+    h1 { margin: 0 0 8px; font-size: 32px; line-height: 1.2; }
+    h2 { margin: 34px 0 10px; font-size: 20px; }
+    p { color: var(--muted); }
+    .bundle { display: inline-block; margin: 18px 0 8px; padding: 11px 16px; border-radius: 6px; color: #fff; background: var(--indigo); font-weight: 700; text-decoration: none; }
+    .bundle:hover { background: var(--ink); }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    th, td { padding: 13px 14px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: var(--surface); font-size: 13px; }
+    td:first-child { font-weight: 700; }
+    .type { white-space: nowrap; color: var(--muted); }
+    .note { margin-top: 28px; padding: 14px 16px; border-left: 3px solid var(--green); background: #f0fff5; }
+    @media (max-width: 640px) {
+      main { padding: 30px 16px 56px; }
+      header { padding: 14px 16px; }
+      h1 { font-size: 26px; }
+      th, td { padding: 10px 8px; }
+      .type { white-space: normal; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="workshop.html">Agent Studio 202</a>
+    <a href="2_Hands_on_Flow.html#sec-0-6">Back to workshop</a>
+  </header>
+  <main>
+    <p class="eyebrow">Agent Studio 202 · Renewal lab</p>
+    <h1>Workshop assets</h1>
+    <p>Download the complete lab bundle or select an individual file.</p>
+    <a class="bundle" href="Workshop-Assets/Agent-Studio-202-Labs.zip" download>Download Agent Studio 202 Labs ZIP</a>
+
+    <h2>Lab 1 · Renewal workflow</h2>
+    <table>
+      <thead>
+        <tr><th>File</th><th>Use</th><th>Format</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="Workshop-Assets/Agent-Studio-202-Labs/Lab%201/Renewal%20Workflow/Renewal-WF-V2.json" download>Renewal-WF-V2.json</a></td>
+          <td>CLM renewal workflow definition to import through CLM Admin.</td>
+          <td class="type">JSON</td>
+        </tr>
+        <tr>
+          <td><a href="Workshop-Assets/Agent-Studio-202-Labs/Lab%201/Renewal%20Workflow/Renewal-WF-Package.zip" download>Renewal-WF-Package.zip</a></td>
+          <td>Maestro workflow package, including the dependent Vendor Renewal Form. Keep it zipped when importing.</td>
+          <td class="type">ZIP</td>
+        </tr>
+        <tr>
+          <td><a href="Workshop-Assets/Agent-Studio-202-Labs/Lab%201/Renewal%20Workflow/Renewal-Document-Template.docx" download>Renewal-Document-Template.docx</a></td>
+          <td>Renewal template to upload in CLM.</td>
+          <td class="type">DOCX</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">These are Agent Studio 202 workshop files. The Agent Studio 201 lab package is unchanged.</p>
+  </main>
+</body>
+</html>
