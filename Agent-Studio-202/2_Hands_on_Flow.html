@@ -1175,6 +1175,70 @@ Using the data from the documents and the risk checklist evaluation, return the 
             </tbody>
           </table>
         </li>
+        <li>Add a <b>Wait for Signature</b> step in the workflow.
+          <p>Connect <b>Send for Signature 1</b> to <b>Wait for Signature 1</b>. Configure the step using the following values.</p>
+          <table>
+            <thead>
+              <tr><th>Configuration field</th><th>Value to enter or select</th><th>Build instruction / description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><b>Step Name</b></td><td><code>Wait for Signature 1</code></td><td>Enter <b>Wait for Signature 1</b> as the step name.</td></tr>
+              <tr><td><b>Step Description</b></td><td><code>Wait for the Signature 1 to complete</code></td><td>Enter this description for the wait step.</td></tr>
+              <tr><td><b>Stage Name</b></td><td>Leave unassigned unless a stage is required</td><td>Leave the Stage Name field blank unless your workflow requires a stage.</td></tr>
+              <tr><td><b>Wait Type</b></td><td><code>Document</code></td><td>Select <b>Document</b> as the wait type.</td></tr>
+              <tr><td><b>Envelope ID</b></td><td>Leave unselected</td><td>Do not select an Envelope ID.</td></tr>
+              <tr><td><b>Sender</b></td><td><code>1 User Selected</code></td><td>Select the user associated with the signature request.</td></tr>
+              <tr><td><b>Document</b></td><td><code>GeneratedRenewalDocument</code></td><td>Select <b>GeneratedRenewalDocument</b> as the document to monitor.</td></tr>
+              <tr><td><b>Signature Audit Events</b></td><td><code>None, Sent, Viewed, Signed, Rejected, Delegated, EmailBounced, Sealed</code></td><td>Configure the signature audit events to include the listed events.</td></tr>
+              <tr><td><b>Add Reminder</b></td><td>Select only if required</td><td>Select <b>Add Reminder</b> only if reminder notifications are needed.</td></tr>
+              <tr><td><b>Output</b></td><td><code>Store audit info in a variable</code></td><td>Select this option to store signature audit information.</td></tr>
+              <tr><td><b>Variable action</b></td><td><code>Make a new variable</code></td><td>Create a new variable for the signature audit information.</td></tr>
+              <tr><td><b>Variable name</b></td><td><code>signature_Audit_XML</code></td><td>Name the new variable <b>signature_Audit_XML</b>.</td></tr>
+              <tr><td><b>Variable description</b></td><td>Stores the signature audit information generated while the workflow waits for the signature process to complete.</td><td>Use this description for <b>signature_Audit_XML</b>.</td></tr>
+            </tbody>
+          </table>
+        </li>
+        <li>Add an <b>Update Document Keywords</b> step in the workflow.
+          <p>Connect <b>Wait for Signature 1</b> to <b>Update Document Keywords 1</b>. Configure the step using the following values.</p>
+          <table>
+            <thead>
+              <tr><th>Configuration field</th><th>Value to enter or select</th><th>Build instruction / description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><b>Step Name</b></td><td><code>Update Document Keywords 1</code></td><td>Enter <b>Update Document Keywords 1</b> as the step name.</td></tr>
+              <tr><td><b>Step Description</b></td><td>Mark the renewal document as signed.</td><td>Describe that this step updates the signed renewal document.</td></tr>
+              <tr><td><b>Document</b></td><td><code>GeneratedRenewalDocument</code></td><td>Select <b>GeneratedRenewalDocument</b>.</td></tr>
+              <tr><td><b>Keyword</b></td><td><code>Signed</code></td><td>Add the keyword <b>Signed</b> to the document.</td></tr>
+            </tbody>
+          </table>
+        </li>
+        <li>Add the <b>Use AI Data Insights</b> step in the workflow.
+          <p>Connect <b>Update Document Keywords 1</b> to <b>Use AI Data Insights</b>. Configure the step using the following values.</p>
+          <table>
+            <thead>
+              <tr><th>Configuration field</th><th>Value to enter or select</th><th>Build instruction / description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><b>Step Name</b></td><td><code>Use AI Data Insights</code></td><td>Add the Use AI Data Insights step.</td></tr>
+              <tr><td><b>Document</b></td><td><code>GeneratedRenewalDocument</code></td><td>Select <b>GeneratedRenewalDocument</b> as the document to analyze.</td></tr>
+              <tr><td><b>Output</b></td><td>Create a new XML variable named <code>Extracted_AI</code></td><td>Create and select a new XML variable named <b>Extracted_AI</b> for the extracted data.</td></tr>
+            </tbody>
+          </table>
+        </li>
+        <li>Add a <b>Review Data</b> step in the workflow.
+          <p>Connect <b>Use AI Data Insights</b> to <b>Review Data 1</b>. Configure the step using the following values.</p>
+          <table>
+            <thead>
+              <tr><th>Configuration field</th><th>Value to enter or select</th><th>Build instruction / description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><b>Step Name</b></td><td><code>Review Data 1</code></td><td>Enter <b>Review Data 1</b> as the step name.</td></tr>
+              <tr><td><b>Document</b></td><td><code>GeneratedRenewalDocument</code></td><td>Select <b>GeneratedRenewalDocument</b> for review.</td></tr>
+              <tr><td><b>Data to be reviewed</b></td><td><code>Renewal start date</code></td><td>Select the renewal start date from the custom attributes.</td></tr>
+              <tr><td><b>Assignment</b></td><td><code>Assign to a user</code></td><td>Select <b>Assign to a user</b>.</td></tr>
+            </tbody>
+          </table>
+        </li>
       </ol>
 
       <h3 id="sec-0-14">0.14 End to End flow</h3>
