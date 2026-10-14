@@ -1131,18 +1131,33 @@ Using the data from the documents and the risk checklist evaluation, return the 
             </thead>
             <tbody>
               <tr><td><b>Step Name</b></td><td><code>Decision 1</code></td><td>Add a Decision step and enter <b>Decision 1</b> as the step name.</td></tr>
-              <tr><td><b>Step Description</b></td><td><code>Route high-risk to legal approval &amp; low-risk to signature.</code></td><td>Enter this description to explain how the decision routes the agreement.</td></tr>
+              <tr><td><b>Step Description</b></td><td><code>Edit high-risk agreements before legal approval &amp; route low-risk to signature.</code></td><td>Enter this description to explain how the decision routes the agreement.</td></tr>
               <tr><td><b>Condition</b></td><td><code>Condition 1 - RiskResult = Low</code></td><td>Add one condition that evaluates the risk assessment stored in <code>RiskResult</code>. Configure the condition to identify the low-risk outcome.</td></tr>
               <tr><td><b>Condition count</b></td><td><code>1 condition(s) set</code></td><td>Confirm that exactly one condition is configured in the decision step.</td></tr>
               <tr><td><b>If condition output</b></td><td><code>Low</code></td><td>Set the output to <b>Low</b> when the configured condition identifies a low-risk agreement. Connect this output to <b>Send for Signature 1</b>.</td></tr>
-              <tr><td><b>Else output</b></td><td><code>High</code></td><td>Set the <b>Else</b> output to <b>High</b> when the condition is not met. Connect it to <b>Approve 1</b> for legal approval.</td></tr>
+              <tr><td><b>Else output</b></td><td><code>High</code></td><td>Set the <b>Else</b> output to <b>High</b> when the condition is not met. Connect it to <b>Edit Document 1</b> to edit the high-risk agreement before legal approval.</td></tr>
               <tr><td><b>Store output in a variable</b></td><td>Leave unchecked</td><td>Do not store the Decision step output in a separate variable; use the <b>Low</b> and <b>High</b> branch outputs to route the workflow.</td></tr>
             </tbody>
           </table>
           <img src="assets/decision-step.png" alt="Decision 1 step properties showing the low-risk condition, Low and High outputs, and output variable unchecked." style="display:block;width:100%;max-width:511px;height:auto;border:1px solid #e5e1f0;border-radius:8px;margin:14px 0 16px;">
         </li>
+        <li>Add an <b>Edit Document</b> step in the workflow.
+          <p>Connect the <b>High</b> output from <b>Decision 1</b> to <b>Edit Document 1</b> to edit the high-risk agreement. Configure the step using the following values.</p>
+          <table>
+            <thead>
+              <tr><th>Configuration field</th><th>Value to enter or select</th><th>Build instruction / description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><b>Step Name</b></td><td><code>Edit Document 1</code></td><td>Enter <b>Edit Document 1</b> as the step name.</td></tr>
+              <tr><td><b>Step Description</b></td><td>Edit the high-risk agreement before legal approval.</td><td>Describe that this step lets the user edit the high-risk agreement before approval.</td></tr>
+              <tr><td><b>Document</b></td><td><code>Generated Renewal Document</code></td><td>Select <b>Generated Renewal Document</b> as the document to edit.</td></tr>
+              <tr><td><b>Assignee</b></td><td>Select an assignee</td><td>Choose the user who will edit the high-risk agreement.</td></tr>
+              <tr><td><b>Next step</b></td><td><code>Approve 1</code></td><td>Connect <b>Edit Document 1</b> to <b>Approve 1</b> for legal approval.</td></tr>
+            </tbody>
+          </table>
+        </li>
         <li>Add an <b>Approve</b> step in the workflow.
-          <p>Connect the <b>High</b> output from <b>Decision 1</b> to <b>Approve 1</b>. Configure the step using the following values.</p>
+          <p>Connect <b>Edit Document 1</b> to <b>Approve 1</b>. Configure the step using the following values.</p>
           <table>
             <thead>
               <tr><th>Configuration field</th><th>Value to enter or select</th><th>Build instruction / description</th></tr>
