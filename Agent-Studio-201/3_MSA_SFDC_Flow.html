@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Studio 201 - Hands-on Lab 3 (MSA + Salesforce)</title>
+<style>
+/* ---------- Docusign brand fonts ---------- */
+@font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-Light.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap;}
+@font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-Medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-SemiBold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap;}
+
+/* ---------- Brand tokens ---------- */
+:root{
+  --indigo:#4C00FF;
+  --coral:#FF5252;
+  --ink:#130032;
+  --utility:#1a0040;
+  --surface:#F4F2FA;
+  --hairline:#e5e1f0;
+  --body:#1c1433;
+  --muted:#615a75;
+  --grad:linear-gradient(100deg,#4C00FF 0%,#7A1FD0 42%,#C0207E 72%,#FF5252 100%);
+  --sidebar:300px;
+  --ok:#0a7d3c;
+  --amber:#c47a06;
+  --font:'DSIndigo',Arial,Helvetica,sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;font-family:var(--font);font-weight:300;color:var(--body);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-weight:600;color:var(--ink);line-height:1.25;}
+a{color:var(--indigo);text-decoration:none;}
+a:hover{text-decoration:underline;}
+code{font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;font-size:.91em;font-weight:600;background:#e9e1fb;color:#4c00c9;padding:2px 7px;border:1px solid #d3c2f2;border-radius:6px;}
+
+/* ---------- Utility bar ---------- */
+.utility{background:var(--utility);color:#c9bdf0;font-size:12.5px;padding:7px 26px;display:flex;gap:22px;justify-content:flex-end;align-items:center;}
+.utility a{color:#d9cdff;}
+.utility a:hover{color:#fff;}
+
+/* ---------- Header ---------- */
+header.top{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--hairline);display:flex;align-items:center;justify-content:space-between;padding:14px 26px;}
+header.top .brand{display:flex;align-items:center;gap:26px;}
+header.top img.logo{height:26px;display:block;}
+header.top nav{display:flex;gap:22px;font-size:14px;}
+header.top nav a{color:var(--ink);font-weight:500;}
+header.top .cta{background:var(--ink);color:#fff;padding:8px 15px;border-radius:7px;font-size:13px;font-weight:500;}
+header.top .cta:hover{background:var(--indigo);text-decoration:none;}
+
+/* ---------- Layout ---------- */
+.wrap{display:flex;align-items:flex-start;}
+aside{width:var(--sidebar);flex:0 0 var(--sidebar);position:sticky;top:57px;align-self:flex-start;height:calc(100vh - 57px);overflow-y:auto;background:var(--surface);border-right:1px solid var(--hairline);padding:22px 18px 60px;}
+main{flex:1;min-width:0;padding:34px 46px 120px;max-width:960px;}
+
+.kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--indigo);font-weight:600;}
+
+/* ---------- Sidebar stepper ---------- */
+.stepper{list-style:none;margin:14px 0 0;padding:0;}
+.step{display:flex;gap:13px;padding:12px 10px;border-radius:10px;cursor:pointer;align-items:flex-start;position:relative;transition:background .15s ease;}
+.step:hover{background:#eae4fb;}
+.step.active{background:#e6defb;}
+.step .ring{flex:0 0 34px;width:34px;height:34px;position:relative;}
+.step .ring svg{transform:rotate(-90deg);display:block;}
+.step .ring circle.fg{transition:stroke-dashoffset .55s cubic-bezier(.4,0,.2,1),stroke .3s ease;}
+.step .ring .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;color:var(--ink);transition:color .2s ease;}
+.step.done .ring .num{color:var(--ok);}
+.step.done .ring{animation:ringPop .45s cubic-bezier(.34,1.56,.64,1);}
+@keyframes ringPop{0%{transform:scale(1);}45%{transform:scale(1.18);}100%{transform:scale(1);}}
+.step .txt{display:flex;flex-direction:column;gap:2px;min-width:0;padding-top:2px;}
+.step .txt .t{font-weight:600;font-size:14.5px;color:var(--ink);line-height:1.3;}
+.step .txt .s{font-size:11.5px;color:var(--muted);font-weight:400;line-height:1.3;}
+.sub-nav{list-style:none;margin:0 0 4px 22px;padding:6px 0 8px;font-size:12.5px;border-left:2px solid #e5e1f0;}
+.sub-nav li{padding:5px 12px;cursor:pointer;color:var(--ink);font-weight:500;transition:background .12s,color .12s,border-color .12s;border-left:2px solid transparent;margin-left:-2px;}
+.sub-nav li:hover{background:#eae4fb;border-left-color:var(--indigo);color:var(--indigo);}
+
+.side-foot{margin-top:20px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:14px;}
+
+/* ---------- Content blocks ---------- */
+section.stage{padding-top:26px;margin-top:14px;border-top:1px solid var(--hairline);}
+section.stage:first-of-type{border-top:none;}
+.stage-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px;}
+.stage-head h2{margin:0;font-size:27px;}
+.stage-head .time{font-size:12.5px;color:var(--muted);background:#efeaff;padding:3px 10px;border-radius:20px;font-weight:500;}
+
+.hero{position:relative;overflow:hidden;background:var(--grad);color:#fff;border-radius:16px;padding:34px 36px;margin:6px 0 26px;isolation:isolate;}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,.22) 1.4px, transparent 0);background-size:28px 28px;opacity:.55;z-index:0;}
+.hero::after{content:'';position:absolute;top:-60px;right:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16) 0%,rgba(255,255,255,0) 70%);z-index:0;}
+.hero>*{position:relative;z-index:1;}
+.hero h1{color:#fff;margin:8px 0 12px;font-size:33px;}
+.hero p{margin:0;color:#f2ecff;font-size:15.5px;max-width:70ch;}
+.hero .kicker{color:#ffd9df;}
+
+.card{background:#fff;border:1px solid var(--hairline);border-radius:13px;padding:28px 30px;margin:18px 0;box-shadow:0 2px 6px rgba(19,0,50,.05),0 10px 26px rgba(19,0,50,.05);transition:box-shadow .22s ease,transform .22s ease;}
+.card.tint{background:var(--surface);}
+.card h3{margin:0 0 8px;font-size:17.5px;}
+.card h4{margin:14px 0 6px;font-size:14.5px;}
+.card:hover{box-shadow:0 4px 10px rgba(19,0,50,.08),0 16px 34px rgba(19,0,50,.09);transform:translateY(-2px);}
+
+@media(max-width:768px){
+  .wrap{flex-direction:column;}
+  aside{display:none;}
+  main{padding:20px 16px 80px;max-width:100%;}
+  header.top{padding:10px 16px;}
+  .hero h1{font-size:22px;}
+  .hero{padding:22px 20px;}
+  .stage-head h2{font-size:20px;}
+  .block{font-size:12px;padding:12px 14px;}
+  table{font-size:13px;}
+  .utility{display:none;}
+  .arch svg{max-width:100%;height:auto;}
+}
+
+.obj{border-left:4px solid var(--indigo);padding:4px 0 4px 16px;margin:14px 0;}
+.obj .lab{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);font-weight:600;}
+
+/* section heading with checkbox */
+.h-check{display:flex;gap:11px;align-items:flex-start;margin:26px 0 8px;scroll-margin-top:80px;}
+.h-check input{margin-top:6px;width:17px;height:17px;accent-color:var(--indigo);flex:0 0 auto;cursor:pointer;}
+.h-check h3{margin:0;}
+.h-check .tag{font-size:11px;font-weight:600;color:var(--muted);background:#efeaff;padding:2px 9px;border-radius:14px;margin-left:8px;text-transform:uppercase;letter-spacing:.06em;}
+
+/* prompt / code block */
+.block{position:relative;background:var(--ink);color:#eee6ff;border-radius:11px;padding:16px 46px 16px 18px;margin:12px 0;font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace;font-size:13px;white-space:pre-wrap;word-break:break-word;line-height:1.55;}
+.block.prompt{background:#1f0a4d;}
+.block .copy{position:absolute;top:9px;right:9px;background:rgba(255,255,255,.14);color:#fff;border:none;border-radius:7px;padding:5px 11px;font-size:11.5px;font-family:var(--font);font-weight:500;cursor:pointer;transition:background .15s ease,transform .15s ease;}
+.block .copy:active{transform:scale(.94);}
+.block .copy:hover{background:var(--indigo);}
+.block .copy.copied{background:var(--ok);}
+.lbl{font-size:12px;font-weight:600;color:var(--indigo);margin:16px 0 2px;text-transform:uppercase;letter-spacing:.05em;}
+
+.expect{background:#f0fff5;border:1px solid #bfe9cf;border-radius:9px;padding:11px 14px;margin:10px 0;font-size:13.5px;}
+.expect b{color:var(--ok);}
+.note{background:#fff7ed;border:1px solid #f4d8b0;border-radius:9px;padding:11px 14px;margin:10px 0;font-size:13.5px;}
+.warn{background:#fff0f0;border:1px solid #f2c2c2;border-radius:9px;padding:11px 14px;margin:10px 0;font-size:13.5px;}
+
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;}
+th,td{border:1px solid var(--hairline);padding:9px 11px;text-align:left;vertical-align:top;}
+th{background:var(--surface);font-weight:600;color:var(--ink);}
+tr:nth-child(even) td{background:#faf8ff;}
+
+ol,ul{padding-left:22px;}
+li{margin:5px 0;}
+
+.finale{background:var(--ink);color:#fff;border-radius:16px;padding:30px 32px;margin:34px 0 0;}
+.finale h3{color:#fff;}
+.finale p{color:#e7deff;margin:8px 0 0;}
+
+/* ---------- click-path reference ---------- */
+.clickpath{margin:16px 0;}
+.clickpath .cp-task{font-weight:600;font-size:15px;color:var(--ink);margin:22px 0 4px;display:flex;align-items:center;gap:9px;}
+.clickpath .cp-task .cp-badge{background:var(--indigo);color:#fff;border-radius:20px;font-size:11px;font-weight:600;padding:2px 10px;letter-spacing:.03em;}
+.clickpath ol{margin:8px 0 0;padding-left:24px;}
+.clickpath ol li{margin:7px 0;font-size:13.5px;line-height:1.55;}
+.clickpath ol li b{color:var(--ink);}
+.cp-src{font-size:11.5px;color:var(--muted);margin-top:10px;border-top:1px solid var(--hairline);padding-top:8px;}
+
+/* ---------- architecture diagram ---------- */
+.arch{padding:22px 18px 14px;}
+.arch svg{width:100%;height:auto;display:block;}
+.arch-legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--muted);}
+.arch-legend span{display:inline-flex;align-items:center;gap:6px;}
+.arch-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
+
+.foot{margin-top:40px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:16px;}
+</style>
+</head>
+<body>
+
+<div class="utility">
+  <a href="https://developers.docusign.com/docs/iam/agent-studio/" target="_blank" rel="noopener">Agent Studio Docs ↗</a>
+  <a href="https://developers.docusign.com/docs/iam/maestro/" target="_blank" rel="noopener">Workflow Builder Docs ↗</a>
+  <a href="https://developers.docusign.com/" target="_blank" rel="noopener">Developer Center ↗</a>
+</div>
+
+<header class="top">
+  <div class="brand">
+    <a href="index.html"><img class="logo" src="https://docusign.github.io/PSA/Bengaluru-meetup/assets/img/docusign-horizontal-black.svg" alt="Docusign"></a>
+    <nav>
+      <a href="3_MSA_SFDC_Flow.html">Hands-on Lab</a>
+      <span style="display:inline-flex;gap:0;margin-left:12px;border:1px solid #e5e1f0;border-radius:7px;overflow:hidden;">
+        <button onclick="if(window.parent.switchTo)window.parent.switchTo('nda')" style="background:#fff;color:#615a75;border:none;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;">Lab 1: NDA</button>
+        <button onclick="if(window.parent.switchTo)window.parent.switchTo('procurement')" style="background:#fff;color:#615a75;border:none;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;">Lab 2: MSA</button>
+        <button onclick="if(window.parent.switchTo)window.parent.switchTo('sfdc')" style="background:#4C00FF;color:#fff;border:none;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;">Lab 3: MSA + SFDC</button>
+      </span>
+    </nav>
+  </div>
+  <a class="cta" href="https://www.docusign.com/intelligent-agreement-management" target="_blank" rel="noopener">Docusign IAM ↗</a>
+</header>
+
+<div id="lab-switcher" style="position:fixed;bottom:20px;right:20px;z-index:1000;display:flex;gap:0;align-items:center;background:#1a0040;padding:4px;border-radius:12px;box-shadow:0 8px 24px rgba(19,0,50,.35);font-family:'DSIndigo',Arial,sans-serif;">
+  <button onclick="if(window.parent&&window.parent.switchTo)window.parent.switchTo('nda');" style="background:transparent;color:#c9bdf0;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:500;cursor:pointer;">Lab 1: NDA</button>
+  <button onclick="if(window.parent&&window.parent.switchTo)window.parent.switchTo('procurement');" style="background:transparent;color:#c9bdf0;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:500;cursor:pointer;">Lab 2: MSA</button>
+  <button disabled style="background:#4C00FF;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:default;">Lab 3: MSA + SFDC</button>
+</div>
+
+<div class="wrap">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside>
+    <div class="kicker">Agent Studio · 201</div>
+    <ol class="stepper" id="stepper">
+      <li class="step active" data-target="stage-0"><span class="ring" data-stage="0"></span><span class="txt"><span class="t">Before you begin</span><span class="s">Scenario · Flow · Setup</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-0-1">0.1 The scenario</li>
+        <li data-scroll="sec-0-2">0.2 The flow</li>
+        <li data-scroll="sec-0-3">0.3 Objectives</li>
+        <li data-scroll="sec-0-4">0.4 Prerequisites</li>
+        <li data-scroll="p1" style="padding-left:24px">0.4.1 Salesforce org</li>
+        <li data-scroll="p2" style="padding-left:24px">0.4.2 Install DAL</li>
+        <li data-scroll="p3" style="padding-left:24px">0.4.3 Docusign demo account</li>
+        <li data-scroll="p4" style="padding-left:24px">0.4.4 Lab 2 complete</li>
+      </ul>
+      <li class="step" data-target="stage-1"><span class="ring" data-stage="1"></span><span class="txt"><span class="t">Salesforce &amp; DAL</span><span class="s">Install · Connect · Layout</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-1-1">1.1 Verify DAL install</li>
+        <li data-scroll="sec-1-2">1.2 Link demo account</li>
+        <li data-scroll="sec-1-3">1.3 User management</li>
+        <li data-scroll="sec-1-4">1.4 Add Docusign components</li>
+      </ul>
+      <li class="step" data-target="stage-2"><span class="ring" data-stage="2"></span><span class="txt"><span class="t">Intake workflow</span><span class="s">Salesforce → Agreement Request</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-2-1">2.1 Create the workflow</li>
+        <li data-scroll="sec-2-2">2.2 Start from an API Call</li>
+        <li data-scroll="sec-2-3">2.3 Read from Salesforce</li>
+        <li data-scroll="sec-2-4">2.4 Create a Request</li>
+        <li data-scroll="sec-2-5">2.5 Confirmation &amp; publish</li>
+      </ul>
+      <li class="step" data-target="stage-3"><span class="ring" data-stage="3"></span><span class="txt"><span class="t">Hook up the agent</span><span class="s">Reuse the Lab 2 workflow</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-3-1">3.1 How the hand-off works</li>
+        <li data-scroll="sec-3-2">3.2 Verify the Lab 2 workflow</li>
+        <li data-scroll="sec-3-3">3.3 Structured outputs</li>
+        <li data-scroll="sec-3-4">3.4 Branch on risk_level</li>
+      </ul>
+      <li class="step" data-target="stage-4"><span class="ring" data-stage="4"></span><span class="txt"><span class="t">End-to-end test</span><span class="s">Launch · Observe · Validate</span></span></li>
+      <ul class="sub-nav">
+        <li data-scroll="sec-4-1">4.1 Launch from Salesforce</li>
+        <li data-scroll="sec-4-2">4.2 Submit the request</li>
+        <li data-scroll="sec-4-3">4.3 Confirm both runs</li>
+        <li data-scroll="sec-4-4">4.4 Observe classification</li>
+        <li data-scroll="sec-4-5">4.5 Validation checklist</li>
+        <li data-scroll="sec-4-6">4.6 Troubleshooting</li>
+      </ul>
+    </ol>
+    <div class="side-foot">
+      Self-paced handbook. Tick each step checkbox to fill the progress rings.<br><br>
+      Synthetic data only.<br><br>
+      <strong style="font-size:11px;text-transform:uppercase;letter-spacing:.07em;">Resources</strong><br>
+      <a href="https://dsucustomers.docusign.com/video-playlist-docusign-ai-agents" target="_blank">Docusign University AI Agent Video Playlist</a><br>
+      <a href="https://support.docusign.com/s/document-item?language=en_US&bundleId=map781cab17-20ee-4e52-a109-43201480b341&topicId=conb2716952-a0f6-4323-a13e-9d23dd290fb0.html&_LANG=enus" target="_blank">Docusign Agent Studio Support Article</a><br>
+      <a href="https://developers.docusign.com/docs/workflow-builder-api/how-to/trigger-workflow/" target="_blank">How to trigger a Workflow Builder workflow</a><br>
+      <a href="https://login.salesforce.com/packaging/installPackage.apexp?p0=04tg8000000LzgP" target="_blank">Docusign Apps Launcher package</a>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <main>
+
+    <!-- ============ STAGE 0 ============ -->
+    <section class="stage" id="stage-0">
+      <div class="hero">
+        <div class="kicker">Docusign IAM · Building Agents 201 · Lab 3</div>
+        <h1>Lab 3 · MSA + SFDC (Salesforce Extension)</h1>
+        <p>Initiating an Agreement Request directly from Salesforce, orchestrating review in Workflow Builder, and categorizing contract risk with Agent Studio.</p>
+      </div>
+
+      <div class="stage-head"><h2>Before you begin</h2></div>
+
+      <h3 id="sec-0-1">0.1 · The scenario</h3>
+      <div class="card">
+        <p style="margin:0 0 10px;font-weight:600;font-size:16px;">At Fontara, every vendor deal starts life in Salesforce, but the contract review still happens somewhere else.</p>
+        <p style="margin:0;">In Lab 2 the business user went to Agreement Desk to submit an MSA. In practice, sellers and procurement leads live in Salesforce and don't want another tab. In this lab you move the front door into Salesforce: from an Opportunity, the user starts a short intake workflow that reads the deal data, creates the Agreement Request with the MSA attached, and confirms submission. That request then starts the Lab 2 workflow you already built, which runs the Vendor and Renewal Risk Analyst agent and routes the request by risk.</p>
+      </div>
+
+      <h3 id="sec-0-2">0.2 · The flow at a glance</h3>
+      <div class="card">
+        <h3>Two workflows, one agent</h3>
+        <table>
+          <tbody><tr><th>Layer</th><th>Role in this lab</th></tr>
+          <tr><td><b>Salesforce + Docusign Apps Launcher (DAL)</b></td><td>Where the user already works. The <b>IAM Launcher</b> component starts the intake workflow from the Opportunity; the <b>Embedded Agreement Desk</b> component shows the request status back on the record.</td></tr>
+          <tr><td><b>Workflow 1 · Intake (new in Lab 3)</b></td><td>Start from an API Call → Read from Salesforce → Create a Request → Show a Confirmation Screen. Its only job is to turn a Salesforce record into an Agreement Request.</td></tr>
+          <tr><td><b>Agreement Desk</b></td><td>The hand-off point. A new request of type <b>Agent Studio 201 - Vendor Contracts</b> starts Workflow 2.</td></tr>
+          <tr><td><b>Workflow 2 · Risk review (from Lab 2, unchanged)</b></td><td>Execute AI Agent → branch on <code>risk_level</code> → status update and approval routing.</td></tr>
+          <tr><td><b>Agent Studio</b></td><td>The Vendor and Renewal Risk Analyst agent from Lab 2 reads the MSA and returns structured risk fields. It scores; the workflow decides.</td></tr>
+        </tbody></table>
+        <p style="margin:12px 0 0;font-weight:600;">Salesforce (Record/Opportunity) → Trigger Workflow → Create Agreement Request → Execute Risk Analyst Agent (Agent Studio) → Branch on risk_level (LOW / MEDIUM / HIGH) → Status Update &amp; Approval Routing</p>
+
+        <div class="arch" style="margin-top:14px;">
+          <svg viewBox="0 0 900 255" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Flow diagram: a Salesforce Opportunity starts the intake workflow, which creates an Agreement Request; the request starts the Lab 2 workflow, which runs the Risk Analyst agent and branches on risk level; status shows back in Salesforce">
+            <defs>
+              <marker id="l3-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="#4C00FF"/></marker>
+              <marker id="l3-arr-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="#0a7d3c"/></marker>
+              <marker id="l3-arr-hi" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="#FF5252"/></marker>
+              <marker id="l3-arr-sf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="#0176d3"/></marker>
+            </defs>
+            <rect x="6" y="90" width="140" height="70" rx="10" fill="#e9f4ff" stroke="#0176d3" stroke-width="1.5"/>
+            <text x="76" y="113" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0176d3" letter-spacing=".05em">SALESFORCE</text>
+            <text x="76" y="131" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">Opportunity</text>
+            <text x="76" y="148" text-anchor="middle" font-size="11" fill="#615a75">IAM Launcher · Start</text>
+
+            <rect x="176" y="84" width="150" height="82" rx="10" fill="#e9e1fb" stroke="#4C00FF" stroke-width="1.5"/>
+            <text x="251" y="106" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4C00FF" letter-spacing=".05em">WORKFLOW 1 · NEW</text>
+            <text x="251" y="124" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">Intake workflow</text>
+            <text x="251" y="141" text-anchor="middle" font-size="10.5" fill="#615a75">API Call · Read SFDC</text>
+            <text x="251" y="156" text-anchor="middle" font-size="10.5" fill="#615a75">Create a Request</text>
+
+            <rect x="356" y="90" width="130" height="70" rx="10" fill="#e9e1fb" stroke="#4C00FF" stroke-width="1.5"/>
+            <text x="421" y="113" text-anchor="middle" font-size="10.5" font-weight="700" fill="#4C00FF" letter-spacing=".05em">AGREEMENT DESK</text>
+            <text x="421" y="131" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">Agreement</text>
+            <text x="421" y="148" text-anchor="middle" font-size="13" font-weight="600" fill="#130032">Request</text>
+
+            <rect x="516" y="78" width="170" height="94" rx="12" fill="#1f0a4d" stroke="#4C00FF" stroke-width="1.5"/>
+            <text x="601" y="100" text-anchor="middle" font-size="10.5" font-weight="700" fill="#d9cdff" letter-spacing=".07em">WORKFLOW 2 · LAB 2</text>
+            <text x="601" y="120" text-anchor="middle" font-size="12.5" font-weight="600" fill="#fff">Execute AI Agent</text>
+            <text x="601" y="137" text-anchor="middle" font-size="12.5" font-weight="600" fill="#fff">Risk Analyst</text>
+            <text x="601" y="156" text-anchor="middle" font-size="10.5" fill="#c9bdf0">returns risk_level</text>
+
+            <rect x="726" y="20" width="168" height="62" rx="10" fill="#f0fff5" stroke="#0a7d3c" stroke-width="1.5"/>
+            <text x="810" y="42" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0a7d3c" letter-spacing=".05em">LOW</text>
+            <text x="810" y="60" text-anchor="middle" font-size="12" font-weight="600" fill="#130032">Status → Approved</text>
+            <text x="810" y="75" text-anchor="middle" font-size="10.5" fill="#615a75">ready for eSignature</text>
+
+            <rect x="726" y="168" width="168" height="62" rx="10" fill="#fff0f0" stroke="#FF5252" stroke-width="1.5"/>
+            <text x="810" y="190" text-anchor="middle" font-size="10.5" font-weight="700" fill="#c0203e" letter-spacing=".05em">MEDIUM / HIGH</text>
+            <text x="810" y="208" text-anchor="middle" font-size="12" font-weight="600" fill="#130032">Assign Legal · notify</text>
+            <text x="810" y="223" text-anchor="middle" font-size="10.5" fill="#615a75">Pending Legal Review</text>
+
+            <line x1="147" y1="125" x2="173" y2="125" stroke="#4C00FF" stroke-width="2" marker-end="url(#l3-arr)"/>
+            <line x1="327" y1="125" x2="353" y2="125" stroke="#4C00FF" stroke-width="2" marker-end="url(#l3-arr)"/>
+            <line x1="487" y1="125" x2="513" y2="125" stroke="#4C00FF" stroke-width="2" marker-end="url(#l3-arr)"/>
+            <line x1="687" y1="108" x2="723" y2="58" stroke="#0a7d3c" stroke-width="2" marker-end="url(#l3-arr-ok)"/>
+            <line x1="687" y1="142" x2="723" y2="192" stroke="#FF5252" stroke-width="2" marker-end="url(#l3-arr-hi)"/>
+
+            <path d="M421,161 L421,238 L76,238 L76,164" fill="none" stroke="#0176d3" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#l3-arr-sf)"/>
+            <text x="248" y="231" text-anchor="middle" font-size="10.5" fill="#0176d3" font-weight="600">status visible in Salesforce (Embedded Agreement Desk)</text>
+          </svg>
+          <div class="arch-legend">
+            <span><i style="background:#0176d3;"></i>Salesforce + DAL</span>
+            <span><i style="background:#4C00FF;"></i>Workflow Builder</span>
+            <span><i style="background:#1f0a4d;"></i>Agent Studio (reused from Lab 2)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="note"><b>What's new vs. Lab 2:</b> only the front door. The agent, its instructions, and the risk branch are exactly what you built in Lab 2, and you don't change them. Lab 3 adds a small intake workflow that creates the same kind of Agreement Request a user would otherwise submit by hand, so Lab 2's workflow picks it up automatically.</div>
+
+      <h3 id="sec-0-3">0.3 · Learning objectives</h3>
+      <div class="obj"><div class="lab">Objective 1</div><b>Connect Salesforce to Docusign IAM with DAL</b><br>Install Docusign Apps Launcher, link it to the Docusign demo account, and add the IAM Launcher and Embedded Agreement Desk components to the Opportunity page.</div>
+      <div class="obj"><div class="lab">Objective 2</div><b>Start a Workflow Builder workflow from a Salesforce record</b><br>Build an intake workflow that starts from an API Call, reads Opportunity data, and creates an Agreement Request.</div>
+      <div class="obj"><div class="lab">Objective 3</div><b>Chain workflows through Agreement Desk</b><br>Reuse the Lab 2 workflow and Risk Analyst agent unchanged, so every entry point gets the same governed risk review.</div>
+
+      <h3 id="sec-0-4">0.4 · Prerequisites</h3>
+      <p>A Salesforce Developer or Sandbox org, plus the same Docusign IAM (Intelligent Agreement Management) demo environment you used in Lab 2. Synthetic data only, so no production orgs, accounts, or real party data.</p>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p1"><div><h3 style="display:inline">0.4.1 · Salesforce org access</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <ul>
+          <li>An active <b>Salesforce Developer Edition</b> or <b>Sandbox</b> org.</li>
+          <li>A user with the <b>System Administrator</b> profile, so you can install managed packages and edit Lightning pages.</li>
+          <li>An <b>Opportunity</b> with a related <b>Account</b> you can use for testing. You'll set up three of these in Stage 4.</li>
+        </ul>
+        <div class="warn"><b>Matching emails required.</b> The email address of your Salesforce System Administrator user must match the email address of your Docusign admin user. If they differ, the DAL connection in Stage 1 fails.</div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p2"><div><h3 style="display:inline">0.4.2 · Install Docusign Apps Launcher (DAL)</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <ol>
+          <li>Log in to your Salesforce org as the System Administrator, then open the package install link in the same browser:
+            <div class="lbl" style="margin-top:8px;">Production / Developer Edition</div>
+            <div class="block">https://login.salesforce.com/packaging/installPackage.apexp?p0=04tg8000000LzgP</div>
+            <div class="lbl">Sandbox</div>
+            <div class="block">https://test.salesforce.com/packaging/installPackage.apexp?p0=04tg8000000LzgP</div>
+          </li>
+          <li>Choose who to install for:
+            <ul>
+              <li><b>Install for All Users</b> - recommended for workshop and demo orgs; avoids permission issues later.</li>
+              <li><b>Install for Admins Only</b> - use if your org admin requires it; you then grant access to other users explicitly.</li>
+            </ul>
+          </li>
+          <li>Tick the acknowledgement, click <b>Install</b>, and approve third-party access if prompted.</li>
+          <li>Wait for the confirmation (larger orgs may email you when the install finishes), then click <b>Done</b>.</li>
+        </ol>
+        <div class="warn"><b>Sandbox users:</b> the link must use <code>test.salesforce.com</code>. Using <code>login.salesforce.com</code> from a sandbox session sends you to the production login page and the install fails.</div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p3"><div><h3 style="display:inline">0.4.3 · Docusign IAM demo account</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <ul>
+          <li>Access to the Docusign developer demo environment at <a href="https://apps-d.docusign.com" target="_blank" rel="noopener">apps-d.docusign.com</a>, using the same account as Lab 2.</li>
+          <li><b>Agreement Desk</b>, <b>Workflow Builder</b>, and <b>AI Agents</b> enabled, with the permissions set in Lab 2 prerequisites (0.5.2).</li>
+          <li>A <b>DS Admin</b> user (same email as your Salesforce admin) to authorize DAL in Stage 1.</li>
+          <li>The <b>Docusign Extension App for Salesforce</b> installed on the account from the Docusign App Center. It provides the Salesforce steps (such as <b>Read from Salesforce</b>) in Workflow Builder.</li>
+        </ul>
+        <div class="note">Can't see the Salesforce steps in Workflow Builder? The extension app isn't installed on your account. Ask your facilitator, who may need to enable it for your demo environment.</div>
+      </div>
+
+      <div class="h-check"><input type="checkbox" data-stage="0" id="p4"><div><h3 style="display:inline">0.4.4 · Lab 2 complete</h3><span class="tag">setup</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 8px;">Lab 3 reuses Lab 2's artifacts as-is. Confirm all of these before you start:</p>
+        <ul>
+          <li>The <b>Vendor and Renewal Risk Analyst</b> agent is <b>Published</b> (Lab 2 · 1.5).</li>
+          <li>The Request Type <b>Agent Studio 201 - Vendor Contracts</b> exists and is active (Lab 2 · 2.1).</li>
+          <li>The Lab 2 workflow is <b>Published</b> and starts <b>From Agreement Desk</b> on that Request Type (Lab 2 · 2.2 and 2.5).</li>
+          <li>The sample agreements <code>MSA_low.docx</code>, <code>MSA_medium.docx</code>, and <code>MSA_high.docx</code> are downloaded locally.</li>
+        </ul>
+        <div class="note">Haven't done Lab 2? Complete Lab 2 Stages 1 and 2 first. Lab 3 doesn't rebuild the agent or the risk workflow.</div>
+      </div>
+
+      <div class="cp-src">Menu labels and exact click paths vary slightly by Salesforce release, DAL version, and Docusign tenant. Where this handbook and your screen disagree, trust your screen and look for the equivalent option in the same area.</div>
+    </section>
+
+    <!-- ============ STAGE 1 ============ -->
+    <section class="stage" id="stage-1">
+      <div class="stage-head"><h2>Stage 1 · Salesforce Setup &amp; DAL Configuration</h2></div>
+      <p>Before Salesforce can start anything in Docusign, the two systems need a trusted, two-way connection. This stage verifies the package, links it to your Docusign demo account, and puts the Docusign components on the Opportunity page.</p>
+
+      <div class="h-check" id="sec-1-1"><input type="checkbox" data-stage="1" id="chk1"><div><h3 style="display:inline">1.1 · Verify the DAL package installation</h3></div></div>
+      <ol>
+        <li>In Salesforce, open <b>Setup</b> (gear icon, top-right).</li>
+        <li>In Quick Find, search <b>Installed Packages</b>.</li>
+        <li>Confirm both <b>Docusign Apps Launcher</b> and <b>Docusign eSignature for Salesforce</b> are listed.</li>
+        <li>Open the <b>App Launcher</b> (9-dot grid, top-left) and search <b>Docusign Apps Launcher</b>.</li>
+      </ol>
+      <div class="expect"><b>Checkpoint:</b> both packages appear under Installed Packages and Docusign Apps Launcher opens from the App Launcher.</div>
+
+      <div class="h-check" id="sec-1-2"><input type="checkbox" data-stage="1" id="chk2"><div><h3 style="display:inline">1.2 · Authorize and link the Docusign demo account</h3></div></div>
+      <div class="clickpath">
+        <div class="cp-task"><span class="cp-badge">Admin</span> Connect Salesforce and the Docusign demo account</div>
+        <ol>
+          <li>In <b>Docusign Apps Launcher</b>, open the <b>Docusign Setup</b> tab and click <b>Allow Access</b>.</li>
+          <li>In the pop-up, sign in with your <b>Salesforce System Administrator</b> credentials.</li>
+          <li>Expand <b>Advanced Options</b> and click <b>Log in to Demo Account</b>. This points DAL at the demo environment (<code>apps-d.docusign.com</code>).</li>
+          <li>In the next pop-up, sign in with your <b>DS Admin</b> credentials and click <b>Allow Access</b>.</li>
+          <li>Another pop-up asks for your Salesforce System Administrator credentials again. Sign in to complete the two-way connection.</li>
+          <li>If your DS Admin user belongs to more than one Docusign account, select the account you used in Lab 2 and click <b>Next</b>.</li>
+        </ol>
+      </div>
+      <div class="warn"><b>Don't click "Log in to Docusign".</b> That button connects to the Docusign production environment, where your Lab 2 agent and workflow don't exist. Use <b>Advanced Options → Log in to Demo Account</b>.</div>
+      <div class="note"><b>No pop-up?</b> Your browser is probably blocking it. Allow pop-ups for your Salesforce domain and click <b>Allow Access</b> again.</div>
+      <div class="expect"><b>Checkpoint:</b> Docusign Apps Launcher lists the installed Docusign apps and tools, connected to the same demo account you used in Lab 2.</div>
+
+      <div class="h-check" id="sec-1-3"><input type="checkbox" data-stage="1" id="chk3"><div><h3 style="display:inline">1.3 · Enable users</h3></div></div>
+      <ol>
+        <li>On the <b>Docusign Setup</b> tab, go to <b>User Management</b> and click <b>Manage</b>.</li>
+        <li>Make sure every Salesforce user who will launch the workflow is enabled as an <b>eSignature Administrator</b> or <b>eSignature User</b>. To add someone, click <b>Add Users</b>, select them, and click <b>Add Users</b> again.</li>
+      </ol>
+      <div class="expect"><b>Checkpoint:</b> your own Salesforce user is listed as an eSignature Administrator.</div>
+
+      <div class="h-check" id="sec-1-4"><input type="checkbox" data-stage="1" id="chk4"><div><h3 style="display:inline">1.4 · Add the Docusign components to the Opportunity page</h3></div></div>
+      <p>Two components do the work in Salesforce: <b>Docusign IAM Launcher</b> starts Workflow Builder workflows from the record, and <b>Docusign Embedded Agreement Desk</b> shows that record's Agreement Requests.</p>
+      <ol>
+        <li>Open any <b>Opportunity</b>, click the gear icon, and choose <b>Edit Page</b>.</li>
+        <li>Click the tab row on the page. In the <b>Tabs</b> panel, click <b>Add Tab</b>.</li>
+        <li>Click the new tab, set <b>Tab Label</b> to <b>Custom</b>, and enter the custom label <b>Workflows</b>. Click <b>Done</b>.</li>
+        <li>Click the new <b>Workflows</b> tab on the canvas. In the component search box on the left, type <b>Docusign</b> and drag <b>Docusign IAM Launcher</b> onto the tab.</li>
+        <li>Repeat steps 2 to 4 to add a tab labelled <b>Agreement Desk Requests</b> containing <b>Docusign Embedded Agreement Desk</b>.</li>
+        <li>Click <b>Save</b>. If prompted, click <b>Activate</b> and assign the page as the org default for Opportunity.</li>
+      </ol>
+      <div class="note">Docusign components work on any standard or custom object. You'd use the same steps on Account or a custom Vendor object.</div>
+      <div class="expect"><b>Checkpoint:</b> an Opportunity record shows a <b>Workflows</b> tab and an <b>Agreement Desk Requests</b> tab.</div>
+    </section>
+
+    <!-- ============ STAGE 2 ============ -->
+    <section class="stage" id="stage-2">
+      <div class="stage-head"><h2>Stage 2 · Workflow Builder Trigger Configuration</h2></div>
+      <p>Build <b>Workflow 1</b>, the intake workflow. It's short on purpose: it reads the Opportunity, creates an Agreement Request, and confirms. It doesn't call the agent. Creating the request is what hands off to Lab 2's workflow.</p>
+
+      <div class="h-check" id="sec-2-1"><input type="checkbox" data-stage="2" id="chk5"><div><h3 style="display:inline">2.1 · Create the workflow</h3></div></div>
+      <ol>
+        <li>In <a href="https://apps-d.docusign.com" target="_blank" rel="noopener">apps-d.docusign.com</a>, open the <b>Agreements</b> tab and go to <b>Workflows</b>.</li>
+        <li>Click <b>Create Workflow</b>, choose <b>New Canvas</b>, and click <b>Continue</b>.</li>
+      </ol>
+
+      <div class="h-check" id="sec-2-2"><input type="checkbox" data-stage="2" id="chk6"><div><h3 style="display:inline">2.2 · Start from an API Call</h3></div></div>
+      <ol>
+        <li>Click <b>Add Workflow Start</b>, select <b>From an API Call</b>, and click <b>Next</b>.</li>
+        <li>Click <b>New Variable</b>, choose <b>Text</b>, and create these three variables:
+          <div class="block">recordId
+objectName
+applicationName</div>
+        </li>
+        <li>Click <b>Next</b>, select <b>Human</b> as the participant, and click <b>Apply</b>.</li>
+      </ol>
+      <div class="warn"><b>Use these exact names.</b> When a user clicks <b>Start</b> in the IAM Launcher, Salesforce passes the record's ID, object name, and application name into these variables. A typo means the next step can't find the Opportunity.</div>
+      <div class="expect"><b>Checkpoint:</b> the Start step shows <b>From an API Call</b> with <code>recordId</code>, <code>objectName</code>, and <code>applicationName</code>.</div>
+
+      <div class="h-check" id="sec-2-3"><input type="checkbox" data-stage="2" id="chk7"><div><h3 style="display:inline">2.3 · Read from Salesforce</h3></div></div>
+      <ol>
+        <li>Click <b>+</b> below the Start step and choose <b>Read from Salesforce</b>.</li>
+        <li>Click <b>Configure</b> and select your Salesforce connection (create one now if you don't have one).</li>
+        <li>For <b>Salesforce Object</b>, select <b>Opportunity</b> and click <b>Next</b>.</li>
+        <li>Click <b>Add or Remove Fields</b>, select the related <b>Account</b> object on the left, and choose <b>Account Name</b>. Click <b>Save and Exit</b>, then <b>Next</b>.</li>
+        <li>Set the record to read using the <code>recordId</code> variable from the workflow start. Click <b>Done</b>, then <b>Apply</b>.</li>
+      </ol>
+      <div class="expect"><b>Checkpoint:</b> the step shows the Salesforce icon, reads <b>Opportunity</b> by <code>recordId</code>, and returns <b>Account Name</b>.</div>
+
+      <div class="h-check" id="sec-2-4"><input type="checkbox" data-stage="2" id="chk8"><div><h3 style="display:inline">2.4 · Create a Request</h3></div></div>
+      <ol>
+        <li>Click <b>+</b> and choose <b>Create a Request</b>, then click <b>Configure</b>.</li>
+        <li>Select the Request Type <b>Agent Studio 201 - Vendor Contracts</b> (the one from Lab 2) and click <b>Next</b>.</li>
+        <li>For the requester, choose <b>User who starts this workflow</b> and click <b>Next</b>.</li>
+        <li>Map the form fields:
+          <table>
+            <tbody><tr><th>Request field</th><th>Value</th></tr>
+            <tr><td>Vendor Name</td><td><b>Account / Account Name</b> (from Read from Salesforce)</td></tr>
+            <tr><td>Requestor Name</td><td>Leave unmapped. The user types it when the form opens.</td></tr>
+            <tr><td>Document / attachment</td><td>Leave unmapped. The user uploads the MSA when the form opens.</td></tr>
+          </tbody></table>
+        </li>
+        <li>Click <b>Finish</b>, then <b>Apply</b>.</li>
+      </ol>
+      <div class="note"><b>Why this step is the hand-off:</b> when the workflow runs, the user sees the request form with Vendor Name already filled from Salesforce, uploads the MSA, and submits. Submitting creates an Agreement Request of the Lab 2 type, and Lab 2's workflow starts on it automatically. You don't need any extra step to "call" Workflow 2.</div>
+      <div class="expect"><b>Checkpoint:</b> Create a Request uses <b>Agent Studio 201 - Vendor Contracts</b>, and Vendor Name is mapped to Account Name.</div>
+
+      <div class="h-check" id="sec-2-5"><input type="checkbox" data-stage="2" id="chk9"><div><h3 style="display:inline">2.5 · Add a confirmation screen and publish</h3></div></div>
+      <ol>
+        <li>Click <b>+</b>, choose <b>Show a Confirmation Screen</b>, click <b>Configure</b>, and enter a message such as:
+          <div class="block prompt">Your MSA review request has been submitted. The Risk Analyst agent is reviewing the contract now. Track progress on the Agreement Desk Requests tab of this Opportunity.</div>
+          Click <b>Apply</b>.
+        </li>
+        <li>Click <b>+</b> and choose <b>Add a Path End</b>.</li>
+        <li>Click <b>Review &amp; Publish</b> and name the workflow:
+          <div class="block prompt">Agent Studio 201 - SFDC MSA Intake</div>
+        </li>
+        <li>Click through <b>Next</b>, then <b>Publish</b>. If prompted, click <b>Authorize My Account</b>.</li>
+      </ol>
+      <div class="expect"><b>Checkpoint:</b> the workflow is <b>Published</b>: Start from an API Call → Read from Salesforce → Create a Request → Show a Confirmation Screen → Path End.</div>
+    </section>
+
+    <!-- ============ STAGE 3 ============ -->
+    <section class="stage" id="stage-3">
+      <div class="stage-head"><h2>Stage 3 · Hooking up the Agent Studio Risk Analyst Agent</h2></div>
+      <p>There's nothing new to build here. The <b>Vendor and Renewal Risk Analyst</b> already lives in the Lab 2 workflow. This stage confirms the hand-off and shows how the agent's output drives routing.</p>
+
+      <div class="h-check" id="sec-3-1"><input type="checkbox" data-stage="3" id="chk10"><div><h3 style="display:inline">3.1 · How the hand-off works</h3><span class="tag">concept</span></div></div>
+      <div class="card">
+        <p style="margin:0 0 10px;">The Lab 2 workflow starts <b>From Agreement Desk</b> whenever a request of type <b>Agent Studio 201 - Vendor Contracts</b> is created. It doesn't matter whether that request was submitted in Agreement Desk or created by the Salesforce intake workflow; both start the same risk review.</p>
+        <p style="margin:0;">That's the design point: one governed agent and one routing policy, reached from as many front doors as you need.</p>
+      </div>
+      <div class="warn"><b>Don't add the agent to Workflow 1.</b> If the intake workflow also ran Execute AI Agent, every MSA would be scored twice, possibly with different results. Keep the agent in one place.</div>
+
+      <div class="h-check" id="sec-3-2"><input type="checkbox" data-stage="3" id="chk11"><div><h3 style="display:inline">3.2 · Verify the Lab 2 workflow</h3></div></div>
+      <ol>
+        <li>Go to <b>Agreements → Workflows</b> and open the Lab 2 workflow.</li>
+        <li>Confirm it's <b>Published</b>, not Draft.</li>
+        <li>Click the <b>Start workflow</b> step and confirm it's <b>From Agreement Desk</b> with Request Type <b>Agent Studio 201 - Vendor Contracts</b>.</li>
+        <li>Click <b>Execute AI Agent</b> and confirm it uses your published <code>Vendor and Renewal Risk Analyst</code> with the prompt:
+          <div class="block prompt">Extracts key terms from the attached document and classify the risk.</div>
+        </li>
+      </ol>
+      <div class="expect"><b>Checkpoint:</b> the Lab 2 workflow is published, triggered by the same Request Type Workflow 1 creates, and calls your published agent.</div>
+
+      <div class="h-check" id="sec-3-3"><input type="checkbox" data-stage="3" id="chk12"><div><h3 style="display:inline">3.3 · Review the structured outputs</h3></div></div>
+      <p>The agent reads the MSA attached to the request, checks it against the procurement checklist in its instructions, and returns five fields. Workflow Builder maps each one to a variable:</p>
+      <table>
+        <tbody><tr><th>Output</th><th>What it contains</th><th>Used for</th></tr>
+        <tr><td><code>risk_level</code></td><td><code>LOW</code>, <code>MEDIUM</code>, or <code>HIGH</code></td><td>The branch condition in 3.4</td></tr>
+        <tr><td><code>liability_cap</code></td><td>Limitation of liability extracted from the MSA</td><td>Legal reviewer context</td></tr>
+        <tr><td><code>governing_law</code></td><td>Governing jurisdiction</td><td>Legal reviewer context</td></tr>
+        <tr><td><code>term</code></td><td>Total term or renewal period</td><td>Legal reviewer context</td></tr>
+        <tr><td><code>discount</code></td><td>Commercial discount, or <code>none</code></td><td>Deal desk / Finance context</td></tr>
+      </tbody></table>
+      <div class="note"><b>Why structured outputs matter:</b> because each field is its own variable, the branch tests <code>risk_level</code> exactly, and Legal's notification can quote <code>liability_cap</code> and <code>governing_law</code> directly, without anyone parsing free text.</div>
+
+      <div class="h-check" id="sec-3-4"><input type="checkbox" data-stage="3" id="chk13"><div><h3 style="display:inline">3.4 · Branch on risk_level</h3></div></div>
+      <table>
+        <tbody><tr><th>Case</th><th>Condition</th><th>Path</th></tr>
+        <tr><td>1 · Low risk</td><td><code>risk_level == "LOW"</code></td><td><b>Change Request Status</b> to Approved. The requester can send the MSA for eSignature.</td></tr>
+        <tr><td>2 · Medium or high risk</td><td><code>risk_level == "MEDIUM"</code> OR <code>risk_level == "HIGH"</code></td><td><b>Assign Owner</b> (Legal team), <b>Send Request Message</b> to notify them, then <b>Change Request Status</b> to Pending Legal Review.</td></tr>
+      </tbody></table>
+      <div class="note"><b>Closing the loop in Salesforce:</b> because the Opportunity page has the Embedded Agreement Desk component, the seller sees the request move to Approved or Pending Legal Review without leaving Salesforce. You don't need a write-back step.</div>
+    </section>
+
+    <!-- ============ STAGE 4 ============ -->
+    <section class="stage" id="stage-4">
+      <div class="stage-head"><h2>Stage 4 · End-to-End Test &amp; Validation</h2></div>
+      <p>Run the whole loop from Salesforce and follow the request through both workflows.</p>
+
+      <div class="h-check" id="sec-4-1"><input type="checkbox" data-stage="4" id="chk14"><div><h3 style="display:inline">4.1 · Launch the workflow from Salesforce</h3></div></div>
+      <ol>
+        <li>Open (or create) an Opportunity whose Account name matches the sample document: <b>Keranos Digital Media</b> (LOW), <b>Pine Care</b> (MEDIUM), or <b>DataVault Dynamics</b> (HIGH). Start with Keranos Digital Media.</li>
+        <li>Click the <b>Workflows</b> tab (IAM Launcher).</li>
+        <li>The first time only: click <b>Add Workflow</b>, select <b>Agent Studio 201 - SFDC MSA Intake</b>, and click <b>Add Selected</b>.</li>
+        <li>Click <b>Start</b> on the workflow.</li>
+      </ol>
+
+      <div class="h-check" id="sec-4-2"><input type="checkbox" data-stage="4" id="chk15"><div><h3 style="display:inline">4.2 · Complete and submit the request</h3></div></div>
+      <ol>
+        <li>Check that <b>Vendor Name</b> is prefilled with the Opportunity's Account name.</li>
+        <li>Enter your name as <b>Requestor Name</b>.</li>
+        <li>Upload the matching sample, starting with <code>MSA_low.docx</code>.</li>
+        <li>Click <b>Submit</b> and confirm the confirmation screen appears. Close the tab to return to the Opportunity.</li>
+      </ol>
+      <div class="expect"><b>Checkpoint:</b> the confirmation screen appears, and the <b>Agreement Desk Requests</b> tab on the Opportunity shows the new request.</div>
+
+      <div class="h-check" id="sec-4-3"><input type="checkbox" data-stage="4" id="chk16"><div><h3 style="display:inline">4.3 · Confirm the Agreement Request and both workflow runs</h3></div></div>
+      <ol>
+        <li>In <a href="https://apps-d.docusign.com" target="_blank" rel="noopener">apps-d.docusign.com</a>, go to <b>Agreements → Requests</b> and open the new request. Confirm the MSA is attached.</li>
+        <li>Go to <b>Agreements → Workflows</b>. Open <b>Agent Studio 201 - SFDC MSA Intake</b> and click <b>View Workflow Runs</b>; the latest run should be complete.</li>
+        <li>Do the same for the Lab 2 workflow. A new run should have started when the request was created.</li>
+      </ol>
+      <div class="expect"><b>Checkpoint:</b> one new Agreement Request, one completed intake run, and one Lab 2 run for that request.</div>
+
+      <div class="h-check" id="sec-4-4"><input type="checkbox" data-stage="4" id="chk17"><div><h3 style="display:inline">4.4 · Observe risk classification &amp; conditional routing</h3></div></div>
+      <p>Repeat 4.1 to 4.3 for each sample and compare against the expected outcome:</p>
+      <table>
+        <tbody><tr><th>Opportunity Account</th><th>Sample</th><th>Expected <code>risk_level</code></th><th>Expected routing</th></tr>
+        <tr><td>Keranos Digital Media</td><td><code>MSA_low.docx</code></td><td><code>LOW</code></td><td>Request status → <b>Approved</b></td></tr>
+        <tr><td>Pine Care</td><td><code>MSA_medium.docx</code></td><td><code>MEDIUM</code></td><td>Owner → Legal, message sent, status → <b>Pending Legal Review</b></td></tr>
+        <tr><td>DataVault Dynamics</td><td><code>MSA_high.docx</code></td><td><code>HIGH</code></td><td>Owner → Legal, message sent, status → <b>Pending Legal Review</b></td></tr>
+      </tbody></table>
+      <div class="expect"><b>Expect:</b> in each Lab 2 run, the Execute AI Agent step shows all five outputs populated and the branch that fired matches <code>risk_level</code>. Back in Salesforce, the Agreement Desk Requests tab shows the updated status.</div>
+
+      <div class="h-check" id="sec-4-5"><input type="checkbox" data-stage="4" id="chk18"><div><h3 style="display:inline">4.5 · Validation checklist</h3></div></div>
+      <div class="card">
+        <ul>
+          <li><b>Salesforce / DAL</b>: packages installed; connected to the <b>demo</b> account; Workflows and Agreement Desk Requests tabs on the Opportunity.</li>
+          <li><b>Workflow 1 (intake)</b>: published; starts from an API Call; reads the Opportunity; creates exactly one request of the Lab 2 type per launch; no agent step.</li>
+          <li><b>Workflow 2 (Lab 2)</b>: published; starts on each new request; both branches reachable.</li>
+          <li><b>Agent</b>: the same published Lab 2 agent; <code>risk_level</code> always LOW, MEDIUM, or HIGH; all five outputs populated.</li>
+        </ul>
+      </div>
+
+      <h3 id="sec-4-6">4.6 · Troubleshooting &amp; guardrails</h3>
+      <div class="card">
+        <h4>Common issues</h4>
+        <table>
+          <tbody><tr><th>Symptom</th><th>Likely cause and fix</th></tr>
+          <tr><td>DAL authorization pop-up never appears</td><td>Browser pop-up blocker. Allow pop-ups for your Salesforce domain and retry.</td></tr>
+          <tr><td>DAL connection fails or links the wrong account</td><td>Salesforce and Docusign admin emails don't match, or <b>Log in to Docusign</b> (production) was clicked. Fix the email and reconnect using <b>Log in to Demo Account</b>.</td></tr>
+          <tr><td>Your workflow isn't listed under <b>Add Workflow</b></td><td>It isn't published, or DAL is connected to a different Docusign account.</td></tr>
+          <tr><td>A Salesforce step has no Salesforce icon (often after importing a workflow)</td><td>The step lost its connection and can fail even if the fields look mapped. Delete it and recreate it.</td></tr>
+          <tr><td>"Module metadata is undefined" when saving, or a page-not-found error when running</td><td>The workflow references a Request Type that doesn't exist in this account. Request Types aren't included in workflow exports; create it first, then reselect it.</td></tr>
+          <tr><td>Request created, but no Lab 2 run</td><td>The Lab 2 workflow is still a Draft, or its trigger points at a different Request Type.</td></tr>
+          <tr><td>Salesforce steps fail with <code>consent_required</code></td><td>Consent was revoked. Re-publish and click <b>Authorize My Account</b>, or ask your facilitator to re-grant consent.</td></tr>
+        </tbody></table>
+        <h4>Design guardrails</h4>
+        <ul style="margin:0;">
+          <li><b>One agent, one place.</b> The intake workflow creates requests; only the Lab 2 workflow runs the agent.</li>
+          <li><b>The agent scores, the workflow decides.</b> Routing stays deterministic and auditable in Workflow Builder.</li>
+          <li><b>Humans in the loop.</b> Only LOW is automated; MEDIUM and HIGH always reach Legal.</li>
+          <li><b>Fail closed.</b> If the agent can't read the document, it returns HIGH and the request goes to review, never to signature.</li>
+        </ul>
+      </div>
+
+      <div class="finale">
+        <h3>Recap</h3>
+        <p>A seller clicked <b>Start</b> on a Salesforce Opportunity → the intake workflow read the Account from Salesforce and created an Agreement Request with the MSA → that request started the Lab 2 workflow → the Risk Analyst agent read the contract and returned structured risk fields → deterministic branching approved LOW risk and routed MEDIUM/HIGH to Legal → the status showed up back on the Opportunity. Same agent, new front door: the work starts where your users already are, and the governance stays inside Docusign IAM.</p>
+      </div>
+
+      <div class="card tint">
+        <h3>Reuse the pattern</h3>
+        <p style="margin:0;">Any system that can create an Agreement Request can feed the same risk review: another Salesforce object, Microsoft Dynamics, a web form, or an API call. Add a small intake workflow per entry point and keep one agent and one routing workflow behind them all.</p>
+      </div>
+
+      <div class="foot">
+        Agent Studio 201 · Hands-on lab · Synthetic data only. Menu labels vary by tenant and release, so trust your screen. For questions or feedback: <a href="mailto:amrit.prakash@docusign.com">amrit.prakash@docusign.com</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  var STORAGE='as201-sfdc-progress';
+  var stepEls=[].slice.call(document.querySelectorAll('.stepper .step'));
+  var checks=[].slice.call(document.querySelectorAll('.h-check input[type=checkbox]'));
+
+  // ----- persistence -----
+  function load(){try{return JSON.parse(sessionStorage.getItem(STORAGE))||{};}catch(e){return {};}}
+  function save(s){try{sessionStorage.setItem(STORAGE,JSON.stringify(s));}catch(e){}}
+  var state=load();
+
+  // ----- rings (built once, then animate the stroke) -----
+  function ring(stage,pct,done){
+    var el=document.querySelector('.ring[data-stage="'+stage+'"]');
+    if(!el) return;
+    var r=15,c=2*Math.PI*r,off=c*(1-pct);
+    var fg=el.querySelector('circle.fg');
+    if(!fg){
+      el.innerHTML='<svg width="34" height="34"><circle cx="17" cy="17" r="15" fill="none" stroke="#d9cff5" stroke-width="3"/>'+
+        '<circle class="fg" cx="17" cy="17" r="15" fill="none" stroke="#4C00FF" stroke-width="3" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+c+'"/></svg>'+
+        '<span class="num">'+stage+'</span>';
+      fg=el.querySelector('circle.fg');
+    }
+    requestAnimationFrame(function(){
+      fg.setAttribute('stroke-dashoffset', off);
+      fg.setAttribute('stroke', done?'#0a7d3c':'#4C00FF');
+    });
+    el.querySelector('.num').textContent = done ? '✓' : stage;
+    var li=document.querySelector('.step[data-target="stage-'+stage+'"]');
+    if(li) li.classList.toggle('done',done);
+  }
+  function refresh(){
+    for(var s=0;s<=4;s++){
+      var group=checks.filter(function(c){return c.getAttribute('data-stage')==String(s);});
+      var total=group.length, on=group.filter(function(c){return c.checked;}).length;
+      ring(s, total?on/total:0, total>0 && on===total);
+    }
+  }
+
+  checks.forEach(function(c){ if(state[c.id]) c.checked=true;
+    c.addEventListener('change',function(){ state[c.id]=c.checked; save(state); refresh(); });
+  });
+
+  // ----- sidebar nav + scroll spy -----
+  stepEls.forEach(function(li){
+    li.addEventListener('click',function(){
+      var t=document.getElementById(li.getAttribute('data-target'));
+      if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+  [].slice.call(document.querySelectorAll('.sub-nav li')).forEach(function(li){
+    li.addEventListener('click',function(){
+      var t=document.getElementById(li.getAttribute('data-scroll'));
+      if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+  var sections=[].slice.call(document.querySelectorAll('section.stage'));
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY+140, cur=sections[0].id;
+    sections.forEach(function(s){ if(s.offsetTop<=y) cur=s.id; });
+    stepEls.forEach(function(li){ li.classList.toggle('active',li.getAttribute('data-target')===cur); });
+  });
+
+  // ----- copy buttons -----
+  [].slice.call(document.querySelectorAll('.block')).forEach(function(b){
+    var btn=document.createElement('button');
+    btn.className='copy'; btn.textContent='Copy';
+    btn.addEventListener('click',function(){
+      var txt=b.cloneNode(true); var x=txt.querySelector('.copy'); if(x)x.remove();
+      navigator.clipboard.writeText(txt.textContent.trim()).then(function(){
+        btn.textContent='Copied'; btn.classList.add('copied');
+        setTimeout(function(){btn.textContent='Copy';btn.classList.remove('copied');},1400);
+      });
+    });
+    b.appendChild(btn);
+  });
+
+  refresh();
+})();
+</script>
+
+</body></html>
