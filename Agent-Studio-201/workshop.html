@@ -71,6 +71,27 @@ function setupFrame(id){
 
   var tab=id.replace('frame-','');
 
+  // Add the Lab 3 button to the header and floating switchers baked into Lab 1 and Lab 2
+  if(tab!=='sfdc' && !doc.getElementById('lab3-btn-header')){
+    var hdr=doc.querySelector('header.top nav span');
+    if(hdr){
+      var hb=doc.createElement('button');
+      hb.id='lab3-btn-header';
+      hb.textContent='Lab 3: MSA + SFDC';
+      hb.style.cssText='background:#fff;color:#615a75;border:none;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;';
+      hb.addEventListener('click',function(){switchTo('sfdc');});
+      hdr.appendChild(hb);
+    }
+    var flt=doc.getElementById('lab-switcher');
+    if(flt){
+      var fb=doc.createElement('button');
+      fb.textContent='Lab 3: MSA + SFDC';
+      fb.style.cssText='background:transparent;color:#c9bdf0;border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:500;cursor:pointer;';
+      fb.addEventListener('click',function(){switchTo('sfdc');});
+      flt.appendChild(fb);
+    }
+  }
+
   // Hide the persona card and prerequisites in procurement page
   if(tab==='procurement'){
     var personaCards=doc.querySelectorAll('.card.tint');

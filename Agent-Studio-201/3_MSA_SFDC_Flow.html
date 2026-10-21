@@ -490,10 +490,20 @@ applicationName</div>
         <li>Click <b>+</b> below the Start step and choose <b>Read from Salesforce</b>.</li>
         <li>Click <b>Configure</b> and select your Salesforce connection (create one now if you don't have one).</li>
         <li>For <b>Salesforce Object</b>, select <b>Opportunity</b> and click <b>Next</b>.</li>
-        <li>Click <b>Add or Remove Fields</b>, select the related <b>Account</b> object on the left, and choose <b>Account Name</b>. Click <b>Save and Exit</b>, then <b>Next</b>.</li>
+        <li>Click <b>Add or Remove Fields</b> and choose these Opportunity fields. Account Name, Annual Revenue, and Billing State are under the related <b>Account</b> object on the left.
+          <table>
+            <tbody><tr><th>Field</th><th>Object</th></tr>
+            <tr><td><b>Opportunity ID</b></td><td>Opportunity</td></tr>
+            <tr><td><b>Account Name</b></td><td>Opportunity → Account</td></tr>
+            <tr><td><b>Annual Revenue</b></td><td>Opportunity → Account</td></tr>
+            <tr><td><b>Billing State</b></td><td>Opportunity → Account</td></tr>
+            <tr><td><b>Amount</b></td><td>Opportunity</td></tr>
+          </tbody></table>
+          Click <b>Save and Exit</b>, then <b>Next</b>.
+        </li>
         <li>Set the record to read using the <code>recordId</code> variable from the workflow start. Click <b>Done</b>, then <b>Apply</b>.</li>
       </ol>
-      <div class="expect"><b>Checkpoint:</b> the step shows the Salesforce icon, reads <b>Opportunity</b> by <code>recordId</code>, and returns <b>Account Name</b>.</div>
+      <div class="expect"><b>Checkpoint:</b> the step shows the Salesforce icon, reads <b>Opportunity</b> by <code>recordId</code>, and returns all five fields.</div>
 
       <div class="h-check" id="sec-2-4"><input type="checkbox" data-stage="2" id="chk8"><div><h3 style="display:inline">2.4 · Create a Request</h3></div></div>
       <ol>
@@ -502,16 +512,20 @@ applicationName</div>
         <li>For the requester, choose <b>User who starts this workflow</b> and click <b>Next</b>.</li>
         <li>Map the form fields:
           <table>
-            <tbody><tr><th>Request field</th><th>Value</th></tr>
-            <tr><td>Vendor Name</td><td><b>Account / Account Name</b> (from Read from Salesforce)</td></tr>
+            <tbody><tr><th>Request field</th><th>Value (from Read from Salesforce)</th></tr>
+            <tr><td>Opportunity ID</td><td><b>Opportunity / Opportunity ID</b></td></tr>
+            <tr><td>Vendor Name</td><td><b>Account / Account Name</b></td></tr>
+            <tr><td>Annual Revenue</td><td><b>Account / Annual Revenue</b></td></tr>
+            <tr><td>Billing State</td><td><b>Account / Billing State</b></td></tr>
+            <tr><td>Amount</td><td><b>Opportunity / Amount</b></td></tr>
             <tr><td>Requestor Name</td><td>Leave unmapped. The user types it when the form opens.</td></tr>
             <tr><td>Document / attachment</td><td>Leave unmapped. The user uploads the MSA when the form opens.</td></tr>
           </tbody></table>
         </li>
         <li>Click <b>Finish</b>, then <b>Apply</b>.</li>
       </ol>
-      <div class="note"><b>Why this step is the hand-off:</b> when the workflow runs, the user sees the request form with Vendor Name already filled from Salesforce, uploads the MSA, and submits. Submitting creates an Agreement Request of the Lab 2 type, and Lab 2's workflow starts on it automatically. You don't need any extra step to "call" Workflow 2.</div>
-      <div class="expect"><b>Checkpoint:</b> Create a Request uses <b>Agent Studio 201 - Vendor Contracts</b>, and Vendor Name is mapped to Account Name.</div>
+      <div class="note"><b>Why this step is the hand-off:</b> when the workflow runs, the user sees the request form with the deal fields already filled from Salesforce, uploads the MSA, and submits. Submitting creates an Agreement Request of the Lab 2 type, and Lab 2's workflow starts on it automatically. You don't need any extra step to "call" Workflow 2.</div>
+      <div class="expect"><b>Checkpoint:</b> Create a Request uses <b>Agent Studio 201 - Vendor Contracts</b>, and all five Salesforce fields are mapped.</div>
 
       <div class="h-check" id="sec-2-5"><input type="checkbox" data-stage="2" id="chk9"><div><h3 style="display:inline">2.5 · Add a confirmation screen and publish</h3></div></div>
       <ol>
@@ -587,7 +601,7 @@ applicationName</div>
 
       <div class="h-check" id="sec-4-2"><input type="checkbox" data-stage="4" id="chk15"><div><h3 style="display:inline">4.2 · Complete and submit the request</h3></div></div>
       <ol>
-        <li>Check that <b>Vendor Name</b> is prefilled with the Opportunity's Account name.</li>
+        <li>Check that <b>Opportunity ID</b>, <b>Vendor Name</b>, <b>Annual Revenue</b>, <b>Billing State</b>, and <b>Amount</b> are prefilled from the Opportunity.</li>
         <li>Enter your name as <b>Requestor Name</b>.</li>
         <li>Upload the matching sample, starting with <code>MSA_low.docx</code>.</li>
         <li>Click <b>Submit</b> and confirm the confirmation screen appears. Close the tab to return to the Opportunity.</li>
