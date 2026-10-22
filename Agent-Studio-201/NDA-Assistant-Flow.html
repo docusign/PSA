@@ -873,10 +873,22 @@ li{margin:5px 0;}
     btn.className='copy'; btn.textContent='Copy';
     btn.addEventListener('click',function(){
       var txt=b.cloneNode(true); var x=txt.querySelector('.copy'); if(x)x.remove();
-      navigator.clipboard.writeText(txt.textContent.trim()).then(function(){
+      var html=txt.innerHTML.trim();
+      // keep <br> line breaks in the plain-text copy; the HTML copy keeps bold for rich-text targets
+      [].slice.call(txt.querySelectorAll('br')).forEach(function(br){ br.replaceWith('\n'); });
+      var plain=txt.textContent.trim();
+      var done=function(){
         btn.textContent='Copied'; btn.classList.add('copied');
         setTimeout(function(){btn.textContent='Copy';btn.classList.remove('copied');},1400);
-      });
+      };
+      if(window.ClipboardItem && navigator.clipboard.write){
+        navigator.clipboard.write([new ClipboardItem({
+          'text/plain':new Blob([plain],{type:'text/plain'}),
+          'text/html':new Blob([html],{type:'text/html'})
+        })]).then(done,function(){ navigator.clipboard.writeText(plain).then(done); });
+      } else {
+        navigator.clipboard.writeText(plain).then(done);
+      }
     });
     b.appendChild(btn);
   });
