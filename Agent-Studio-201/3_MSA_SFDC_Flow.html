@@ -161,12 +161,15 @@ li{margin:5px 0;}
 .arch-legend span{display:inline-flex;align-items:center;gap:6px;}
 .arch-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
 
+.shot{margin:10px 0;}
+.shot img{max-width:100%;border:1px solid var(--hairline);border-radius:8px;}
 .foot{margin-top:40px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--hairline);padding-top:16px;}
 </style>
 </head>
 <body>
 
 <div class="utility">
+  <a href="Agent-Studio-201-Labs.zip" download>Download Labs (.zip)</a>
   <a href="https://developers.docusign.com/docs/iam/agent-studio/" target="_blank" rel="noopener">Agent Studio Docs ↗</a>
   <a href="https://developers.docusign.com/docs/iam/maestro/" target="_blank" rel="noopener">Workflow Builder Docs ↗</a>
   <a href="https://developers.docusign.com/" target="_blank" rel="noopener">Developer Center ↗</a>
@@ -362,8 +365,8 @@ li{margin:5px 0;}
       <div class="h-check"><input type="checkbox" data-stage="0" id="p5"><div><h3 style="display:inline">0.4.2 · Enable SOAP login for Salesforce account</h3><span class="tag">setup</span></div></div>
       <div class="card">
         <ol>
-          <li>Log in to your Salesforce org as the System Administrator, go to <b>Setup</b>, and type <b>User Interface</b> in Quick Find. You should see the <b>User Interface</b> section as shown in screenshot 1.</li>
-          <li>Scroll to the bottom of the page. You should see the <b>User Interface</b> button as shown in screenshot 2. Click it.</li>
+          <li>Log in to your Salesforce org as the System Administrator, go to <b>Setup</b>, and type <b>User Interface</b> in Quick Find. You should see the <b>User Interface</b> section.<div class="shot"><img src="assets/lab3-screenshot-1.png" alt="Lab 3 screenshot 1"></div></li>
+          <li>Scroll to the bottom of the page. You should see the <b>User Interface</b> button. Click it.<div class="shot"><img src="assets/lab3-screenshot-2.png" alt="Lab 3 screenshot 2"></div></li>
           <li>Scroll to the <b>Setup</b> section of the page, find <b>Enable SOAP API login</b>, check the box, and save the settings.</li>
           <li>Go to <b>Setup</b>, search for <b>Permission Sets</b>, and create a new permission set named <code>SOAP API Permission set</code>. Click <b>Save</b>.</li>
           <li>Open <b>System Permissions</b> in the permission set and click <b>Edit</b>.</li>
@@ -403,9 +406,9 @@ li{margin:5px 0;}
         </ul>
         <ol>
           <li>Navigate to <b>Admin</b>.</li>
-          <li>Scroll down to the <b>Integrations</b> section and click <b>App Center</b> as shown in screenshot 4.</li>
-          <li>The App Center opens as shown in screenshot 5. Open the Salesforce extension app.</li>
-          <li>The Salesforce extension app page opens as shown in screenshot 6. Click <b>Install</b>; when the installation window opens, click <b>Install and Authorize</b>.</li>
+          <li>Scroll down to the <b>Integrations</b> section and click <b>App Center</b>.<div class="shot"><img src="assets/lab3-screenshot-4.png" alt="Lab 3 screenshot 4"></div></li>
+          <li>The App Center opens. Open the Salesforce extension app.<div class="shot"><img src="assets/lab3-screenshot-5.png" alt="Lab 3 screenshot 5"></div></li>
+          <li>The Salesforce extension app page opens. Click <b>Install</b>; when the installation window opens, click <b>Install and Authorize</b>.<div class="shot"><img src="assets/lab3-screenshot-6.png" alt="Lab 3 screenshot 6"></div></li>
           <li>You will see an <b>Installed successfully</b> toast message at the bottom left of the screen as shown in screenshot 7.</li>
           <li>Once the app is installed, click <b>Connect account</b> as shown in screenshot 8.</li>
           <li>The connection wizard opens. Select <b>Production</b> account if you are using a Salesforce Developer Edition org, or <b>Sandbox</b> if you are using a sandbox.</li>
