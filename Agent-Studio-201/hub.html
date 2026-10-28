@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PSA Workshop Hub</title>
+<style>
+@font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-Light.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap;}
+@font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-Medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-SemiBold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap;}
+:root{--indigo:#4C00FF;--coral:#FF5252;--ink:#130032;--utility:#1a0040;--surface:#F4F2FA;--hairline:#e5e1f0;--body:#1c1433;--muted:#615a75;
+--grad:linear-gradient(100deg,#4C00FF 0%,#7A1FD0 42%,#C0207E 72%,#FF5252 100%);--font:'DSIndigo',Arial,Helvetica,sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);font-weight:300;color:var(--body);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-weight:600;color:var(--ink);line-height:1.25;}
+input,select,textarea,button{font-family:var(--font);}
+.utility{background:var(--utility);color:#c9bdf0;font-size:12.5px;padding:7px 26px;display:flex;gap:22px;justify-content:flex-end;}
+.utility a{color:#d9cdff;text-decoration:none;}
+.utility a:hover{color:#fff;}
+header.top{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--hairline);display:flex;align-items:center;justify-content:space-between;padding:14px 26px;}
+header.top .brand{display:flex;align-items:center;gap:26px;}
+header.top img.logo{height:26px;display:block;}
+header.top nav{display:flex;gap:22px;font-size:14px;}
+header.top nav a{color:var(--ink);font-weight:500;text-decoration:none;}
+header.top nav a:hover{color:var(--indigo);}
+header.top .cta{background:var(--ink);color:#fff;padding:8px 15px;border-radius:7px;font-size:13px;font-weight:500;text-decoration:none;}
+header.top .cta:hover{background:var(--indigo);}
+.wrap{max-width:1040px;margin:0 auto;}
+.hero{position:relative;overflow:hidden;background:var(--grad);color:#fff;border-radius:16px;padding:44px 40px;margin:28px 24px 0;isolation:isolate;}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.22) 1.4px,transparent 0);background-size:28px 28px;opacity:.55;z-index:0;}
+.hero::after{content:'';position:absolute;top:-60px;right:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16) 0%,rgba(255,255,255,0) 70%);z-index:0;}
+.hero>*{position:relative;z-index:1;}
+.kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;opacity:.9;margin-bottom:8px;}
+.hero h1{font-size:36px;color:#fff;margin-bottom:10px;}
+.hero p{color:#f1ebff;max-width:640px;font-size:16px;}
+.hero-wrap{max-width:1092px;margin:0 auto;}
+section{padding:40px 24px;}
+h2{font-size:22px;color:var(--ink);margin-bottom:6px;}
+.sub{color:var(--muted);margin-bottom:22px;font-size:14px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:16px;}
+.card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--hairline);border-radius:13px;padding:24px 26px;text-decoration:none;color:inherit;box-shadow:0 2px 6px rgba(19,0,50,.05),0 10px 26px rgba(19,0,50,.05);transition:box-shadow .22s ease,transform .22s ease;}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(19,0,50,.08),0 16px 34px rgba(19,0,50,.09);}
+.card.soon{opacity:.6;pointer-events:none;}
+.tag{font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);margin-bottom:8px;}
+.card h3{font-size:17px;color:var(--ink);margin-bottom:6px;}
+.card p{font-size:13.5px;color:var(--muted);flex:1;}
+.meta{margin-top:14px;font-size:12px;color:var(--muted);}
+.open{margin-top:10px;font-weight:700;font-size:13px;color:var(--indigo);}
+.intake{background:var(--surface);border-top:1px solid var(--hairline);}
+form{background:#fff;border:1px solid var(--hairline);border-radius:13px;padding:24px;box-shadow:0 2px 6px rgba(19,0,50,.05);display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.full{grid-column:1/-1;}
+label{display:block;font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:5px;}
+input,select,textarea{width:100%;padding:9px 11px;border:1px solid #cfc9e0;border-radius:8px;font:inherit;font-size:14px;background:#fff;}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--indigo);border-color:transparent;}
+textarea{min-height:76px;resize:vertical;}
+.checks label{display:inline-block;font-weight:500;margin-right:16px;}
+.checks input{width:auto;margin-right:5px;}
+.hint{font-size:12px;color:var(--muted);margin-top:3px;}
+button{background:var(--indigo);color:#fff;border:none;border-radius:8px;padding:11px 22px;font-weight:700;font-size:14px;cursor:pointer;}
+button.ghost{background:#fff;color:var(--indigo);border:1px solid var(--indigo);margin-left:8px;}
+#status{font-size:13px;margin-left:12px;color:var(--muted);}
+.std{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+.std div{border-left:3px solid var(--indigo);padding:4px 0 4px 12px;font-size:14px;}
+.std b{display:block;color:var(--ink);}
+footer{padding:26px 24px;color:var(--muted);font-size:12.5px;text-align:center;}
+/* ---------- Cool layer ---------- */
+.hero{background-size:200% 200%;animation:shift 14s ease infinite;}
+@keyframes shift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.stats{display:flex;gap:34px;flex-wrap:wrap;margin-top:26px;}
+.stat b{display:block;font-size:30px;font-weight:600;line-height:1;}
+.stat span{font-size:12px;letter-spacing:.1em;text-transform:uppercase;opacity:.85;}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:20px;}
+.tools input{max-width:260px;border-radius:999px;padding:9px 16px;}
+.chip{border:1px solid var(--hairline);background:#fff;color:var(--ink);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;}
+.chip:hover{border-color:var(--indigo);color:var(--indigo);}
+.chip.on{background:var(--indigo);border-color:var(--indigo);color:#fff;}
+.card{position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;left:0;top:0;right:0;height:4px;background:var(--grad);transform:scaleX(0);transform-origin:left;transition:transform .3s ease;}
+.card:hover::before{transform:scaleX(1);}
+.ico{width:48px;height:48px;border-radius:12px;background:var(--surface);border:1px solid var(--hairline);display:flex;align-items:center;justify-content:center;margin-bottom:14px;color:var(--indigo);transition:background .25s,color .25s,border-color .25s;}
+.ico svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.card:hover .ico{background:var(--grad);color:#fff;border-color:transparent;}
+#theme svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block;}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;}
+.pill{font-size:11px;font-weight:600;background:#e9e1fb;color:#4c00c9;border-radius:999px;padding:3px 10px;}
+.open{transition:transform .2s;}
+.card:hover .open{transform:translateX(5px);}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.in{opacity:1;transform:none;}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:30px;}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;counter-reset:s;}
+.how div{position:relative;background:#fff;border:1px solid var(--hairline);border-radius:13px;padding:22px 22px 22px 66px;box-shadow:0 2px 6px rgba(19,0,50,.05);}
+.how div::before{counter-increment:s;content:counter(s);position:absolute;left:18px;top:20px;width:34px;height:34px;border-radius:50%;background:var(--grad);color:#fff;font-weight:600;display:flex;align-items:center;justify-content:center;}
+.how b{display:block;color:var(--ink);margin-bottom:2px;}
+.how span{font-size:13.5px;color:var(--muted);}
+#theme{background:none;border:1px solid var(--hairline);border-radius:7px;padding:6px 10px;font-size:14px;cursor:pointer;margin-right:10px;color:inherit;}
+body.dark{--ink:#f3eeff;--body:#d9d0f2;--muted:#a79fc4;--surface:#1b0b3d;--hairline:#33205f;background:#0d0222;}
+body.dark header.top,body.dark .card,body.dark form,body.dark .how div,body.dark .chip,body.dark input,body.dark select,body.dark textarea{background:#150433;color:var(--body);}
+body.dark header.top img.logo{filter:invert(1);}
+body.dark header.top .cta{background:var(--indigo);}
+body.dark #standards{background:#0d0222!important;}
+body.dark .chip.on{background:var(--indigo);}
+@media(prefers-reduced-motion:reduce){.hero{animation:none}.reveal{opacity:1;transform:none;transition:none}}
+@media(max-width:640px){form{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<div class="utility"><a href="https://docusign.github.io/PSA/">PSA home</a><a href="#submit">Contribute</a></div>
+<header class="top">
+  <div class="brand">
+    <a href="#"><img class="logo" src="https://docusign.github.io/PSA/Bengaluru-meetup/assets/img/docusign-horizontal-black.svg" alt="Docusign"></a>
+    <nav><a href="#labs">Labs</a><a href="#standards">Content standards</a><a href="#submit">Submit content</a></nav>
+  </div>
+  <span><button id="theme" title="Toggle dark mode" aria-label="Toggle dark mode"></button><a class="cta" href="#submit">Submit content</a></span>
+</header>
+<div class="hero-wrap"><div class="hero">
+  <div class="kicker">PSA Workshop Hub</div>
+  <h1>One home for every PSA workshop</h1>
+  <p>Open a lab, reuse what a colleague already built, or submit your own so we all work from the same standard.</p>
+  <div class="stats">
+    <div class="stat"><b data-count="4" id="sLabs">0</b><span>Labs</span></div>
+    <div class="stat"><b data-count="3" id="sHours">0</b><span>Hours of hands-on</span></div>
+    <div class="stat"><b data-count="6" id="sStd">0</b><span>Content standards</span></div>
+    <div class="stat"><b data-count="1" id="sHub">0</b><span>Shared home</span></div>
+  </div>
+</div></div>
+
+<section id="labs"><div class="wrap">
+  <h2>Workshop labs</h2>
+  <p class="sub">Click a card to open the lab. Search or filter by product.</p>
+  <div class="tools"><input id="q" type="search" placeholder="Search labs…"><span id="chips"></span></div>
+  <div class="grid" id="labGrid"></div>
+</div></section>
+
+<section id="standards" style="background:#fff"><div class="wrap">
+  <h2>Content standards</h2>
+  <p class="sub">What every submitted lab should include so it is reusable by any PSA.</p>
+  <div class="std">
+    <div><b>Clear outcome</b>One sentence on what the attendee builds.</div>
+    <div><b>Prerequisites listed</b>Accounts, licences, sample files, access.</div>
+    <div><b>Copyable blocks</b>Prompts, JSON and schemas as copy-ready code.</div>
+    <div><b>Test inputs + expected result</b>Known inputs, so success is checkable.</div>
+    <div><b>Guardrails section</b>Where a human stays in the loop, and what fails safe.</div>
+    <div><b>Screenshots + recap</b>Key steps shown, with a closing summary.</div>
+  </div>
+</div></section>
+
+<section style="background:#fff"><div class="wrap">
+  <h2>How contributing works</h2>
+  <p class="sub">From your draft to a lab everyone can run in three steps.</p>
+  <div class="how">
+    <div><b>Build it</b><span>Create your lab and check it against the content standards.</span></div>
+    <div><b>Submit it</b><span>Fill in the form below with a link and a short outcome.</span></div>
+    <div><b>We publish it</b><span>It gets reviewed and added as a card on this hub for every PSA to reuse.</span></div>
+  </div>
+</div></section>
+
+<section class="intake" id="submit"><div class="wrap">
+  <h2>Submit workshop content</h2>
+  <p class="sub">Built a lab, demo or guide? Fill this in and it gets queued for review and added to the hub.</p>
+  <form id="f">
+    <div><label>Your name *</label><input name="name" required></div>
+    <div><label>Email *</label><input name="email" type="email" required></div>
+    <div><label>Region / team</label><input name="team" placeholder="e.g. AMER PSA"></div>
+    <div><label>Content title *</label><input name="title" required placeholder="e.g. Invoice Extraction with Agent Studio"></div>
+    <div><label>Content type *</label>
+      <select name="type" required><option value="">Select…</option><option>Hands-on lab</option><option>Demo script</option><option>Slide deck</option><option>Guide / how-to</option><option>Sample data / assets</option></select></div>
+    <div><label>Level</label>
+      <select name="level"><option>101 – Intro</option><option selected>201 – Intermediate</option><option>301 – Advanced</option></select></div>
+    <div class="full checks"><label>Products used</label>
+      <label><input type="checkbox" name="prod" value="Agent Studio">Agent Studio</label>
+      <label><input type="checkbox" name="prod" value="Workflow Builder">Workflow Builder</label>
+      <label><input type="checkbox" name="prod" value="CLM">CLM</label>
+      <label><input type="checkbox" name="prod" value="eSignature">eSignature</label>
+      <label><input type="checkbox" name="prod" value="Navigator">Navigator</label>
+      <label><input type="checkbox" name="prod" value="MCP">MCP</label>
+      <label><input type="checkbox" name="prod" value="Salesforce">Salesforce</label>
+      <label><input type="checkbox" name="prod" value="Other">Other</label></div>
+    <div class="full"><label>What does the attendee build? *</label><textarea name="outcome" required></textarea></div>
+    <div><label>Duration (minutes)</label><input name="duration" type="number" min="10" step="5" placeholder="60"></div>
+    <div><label>Link to content *</label><input name="link" type="url" required placeholder="Drive / GitHub / SharePoint URL">
+      <div class="hint">Make sure the link is viewable by Docusign employees.</div></div>
+    <div class="full checks"><label>Checklist</label>
+      <label><input type="checkbox" name="chk" value="prereqs">Prerequisites</label>
+      <label><input type="checkbox" name="chk" value="copyable">Copyable blocks</label>
+      <label><input type="checkbox" name="chk" value="tests">Test inputs</label>
+      <label><input type="checkbox" name="chk" value="guardrails">Guardrails</label>
+      <label><input type="checkbox" name="chk" value="screens">Screenshots</label>
+      <label><input type="checkbox" name="chk" value="recap">Recap</label></div>
+    <div class="full"><label>Known gaps or notes for reviewers</label><textarea name="notes"></textarea></div>
+    <div class="full">
+      <button type="submit">Submit for review</button>
+      <button type="button" class="ghost" id="copyBtn">Copy as JSON</button>
+      <span id="status"></span>
+    </div>
+  </form>
+</div></section>
+
+<footer>PSA Workshop Hub · Docusign internal · Maintained by the PSA team</footer>
+
+<script>
+// ---- Edit these two things -------------------------------------------------
+var SUBMIT_EMAIL = "amrit.prakash@docusign.com"; // where submissions go (replace with your DL)
+var ICONS = {
+  nda:'<svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13.5c1.2-1.6 2-1.6 2.4 0s1.2 1.4 2.6-.4"/><path d="M8.5 17h7"/></svg>',
+  route:'<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="5.5" r="2"/><circle cx="19" cy="18.5" r="2"/><path d="M7 12h3c2 0 2-6.5 7-6.5M10 12c2 0 2 6.5 7 6.5"/></svg>',
+  clm:'<svg viewBox="0 0 24 24"><path d="M12 3 3 7.5 12 12l9-4.5z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg>',
+  sfdc:'<svg viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 17.9 8.6 4.8 4.8 0 0 1 17.5 18z"/><path d="M9.5 13.5h5M12.5 11l2.5 2.5-2.5 2.5"/></svg>',
+  moon:'<svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg>',
+  sun:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+};
+var LABS = [
+  {tag:"Lab 1", icon:"nda", title:"Search-to-Draft NDA Assistant", desc:"Build an Agent Studio assistant that searches precedent and drafts an NDA.", href:"NDA-Assistant-Flow.html", meta:"~60 min", prods:["Agent Studio"]},
+  {tag:"Lab 2", icon:"route", title:"Risk-Based Routing", desc:"Risk-scoring agent wired into Workflow Builder. Low risk to signature, high risk to human review.", href:"2_Hands_on_Flow.html", meta:"~60 min", prods:["Agent Studio","Workflow Builder"]},
+  {tag:"CLM", icon:"clm", title:"CLM Lab", desc:"Contract lifecycle management hands-on. Link to be added.", href:"", meta:"Coming soon", prods:["CLM"]},
+  {tag:"Lab 3", icon:"sfdc", title:"MSA + Salesforce", desc:"Extend the MSA flow with Salesforce so contract data lands in your CRM.", href:"3_MSA_SFDC_Flow.html", meta:"~60 min", prods:["Agent Studio","Salesforce"]}
+];
+// ----------------------------------------------------------------------------
+
+var activeProd = "All", grid = document.getElementById("labGrid"), qEl = document.getElementById("q");
+var allProds = ["All"].concat(Array.from(new Set(LABS.reduce(function(a,l){return a.concat(l.prods);},[]))));
+document.getElementById("chips").innerHTML = allProds.map(function(p){return '<button type="button" class="chip'+(p==="All"?' on':'')+'" data-p="'+p+'">'+p+'</button>';}).join("");
+document.getElementById("chips").addEventListener("click", function(e){
+  if(!e.target.dataset.p) return;
+  activeProd = e.target.dataset.p;
+  Array.from(this.children).forEach(function(c){c.classList.toggle("on", c.dataset.p===activeProd);});
+  render();
+});
+qEl.addEventListener("input", render);
+function render(){
+  var q = qEl.value.toLowerCase();
+  var list = LABS.filter(function(l){
+    return (activeProd==="All" || l.prods.indexOf(activeProd)>-1) && (l.title+" "+l.desc+" "+l.tag+" "+l.prods.join(" ")).toLowerCase().indexOf(q)>-1;
+  });
+  grid.innerHTML = list.length ? list.map(function(l){
+    var soon = !l.href;
+    return '<a class="card reveal'+(soon?' soon':'')+'" href="'+(l.href||'#')+'"><div class="ico">'+ICONS[l.icon]+'</div><div class="tag">'+l.tag+'</div><h3>'+l.title+'</h3><p>'+l.desc+'</p><div class="pills">'+l.prods.map(function(p){return '<span class="pill">'+p+'</span>';}).join("")+'</div><div class="meta">'+l.meta+'</div>'+(soon?'':'<div class="open">Open lab →</div>')+'</a>';
+  }).join("") : '<div class="empty">No labs match. Try another search, or submit your own below.</div>';
+  observe();
+}
+var io = ("IntersectionObserver" in window) ? new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.12}) : null;
+function observe(){ document.querySelectorAll(".reveal:not(.in)").forEach(function(el){ io ? io.observe(el) : el.classList.add("in"); }); }
+document.querySelectorAll("section .wrap > h2, .std div, .how div").forEach(function(el){el.classList.add("reveal");});
+render();
+
+// live stats from the data
+document.getElementById("sLabs").dataset.count = LABS.length;
+document.getElementById("sHours").dataset.count = LABS.filter(function(l){return l.href;}).length;
+document.querySelectorAll(".stat b").forEach(function(b){
+  var n = +b.dataset.count, i = 0, step = Math.max(1, Math.ceil(n/20));
+  var t = setInterval(function(){ i = Math.min(n, i+step); b.textContent = i; if(i>=n) clearInterval(t); }, 45);
+});
+
+// dark mode (remembered)
+var themeBtn = document.getElementById("theme");
+function setTheme(d){ document.body.classList.toggle("dark", d); themeBtn.innerHTML = d ? ICONS.sun : ICONS.moon; try{localStorage.setItem("hub-dark", d?"1":"0");}catch(e){} }
+themeBtn.addEventListener("click", function(){ setTheme(!document.body.classList.contains("dark")); });
+themeBtn.innerHTML = ICONS.moon;
+try{ if(localStorage.getItem("hub-dark")==="1") setTheme(true); }catch(e){}
+
+function collect(){
+  var f = document.getElementById("f"), d = {};
+  new FormData(f).forEach(function(v,k){ if(k!=="prod"&&k!=="chk") d[k]=v; });
+  d.products = Array.from(f.querySelectorAll('[name=prod]:checked')).map(function(x){return x.value;});
+  d.checklist = Array.from(f.querySelectorAll('[name=chk]:checked')).map(function(x){return x.value;});
+  return d;
+}
+function asText(d){
+  return "New PSA workshop submission\n\n"+
+   "Title: "+d.title+"\nType: "+d.type+"\nLevel: "+d.level+"\nProducts: "+d.products.join(", ")+
+   "\nDuration: "+(d.duration||"n/a")+" min\nLink: "+d.link+"\n\nOutcome:\n"+d.outcome+
+   "\n\nChecklist met: "+(d.checklist.join(", ")||"none")+"\nNotes: "+(d.notes||"none")+
+   "\n\nSubmitted by: "+d.name+" ("+d.email+"), "+(d.team||"n/a");
+}
+document.getElementById("f").addEventListener("submit", function(e){
+  e.preventDefault();
+  var d = collect();
+  location.href = "mailto:"+SUBMIT_EMAIL+"?subject="+encodeURIComponent("[PSA Workshop] "+d.title)+"&body="+encodeURIComponent(asText(d));
+  document.getElementById("status").textContent = "Opening your email client…";
+});
+document.getElementById("copyBtn").addEventListener("click", function(){
+  var f = document.getElementById("f");
+  if(!f.reportValidity()) return;
+  navigator.clipboard.writeText(JSON.stringify(collect(),null,2)).then(function(){
+    document.getElementById("status").textContent = "Copied. Paste it into Slack or a ticket.";
+  });
+});
+</script>
+</body>
+</html>
