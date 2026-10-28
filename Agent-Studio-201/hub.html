@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PSA Workshop Hub</title>
+<title>One PSA: PSA Workshop Hub</title>
 <style>
 @font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-Light.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap;}
 @font-face{font-family:'DSIndigo';src:url('https://docusign.github.io/PSA/Bengaluru-meetup/assets/fonts/DSIndigo-Medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap;}
@@ -100,6 +100,36 @@ body.dark header.top img.logo{filter:invert(1);}
 body.dark header.top .cta{background:var(--indigo);}
 body.dark #standards{background:#0d0222!important;}
 body.dark .chip.on{background:var(--indigo);}
+/* ---------- Docusign.com solutions-style layout ---------- */
+.intro{text-align:center;padding:64px 24px 12px;max-width:820px;margin:0 auto;}
+.intro h1{font-size:46px;font-weight:300;line-height:1.15;margin-bottom:16px;background:linear-gradient(90deg,#4C00FF 0%,#9B2FC9 55%,#C0207E 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.intro p{font-size:18px;color:var(--body);max-width:620px;margin:0 auto 18px;}
+.intro a{font-size:13.5px;font-weight:500;color:var(--indigo);text-decoration:none;}
+.intro a:hover{text-decoration:underline;}
+#labs .wrap{max-width:760px;}
+#labs h2,#labs .sub{display:none;}
+.tools{margin:18px 0 26px;gap:10px;}
+.vl{font-size:11.5px;font-weight:600;color:var(--ink);margin-right:4px;}
+#chips{display:inline-flex;gap:10px;flex-wrap:wrap;}
+.chip{border-radius:6px;padding:7px 14px;font-size:12px;}
+.chip.on{background:#C9BBFF;border-color:#C9BBFF;color:var(--ink);}
+#labs .grid{grid-template-columns:repeat(2,1fr);gap:20px;}
+#labs .card{background:#ECE4FF;border:none;box-shadow:none;border-radius:4px;padding:30px 32px 0;min-height:400px;}
+#labs .card:hover{transform:none;box-shadow:0 10px 26px rgba(76,0,255,.14);}
+#labs .card::before{display:none;}
+#labs .card .tag{color:var(--indigo);margin-bottom:10px;}
+#labs .card h3{font-size:21px;font-weight:500;line-height:1.25;margin-bottom:14px;}
+#labs .card p{font-size:13.5px;line-height:1.65;flex:none;margin-bottom:18px;}
+#labs .card .open{margin:0;font-size:12.5px;font-weight:500;}
+.art{margin-top:auto;padding-top:26px;height:190px;overflow:hidden;}
+.tile{display:flex;align-items:center;gap:10px;background:#fff;border-radius:12px;padding:11px 14px;margin-bottom:10px;width:78%;font-size:13px;font-weight:500;color:var(--ink);box-shadow:0 6px 18px rgba(76,0,255,.14);}
+.tile:nth-child(even){margin-left:22%;}
+.tile i{flex:0 0 22px;height:22px;border-radius:6px;background:#EFE9FF;position:relative;}
+.tile i::after{content:'';position:absolute;inset:6px;border:1.6px solid var(--indigo);border-radius:2px;}
+body.dark #labs .card{background:#1b0b3d;}
+body.dark .tile{background:#2a1558;color:var(--body);}
+body.dark .chip.on{background:#4a2ba8;border-color:#4a2ba8;color:#fff;}
+@media(max-width:700px){#labs .grid{grid-template-columns:1fr;}.intro h1{font-size:32px;}}
 @media(prefers-reduced-motion:reduce){.hero{animation:none}.reveal{opacity:1;transform:none;transition:none}}
 @media(max-width:640px){form{grid-template-columns:1fr;}}
 </style>
@@ -114,22 +144,16 @@ body.dark .chip.on{background:var(--indigo);}
   </div>
   <span><button id="theme" title="Toggle dark mode" aria-label="Toggle dark mode"></button><a class="cta" href="#submit">Submit content</a></span>
 </header>
-<div class="hero-wrap"><div class="hero">
-  <div class="kicker">PSA Workshop Hub</div>
-  <h1>One home for every PSA workshop</h1>
-  <p>Open a lab, reuse what a colleague already built, or submit your own so we all work from the same standard.</p>
-  <div class="stats">
-    <div class="stat"><b data-count="4" id="sLabs">0</b><span>Labs</span></div>
-    <div class="stat"><b data-count="3" id="sHours">0</b><span>Hours of hands-on</span></div>
-    <div class="stat"><b data-count="6" id="sStd">0</b><span>Content standards</span></div>
-    <div class="stat"><b data-count="1" id="sHub">0</b><span>Shared home</span></div>
-  </div>
-</div></div>
+<div class="intro">
+  <h1>Hands-on workshops for every PSA</h1>
+  <p>Run a lab, reuse what a colleague already built, or submit your own so we all work from the same standard.</p>
+  <a href="#submit">Submit your content ›</a>
+</div>
 
 <section id="labs"><div class="wrap">
   <h2>Workshop labs</h2>
   <p class="sub">Click a card to open the lab. Search or filter by product.</p>
-  <div class="tools"><input id="q" type="search" placeholder="Search labs…"><span id="chips"></span></div>
+  <div class="tools"><span class="vl">View labs</span><span id="chips"></span></div>
   <div class="grid" id="labGrid"></div>
 </div></section>
 
@@ -197,7 +221,7 @@ body.dark .chip.on{background:var(--indigo);}
   </form>
 </div></section>
 
-<footer>PSA Workshop Hub · Docusign internal · Maintained by the PSA team</footer>
+<footer>One PSA: PSA Workshop Hub · Docusign internal · Maintained by the PSA team</footer>
 
 <script>
 // ---- Edit these two things -------------------------------------------------
@@ -218,7 +242,13 @@ var LABS = [
 ];
 // ----------------------------------------------------------------------------
 
-var activeProd = "All", grid = document.getElementById("labGrid"), qEl = document.getElementById("q");
+var activeProd = "All", grid = document.getElementById("labGrid"), qEl = {value:""};
+var TILES = {
+  "Lab 1":["Find Agreements","Generate Documents","Party Insights","Ask the User"],
+  "Lab 2":["Find Agreements","Review Documents","Manage Requests"],
+  "Lab 3":["Agreement","Agent Studio","Salesforce"],
+  "CLM":["Coming soon"]
+};
 var allProds = ["All"].concat(Array.from(new Set(LABS.reduce(function(a,l){return a.concat(l.prods);},[]))));
 document.getElementById("chips").innerHTML = allProds.map(function(p){return '<button type="button" class="chip'+(p==="All"?' on':'')+'" data-p="'+p+'">'+p+'</button>';}).join("");
 document.getElementById("chips").addEventListener("click", function(e){
@@ -227,7 +257,6 @@ document.getElementById("chips").addEventListener("click", function(e){
   Array.from(this.children).forEach(function(c){c.classList.toggle("on", c.dataset.p===activeProd);});
   render();
 });
-qEl.addEventListener("input", render);
 function render(){
   var q = qEl.value.toLowerCase();
   var list = LABS.filter(function(l){
@@ -235,7 +264,7 @@ function render(){
   });
   grid.innerHTML = list.length ? list.map(function(l){
     var soon = !l.href;
-    return '<a class="card reveal'+(soon?' soon':'')+'" href="'+(l.href||'#')+'"><div class="ico">'+ICONS[l.icon]+'</div><div class="tag">'+l.tag+'</div><h3>'+l.title+'</h3><p>'+l.desc+'</p><div class="pills">'+l.prods.map(function(p){return '<span class="pill">'+p+'</span>';}).join("")+'</div><div class="meta">'+l.meta+'</div>'+(soon?'':'<div class="open">Open lab →</div>')+'</a>';
+    return '<a class="card reveal'+(soon?' soon':'')+'" href="'+(l.href||'#')+'"><div class="tag">'+l.tag+'</div><h3>'+l.title+'</h3><p>'+l.desc+'</p>'+(soon?'<div class="open">Coming soon</div>':'<div class="open">Explore '+l.tag+' ›</div>')+'<div class="art">'+(TILES[l.tag]||[]).map(function(t){return '<div class="tile"><i></i>'+t+'</div>';}).join("")+'</div></a>';
   }).join("") : '<div class="empty">No labs match. Try another search, or submit your own below.</div>';
   observe();
 }
@@ -244,13 +273,6 @@ function observe(){ document.querySelectorAll(".reveal:not(.in)").forEach(functi
 document.querySelectorAll("section .wrap > h2, .std div, .how div").forEach(function(el){el.classList.add("reveal");});
 render();
 
-// live stats from the data
-document.getElementById("sLabs").dataset.count = LABS.length;
-document.getElementById("sHours").dataset.count = LABS.filter(function(l){return l.href;}).length;
-document.querySelectorAll(".stat b").forEach(function(b){
-  var n = +b.dataset.count, i = 0, step = Math.max(1, Math.ceil(n/20));
-  var t = setInterval(function(){ i = Math.min(n, i+step); b.textContent = i; if(i>=n) clearInterval(t); }, 45);
-});
 
 // dark mode (remembered)
 var themeBtn = document.getElementById("theme");
