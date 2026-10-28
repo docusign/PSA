@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eef3f1">
+  <title>CLM Renewal Workflow</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17313c;
+      --muted: #64757d;
+      --line: #d7e0e3;
+      --paper: #ffffff;
+      --page: #eef3f1;
+      --teal: #16766c;
+      --blue: #326b9a;
+      --violet: #6254a3;
+      --amber: #ae731c;
+      --coral: #b94d42;
+      --green: #23845c;
+      --font: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--ink);
+      font-family: var(--font);
+      background-color: var(--page);
+      background-image: repeating-linear-gradient(135deg, rgba(38, 89, 84, .035) 0, rgba(38, 89, 84, .035) 1px, transparent 1px, transparent 13px);
+    }
+
+    main { width: min(100% - 40px, 1640px); margin: 0 auto; padding: 34px 0 56px; }
+    .page-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin: 0 2px 18px; }
+    .eyebrow { margin: 0 0 6px; color: var(--teal); font-size: 11px; font-weight: 750; text-transform: uppercase; }
+    h1 { margin: 0; font-size: 32px; line-height: 1.15; font-weight: 720; }
+    .page-heading p { max-width: 42ch; margin: 0 0 2px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+    .workflow-card {
+      overflow: hidden;
+      border: 1px solid #d5dfdf;
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: 0 12px 32px rgba(22, 49, 60, .08);
+      animation: enter .45s ease-out both;
+    }
+    .card-top { display: flex; justify-content: space-between; align-items: center; padding: 16px 22px; border-bottom: 1px solid var(--line); }
+    .card-top strong { font-size: 13px; }
+    .card-top span { color: var(--muted); font-size: 12px; }
+
+    .simulator { width: min(100% - 36px, 460px); margin: 20px auto 22px; display: grid; gap: 10px; }
+    .field label { display: block; margin-bottom: 6px; color: #435b65; font-size: 12px; font-weight: 700; }
+    select {
+      width: 100%; min-height: 42px; padding: 9px 36px 9px 12px;
+      border: 1px solid #aebfc2; border-radius: 6px; background: #fff; color: var(--ink);
+      font: 600 14px var(--font); cursor: pointer;
+    }
+    select:focus-visible, input:focus-visible, button:focus-visible { outline: 3px solid rgba(22, 118, 108, .28); outline-offset: 2px; }
+    .approval-toggle { display: flex; align-items: center; gap: 9px; min-height: 24px; color: #435b65; font-size: 13px; font-weight: 600; }
+    .approval-toggle input { width: 17px; height: 17px; margin: 0; accent-color: var(--green); }
+    .approval-toggle:has(input:disabled) { color: #96a4a8; }
+
+    .results-panel { padding: 13px 15px 14px; border: 1px solid #d5e0dc; border-left: 4px solid var(--teal); border-radius: 6px; background: #f5f8f6; }
+    .result-kicker { display: flex; align-items: center; gap: 7px; color: var(--teal); font-size: 10px; font-weight: 800; text-transform: uppercase; }
+    .result-kicker::before { width: 7px; height: 7px; border-radius: 50%; background: currentColor; content: ""; }
+    .results-panel[data-risk="high"] { border-left-color: var(--coral); background: #fbf5f2; }
+    .results-panel[data-risk="high"] .result-kicker { color: var(--coral); }
+    .results-panel h2 { margin: 6px 0 4px; font-size: 16px; }
+    .results-panel p { margin: 0; color: #52666f; font-size: 12.5px; line-height: 1.45; }
+    .final-step { display: flex; justify-content: space-between; gap: 12px; margin-top: 10px; padding-top: 9px; border-top: 1px solid #dce5e1; color: #586d73; font-size: 11.5px; }
+    .final-step strong { color: var(--green); text-align: right; }
+
+    .diagram-scroll { overflow-x: auto; overscroll-behavior-inline: contain; border-top: 1px solid var(--line); background: #fbfcfb; scrollbar-color: #9eafad #edf2f0; }
+    svg { display: block; width: 100%; min-width: 1260px; height: auto; }
+    .lane { fill: #f6f8f7; stroke: #d9e2e1; stroke-width: 1; }
+    .lane.iam { fill: #f8f7f2; }
+    .lane-label { fill: #edf2f1; stroke: #d9e2e1; stroke-width: 1; }
+    .lane-label.iam { fill: #f1eee4; }
+    .lane-name { fill: #536871; font: 800 12px var(--font); letter-spacing: 1px; }
+    .edge { fill: none; stroke: #9eafb4; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow); opacity: .25; transition: opacity .25s, stroke .25s; }
+    .edge.is-active { opacity: 1; }
+    .edge.is-active.common, .edge.is-active.low, .edge.is-active.post { stroke: var(--teal); }
+    .edge.is-active.high { stroke: var(--coral); }
+    .edge.is-active.approval { stroke: var(--amber); }
+    .branch-label { fill: #6d7f85; font: 800 11px var(--font); }
+    .step .shape { stroke-width: 2; transition: stroke .2s, stroke-width .2s, stroke-dasharray .2s; }
+    .step text { font-family: var(--font); text-anchor: middle; }
+    .step .title { fill: var(--ink); font-size: 14px; font-weight: 800; }
+    .step .subtitle { fill: #5e7179; font-size: 10.5px; font-weight: 550; }
+    .step .eyetag { font-size: 9px; font-weight: 800; letter-spacing: .5px; }
+    .start .shape, .finish .shape { fill: #e6f2ef; stroke: var(--teal); }
+    .request .shape, .draft .shape, .signature .shape, .extract .shape, .attributes .shape, .storage .shape { fill: #edf4f8; stroke: var(--blue); }
+    .request .eyetag, .draft .eyetag, .signature .eyetag, .extract .eyetag, .attributes .eyetag, .storage .eyetag { fill: var(--blue); }
+    .vendor .shape { fill: #f7f1e4; stroke: var(--amber); }
+    .vendor .eyetag { fill: var(--amber); }
+    .agent .shape { fill: #f0eef8; stroke: var(--violet); }
+    .agent .eyetag { fill: var(--violet); }
+    .legal .shape { fill: #fbefeb; stroke: var(--coral); }
+    .legal .eyetag { fill: var(--coral); }
+    .decision .shape { fill: #fff6dd; stroke: #c18b26; }
+    .decision .title { font-size: 13px; }
+    .step.is-final .shape { stroke: var(--green) !important; stroke-width: 3; stroke-dasharray: 8 5; filter: drop-shadow(0 2px 4px rgba(35, 132, 92, .18)); }
+    .diagram-caption { padding: 10px 20px 13px; color: #718187; font-size: 11px; }
+
+    @keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 720px) {
+      main { width: min(100% - 24px, 1640px); padding-top: 22px; }
+      .page-heading { display: block; }
+      h1 { font-size: 25px; }
+      .page-heading p { margin-top: 8px; }
+      .card-top { align-items: flex-start; flex-direction: column; gap: 4px; padding: 14px 16px; }
+      .simulator { width: calc(100% - 28px); margin: 15px auto 18px; }
+      svg { min-width: 1260px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="page-heading">
+      <div>
+        <p class="eyebrow">Agent Studio 202 · CLM + IAM</p>
+        <h1>Renewal Workflow</h1>
+      </div>
+      <p>Follow the renewal from request intake through risk review, signature, and agreement storage.</p>
+    </header>
+
+    <section class="workflow-card" aria-labelledby="card-title">
+      <div class="card-top">
+        <strong id="card-title">Workflow simulation</strong>
+        <span>Choose a risk result to preview its route</span>
+      </div>
+
+      <div class="simulator">
+        <div class="field">
+          <label for="risk-select">Risk Analyst score</label>
+          <select id="risk-select">
+            <option value="low">LOW risk</option>
+            <option value="high" selected>HIGH risk</option>
+          </select>
+        </div>
+        <label class="approval-toggle" for="legal-approved">
+          <input id="legal-approved" type="checkbox">
+          Legal approval granted
+        </label>
+        <section class="results-panel" id="results-panel" data-risk="high" role="status" aria-live="polite">
+          <div class="result-kicker">Route preview</div>
+          <h2 id="result-title">High risk · Legal review required</h2>
+          <p id="result-copy">The workflow pauses at Legal Review until approval is granted.</p>
+          <div class="final-step"><span>Selected final step</span><strong id="final-step">Legal Review</strong></div>
+        </section>
+      </div>
+
+      <div class="diagram-scroll" tabindex="0" aria-label="Scrollable renewal workflow diagram">
+        <svg id="workflow" viewBox="0 0 1780 650" role="img" aria-labelledby="diagram-title diagram-description" xmlns="http://www.w3.org/2000/svg">
+          <title id="diagram-title">CLM and IAM renewal workflow</title>
+          <desc id="diagram-description">A renewal request creates a vendor form and draft agreement. A Risk Analyst scores the draft. Low risk proceeds to signature; high risk pauses at Legal Review until approval. Signed agreements go through AI extraction, attribute application, and storage.</desc>
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M0 0L10 5L0 10z" fill="context-stroke" />
+            </marker>
+          </defs>
+
+          <rect class="lane" x="28" y="48" width="1724" height="350" rx="8" />
+          <rect class="lane iam" x="28" y="418" width="1724" height="205" rx="8" />
+          <rect class="lane-label" x="28" y="48" width="64" height="350" rx="8" />
+          <rect class="lane-label iam" x="28" y="418" width="64" height="205" rx="8" />
+          <text class="lane-name" x="60" y="223" transform="rotate(-90 60 223)" text-anchor="middle">CLM</text>
+          <text class="lane-name" x="60" y="520" transform="rotate(-90 60 520)" text-anchor="middle">IAM</text>
+
+          <g aria-hidden="true">
+            <path id="edge-start-request" class="edge common" d="M177 260H215" />
+            <path id="edge-request-vendor" class="edge common" d="M355 260V527H410" />
+            <path id="edge-vendor-draft" class="edge common" d="M590 527H535V305" />
+            <path id="edge-draft-agent" class="edge common" d="M615 260H650" />
+            <path id="edge-agent-decision" class="edge common" d="M795 260H840" />
+            <path id="edge-high-legal" class="edge high" d="M880 220V132H970" />
+            <path id="edge-legal-signature" class="edge approval" d="M1045 175V215" />
+            <path id="edge-low-signature" class="edge low" d="M920 260H970" />
+            <path id="edge-signature-extract" class="edge post" d="M1120 260H1155" />
+            <path id="edge-extract-attributes" class="edge post" d="M1305 260H1330" />
+            <path id="edge-attributes-storage" class="edge post" d="M1480 260H1505" />
+            <path id="edge-storage-end" class="edge post" d="M1655 260H1664" />
+          </g>
+
+          <text class="branch-label" x="896" y="194">HIGH</text>
+          <text class="branch-label" x="938" y="248">LOW</text>
+
+          <g class="step start" data-step="start">
+            <ellipse class="shape" cx="140" cy="260" rx="37" ry="29" />
+            <text class="title" x="140" y="264">Start</text>
+          </g>
+
+          <g class="step request" data-step="request">
+            <rect class="shape" x="215" y="215" width="140" height="90" rx="9" />
+            <text class="eyetag" x="285" y="236">CLM</text>
+            <text class="title" x="285" y="259">Create renewal</text>
+            <text class="subtitle" x="285" y="278">request</text>
+          </g>
+
+          <g class="step vendor" data-step="vendor">
+            <rect class="shape" x="410" y="485" width="180" height="84" rx="9" />
+            <text class="eyetag" x="500" y="506">IAM</text>
+            <text class="title" x="500" y="530">Send vendor form</text>
+            <text class="subtitle" x="500" y="548">collect renewal details</text>
+          </g>
+
+          <g class="step draft" data-step="draft">
+            <rect class="shape" x="465" y="215" width="150" height="90" rx="9" />
+            <text class="eyetag" x="540" y="236">CLM</text>
+            <text class="title" x="540" y="260">XML Merge</text>
+            <text class="subtitle" x="540" y="279">build renewal draft</text>
+          </g>
+
+          <g class="step agent" data-step="agent">
+            <rect class="shape" x="650" y="215" width="145" height="90" rx="9" />
+            <text class="eyetag" x="722" y="236">AGENT STUDIO</text>
+            <text class="title" x="722" y="260">Risk Analyst</text>
+            <text class="subtitle" x="722" y="279">scores the draft</text>
+          </g>
+
+          <g class="step decision" data-step="decision">
+            <polygon class="shape" points="880,220 920,260 880,300 840,260" />
+            <text class="title" x="880" y="257">Risk</text>
+            <text class="title" x="880" y="273">score?</text>
+          </g>
+
+          <g class="step legal" data-step="legal">
+            <rect class="shape" x="970" y="90" width="150" height="85" rx="9" />
+            <text class="eyetag" x="1045" y="111">HIGH RISK</text>
+            <text class="title" x="1045" y="136">Legal Review</text>
+            <text class="subtitle" x="1045" y="154">AI-assisted review</text>
+          </g>
+
+          <g class="step signature" data-step="signature">
+            <rect class="shape" x="970" y="215" width="150" height="90" rx="9" />
+            <text class="eyetag" x="1045" y="237">ESIGNATURE</text>
+            <text class="title" x="1045" y="261">Send for</text>
+            <text class="title" x="1045" y="279">signature</text>
+          </g>
+
+          <g class="step extract" data-step="extract">
+            <rect class="shape" x="1155" y="215" width="150" height="90" rx="9" />
+            <text class="eyetag" x="1230" y="237">POST-SIGN</text>
+            <text class="title" x="1230" y="261">AI data</text>
+            <text class="subtitle" x="1230" y="280">extraction</text>
+          </g>
+
+          <g class="step attributes" data-step="attributes">
+            <rect class="shape" x="1330" y="215" width="150" height="90" rx="9" />
+            <text class="eyetag" x="1405" y="237">CLM</text>
+            <text class="title" x="1405" y="261">Apply</text>
+            <text class="subtitle" x="1405" y="280">attributes</text>
+          </g>
+
+          <g class="step storage" data-step="storage">
+            <rect class="shape" x="1505" y="215" width="150" height="90" rx="9" />
+            <text class="eyetag" x="1580" y="237">CLM + IAM</text>
+            <text class="title" x="1580" y="261">Store</text>
+            <text class="subtitle" x="1580" y="280">executed agreement</text>
+          </g>
+
+          <g class="step finish" data-step="end">
+            <ellipse class="shape" cx="1700" cy="260" rx="36" ry="29" />
+            <text class="title" x="1700" y="264">End</text>
+          </g>
+        </svg>
+      </div>
+      <div class="diagram-caption">The green dashed outline marks the current end of the selected route. High-risk renewals wait at Legal Review until approved.</div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const riskSelect = document.getElementById('risk-select');
+      const approvalInput = document.getElementById('legal-approved');
+      const resultsPanel = document.getElementById('results-panel');
+      const resultTitle = document.getElementById('result-title');
+      const resultCopy = document.getElementById('result-copy');
+      const finalStep = document.getElementById('final-step');
+      const edges = Array.from(document.querySelectorAll('.edge'));
+      const steps = Array.from(document.querySelectorAll('.step'));
+      const commonRoute = ['edge-start-request', 'edge-request-vendor', 'edge-vendor-draft', 'edge-draft-agent', 'edge-agent-decision'];
+      const postSignRoute = ['edge-signature-extract', 'edge-extract-attributes', 'edge-attributes-storage', 'edge-storage-end'];
+
+      function activate(ids) {
+        ids.forEach(id => document.getElementById(id).classList.add('is-active'));
+      }
+
+      function render() {
+        const isLow = riskSelect.value === 'low';
+        const isApproved = approvalInput.checked;
+        approvalInput.disabled = isLow;
+        if (isLow) approvalInput.checked = false;
+
+        edges.forEach(edge => edge.classList.remove('is-active'));
+        steps.forEach(step => step.classList.remove('is-final'));
+        activate(commonRoute);
+
+        if (isLow) {
+          activate(['edge-low-signature', ...postSignRoute]);
+          resultTitle.textContent = 'Low risk · Direct to signature';
+          resultCopy.textContent = 'The renewal bypasses Legal Review, proceeds to signature, then moves through extraction and storage.';
+          finalStep.textContent = 'Agreement stored';
+          resultsPanel.dataset.risk = 'low';
+          document.querySelector('[data-step="end"]').classList.add('is-final');
+          return;
+        }
+
+        activate(['edge-high-legal']);
+        resultsPanel.dataset.risk = 'high';
+        if (isApproved) {
+          activate(['edge-legal-signature', ...postSignRoute]);
+          resultTitle.textContent = 'High risk · Approved for signature';
+          resultCopy.textContent = 'Legal approval is granted. The renewal proceeds to signature, extraction, and storage.';
+          finalStep.textContent = 'Agreement stored';
+          document.querySelector('[data-step="end"]').classList.add('is-final');
+        } else {
+          resultTitle.textContent = 'High risk · Legal review required';
+          resultCopy.textContent = 'The workflow pauses at Legal Review until approval is granted.';
+          finalStep.textContent = 'Legal Review';
+          document.querySelector('[data-step="legal"]').classList.add('is-final');
+        }
+      }
+
+      riskSelect.addEventListener('change', render);
+      approvalInput.addEventListener('change', render);
+      render();
+    })();
+  </script>
+</body>
+</html>
