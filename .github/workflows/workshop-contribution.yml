@@ -1,0 +1,42 @@
+name: Create workshop page from contribution
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  create:
+    if: contains(github.event.issue.labels.*.name, 'contribution')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Write issue body to file
+        env:
+          BODY: ${{ github.event.issue.body }}
+        run: printf '%s' "$BODY" > "$RUNNER_TEMP/body.md"
+
+      - name: Generate page and hub card
+        run: node scripts/add-contribution.js "$RUNNER_TEMP/body.md" "${{ github.event.issue.number }}"
+
+      - name: Open review PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE: ${{ github.event.issue.number }}
+        run: |
+          BRANCH="workshop-contribution-$ISSUE"
+          git config user.name "hub-bot"
+          git config user.email "hub-bot@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add workshops Agent-Studio-201/hub.html
+          git commit -m "Add workshop page from contribution #$ISSUE"
+          git push -u origin "$BRANCH"
+          gh pr create --base main --head "$BRANCH" \
+            --title "Workshop contribution #$ISSUE" \
+            --body "Generated from issue #$ISSUE. The submitter can edit workshops/ in this PR before merging. Merging publishes the page and its hub card."
+          gh issue comment "$ISSUE" --body "A workshop page has been generated and a review PR is open. Edit the page in that PR, then merge to publish."
