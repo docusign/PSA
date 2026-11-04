@@ -74,8 +74,10 @@ const anchor = "// -------------------------------------------------------------
 const idx = hub.indexOf(anchor);
 if (idx === -1) throw new Error("LABS end marker not found in hub.html");
 const closeIdx = hub.lastIndexOf("];", idx);
-const entry = `  {tag:"${esc(type)}", icon:"route", title:"${esc(title)}", desc:"${esc(outcome)}", href:"../workshops/${slug}/index.html", meta:"${duration ? duration + " min" : "Duration tbc"} · ${esc(level.split(" ")[0])}", prods:${JSON.stringify(products.length ? products : ["Other"])}}`;
+const entry = `  {tag:"${esc(type)}", icon:"route", title:"${esc(title)}", desc:"${esc(outcome)}", href:"../workshops/${slug}/index.html", meta:"${[duration ? duration + " min" : "Duration tbc", esc(level.split(" ")[0])].filter(Boolean).join(" · ")}", prods:${JSON.stringify(products.length ? products : ["Other"])}}`;
 const before = hub.slice(0, closeIdx).replace(/\}\s*$/, "},");
 fs.writeFileSync(hubPath, before + "\n" + entry + "\n" + hub.slice(closeIdx));
 
 console.log(`Created workshops/${slug}/index.html and added hub card for #${issueNumber}`);
+// Pass the slug to the workflow so it can link the submitter to their page.
+if (process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, "slug=" + slug + "\n");
