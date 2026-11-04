@@ -22,6 +22,7 @@ main{max-width:960px;margin:0 auto;padding:0 24px 80px;}
 h2{font-size:22px;font-weight:600;color:var(--ink);margin:36px 0 10px;}
 .todo{background:#fff8e6;border-left:4px solid #c47a06;padding:12px 16px;border-radius:6px;font-size:14px;color:#6b4a00;}
 a{color:var(--indigo);}
+.prompt{white-space:pre-wrap;background:var(--surface);border:1px solid var(--hairline);border-radius:8px;padding:14px;font-size:12.5px;font-family:ui-monospace,Menlo,monospace;}
 footer{text-align:center;color:var(--muted);font-size:12.5px;padding:24px;}
 </style>
 </head>
@@ -56,6 +57,10 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:24px;}
 
   <h2>Recap</h2>
   <p>Summarise what was built and where to go next.</p>
+
+  <h2>Verify with Glean</h2>
+  <p>Run this in your own Glean before merging, and fix anything it flags. It uses only your access.</p>
+  <pre class="prompt">{{GLEAN_PROMPT}}</pre>
 
   <h2>Source material</h2>
   <p><a href="{{LINK}}">{{LINK}}</a></p>
