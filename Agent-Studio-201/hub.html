@@ -184,8 +184,6 @@ body.dark .chip.on{background:#4a2ba8;border-color:#4a2ba8;color:#fff;}
   <h2>Submit workshop content</h2>
   <p class="sub">Built a lab, demo or guide? Fill this in and it gets queued for review and added to the hub.</p>
   <form id="f">
-    <div><label>Your name *</label><input name="name" required></div>
-    <div><label>Email *</label><input name="email" type="email" required></div>
     <div><label>Region / team</label><input name="team" placeholder="e.g. AMER PSA"></div>
     <div><label>Content title *</label><input name="title" required placeholder="e.g. Invoice Extraction with Agent Studio"></div>
     <div><label>Content type *</label>
@@ -214,7 +212,7 @@ body.dark .chip.on{background:#4a2ba8;border-color:#4a2ba8;color:#fff;}
       <label><input type="checkbox" name="chk" value="recap">Recap</label></div>
     <div class="full"><label>Known gaps or notes for reviewers</label><textarea name="notes"></textarea></div>
     <div class="full">
-      <button type="submit">Submit for review</button>
+      <button type="submit">Open submission form ›</button>
       <button type="button" class="ghost" id="copyBtn">Copy as JSON</button>
       <span id="status"></span>
     </div>
@@ -288,18 +286,20 @@ function collect(){
   d.checklist = Array.from(f.querySelectorAll('[name=chk]:checked')).map(function(x){return x.value;});
   return d;
 }
-function asText(d){
-  return "New PSA workshop submission\n\n"+
-   "Title: "+d.title+"\nType: "+d.type+"\nLevel: "+d.level+"\nProducts: "+d.products.join(", ")+
-   "\nDuration: "+(d.duration||"n/a")+" min\nLink: "+d.link+"\n\nOutcome:\n"+d.outcome+
-   "\n\nChecklist met: "+(d.checklist.join(", ")||"none")+"\nNotes: "+(d.notes||"none")+
-   "\n\nSubmitted by: "+d.name+" ("+d.email+"), "+(d.team||"n/a");
-}
+// Submissions go through a GitHub issue. A workflow turns it into a workshop
+// page under workshops/ and a card on this hub, in a review PR.
+var ISSUE_NEW = "https://github.com/docusign/PSA/issues/new?template=workshop-contribution.yml";
 document.getElementById("f").addEventListener("submit", function(e){
   e.preventDefault();
   var d = collect();
-  location.href = "mailto:"+SUBMIT_EMAIL+"?subject="+encodeURIComponent("[PSA Workshop] "+d.title)+"&body="+encodeURIComponent(asText(d));
-  document.getElementById("status").textContent = "Opening your email client…";
+  var url = ISSUE_NEW + "&title=" + encodeURIComponent("[Contribution] " + d.title)
+    + "&team=" + encodeURIComponent(d.team||"")
+    + "&duration=" + encodeURIComponent(d.duration||"")
+    + "&link=" + encodeURIComponent(d.link||"")
+    + "&outcome=" + encodeURIComponent(d.outcome||"")
+    + "&notes=" + encodeURIComponent(d.notes||"");
+  window.open(url, "_blank");
+  document.getElementById("status").textContent = "Opened the GitHub form. Check the fields there, then submit.";
 });
 document.getElementById("copyBtn").addEventListener("click", function(){
   var f = document.getElementById("f");
