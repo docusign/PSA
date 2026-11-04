@@ -37,6 +37,18 @@ if (!title || !link || !outcome) {
   process.exit(1);
 }
 
+// Same check the hub shows after submit; the submitter runs it in their own Glean.
+function gleanPrompt() {
+  return "Review this workshop I am submitting to the One PSA hub (a public GitHub Pages site).\n\n"
+    + "Title: " + title + "\nLink: " + link + "\nProducts: " + (products.join(", ") || "not set") + "\nOutcome: " + outcome + "\n\n"
+    + "1. Open the link. Can Docusign employees view it?\n"
+    + "2. Search for existing workshops or labs that cover the same thing. List any with links.\n"
+    + "3. Does the content actually use the products listed?\n"
+    + "4. Flag any customer names, internal-only data, credentials or confidential material, since the hub is public.\n"
+    + "5. Check it against our standard: prerequisites, copyable blocks, test inputs, guardrails, screenshots, recap. Which are missing?\n\n"
+    + "Reply with pass or flag for each, with one line of reason.";
+}
+
 // 1. Generate the workshop page.
 const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "contribution-" + issueNumber;
 const dir = path.join(root, "workshops", slug);
@@ -50,7 +62,8 @@ const page = fs.readFileSync(path.join(__dirname, "workshop-template", "index.ht
   .replace(/{{OUTCOME}}/g, html(outcome))
   .replace(/{{PRODUCTS}}/g, productPills)
   .replace(/{{DURATION}}/g, duration ? html(duration) + " min" : "Duration tbc")
-  .replace(/{{LINK}}/g, html(link));
+  .replace(/{{LINK}}/g, html(link))
+  .replace(/{{GLEAN_PROMPT}}/g, html(gleanPrompt()));
 fs.mkdirSync(dir, { recursive: true });
 fs.writeFileSync(path.join(dir, "index.html"), page);
 

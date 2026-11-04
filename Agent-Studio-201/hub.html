@@ -131,6 +131,12 @@ body.dark .tile{background:#2a1558;color:var(--body);}
 body.dark .chip.on{background:#4a2ba8;border-color:#4a2ba8;color:#fff;}
 @media(max-width:700px){#labs .grid{grid-template-columns:1fr;}.intro h1{font-size:32px;}}
 @media(prefers-reduced-motion:reduce){.hero{animation:none}.reveal{opacity:1;transform:none;transition:none}}
+.glean{margin-top:20px;background:#fff;border:1px solid var(--hairline);border-left:4px solid var(--indigo);border-radius:13px;padding:22px 24px;}
+.glean h3{font-size:17px;margin-bottom:6px;}
+.glean p{font-size:14px;color:var(--muted);margin-bottom:12px;}
+.glean pre{white-space:pre-wrap;background:var(--surface);border:1px solid var(--hairline);border-radius:8px;padding:14px;font-size:12.5px;margin-bottom:12px;font-family:ui-monospace,Menlo,monospace;}
+.glean-open{margin-left:12px;font-size:13.5px;font-weight:600;color:var(--indigo);text-decoration:none;}
+body.dark .glean{background:#150433;}
 @media(max-width:640px){form{grid-template-columns:1fr;}}
 </style>
 </head>
@@ -217,6 +223,13 @@ body.dark .chip.on{background:#4a2ba8;border-color:#4a2ba8;color:#fff;}
       <span id="status"></span>
     </div>
   </form>
+  <div id="gleanCheck" class="glean" hidden>
+    <h3>Check your content with your Glean</h3>
+    <p>Before a reviewer looks at it, run this in your own Glean (Glean Chat, or Glean MCP in Claude, Cursor or VS Code). It uses only your access.</p>
+    <pre id="gleanPrompt"></pre>
+    <button type="button" id="copyPrompt">Copy prompt</button>
+    <a class="glean-open" href="https://app.glean.com/chat" target="_blank" rel="noopener">Open Glean Chat ›</a>
+  </div>
 </div></section>
 
 <footer>One PSA: PSA Workshop Hub · Docusign internal · Maintained by the PSA team</footer>
@@ -299,7 +312,25 @@ document.getElementById("f").addEventListener("submit", function(e){
     + "&outcome=" + encodeURIComponent(d.outcome||"")
     + "&notes=" + encodeURIComponent(d.notes||"");
   window.open(url, "_blank");
+  document.getElementById("gleanPrompt").textContent = gleanPrompt(d);
+  document.getElementById("gleanCheck").hidden = false;
   document.getElementById("status").textContent = "Opened the GitHub form. Check the fields there, then submit.";
+});
+// Prompt the submitter runs in their own Glean to check their content.
+function gleanPrompt(d){
+  return "Review this workshop I am submitting to the One PSA hub (a public GitHub Pages site).\n\n"
+   + "Title: " + d.title + "\nLink: " + d.link + "\nProducts: " + (d.products.join(", ") || "not set") + "\nOutcome: " + d.outcome + "\n\n"
+   + "1. Open the link. Can Docusign employees view it?\n"
+   + "2. Search for existing workshops or labs that cover the same thing. List any with links.\n"
+   + "3. Does the content actually use the products listed?\n"
+   + "4. Flag any customer names, internal-only data, credentials or confidential material, since the hub is public.\n"
+   + "5. Check it against our standard: prerequisites, copyable blocks, test inputs, guardrails, screenshots, recap. Which are missing?\n\n"
+   + "Reply with pass or flag for each, with one line of reason.";
+}
+document.getElementById("copyPrompt").addEventListener("click", function(){
+  navigator.clipboard.writeText(document.getElementById("gleanPrompt").textContent).then(function(){
+    document.getElementById("copyPrompt").textContent = "Copied";
+  });
 });
 document.getElementById("copyBtn").addEventListener("click", function(){
   var f = document.getElementById("f");
