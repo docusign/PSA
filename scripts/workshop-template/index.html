@@ -23,6 +23,7 @@ h2{font-size:22px;font-weight:600;color:var(--ink);margin:36px 0 10px;}
 .todo{background:#fff8e6;border-left:4px solid #c47a06;padding:12px 16px;border-radius:6px;font-size:14px;color:#6b4a00;}
 a{color:var(--indigo);}
 .prompt{white-space:pre-wrap;background:var(--surface);border:1px solid var(--hairline);border-radius:8px;padding:14px;font-size:12.5px;font-family:ui-monospace,Menlo,monospace;}
+.glean-btn{background:var(--indigo);color:#fff;border:none;border-radius:8px;padding:10px 20px;font:inherit;font-weight:600;font-size:14px;cursor:pointer;}
 footer{text-align:center;color:var(--muted);font-size:12.5px;padding:24px;}
 </style>
 </head>
@@ -30,7 +31,7 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:24px;}
 <header><a href="../../Agent-Studio-201/hub.html">← One PSA: PSA Workshop Hub</a><span style="font-size:13px;color:var(--muted)">{{TEAM}}</span></header>
 
 <div class="hero">
-  <div class="kicker">{{TYPE}} · {{LEVEL}}</div>
+  <div class="kicker">{{KICKER}}</div>
   <h1>{{TITLE}}</h1>
   <p>{{OUTCOME}}</p>
 </div>
@@ -59,12 +60,23 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:24px;}
   <p>Summarise what was built and where to go next.</p>
 
   <h2>Verify with Glean</h2>
-  <p>Run this in your own Glean before merging, and fix anything it flags. It uses only your access.</p>
+  <p>Click the button: it copies this prompt and opens Glean Chat. Paste it there and fix anything it flags. It uses only your own access.</p>
   <pre class="prompt">{{GLEAN_PROMPT}}</pre>
+  <p><button type="button" class="glean-btn" id="gleanBtn">Check with Glean ›</button></p>
 
   <h2>Source material</h2>
   <p><a href="{{LINK}}">{{LINK}}</a></p>
 </main>
 <footer>One PSA · Docusign internal</footer>
+<script>
+// Open Glean inside the click so pop-up blockers allow it, then copy the prompt.
+document.getElementById("gleanBtn").addEventListener("click", function(){
+  var b = this;
+  window.open("https://app.glean.com/chat", "_blank", "noopener");
+  navigator.clipboard.writeText(document.querySelector(".prompt").textContent).then(function(){
+    b.textContent = "Copied. Paste it in Glean ›";
+  });
+});
+</script>
 </body>
 </html>
