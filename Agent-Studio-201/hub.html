@@ -47,18 +47,13 @@ h2{font-size:22px;color:var(--ink);margin-bottom:6px;}
 .meta{margin-top:14px;font-size:12px;color:var(--muted);}
 .open{margin-top:10px;font-weight:700;font-size:13px;color:var(--indigo);}
 .intake{background:var(--surface);border-top:1px solid var(--hairline);}
-form{background:#fff;border:1px solid var(--hairline);border-radius:13px;padding:24px;box-shadow:0 2px 6px rgba(19,0,50,.05);display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.full{grid-column:1/-1;}
-label{display:block;font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:5px;}
-input,select,textarea{width:100%;padding:9px 11px;border:1px solid #cfc9e0;border-radius:8px;font:inherit;font-size:14px;background:#fff;}
-input:focus,select:focus,textarea:focus{outline:2px solid var(--indigo);border-color:transparent;}
-textarea{min-height:76px;resize:vertical;}
-.checks label{display:inline-block;font-weight:500;margin-right:16px;}
-.checks input{width:auto;margin-right:5px;}
-.hint{font-size:12px;color:var(--muted);margin-top:3px;}
-button{background:var(--indigo);color:#fff;border:none;border-radius:8px;padding:11px 22px;font-weight:700;font-size:14px;cursor:pointer;}
-button.ghost{background:#fff;color:var(--indigo);border:1px solid var(--indigo);margin-left:8px;}
-#status{font-size:13px;margin-left:12px;color:var(--muted);}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;}
+.opts div{display:flex;flex-direction:column;background:#fff;border:1px solid var(--hairline);border-radius:13px;padding:24px;box-shadow:0 2px 6px rgba(19,0,50,.05);}
+.opts b{color:var(--ink);font-size:16px;margin-bottom:6px;}
+.opts span{font-size:13.5px;color:var(--muted);flex:1;margin-bottom:16px;}
+.btn{align-self:flex-start;background:var(--indigo);color:#fff;border:1px solid var(--indigo);border-radius:8px;padding:10px 20px;font-weight:700;font-size:14px;text-decoration:none;}
+.btn.ghost{background:#fff;color:var(--indigo);}
+.hint{font-size:13px;color:var(--muted);margin-top:16px;}
 .std{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
 .std div{border-left:3px solid var(--indigo);padding:4px 0 4px 12px;font-size:14px;}
 .std b{display:block;color:var(--ink);}
@@ -95,7 +90,7 @@ footer{padding:26px 24px;color:var(--muted);font-size:12.5px;text-align:center;}
 .how span{font-size:13.5px;color:var(--muted);}
 #theme{background:none;border:1px solid var(--hairline);border-radius:7px;padding:6px 10px;font-size:14px;cursor:pointer;margin-right:10px;color:inherit;}
 body.dark{--ink:#f3eeff;--body:#d9d0f2;--muted:#a79fc4;--surface:#1b0b3d;--hairline:#33205f;background:#0d0222;}
-body.dark header.top,body.dark .card,body.dark form,body.dark .how div,body.dark .chip,body.dark input,body.dark select,body.dark textarea{background:#150433;color:var(--body);}
+body.dark header.top,body.dark .card,body.dark .how div,body.dark .chip{background:#150433;color:var(--body);}
 body.dark header.top img.logo{filter:invert(1);}
 body.dark header.top .cta{background:var(--indigo);}
 body.dark #standards{background:#0d0222!important;}
@@ -131,13 +126,7 @@ body.dark .tile{background:#2a1558;color:var(--body);}
 body.dark .chip.on{background:#4a2ba8;border-color:#4a2ba8;color:#fff;}
 @media(max-width:700px){#labs .grid{grid-template-columns:1fr;}.intro h1{font-size:32px;}}
 @media(prefers-reduced-motion:reduce){.hero{animation:none}.reveal{opacity:1;transform:none;transition:none}}
-.glean{margin-top:20px;background:#fff;border:1px solid var(--hairline);border-left:4px solid var(--indigo);border-radius:13px;padding:22px 24px;}
-.glean h3{font-size:17px;margin-bottom:6px;}
-.glean p{font-size:14px;color:var(--muted);margin-bottom:12px;}
-.glean pre{white-space:pre-wrap;background:var(--surface);border:1px solid var(--hairline);border-radius:8px;padding:14px;font-size:12.5px;margin-bottom:12px;font-family:ui-monospace,Menlo,monospace;}
-.glean-open{margin-left:12px;font-size:13.5px;font-weight:600;color:var(--indigo);text-decoration:none;}
-body.dark .glean{background:#150433;}
-@media(max-width:640px){form{grid-template-columns:1fr;}}
+body.dark .opts div,body.dark .btn.ghost{background:#150433;}
 </style>
 </head>
 <body>
@@ -180,62 +169,26 @@ body.dark .glean{background:#150433;}
   <h2>How contributing works</h2>
   <p class="sub">From your draft to a lab everyone can run in three steps.</p>
   <div class="how">
-    <div><b>Build it</b><span>Create your lab and check it against the content standards.</span></div>
-    <div><b>Submit it</b><span>Fill in the form below with a link and a short outcome.</span></div>
-    <div><b>We publish it</b><span>It gets reviewed and added as a card on this hub for every PSA to reuse.</span></div>
+    <div><b>Draft it in Confluence</b><span>Start from the PSA Workbook template, or add your existing deck, doc or lab.</span></div>
+    <div><b>Label it submitted</b><span>An automated Glean check posts a report on your page, then a reviewer approves it.</span></div>
+    <div><b>We publish it</b><span>Approved content is converted to the hub format and added as a card here.</span></div>
   </div>
 </div></section>
 
 <section class="intake" id="submit"><div class="wrap">
   <h2>Submit workshop content</h2>
-  <p class="sub">Built a lab, demo or guide? Fill this in and it gets queued for review and added to the hub.</p>
-  <form id="f">
-    <div><label>Region / team</label><input name="team" placeholder="e.g. AMER PSA"></div>
-    <div><label>Content title *</label><input name="title" required placeholder="e.g. Invoice Extraction with Agent Studio"></div>
-    <div><label>Content type *</label>
-      <select name="type" required><option value="">Select…</option><option>Hands-on lab</option><option>Demo script</option><option>Slide deck</option><option>Guide / how-to</option><option>Sample data / assets</option></select></div>
-    <div><label>Level</label>
-      <select name="level"><option>101 – Intro</option><option selected>201 – Intermediate</option><option>301 – Advanced</option></select></div>
-    <div class="full checks"><label>Products used</label>
-      <label><input type="checkbox" name="prod" value="Agent Studio">Agent Studio</label>
-      <label><input type="checkbox" name="prod" value="Workflow Builder">Workflow Builder</label>
-      <label><input type="checkbox" name="prod" value="CLM">CLM</label>
-      <label><input type="checkbox" name="prod" value="eSignature">eSignature</label>
-      <label><input type="checkbox" name="prod" value="Navigator">Navigator</label>
-      <label><input type="checkbox" name="prod" value="MCP">MCP</label>
-      <label><input type="checkbox" name="prod" value="Salesforce">Salesforce</label>
-      <label><input type="checkbox" name="prod" value="Other">Other</label></div>
-    <div class="full"><label>What does the attendee build? *</label><textarea name="outcome" required></textarea></div>
-    <div><label>Duration (minutes)</label><input name="duration" type="number" min="10" step="5" placeholder="60"></div>
-    <div><label>Link to content *</label><input name="link" type="url" required placeholder="Drive / GitHub / SharePoint URL">
-      <div class="hint">Make sure the link is viewable by Docusign employees.</div></div>
-    <div class="full checks"><label>Checklist</label>
-      <label><input type="checkbox" name="chk" value="prereqs">Prerequisites</label>
-      <label><input type="checkbox" name="chk" value="copyable">Copyable blocks</label>
-      <label><input type="checkbox" name="chk" value="tests">Test inputs</label>
-      <label><input type="checkbox" name="chk" value="guardrails">Guardrails</label>
-      <label><input type="checkbox" name="chk" value="screens">Screenshots</label>
-      <label><input type="checkbox" name="chk" value="recap">Recap</label></div>
-    <div class="full"><label>Known gaps or notes for reviewers</label><textarea name="notes"></textarea></div>
-    <div class="full">
-      <button type="submit">Open submission form ›</button>
-      <button type="button" class="ghost" id="copyBtn">Copy as JSON</button>
-      <span id="status"></span>
-    </div>
-  </form>
-  <div id="gleanCheck" class="glean" hidden>
-    <h3>Check your content with your Glean</h3>
-    <p>Click the button: it copies the prompt and opens Glean Chat. Paste it there (Cmd+V) and press Enter. It runs with only your own access, and nothing is posted publicly.</p>
-    <pre id="gleanPrompt"></pre>
-    <button type="button" id="copyPrompt">Check with Glean ›</button>
+  <p class="sub">Submissions are drafted and reviewed in Confluence, inside Docusign, before anything is published here. You need your Docusign login.</p>
+  <div class="opts">
+    <div><b>Create in PSA Workbook format</b><span>Recommended. Copy the workbook template so your lab follows the standard structure from the start.</span><a class="btn" href="https://docusign.atlassian.net/wiki/spaces/~71202092e239965dd04cb292d6491256d0f14f/pages/3075342460/PSA+Workbook+Template" target="_blank" rel="noopener">Open the template ›</a></div>
+    <div><b>Submit existing content</b><span>Already have a deck, doc or lab? Add it as a page under Submissions with the label <code>needs-conversion</code>.</span><a class="btn ghost" href="https://docusign.atlassian.net/wiki/spaces/~71202092e239965dd04cb292d6491256d0f14f/pages/3074982205/PSA+Workshop+Submissions" target="_blank" rel="noopener">Go to Submissions ›</a></div>
   </div>
+  <p class="hint">Every submission gets an automated Glean check (duplicates, outdated names, confidentiality, accuracy) and then a reviewer's sign-off. Please don't open GitHub issues or PRs with draft content: this site is public.</p>
 </div></section>
 
-<footer>One PSA: PSA Workshop Hub · Docusign internal · Maintained by the PSA team</footer>
+<footer>One PSA: PSA Workshop Hub · Maintained by the Docusign PSA team · Synthetic data only</footer>
 
 <script>
-// ---- Edit these two things -------------------------------------------------
-var SUBMIT_EMAIL = "amrit.prakash@docusign.com"; // where submissions go (replace with your DL)
+// ---- Edit the LABS list below to add a card ---------------------------------
 var ICONS = {
   nda:'<svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8.5 13.5c1.2-1.6 2-1.6 2.4 0s1.2 1.4 2.6-.4"/><path d="M8.5 17h7"/></svg>',
   route:'<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="5.5" r="2"/><circle cx="19" cy="18.5" r="2"/><path d="M7 12h3c2 0 2-6.5 7-6.5M10 12c2 0 2 6.5 7 6.5"/></svg>',
@@ -249,7 +202,7 @@ var LABS = [
   {tag:"Lab 2", icon:"route", title:"Risk-Based Routing", desc:"Risk-scoring agent wired into Workflow Builder. Low risk to signature, high risk to human review.", href:"2_Hands_on_Flow.html", meta:"~60 min", prods:["Agent Studio","Workflow Builder"]},
   {tag:"CLM", icon:"clm", title:"CLM Lab", desc:"Contract lifecycle management hands-on. Link to be added.", href:"", meta:"Coming soon", prods:["CLM"]},
   {tag:"Lab 3", icon:"sfdc", title:"MSA + Salesforce", desc:"Extend the MSA flow with Salesforce so contract data lands in your CRM.", href:"3_MSA_SFDC_Flow.html", meta:"~60 min", prods:["Agent Studio","Salesforce"]},
-  {tag:"Guide / how-to", icon:"route", title:"Dropbox Sign to Docusign Reference Implementation", desc:"Customers and partners", href:"../workshops/dropbox-sign-to-docusign-reference-implementation/index.html", meta:"Duration tbc", prods:["eSignature"]}
+  {tag:"Guide / how-to", icon:"route", title:"Dropbox Sign to Docusign Reference Implementation", desc:"Reference code for mapping a Dropbox Sign template migration onto Docusign APIs. Sandbox use only, not production-ready.", href:"https://github.com/docusign/PSA/tree/main/dropbox-sign-to-docusign-reference", meta:"Reference code", prods:["eSignature"]}
 ];
 // ----------------------------------------------------------------------------
 
@@ -291,56 +244,6 @@ function setTheme(d){ document.body.classList.toggle("dark", d); themeBtn.innerH
 themeBtn.addEventListener("click", function(){ setTheme(!document.body.classList.contains("dark")); });
 themeBtn.innerHTML = ICONS.moon;
 try{ if(localStorage.getItem("hub-dark")==="1") setTheme(true); }catch(e){}
-
-function collect(){
-  var f = document.getElementById("f"), d = {};
-  new FormData(f).forEach(function(v,k){ if(k!=="prod"&&k!=="chk") d[k]=v; });
-  d.products = Array.from(f.querySelectorAll('[name=prod]:checked')).map(function(x){return x.value;});
-  d.checklist = Array.from(f.querySelectorAll('[name=chk]:checked')).map(function(x){return x.value;});
-  return d;
-}
-// Submissions go through a GitHub issue. A workflow turns it into a workshop
-// page under workshops/ and a card on this hub, in a review PR.
-var ISSUE_NEW = "https://github.com/docusign/PSA/issues/new?template=workshop-contribution.yml";
-document.getElementById("f").addEventListener("submit", function(e){
-  e.preventDefault();
-  var d = collect();
-  var url = ISSUE_NEW + "&title=" + encodeURIComponent("[Contribution] " + d.title)
-    + "&team=" + encodeURIComponent(d.team||"")
-    + "&duration=" + encodeURIComponent(d.duration||"")
-    + "&link=" + encodeURIComponent(d.link||"")
-    + "&outcome=" + encodeURIComponent(d.outcome||"")
-    + "&notes=" + encodeURIComponent(d.notes||"");
-  window.open(url, "_blank");
-  document.getElementById("gleanPrompt").textContent = gleanPrompt(d);
-  document.getElementById("gleanCheck").hidden = false;
-  document.getElementById("status").textContent = "Opened the GitHub form. Check the fields there, then submit.";
-});
-// Prompt the submitter runs in their own Glean to check their content.
-function gleanPrompt(d){
-  return "Review this workshop I am submitting to the One PSA hub (a public GitHub Pages site).\n\n"
-   + "Title: " + d.title + "\nLink: " + d.link + "\nProducts: " + (d.products.join(", ") || "not set") + "\nOutcome: " + d.outcome + "\n\n"
-   + "1. Open the link. Can Docusign employees view it?\n"
-   + "2. Search for existing workshops or labs that cover the same thing. List any with links.\n"
-   + "3. Does the content actually use the products listed?\n"
-   + "4. Flag any customer names, internal-only data, credentials or confidential material, since the hub is public.\n"
-   + "5. Check it against our standard: prerequisites, copyable blocks, test inputs, guardrails, screenshots, recap. Which are missing?\n\n"
-   + "Reply with pass or flag for each, with one line of reason.";
-}
-// Open Glean inside the click so pop-up blockers allow it, then copy the prompt.
-document.getElementById("copyPrompt").addEventListener("click", function(){
-  window.open("https://app.glean.com/chat", "_blank", "noopener");
-  navigator.clipboard.writeText(document.getElementById("gleanPrompt").textContent).then(function(){
-    document.getElementById("copyPrompt").textContent = "Copied. Paste it in Glean ›";
-  });
-});
-document.getElementById("copyBtn").addEventListener("click", function(){
-  var f = document.getElementById("f");
-  if(!f.reportValidity()) return;
-  navigator.clipboard.writeText(JSON.stringify(collect(),null,2)).then(function(){
-    document.getElementById("status").textContent = "Copied. Paste it into Slack or a ticket.";
-  });
-});
 </script>
 </body>
 </html>
