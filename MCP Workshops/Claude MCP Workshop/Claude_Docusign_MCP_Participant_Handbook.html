@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docusign MCP × Claude — Hands-On Workshop</title>
+<style>
+:root {
+  --teal:        #0A5C47;
+  --teal-mid:    #0F7A60;
+  --teal-light:  #E6F4EF;
+  --teal-xlight: #F2FAF7;
+  --dark:        #1A1A2E;
+  --mid:         #555566;
+  --gray-bg:     #F7F8FA;
+  --gray-border: #E2E6EA;
+  --amber:       #854F0B;
+  --amber-bg:    #FEF9EE;
+  --amber-border:#F0C060;
+  --red:         #9B2335;
+  --red-bg:      #FDF2F4;
+  --blue:        #1A5FA8;
+  --blue-bg:     #EEF4FD;
+  --blue-border: #B5CFF4;
+  --purple:      #4C3DAA;
+  --purple-bg:   #F0EEFF;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+       font-size: 15px; line-height: 1.65; color: var(--dark); background: #fff; }
+.sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 248px;
+  background: var(--teal); overflow-y: auto; z-index: 100; display: flex; flex-direction: column; }
+.main { padding: 0 52px 100px; max-width: 920px;
+  margin-left: max(248px, calc(50% - 460px));
+  margin-right: auto; }
+@media (max-width: 860px) { .sidebar { display:none; }
+  .main { margin-left:0; margin-right:0; padding:16px 20px 80px; max-width:100%; } }
+.sb-brand { padding: 24px 20px 18px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+.sb-brand .name { color:#fff; font-size:17px; font-weight:700; letter-spacing:-.01em; }
+.sb-brand .sub  { color:rgba(255,255,255,.55); font-size:11px; margin-top:3px; }
+.sb-section { padding: 14px 20px 4px; color:rgba(255,255,255,.4);
+  font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.09em; }
+.sidebar nav a { display: flex; align-items: center; gap: 9px;
+  padding: 8px 20px; color: rgba(255,255,255,.78);
+  text-decoration: none; font-size: 13px; transition: all .15s; }
+.sidebar nav a:hover  { background:rgba(255,255,255,.1); color:#fff; }
+.sidebar nav a.active { background:rgba(255,255,255,.16); color:#fff;
+  font-weight:600; border-left:3px solid #fff; }
+.sb-icon { width:16px; text-align:center; flex-shrink:0; }
+.hero { background: linear-gradient(135deg, var(--teal) 0%, #063D2F 100%);
+  color: #fff; padding: 52px 52px 44px; margin: 0 -52px 0; border-radius: 0 0 20px 20px; }
+.hero-tag { background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.3);
+  display:inline-block; padding:4px 14px; border-radius:20px;
+  font-size:11px; font-weight:700; letter-spacing:.07em; margin-bottom:18px; }
+.hero h1 { font-size:32px; font-weight:800; line-height:1.2; margin-bottom:10px; }
+.hero .sub { font-size:16px; opacity:.82; margin-bottom:28px; max-width:600px; }
+.hero-pills { display:flex; gap:10px; flex-wrap:wrap; }
+.hero-pill { background:rgba(255,255,255,.13); border:1px solid rgba(255,255,255,.28);
+  padding:6px 16px; border-radius:20px; font-size:13px; }
+section { padding-top: 64px; }
+section:first-of-type { padding-top: 44px; }
+.section-header { display:flex; align-items:center; gap:14px; border-bottom:2px solid var(--teal);
+  padding-bottom:14px; margin-bottom:30px; }
+.sec-num { background:var(--teal); color:#fff; width:34px; height:34px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0; }
+h2 { font-size:22px; font-weight:700; color:var(--teal); }
+h3 { font-size:16px; font-weight:700; margin:26px 0 10px; }
+h4 { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.07em;
+  color:var(--mid); margin:18px 0 7px; }
+p  { margin-bottom:13px; }
+.callout { border-radius:10px; padding:15px 18px; margin:16px 0;
+  display:flex; gap:13px; align-items:flex-start; }
+.callout-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+.callout p { margin:0; font-size:14px; }
+.callout strong { display:block; margin-bottom:3px; }
+.callout-teal   { background:var(--teal-light); border:1px solid #A8D9C8; }
+.callout-amber  { background:var(--amber-bg);   border:1px solid var(--amber-border); }
+.callout-blue   { background:var(--blue-bg);    border:1px solid var(--blue-border); }
+.callout-red    { background:var(--red-bg);     border:1px solid #E8B4BB; }
+.card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin:20px 0; }
+.stat-card { background:var(--gray-bg); border:1px solid var(--gray-border);
+  border-radius:10px; padding:16px 18px; }
+.stat-card .lbl { font-size:11px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.06em; color:var(--mid); margin-bottom:6px; }
+.stat-card .val { font-size:24px; font-weight:700; color:var(--teal); }
+.stat-card .sub { font-size:12px; color:var(--mid); margin-top:3px; }
+.steps { counter-reset: step; }
+.step  { display:flex; gap:16px; margin-bottom:22px; }
+.step::before { content:counter(step); counter-increment:step;
+  background:var(--teal); color:#fff; width:28px; height:28px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:700; flex-shrink:0; margin-top:2px; }
+.step-body strong { display:block; margin-bottom:4px; }
+.step-body p { margin:0; color:var(--mid); font-size:14px; }
+.step-body code { font-size:12px; }
+.prompt-block { background:var(--teal-light); border:1px solid #A8D9C8; border-radius:10px; overflow:hidden; margin:14px 0 22px; }
+.prompt-block .prompt-text { background:#FFFFFF; }
+.prompt-label { background:var(--teal); color:#fff; font-size:11px; font-weight:700;
+  padding:7px 14px; text-transform:uppercase; letter-spacing:.06em;
+  display:flex; align-items:center; justify-content:space-between; }
+.prompt-label .tag { background:rgba(255,255,255,.2); padding:2px 9px; border-radius:4px; font-size:10px; }
+.copy-btn { background:rgba(255,255,255,.18); border:none; color:#fff; font-size:11px;
+  padding:3px 11px; border-radius:4px; cursor:pointer; font-family:inherit; transition: background .15s; }
+.copy-btn:hover { background:rgba(255,255,255,.32); }
+.copy-btn.copied { background:rgba(100,220,160,.35); }
+.prompt-text { padding:16px 18px; color:var(--dark); font-size:13.5px; line-height:1.75;
+  font-family:'Menlo','Consolas','Monaco',monospace; white-space:pre-wrap; }
+code { background:#EFF2F7; color:var(--teal); padding:2px 6px;
+  border-radius:4px; font-size:13px; font-family:'Menlo','Consolas',monospace; }
+table { width:100%; border-collapse:collapse; margin:14px 0 22px; font-size:14px; }
+th { background:var(--teal); color:#fff; padding:10px 14px; text-align:left; font-size:13px; }
+td { padding:10px 14px; border-bottom:1px solid var(--gray-border); vertical-align:top; }
+tr:nth-child(even) td { background:var(--gray-bg); }
+tr:last-child td { border-bottom:none; }
+.badge { display:inline-block; padding:2px 10px; border-radius:12px;
+  font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; }
+.badge-green  { background:var(--teal-light); color:var(--teal); }
+.badge-amber  { background:var(--amber-bg);   color:var(--amber); }
+.badge-blue   { background:var(--blue-bg);    color:var(--blue); }
+.badge-purple { background:var(--purple-bg);  color:var(--purple); }
+.badge-red    { background:var(--red-bg);     color:var(--red); }
+a { color:var(--teal); text-decoration:none; }
+a:hover { text-decoration:underline; }
+.btn { display:inline-flex; align-items:center; gap:7px; background:var(--teal);
+  color:#fff; padding:9px 20px; border-radius:7px; font-size:13px;
+  font-weight:600; text-decoration:none; transition:background .15s; }
+.btn:hover { background:var(--teal-mid); text-decoration:none; }
+.btn-outline { display:inline-flex; align-items:center; gap:7px;
+  border:1.5px solid var(--teal); color:var(--teal); padding:8px 18px;
+  border-radius:7px; font-size:13px; font-weight:600; text-decoration:none;
+  transition:background .15s; }
+.btn-outline:hover { background:var(--teal-light); text-decoration:none; }
+ul.flist { list-style:none; padding:0; }
+ul.flist li { padding:7px 0 7px 28px; position:relative; font-size:14px;
+  border-bottom:1px solid var(--gray-border); }
+ul.flist li:last-child { border-bottom:none; }
+ul.flist li::before { content:'✓'; position:absolute; left:4px; color:var(--teal); font-weight:700; }
+.timeline { border-left:3px solid var(--teal); padding-left:24px; margin:16px 0 24px; }
+.tl-item  { margin-bottom:22px; position:relative; }
+.tl-item::before { content:''; position:absolute; left:-31px; top:5px;
+  width:12px; height:12px; background:var(--teal); border-radius:50%; }
+.tl-time  { font-size:11px; color:var(--mid); font-weight:700; text-transform:uppercase; letter-spacing:.05em; }
+.tl-title { font-weight:700; margin-top:2px; font-size:15px; }
+.tl-desc  { font-size:14px; color:var(--mid); margin-top:3px; }
+.chat { background:var(--gray-bg); border:1px solid var(--gray-border);
+  border-radius:12px; padding:18px; margin:16px 0; }
+.chat-msg { display:flex; gap:10px; margin-bottom:14px; }
+.chat-msg:last-child { margin-bottom:0; }
+.av { width:32px; height:32px; border-radius:50%; display:flex; align-items:center;
+  justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; }
+.av-u { background:var(--blue-bg); color:var(--blue); }
+.av-c { background:var(--teal-light); color:var(--teal); }
+.bubble { border-radius:8px; padding:10px 14px; font-size:13.5px; flex:1; line-height:1.6; }
+.bubble-u { background:var(--blue-bg); border:1px solid var(--blue-border); }
+.bubble-c { background:#fff; border:1px solid var(--gray-border); }
+.bubble-c strong { color:var(--teal); }
+.master-prompt { background:#0E1520; border-radius:12px; overflow:hidden; margin:16px 0; }
+.mp-header { background:var(--dark); padding:12px 18px; display:flex; justify-content:space-between; align-items:center; }
+.mp-header span { color:#fff; font-size:13px; font-weight:600; }
+.mp-body { padding:20px 22px; color:#B8C8E0; font-size:13px; line-height:1.8;
+  font-family:'Menlo','Consolas',monospace; white-space:pre-wrap; }
+.divider { height:1px; background:var(--gray-border); margin:40px 0; }
+.objective-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin:18px 0 22px; }
+.obj-card { background:#fff; border:1px solid var(--gray-border); border-left:4px solid var(--teal);
+  border-radius:8px; padding:14px 16px; }
+.obj-card .obj-num { font-size:11px; color:var(--mid); font-weight:700; letter-spacing:.05em; }
+.obj-card .obj-title { font-weight:700; font-size:14px; margin-top:2px; color:var(--dark); }
+.obj-card .obj-desc { font-size:13px; color:var(--mid); margin-top:5px; line-height:1.55; }
+.checklist { list-style:none; padding:0; margin:14px 0; }
+.checklist li { padding:8px 0 8px 32px; position:relative; font-size:14px;
+  border-bottom:1px solid var(--gray-border); }
+.checklist li:last-child { border-bottom:none; }
+.checklist li::before { content:'☐'; position:absolute; left:4px; top:7px;
+  color:var(--teal); font-size:18px; font-weight:700; line-height:1; }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-brand">
+    <div class="name">DOCUSIGN</div>
+    <div class="sub">Participant Handbook: Integrating Claude with Docusign IAM</div>
+  </div>
+  <nav>
+    <div class="sb-section">Getting Started</div>
+    <a href="#overview"><span class="sb-icon">📋</span> Workshop Overview</a>
+    <a href="#objectives"><span class="sb-icon">🎯</span> Learning Objectives</a>
+    <a href="#how-to-use"><span class="sb-icon">📖</span> How to Use This Handbook</a>
+    <a href="#prereq"><span class="sb-icon">✅</span> Before You Begin</a>
+
+    <div class="sb-section">Setup</div>
+    <a href="#setup-claude"><span class="sb-icon">🔌</span> 1. Connect MCP to Claude</a>
+    <a href="#setup-docusign"><span class="sb-icon">📄</span> 2. Docusign Sandbox</a>
+    <a href="#setup-Agreement Manager"><span class="sb-icon">🗂</span> 3. Upload to Agreement Manager</a>
+    <a href="#setup-adesk"><span class="sb-icon">📬</span> 4. Agreement Desk</a>
+    <a href="#setup-Workflow Builder"><span class="sb-icon">⚡</span> 5. Import the Workflow</a>
+    <a href="#setup-templates"><span class="sb-icon">📑</span> 6. Document Templates</a>
+    <a href="#setup-verify"><span class="sb-icon">✅</span> 7. Verify Setup</a>
+
+    <div class="sb-section">Hands-on</div>
+    <a href="#initial-prompt"><span class="sb-icon">▶️</span> Initial Context Prompt</a>
+
+    <div class="sb-section">Hands-On Scenarios</div>
+    <a href="#scenario-insights"><span class="sb-icon">🔍</span> A. Agreement Insights</a>
+    <a href="#scenario-orchestration"><span class="sb-icon">🔄</span> B. Workflow Builder Orchestration</a>
+    <a href="#scenario-hitl"><span class="sb-icon">✍️</span> C. Track Workflow &amp; Agreement Status</a>
+
+    <div class="sb-section">Reference</div>
+    <a href="#prompts-library"><span class="sb-icon">📚</span> Sample Prompts Library</a>
+    <a href="#troubleshooting"><span class="sb-icon">🛠</span> Troubleshooting</a>
+  </nav>
+</aside>
+
+<main class="main">
+
+<div class="hero">
+  <div class="hero-tag">PARTICIPANT HANDBOOK</div>
+  <h1>Docusign MCP × Claude<br>Hands-On Workshop</h1>
+  <p class="sub">Connect Docusign IAM to Claude to build an end-to-end agentic workflow — with Docusign IAM as the agreement layer beneath.</p>
+  <div class="hero-pills">
+    <span class="hero-pill">🔌 Docusign MCP</span>
+    <span class="hero-pill">🔍 Agreement Manager / IRIS</span>
+    <span class="hero-pill">⚡ Workflow Builder</span>
+    <span class="hero-pill">📝 Agreement Prep</span>
+    <span class="hero-pill">📬 Agreement Desk</span>
+    <span class="hero-pill">✍️ eSign</span>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="section-header"><div class="sec-num" style="font-size:18px;">📋</div><h2>Workshop Overview</h2></div>
+
+  <div class="card-grid">
+    <div class="stat-card"><div class="lbl">Duration</div><div class="val">90 min</div><div class="sub">&nbsp;</div></div>
+    <div class="stat-card"><div class="lbl">Platform</div><div class="val">Claude</div><div class="sub">Chat or Cowork</div></div>
+    <div class="stat-card"><div class="lbl">Platform</div><div class="val">Docusign</div><div class="sub">Agreement Manager · Workflow Builder · Agreement Prep · Agreement Desk · eSign</div></div>
+  </div>
+
+  <p>You'll build an end-to-end experience that shows how the Docusign connector brings agreement context directly into Claude — so users complete real tasks without ever leaving the chat.</p>
+</section>
+
+<!-- LEARNING OBJECTIVES -->
+<section id="objectives">
+  <div class="section-header"><div class="sec-num">🎯</div><h2>Learning Objectives</h2></div>
+  <p>By the end of this workshop you will be able to:</p>
+  <div class="objective-grid">
+    <div class="obj-card">
+      <div class="obj-num">OBJECTIVE 1</div>
+      <div class="obj-title">Use Claude and Docusign without switching systems</div>
+      <div class="obj-desc">One chat, every action — query, decide, execute.</div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-num">OBJECTIVE 2</div>
+      <div class="obj-title">Unlock contract intelligence on demand</div>
+      <div class="obj-desc">Surface pricing, dates, clauses, and risk from any contract — instantly — using Docusign Agreement Manager and IRIS.</div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-num">OBJECTIVE 3</div>
+      <div class="obj-title">Orchestrate workflows and signatures with humans in control</div>
+      <div class="obj-desc">Trigger Workflow Builder workflows and route envelopes deterministically — with human approvals at the right checkpoints.</div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-num">OBJECTIVE 4</div>
+      <div class="obj-title">Walk away with a reusable prompt library</div>
+      <div class="obj-desc">Take a portable library back to your own accounts and adapt the prompts to your customers.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO USE -->
+<section id="how-to-use">
+  <div class="section-header"><div class="sec-num">📖</div><h2>How to Use This Handbook</h2></div>
+  <p>This handbook is designed to be self-paced and self-contained. You can follow it during a facilitated session or work through it independently.</p>
+  <table>
+    <tr><th>Element</th><th>What it means</th></tr>
+    <tr><td><span class="badge badge-green">Setup</span></td><td>One-time configuration steps — do these before the scenarios</td></tr>
+    <tr><td><span class="badge badge-blue">Scenario</span></td><td>A hands-on exercise. Read the story, then run the prompts in order.</td></tr>
+    <tr><td><span class="badge badge-purple">Prompt block</span></td><td>Copy-paste-ready prompt. Click the <strong>Copy</strong> button in the top-right.</td></tr>
+  </table>
+</section>
+
+<!-- BEFORE YOU BEGIN -->
+<section id="prereq">
+  <div class="section-header"><div class="sec-num">✅</div><h2>Before You Begin — Prerequisites</h2></div>
+  <p>Work through this checklist before the session. Most items take 5 minutes each.</p>
+
+  <h3>Prerequisites</h3>
+  <ul class="checklist">
+    <li><strong>Claude account</strong> — use existing or sign up at <a href="https://claude.ai/login" target="_blank">claude.ai/login</a></li>
+    <li><strong>Docusign developer account with Admin rights</strong> — use existing demo or create one at <a href="https://www.docusign.com/developers/sandbox" target="_blank">docusign.com/developers/sandbox</a></li>
+    <li><strong>Docusign Demo URL bookmarked</strong> — <a href="https://apps-d.docusign.com" target="_blank">apps-d.docusign.com</a></li>
+    <li><strong>Download workshop kit</strong> — sample agreements, workflow, document templates, and other supporting files</li>
+  </ul>
+
+  <div class="callout callout-amber">
+    <div class="callout-icon">⚠️</div>
+    <div><strong>Sample exercise — demo data only</strong>
+    <p>This is a sample exercise with synthetic / mock data. Use only with Developer / Demo accounts. Do not use Production accounts for this exercise.</p></div>
+  </div>
+</section>
+
+<!-- SETUP 1: CONNECT MCP -->
+<section id="setup-claude">
+  <div class="section-header"><div class="sec-num">1</div><h2>Connect Docusign to Claude</h2></div>
+
+  <div class="callout callout-blue">
+    <div class="callout-icon">🔌</div>
+    <div><strong>Published connector points to Production</strong>
+    <p>Docusign has a published connector in Claude that points to Production. To configure a demo environment, follow the steps to create a custom connector outlined here: <a href="https://developers.docusign.com/platform/mcp-server/anthropic-claude/" target="_blank">developers.docusign.com/platform/mcp-server/anthropic-claude/</a>.</p></div>
+  </div>
+
+  <h3>Once connected</h3>
+  <div class="steps">
+    <div class="step"><div class="step-body">
+      <strong>Switch to the account you'll be using for this workshop</strong>
+      <p>If you're a member of multiple Docusign accounts, make sure Claude is connected to the demo / developer account you've prepared for this workshop — not Production and not a different sandbox.</p>
+    </div></div>
+    <div class="step"><div class="step-body">
+      <strong>Verify with a test prompt</strong>
+      <p>Start a new chat and paste the prompt below. Claude should respond with your sandbox account name and email — confirm it is the demo account, not Production.</p>
+      <div class="prompt-block">
+        <div class="prompt-label">
+          <span>Test prompt <span class="tag">Verify connection</span></span>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-text">What Docusign account am I connected to?</div>
+      </div>
+      <p>If you're a member of multiple Docusign accounts, you can also ask Claude to list all of them and then switch to the one you'd like to use for this workshop.</p>
+      <div class="prompt-block">
+        <div class="prompt-label">
+          <span>List accounts <span class="tag">Optional</span></span>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-text">List all Docusign accounts I have access to.</div>
+      </div>
+      <div class="prompt-block">
+        <div class="prompt-label">
+          <span>Switch account <span class="tag">Optional</span></span>
+          <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+        </div>
+        <div class="prompt-text">Switch to my [ACCOUNT NAME] Docusign account.</div>
+      </div>
+    </div></div>
+    <div class="step"><div class="step-body">
+      <strong>Verify the tools available in the Docusign MCP connector</strong>
+      <p>In Claude Settings → Connectors → Docusign, review the list of tools exposed by the connector. For each tool, customise the preference based on how you want Claude to act on your behalf:</p>
+      <ul style="margin:6px 0 0 22px;padding:0;line-height:1.7;font-size:14px;color:var(--mid);">
+        <li><strong>Always allow</strong></li>
+        <li><strong>Needs approval</strong></li>
+        <li><strong>Blocked</strong></li>
+        <li>Or set a custom rule</li>
+      </ul>
+    </div></div>
+  </div>
+</section>
+
+<!-- SETUP 2: DOCUSIGN SANDBOX -->
+<section id="setup-docusign">
+  <div class="section-header"><div class="sec-num">2</div><h2>Set Up Your Docusign Sandbox</h2></div>
+
+  <p>Log into your Docusign demo / developer account at <a href="https://apps-d.docusign.com" target="_blank"><strong>apps-d.docusign.com</strong></a>. This is separate from any Production account.</p>
+  <p>From the left navigation, confirm <strong>Agreement Manager</strong>, <strong>Workflow Builder</strong>, and <strong>Agreement Desk</strong> are all available under the <em>Agreements</em> tab. If any are missing, contact your PSA to enable them.</p>
+
+  <div class="callout callout-teal" style="margin-top:18px;">
+    <div class="callout-icon">🛠</div>
+    <div><strong>Next: three quick setup tasks</strong>
+    <p style="margin-top:6px;">To finish preparing your account, you'll:</p>
+    <ol style="margin:6px 0 0 22px;padding:0;line-height:1.7;">
+      <li>Upload sample agreements to Agreement Manager</li>
+      <li>Import the renewal workflow into Workflow Builder</li>
+      <li>Validate the document template</li>
+    </ol>
+    <p style="margin-top:8px;">All files are in the workshop kit.</p></div>
+  </div>
+</section>
+
+<!-- SETUP 3: AGREEMENT MANAGER -->
+<section id="setup-Agreement Manager">
+  <div class="section-header"><div class="sec-num">3</div><h2>Upload Sample Agreements to Agreement Manager</h2></div>
+
+  <p>In the <strong>Agreements</strong> tab, go to <strong>Agreement Manager → Completed</strong> in the left navigation, and upload the sample agreements provided in the workshop kit.</p>
+  <p>Wait a few minutes for AI processing to complete before moving on.</p>
+</section>
+
+<!-- SETUP 4: AGREEMENT DESK -->
+<section id="setup-adesk">
+  <div class="section-header"><div class="sec-num">4</div><h2>Configure Agreement Desk</h2></div>
+
+  <p>In the <strong>Agreements</strong> tab, go to <strong>Requests</strong> in the left navigation and turn on <strong>Agreement Desk</strong>. In <strong>Agreement Desk Settings</strong>, copy the email address — you'll reference it later when routing the renewal workflow.</p>
+  <p>Agreement Desk has more configurations available — request types, agent settings, routing rules — but these are <strong>out of scope</strong> for this exercise.</p>
+</section>
+
+<!-- SETUP 5: Workflow Builder -->
+<section id="setup-Workflow Builder">
+  <div class="section-header"><div class="sec-num">5</div><h2>Import the Workflow</h2></div>
+
+  <p>In the <strong>Agreements</strong> tab, go to <strong>Workflows</strong> in the left navigation and <strong>import the workflow</strong> provided in the workshop kit. You can build one from scratch, but the import is provided for quick reference and testing.</p>
+  <p>Once imported, <strong>edit the workflow</strong> and update the Agreement Desk routing email ID as needed. Then <strong>Save</strong>, <strong>Review</strong>, and <strong>Publish</strong>.</p>
+
+  <div class="callout callout-amber">
+    <div class="callout-icon">⚠️</div>
+    <div><strong>Workflow must be Published, not Draft</strong>
+    <p>Claude can only trigger published workflows.</p></div>
+  </div>
+</section>
+
+<!-- SETUP 6: Document Templates -->
+<section id="setup-templates">
+  <div class="section-header"><div class="sec-num">6</div><h2>Validate Document Templates</h2></div>
+
+  <p>In the <strong>Templates</strong> tab, go to <strong>Document Templates</strong> in the left navigation and confirm the template used in the workflow is available. If it is not, import it from the workshop kit.</p>
+  <p>This template is what the workflow will use to generate the Order Form envelope.</p>
+</section>
+
+<!-- SETUP 7: Verify in Claude -->
+<section id="setup-verify">
+  <div class="section-header"><div class="sec-num">7</div><h2>Verify Setup</h2></div>
+
+  <p>Back in Claude, validate that the agreements are available and the workflows are available.</p>
+
+  <div class="prompt-block">
+    <div class="prompt-label">
+      <span>List agreements <span class="tag">Agreement Manager</span></span>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+    <div class="prompt-text">List all my agreements.</div>
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-label">
+      <span>List published workflows <span class="tag">Workflow Builder</span></span>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+    <div class="prompt-text">List available Workflow Builder workflows.</div>
+  </div>
+
+  <div class="callout callout-teal">
+    <div class="callout-icon">💡</div>
+    <div><strong>Sanity check before proceeding</strong>
+    <p>If Claude can list your agreements and your published workflows, your setup is complete and you're ready to start the scenarios. If either comes back empty, revisit the earlier setup steps before continuing.</p></div>
+  </div>
+</section>
+
+<!-- INITIAL CONTEXT PROMPT -->
+<section id="initial-prompt">
+  <div class="section-header"><div class="sec-num">▶️</div><h2>Initial Context Prompt — Paste This First</h2></div>
+
+  <div class="callout callout-blue" style="margin-bottom:18px;">
+    <div class="callout-icon">🎬</div>
+    <div><strong>Use case for this exercise</strong>
+    <p>You are an Account Executive at Fontara, a B2B SaaS company. As with any sales persona, you are busy and manage a portfolio of customer accounts. You work in Claude and would love to get things done from one place instead of switching systems and manually verifying, copy-pasting deals, drafting Order Forms, or chasing compliance teams for approvals. Let's see how the Docusign connector in Claude automates this with accuracy.</p></div>
+  </div>
+
+  <p>Open a new chat and paste this prompt, or create a Project and paste it into the Project Instructions. If you're working in <strong>Cowork</strong>, you can also save it as a <strong>Skill</strong> with your own preferences.</p>
+
+  <div class="callout callout-blue">
+    <div class="callout-icon">💬</div>
+    <div><strong>What this prompt does</strong>
+    <p>It sets your role, anchors Docusign as the source of truth, enforces Workflow Builder-first execution, and locks in the response format for everything that follows.</p></div>
+  </div>
+
+  <div class="master-prompt">
+    <div class="mp-header">
+      <span>▶️ Paste this as your first message</span>
+      <button class="copy-btn" onclick="copyBlock2(this)" style="font-size:12px;padding:4px 14px;">Copy all</button>
+    </div>
+    <div class="mp-body" id="initialPromptBody">Role &amp; context
+I'm an Account Executive at Fontara, a B2B SaaS company. I manage a portfolio of customer accounts. Our flagship product is Fontara Operate, sold at a list price of $1,430 per seat per year.
+
+How I want you to work
+
+1. Source of truth — Docusign. For any question about agreements, customers, renewals, pricing, or clauses, query the Docusign connector directly. Never rely on assumptions or prior chat context for live agreement data.
+
+2. Workflow Builder before eSign. When sending an agreement, always check for an available Workflow Builder workflow first and use it if one applies. Fall back to a direct envelope from an eSign template only when no suitable workflow exists.
+
+3. Response format. Keep responses brief, accurate, and visually scannable:
+   - Use tables for any comparison, list of agreements, or financial breakdown
+   - Use visual indicators — ✅ in place / compliant · ⚠️ at-risk · 🔴 missing or non-compliant · 🕐 pending
+   - Lead with a one-line summary, then the detail
+   - Show calculation workings before any final dollar figure
+   - Never fabricate data — if a field isn't in Docusign, say so
+
+Confirm you've got it, then wait for my first question.</div>
+  </div>
+</section>
+
+<!-- SCENARIO A: AGREEMENT INSIGHTS -->
+<section id="scenario-insights">
+  <div class="section-header"><div class="sec-num">A</div><h2>Scenario A — Agreement Insights</h2></div>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;">
+    <span class="badge badge-green">Agreement Manager</span>
+    <span class="badge badge-blue">IRIS</span>
+  </div>
+
+  <p><strong>The story:</strong> You're the AE at Fontara. The customer is asking for an expansion of seats with a discount. Before you say yes, you need to know what's in place, what's at risk, etc.</p>
+
+  <h3>What you'll demonstrate</h3>
+  <ul class="flist">
+    <li>Pulling a portfolio-wide view of upcoming renewals across multiple customers</li>
+    <li>Agreement Manager extracting party names, dates, key insights, terms and clauses etc. from agreements</li>
+    <li>Cross-account clause checks — does a 15% discount violate any MFN or price-protection language?</li>
+    <li>SmartFactory (missing AI Addendum + DPA) vs FutureSkills (compliant) as a natural contrast</li>
+  </ul>
+
+  <h3>Run these prompts in order</h3>
+
+  <div class="prompt-block">
+    <div class="prompt-label">
+      <span>A1 — Portfolio renewal view <span class="tag">Agreement Manager · IRIS</span></span>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+    <div class="prompt-text">Show me all upcoming renewals across my book of business in the next 180 days.</div>
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-label">
+      <span>A2 — Account-level account overview <span class="tag">Agreement Manager · IRIS</span></span>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+    <div class="prompt-text">For SmartFactory Systems, which documents are active and in place today? List key details</div>
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-label">
+      <span>A3 — MFN / discount clause check <span class="tag">Agreement Manager · IRIS</span></span>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+    <div class="prompt-text">SmartFactory Systems is interested to expand to 300 seats and is asking for a 15% discount. Does offering 15% to SmartFactory violate any pricing commitments or clauses with another customer?</div>
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-label">
+      <span>A4 — Cross-account compliance comparison <span class="tag">Agreement Manager · IRIS</span></span>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+    <div class="prompt-text">Compare SmartFactory and FutureSkills side-by-side on compliance posture and clauses. Show me what SmartFactory is missing that FutureSkills has in place.</div>
+  </div>
+</section>
+
+<!-- SCENARIO B: ORCHESTRATION -->
+<section id="scenario-orchestration">
+  <div class="section-header"><div class="sec-num">B</div><h2>Scenario B — Workflow Builder Orchestration</h2></div>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;">
+    <span class="badge badge-purple">Workflow Builder</span>
+    <span class="badge badge-green">Agreement Prep</span>
+    <span class="badge badge-blue">eSign</span>
+  </div>
+
+  <p><strong>The story:</strong> You're cleared to offer the 15% discount. SmartFactory wants to expand from 150 to 300 seats. The renewal will be a <strong>1-year term</strong> (no multi-year on this deal). Time to trigger the Workflow Builder renewal workflow and get the Order Form in front of the customer signer.</p>
+
+  <h3>Run these prompts in order</h3>
+
+  <div class="prompt-block">
+    <div class="prompt-label">
+      <span>B1 — Build the deal math <span class="tag">Calculation</span></span>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+    <div class="prompt-text">Work out the SmartFactory expansion deal: 300 seats at $1430 list price with 15% discount</div>
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-label">
+      <span>B2 — Initiate the renewal (the core prompt) <span class="tag">Workflow Builder</span></span>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+    <div class="prompt-text">Initiate a renewal for SmartFactory Systems for 300 seats with 15% discount for a 1 year term starting June 1, 2026. Route it to [recipient email] at SmartFactory.</div>
+  </div>
+</section>
+
+<!-- SCENARIO C: Track Workflow and Agreement Status -->
+<section id="scenario-hitl">
+  <div class="section-header"><div class="sec-num">C</div><h2>Scenario C — Track Workflow and Agreement Status</h2></div>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;">
+    <span class="badge badge-purple">Workflow Builder</span>
+    <span class="badge badge-green">Agreement Desk</span>
+    <span class="badge badge-blue">eSign</span>
+  </div>
+
+  <p><strong>The story:</strong> The Order Form was sent. A few minutes later, you check in to see where things stand. You need to track the workflow, see what's pending signature, and nudge the recipient if needed.</p>
+
+  <div class="prompt-block">
+    <div class="prompt-label">
+      <span>C1 — Check workflow status <span class="tag">Workflow Builder</span></span>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+    <div class="prompt-text">What's the status of the SmartFactory renewal workflow instance? Which step is it on, who needs to act next, and is anything blocked?</div>
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-label">
+      <span>C2 — Signature status on the SmartFactory envelope <span class="tag">eSign</span></span>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+    <div class="prompt-text">Has the recipient at SmartFactory signed the renewal Order Form yet? When was it sent and has it been opened?</div>
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-label">
+      <span>C3 — Send a reminder <span class="tag">eSign</span></span>
+      <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+    </div>
+    <div class="prompt-text">Send the SmartFactory recipient a signing reminder through Docusign — use the existing envelope, don't create a new one. Then tell me when the envelope expires and what happens if it's not signed by then.</div>
+  </div>
+
+  <div class="callout callout-blue" style="margin-top:22px;">
+    <div class="callout-icon">👥</div>
+    <div><strong>Human in the Loop</strong>
+    <p>Notice the workflow has deterministic routing — if the discount is more than 15%, it routes to Agreement Desk for a manual review and approval. The Agreement Desk process can be customized as per your business needs.</p></div>
+  </div>
+</section>
+
+<!-- HOMEWORK / EXTENSION -->
+<section id="homework">
+  <div class="section-header"><div class="sec-num">🎓</div><h2>Congrats — You Built This!</h2></div>
+
+  <p>You've connected Docusign to Claude, set up the demo account, and run the three core scenarios end-to-end. Use the resources and prompts below to extend the use case and put it through its paces.</p>
+
+  <h3>Homework — extend with CRM and Maestro</h3>
+  <p>Now that the agreement layer is wired up, try extending it on either side — pulling deal context in from CRM, or pushing executed agreement data back out.</p>
+
+  <div class="objective-grid">
+    <div class="obj-card">
+      <div class="obj-num">EXTENSION 1</div>
+      <div class="obj-title">Pull from CRM into the workflow</div>
+      <div class="obj-desc">Connect a CRM MCP (or use a Maestro step) to fetch signer name and email, opportunity TCV, seat count, and discount tier directly from the opportunity — no copy-paste from chat.</div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-num">EXTENSION 2</div>
+      <div class="obj-title">Push executed agreement data back to CRM</div>
+      <div class="obj-desc">Once the Order Form is signed, update the CRM opportunity — stage to Closed-Won, attach the executed PDF, update license count and ACV on the account.</div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-num">EXTENSION 3</div>
+      <div class="obj-title">Smarter Agreement Desk routing</div>
+      <div class="obj-desc">Add additional routing rules in Maestro / Agreement Desk — e.g. deal-desk approval for discounts &gt;15%, legal review for non-standard clauses, CRO sign-off above a TCV threshold.</div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-num">EXTENSION 4</div>
+      <div class="obj-title">Custom approval policies</div>
+      <div class="obj-desc">Configure Agreement Desk request types and reviewer assignments to mirror your real org structure — approvers, SLAs, escalation paths.</div>
+    </div>
+  </div>
+
+  <div class="callout callout-teal" style="margin-top:18px;">
+    <div class="callout-icon">💡</div>
+    <div><strong>Test ideas to try</strong>
+    <p>Trigger the workflow with a discount above 15% and verify it routes to Agreement Desk. Then trigger one below the threshold and confirm it goes straight to signature. Swap the recipient email mid-workflow. Cancel a workflow instance. Test what happens when the template is missing.</p></div>
+  </div>
+</section>
+
+<!-- SAMPLE PROMPTS LIBRARY -->
+<section id="prompts-library">
+  <div class="section-header"><div class="sec-num">📚</div><h2>Sample Prompts Library</h2></div>
+  <p>A portable library of prompts you can adapt and run from your own demo accounts. Replace the placeholders with data from your demo accounts — customer names, emails, seat counts, and discounts.</p>
+
+  <div class="callout callout-amber">
+    <div class="callout-icon">ℹ️</div>
+    <div><strong>For reference only</strong>
+    <p>These sample prompts are for reference only and do not represent an exhaustive set. Some of them may require relevant agreements, workflows, templates, and/or envelopes to be in place in order to function as intended.</p></div>
+  </div>
+
+  <h3>1. Agreement insights — discovery</h3>
+  <table>
+    <tr><th>#</th><th>Prompt</th><th>Purpose</th></tr>
+    <tr><td>1.1</td><td>Show me all upcoming renewals across my accounts in the next 90 days.</td><td>Surface the renewal pipeline</td></tr>
+    <tr><td>1.2</td><td>What's renewing for [CUSTOMER] in the next 6 months?</td><td>Account-level renewal view</td></tr>
+    <tr><td>1.3</td><td>List all active agreements with [CUSTOMER] — group by document type.</td><td>See full account footprint</td></tr>
+    <tr><td>1.4</td><td>For [CUSTOMER], which documents are in place today? MSA, NDA, Order Form, DPA, AI Addendum — show status and dates.</td><td>Doc coverage check</td></tr>
+    <tr><td>1.5</td><td>Highlight key terms and clauses from the MSAs and NDAs with [CUSTOMER].</td><td>Pull key terms across docs</td></tr>
+    <tr><td>1.6</td><td>Categorise contracts based on highest contract value in 2026.</td><td>Rank by value</td></tr>
+    <tr><td>1.7</td><td>How many contracts were signed last quarter?</td><td>Period-over-period volume</td></tr>
+  </table>
+
+  <h3>2. Agreement insights — clause &amp; risk analysis</h3>
+  <table>
+    <tr><th>#</th><th>Prompt</th><th>Purpose</th></tr>
+    <tr><td>2.1</td><td>Customer wants [N] seats at [X]% discount. Does that violate any existing clauses with other customers?</td><td>Cross-account clause check</td></tr>
+    <tr><td>2.2</td><td>Scan all active MSAs in my book for MFN, price protection, or non-discrimination clauses.</td><td>Portfolio-wide risk scan</td></tr>
+    <tr><td>2.3</td><td>What is the highest liability coverage across our portfolio? Please rank the results in order.</td><td>Liability coverage ranking</td></tr>
+    <tr><td>2.4</td><td>Are there any uplift caps, multi-year renewal commitments, or related provisions in [CUSTOMER]'s MSA?</td><td>Customer-specific guardrails</td></tr>
+    <tr><td>2.5</td><td>Which of my customers are missing an AI Use Addendum or DPA? Order by ACV.</td><td>Compliance gap report</td></tr>
+    <tr><td>2.6</td><td>Which agreements have non-standard terms and expose risk?</td><td>Surface risk across the portfolio</td></tr>
+  </table>
+
+  <h3>3. Workflow Builder orchestration</h3>
+  <table>
+    <tr><th>#</th><th>Prompt</th><th>Purpose</th></tr>
+    <tr><td>3.1</td><td>List available workflows for renewals.</td><td>Confirm workflow exists before falling back to template</td></tr>
+    <tr><td>3.2</td><td>Initiate a renewal for [CUSTOMER] with [N] seats, [X]% discount on Fontara Operate, 1-year term, recipient [EMAIL]. Use the Workflow Builder renewal workflow.</td><td>Core renewal trigger</td></tr>
+    <tr><td>3.3</td><td>Generate a new MSA with AI Addendum for [CUSTOMER].</td><td>Generate net-new agreement</td></tr>
+    <tr><td>3.4</td><td>Status check on the [CUSTOMER] renewal workflow — where is it?</td><td>In-flight monitoring</td></tr>
+    <tr><td>3.5</td><td>Identify workflows that have not been triggered even once in the past 30 days.</td><td>Workflow usage audit</td></tr>
+  </table>
+
+  <h3>4. eSign Envelopes &amp; Templates</h3>
+  <table>
+    <tr><th>#</th><th>Prompt</th><th>Purpose</th></tr>
+    <tr><td>4.1</td><td>Create an envelope from the Renewal Order Form template for [CUSTOMER]: [N] seats, [X]% off, 1-year term.</td><td>Send an envelope from a template</td></tr>
+    <tr><td>4.2</td><td>List all my NDA templates.</td><td>Discover available NDA templates</td></tr>
+    <tr><td>4.3</td><td>Is there a standard Order Form template?</td><td>Confirm template availability</td></tr>
+    <tr><td>4.4</td><td>Which contracts are pending for signature beyond 7 days?</td><td>Spot stalled signatures</td></tr>
+    <tr><td>4.5</td><td>Has [CUSTOMER] signed the latest NDA, and if not, who is it currently pending with?</td><td>Signature status by recipient</td></tr>
+    <tr><td>4.6</td><td>Update the vendor onboarding envelope sent to [CUSTOMER] this week by replacing the current recipient [RECIPIENT NAME/EMAIL] with [NEW RECIPIENT NAME/EMAIL].</td><td>Swap a recipient on an in-flight envelope</td></tr>
+    <tr><td>4.7</td><td>Send a reminder to any [CUSTOMER] recipient who hasn't signed in 3+ days.</td><td>Nudge stalled signers</td></tr>
+  </table>
+
+  <div class="callout callout-teal">
+    <div class="callout-icon">💡</div>
+    <div><strong>Tip — adapt before you send</strong>
+    <p>Replace anything in <code>[BRACKETS]</code> before pasting. Most prompts are written generically so they translate cleanly to your own book of business.</p></div>
+  </div>
+</section>
+
+<!-- TROUBLESHOOTING -->
+<section id="troubleshooting">
+  <div class="section-header"><div class="sec-num">🛠</div><h2>Troubleshooting</h2></div>
+
+  <table>
+    <tr><th>Issue</th><th>Likely cause</th><th>Fix</th></tr>
+    <tr>
+      <td>I don't see any agreements in your account</td>
+      <td>Connected to production instead of sandbox, or Agreement Manager extraction not complete</td>
+      <td>Reconnect MCP with sandbox credentials. Wait 3–5 min per doc. Ask Claude: <code>What Docusign account am I connected to?</code></td>
+    </tr>
+    <tr>
+      <td>Agreement Manager fields are blank or partial</td>
+      <td>Extraction still running, or unsupported file format uploaded</td>
+      <td>Click <strong>Re-analyze</strong>. Wait 5 minutes.</td>
+    </tr>
+    <tr>
+      <td>Workflow Builder workflow doesn't appear when Claude queries</td>
+      <td>Workflow is in Draft, not Published status</td>
+      <td>Go to the <strong>Agreements</strong> tab → <strong>Workflows</strong> in the left navigation → open the workflow → click <strong>Publish</strong>. Wait 60 seconds.</td>
+    </tr>
+    <tr>
+      <td>Claude can't find document templates</td>
+      <td>No templates exist in the sandbox</td>
+      <td>Go to the <strong>Templates</strong> tab → <strong>Document Templates</strong> in the left navigation → import or create the template from the workshop kit.</td>
+    </tr>
+    <tr>
+      <td>MCP shows Disconnected in Claude settings</td>
+      <td>OAuth token expired</td>
+      <td>Settings → Integrations → Docusign → Disconnect → reconnect with sandbox credentials.</td>
+    </tr>
+    <tr>
+      <td>Envelope send fails with an error</td>
+      <td>Required template fields not populated, or sandbox email restrictions</td>
+      <td>Try with a different email. Try sending it manually with the same values.</td>
+    </tr>
+    <tr>
+      <td>Claude cannot find or list clauses or terms</td>
+      <td>Agreement not processed fully, or clause not available in Agreement Manager</td>
+      <td>Validate the agreement and extraction in Agreement Manager and create a custom extraction as necessary.</td>
+    </tr>
+    <tr>
+      <td>Workflow errors out in the "Set up an Invite" step</td>
+      <td>Invalid or mistyped recipient email</td>
+      <td>Check that the email address of the recipient is correct and valid, then retry the workflow.</td>
+    </tr>
+    <tr>
+      <td>Latest agreements are not visible (account is correct)</td>
+      <td>Claude is referencing previously fetched data from earlier in the chat</td>
+      <td>Ask Claude to refresh the list of agreements (e.g. <code>Refresh the list of agreements from Docusign.</code>) so it re-queries Agreement Manager.</td>
+    </tr>
+    <tr>
+      <td>Workflow not initiated, though Claude says it was initiated successfully</td>
+      <td>Workflow trigger inputs from the request didn't satisfy the workflow's required fields</td>
+      <td>Check the workflow trigger inputs from the request. Try different values, or trigger the workflow manually in Workflow Builder to identify the issue.</td>
+    </tr>
+  </table>
+
+  <div style="margin-top:36px;padding-top:28px;border-top:1px solid var(--gray-border);display:flex;gap:14px;flex-wrap:wrap;">
+    <a class="btn" href="https://developers.docusign.com/platform/mcp-server/anthropic-claude/" target="_blank">↗ Docusign MCP + Claude Setup</a>
+    <a class="btn-outline" href="https://apps-d.docusign.com" target="_blank">↗ Docusign Sandbox</a>
+  </div>
+</section>
+
+<div style="height:80px"></div>
+</main>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      document.querySelectorAll('.sidebar nav a').forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+
+function copyPrompt(btn) {
+  const text = btn.closest('.prompt-block').querySelector('.prompt-text').textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1800);
+  });
+}
+
+function copyBlock2(btn) {
+  const text = document.getElementById('initialPromptBody').textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = orig; }, 1800);
+  });
+}
+</script>
+</body>
+</html>
