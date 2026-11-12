@@ -65,6 +65,7 @@ h4{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--coba
 .tag{display:inline-block;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--chip);color:var(--chiptx);margin:0 6px 6px 0}
 .tag.p{background:var(--poppybg);color:var(--poppytx)}
 .tag.v{background:#E6FFF1;color:#0B6B3A}
+.tag.tsk{background:#FFF1D0;color:#7A4B00}
 .tag.plat{background:transparent;border:1px solid var(--bd);color:var(--mut)}
 .num{width:34px;height:34px;border-radius:50%;background:var(--cobalt);color:#fff;font-weight:600;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
 .tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:18px;padding-bottom:4px;flex-wrap:wrap}
@@ -101,6 +102,13 @@ td small{color:var(--mut)}
 .pp-cols ul{margin:0;padding-left:18px;color:var(--mut);font-size:14.5px}
 .pp-cols li{margin:6px 0}
 .links{display:flex;flex-wrap:wrap;gap:8px}
+.chip-link.ch-skill{background:#FFF1D0;color:#7A4B00}
+.chip-link.ch-skill:hover{background:#7A4B00;color:#fff}
+.chip-link.ch-auto{background:#E6FFF1;color:#0B6B3A}
+.chip-link.ch-auto:hover{background:#0B6B3A;color:#fff}
+.chip-link.s{display:inline-block;vertical-align:top;height:34px;line-height:34px;padding:0 14px;font-size:13px;white-space:nowrap}
+.more{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 4px}
+.flash{outline:3px solid var(--poppy);outline-offset:3px;border-radius:12px}
 .chip-link{display:inline-block;padding:8px 14px;border-radius:20px;background:var(--chip);color:var(--chiptx);text-decoration:none;font-size:13.5px;font-weight:600}
 .chip-link:hover{background:var(--cobalt);color:#fff}
 
@@ -253,21 +261,21 @@ footer a{color:#fff}
 </div></section>
 
 <section id="resources" class="soft"><div class="w">
-<div class="sec-head"><span class="kicker">Docs and blogs</span><h2>Go deeper</h2><p class="sub">Official Docusign documentation for production and developer accounts, plus blogs on agents and partner connectors.</p></div>
+<div class="sec-head"><span class="kicker">Docs and blogs</span><h2>Go deeper</h2><p class="sub">Official Docusign documentation for production and developer accounts, plus blogs on agents and partner connectors. <b>1P</b> means Docusign's own agents (Iris and Agent Studio). <b>3P</b> means third-party AI tools, such as Claude, ChatGPT and Copilot Studio, that connect to Docusign through MCP.</p></div>
 <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">
 <div class="card"><span class="tag v">Production</span><h3>MCP connectors</h3><p>Official connectors for live accounts, and what they support.</p><p><a href="https://developers.docusign.com/platform/mcp-server/connectors">Connectors</a> · <a href="https://developers.docusign.com/platform/mcp-server/limitations-workarounds">Limitations and workarounds</a></p></div>
 <div class="card"><span class="tag p">Developer / demo</span><h3>Custom connectors</h3><p>Connect a developer account with your Integration Key.</p><p><a href="https://developers.docusign.com/platform/mcp-server/custom-connectors">Custom connectors</a> · <a href="https://developers.docusign.com/platform/mcp-server/authentication-scopes">Authentication and scopes</a></p></div>
 <div class="card"><h3>Tool reference</h3><p>Every MCP tool, what it does and what it needs.</p><p><a href="https://developers.docusign.com/platform/mcp-server/mcp-tools">MCP tools</a></p></div>
 <div class="card"><h3>Platform set-up guides</h3><p>Step-by-step set-up for each AI platform.</p><p><a href="https://developers.docusign.com/platform/mcp-server/anthropic-claude">Claude</a> · <a href="https://developers.docusign.com/platform/mcp-server/openai-chatgpt">ChatGPT</a> · <a href="https://developers.docusign.com/platform/mcp-server/microsoft-copilot">Copilot Studio</a> · <a href="https://developers.docusign.com/platform/mcp-server/github-copilot">GitHub Copilot</a></p></div>
-<div class="card"><span class="tag">Blog · Agent Studio</span><h3>Build agentic agreement workflows</h3><p>Momentum '26 release notes: Agent Studio, MCP Server, Agreement Manager API and the Docusign CLI.</p><p><a href="https://www.docusign.com/blog/developers/momentum-26-agentic-agreement-workflows">Read the post</a></p></div>
-<div class="card"><span class="tag">Blog · Agent Studio</span><h3>Developer guide to Iris agentic capabilities</h3><p>How agents use agreement data, and how they join Maestro.</p><p><a href="https://www.docusign.com/blog/developers/developers-guide-docusign-iris-agentic-capabilities">Read the guide</a></p></div>
-<div class="card"><span class="tag">Blog · Agent Studio</span><h3>Build agreement agents in Copilot Studio</h3><p>Building agents for agreements inside Microsoft Copilot Studio.</p><p><a href="https://www.docusign.com/blog/build-docusign-agreement-agents-microsoft-copilot-studio">Read the post</a></p></div>
-<div class="card"><span class="tag">Blog · Partner connectors</span><h3>MCP Server general availability</h3><p>Why the MCP Server underpins the Claude, ChatGPT, Gemini and Copilot connectors.</p><p><a href="https://www.docusign.com/blog/developers/docusign-mcp-server-general-availability">Read the post</a></p></div>
-<div class="card"><span class="tag">Blog · Partner connectors</span><h3>MCP Server for legal AI platforms</h3><p>The partner pattern: a legal AI platform calls Docusign MCP tools for agreement context and workflows.</p><p><a href="https://www.docusign.com/blog/developers/docusign-mcp-server-legal-ai-integration">Read the post</a></p></div>
-<div class="card"><span class="tag">Blog · Partner connectors</span><h3>Developer guide: Claude connector</h3><p>Connector set-up and first prompts in Claude.</p><p><a href="https://www.docusign.com/blog/developers/claude-docusign-mcp-connector-guide">Read the guide</a></p></div>
+<div class="card"><span class="tag p">1P · Agent Studio</span><span class="tag">3P · Via MCP</span><h3>Build agentic agreement workflows</h3><p>Momentum '26 release notes: Agent Studio, MCP Server, Agreement Manager API and the Docusign CLI.</p><p><a href="https://www.docusign.com/blog/developers/momentum-26-agentic-agreement-workflows">Read the post</a></p></div>
+<div class="card"><span class="tag p">1P · Iris</span><span class="tag p">1P · Agent Studio</span><h3>Developer guide to Iris agentic capabilities</h3><p>How agents use agreement data, and how they join Maestro.</p><p><a href="https://www.docusign.com/blog/developers/developers-guide-docusign-iris-agentic-capabilities">Read the guide</a></p></div>
+<div class="card"><span class="tag">3P · Via MCP</span><h3>Build agreement agents in Copilot Studio</h3><p>Building agents for agreements inside Microsoft Copilot Studio.</p><p><a href="https://www.docusign.com/blog/build-docusign-agreement-agents-microsoft-copilot-studio">Read the post</a></p></div>
+<div class="card"><span class="tag">3P · Via MCP</span><h3>MCP Server general availability</h3><p>Why the MCP Server underpins the Claude, ChatGPT, Gemini and Copilot connectors.</p><p><a href="https://www.docusign.com/blog/developers/docusign-mcp-server-general-availability">Read the post</a></p></div>
+<div class="card"><span class="tag">3P · Via MCP</span><h3>MCP Server for legal AI platforms</h3><p>The partner pattern: a legal AI platform calls Docusign MCP tools for agreement context and workflows.</p><p><a href="https://www.docusign.com/blog/developers/docusign-mcp-server-legal-ai-integration">Read the post</a></p></div>
+<div class="card"><span class="tag">3P · Via MCP</span><h3>Developer guide: Claude connector</h3><p>Connector set-up and first prompts in Claude.</p><p><a href="https://www.docusign.com/blog/developers/claude-docusign-mcp-connector-guide">Read the guide</a></p></div>
 </div></div></section>
 <section id="who" class="soft"><div class="w">
-<div class="sec-head"><span class="kicker">Who it's for</span><h2>Pick your role</h2><p class="sub">Each role gets what it can do, what still waits for a human, and where to start.</p></div>
+<div class="sec-head"><span class="kicker">Who it's for</span><h2>Pick your role</h2><p class="sub">Each role gets what it can do, what still waits for a human, and where to start.</p><p class="ph" style="margin-top:10px"><b>Key:</b> <span class="tag">Prompt</span> <span class="tag tsk">Skill</span> <span class="tag v">Automation</span></p></div>
 <div class="persona-wrap">
 <div class="persona-list" id="persona-tabs" role="tablist"></div>
 <div class="persona-panel" id="persona-panel"></div>
@@ -280,13 +288,19 @@ footer a{color:#fff}
 </div></section>
 
 <section id="prompts" class="soft"><div class="w">
-<div class="sec-head"><span class="kicker">Prompts</span><h2>Copy and run</h2><p class="sub">Replace the [brackets]. Filter by persona to see the prompts for your role. Anything that changes data waits for your approval, and missing values are flagged rather than guessed.</p></div>
+<div class="sec-head"><span class="kicker">Prompts</span><h2>Ask in natural language. Get the answer from your agreements.</h2><p class="sub">A prompt is a question you type into your AI tool, such as Claude or ChatGPT. Each one below is ready to use. Copy it, replace the [brackets] with your own details, and run it. Prompts that only read answer straight away. Anything that changes a document waits for your approval, and missing information is flagged rather than guessed.</p></div>
+<div class="pr" id="test-connector" style="margin-bottom:28px;border-color:var(--cobalt)">
+<div class="h"><div><span class="tag v">Step 1 · Test the connector</span><br><b>Is Docusign connected? Find out in 30 seconds.</b></div><button class="cp" id="testBtn">Copy prompt</button></div>
+<div class="w2">Run this once before anything else. It only reads, so it is safe on any account. An envelope is a document, or set of documents, sent for signature.</div>
+<pre id="testPrompt">Use the Docusign connector to list my five most recent envelopes, with status and sent date. Name the Docusign tool you used. Read only: do not send, change or create anything.</pre>
+<div class="m"><span class="tag">Read only</span><span><b>It worked if:</b> you see a list of your recent envelopes, and your AI tool shows it used a Docusign tool. If your account has no envelopes, the answer says so, and that still proves the connection works. <b>It did not work if:</b> no Docusign tool was used. The connector is probably not switched on. Ask your admin (Admin → Integrations → MCP Connections) or add the Docusign connector in your AI tool, then run it again.</span></div>
+</div>
+<h3 style="margin:0 0 12px">Step 2 · Pick your role and run a prompt</h3>
 <div class="filters"><select id="pFilter" aria-label="Filter prompts by persona"></select><span class="count" id="pcount"></span></div>
 <div id="tabs" hidden></div>
 <h3 style="margin:0 0 12px">Starter prompts</h3>
 <div id="plist"></div>
-<h3 style="margin:34px 0 12px">Additional prompts</h3>
-<div id="lib"></div>
+<details class="acc" style="margin-top:34px"><summary>Additional prompts by role</summary><div class="body"><p class="sub" style="margin:0 0 16px">Open this to see more prompts for each role, grouped by discovery, clauses, workflows and eSign.</p><div id="lib"></div></div></details>
 </div></section>
 
 <section id="skills"><div class="w">
@@ -333,7 +347,7 @@ footer a{color:#fff}
 <li>Add the official connector (production), or a custom connector with your IK for demo.</li>
 <li>Install the core docusign-agreements skill.</li>
 <li>Add team skills, and paste the platform setup where the tool needs instructions.</li>
-<li>Test with a read-only prompt and confirm the tool call appears in the activity view.</li>
+<li>Run the connector test in Prompts and confirm the tool call appears in the activity view.</li>
 <li>Publish to your team's channel once the write approvals behave as expected.</li>
 </ol>
 <div class="assets"><b>Ready assets:</b> core skill, team skills, platform setup and the prompt library above.</div>
@@ -542,7 +556,7 @@ function writesOf(s){const m={createEnvelope:"Drafts (saved as created)",sendRem
  return [...new Set(s.tools.map(t=>m[t]).filter(Boolean))]}
 function skCard(s){const r=readsOf(s),w=writesOf(s),nd=needsOf(s);
  return `<div class="sk">
- <div class="top"><div class="badge">${s.ini}</div><div><h3><a href="#/skill/${s.n}">${esc(s.n)}</a></h3><span class="tag">${esc(s.team)}</span><span class="tag ${s.type==="Automation"?"v":""}">${s.type}</span></div></div>
+ <div class="top"><div class="badge">${s.ini}</div><div><h3><a href="#/skill/${s.n}">${esc(s.n)}</a></h3><span class="tag">${esc(s.team)}</span><span class="tag ${s.type==="Automation"?"v":"tsk"}">${s.type}</span></div></div>
  <div class="quote">“${esc(SAY[s.n]||s.what)}”</div>
  <p class="what">${esc(s.what)}</p>
  <dl class="kv"><dt>Reads</dt><dd>${esc(r.join(", ")||"Nothing")}</dd><dt>Writes</dt><dd>${esc(w.join(", ")||"Nothing")}</dd><dt>Needs</dt><dd>${esc(nd.join(" ")||"The Docusign connector")}</dd></dl>
@@ -635,7 +649,7 @@ function renderDetail(n){const s=SKILLS.find(x=>x.n===n);const d=document.getEle
  const rel=SKILLS.filter(x=>x.team===s.team&&x.n!==s.n);
  d.innerHTML=`<section><div class="w">
  <a href="#skills" style="font-weight:600;text-decoration:none">← All skills</a>
- <div style="display:flex;gap:14px;align-items:center;margin:18px 0 6px;flex-wrap:wrap"><div class="badge" style="width:56px;height:56px;flex-basis:56px;font-size:18px">${s.ini}</div><div><h2 style="margin:0">${esc(s.n)}</h2><span class="tag">${esc(s.team)}</span><span class="tag ${s.type==="Automation"?"v":""}">${s.type}</span>${s.write?'<span class="tag p">Writes need approval</span>':'<span class="tag v">Read only</span>'}</div></div>
+ <div style="display:flex;gap:14px;align-items:center;margin:18px 0 6px;flex-wrap:wrap"><div class="badge" style="width:56px;height:56px;flex-basis:56px;font-size:18px">${s.ini}</div><div><h2 style="margin:0">${esc(s.n)}</h2><span class="tag">${esc(s.team)}</span><span class="tag ${s.type==="Automation"?"v":"tsk"}">${s.type}</span>${s.write?'<span class="tag p">Writes need approval</span>':'<span class="tag v">Read only</span>'}</div></div>
  <div class="grid" style="grid-template-columns:1fr 1fr;margin-top:18px">
   <div class="card"><h3>What it does</h3><p>${esc(s.what)}</p></div>
   <div class="card"><h3>Why it is needed</h3><p>${esc(s.why)}</p></div>
@@ -675,8 +689,25 @@ function renderPersona(i){const p=PERS[i];
  <p class="goal">${esc(p.goal)}</p>
  <div class="pp-cols"><div><h4>What you can do</h4><ul>${p.can.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
  <div><h4>What waits for you</h4><ul>${p.wont.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></div>
- <h4>Start with</h4><div class="links">${p.start.map(s=>`<a class="chip-link" href="${s.h}">${esc(s.t)}</a>`).join("")}</div>`}
-renderPersona(0);
+ <h4>Start with</h4><div class="links">${p.start.map(s=>`<a class="chip-link s${skillCls(s.h)}" href="${s.h}"${s.h==="#prompts"?` data-go="${esc(s.t)}" data-persona="${esc(p.name)}"`:""}>${esc(s.t)}</a>`).join("")}</div>${personaLists(p.name,p.start)}`}
+/* One colour per type everywhere: Prompt lavender, Skill outlined, Automation green */
+const skillKind=n=>{const k=SKILLS.find(x=>x.n===n);return k&&k.type==="Automation"?" ch-auto":" ch-skill"};
+const skillCls=h=>h.startsWith("#/skill/")?skillKind(h.slice(8)):"";
+/* Which skill teams feed each persona */
+const PTEAM={"Account executive":["Sales"],"Sales leader and RevOps":["Sales"],"Procurement manager":["Procurement"],"HR operations":["HR"],"Legal operations":["Legal"],"Finance and revenue ops":["Finance & RevOps"],"CX and FINS operations":["CX FINS"],"IT and admin":["IT & Admin"],"Partner and ISV builder":[]};
+function personaLists(name,start){
+ /* Everything not already under Start with, as links. Prompts are read from the page so each is defined once. */
+ const used=[...start.map(x=>x.t)];
+ const isUsed=t=>used.some(u=>t===u||t.startsWith(u.replace(/\?$/,"")));
+ const starter=[...document.querySelectorAll("#plist .pr")].filter(e=>e.dataset.persona===name).map(e=>({t:e.querySelector(".h b").textContent,tip:e.querySelector(".m .tag").textContent}));
+ const role=[...document.querySelectorAll("#lib .lib")].filter(e=>e.dataset.persona===name).flatMap(e=>[...e.querySelectorAll(".row")].filter(r=>r.querySelector(".n")).map(r=>({t:r.querySelector(".d").textContent.split(" \u00b7 Tools:")[0],tip:r.querySelector(".t").textContent})));
+ const prompts=starter.concat(role).filter(x=>!isUsed(x.t));
+ const teams=PTEAM[name]||[];
+ const skills=[{n:"docusign-agreements",w:"Core skill. Install once so answers follow the same rules.",h:"#skills"}].concat(SKILLS.filter(x=>teams.includes(x.team)).map(x=>({n:x.n,w:x.what,h:`#/skill/${x.n}`}))).filter(x=>!used.includes(x.n));
+ const group=(label,n,html)=>n?`<h4>${label} (${n})</h4><div class="more">${html}</div>`:"";
+ return group("More prompts",prompts.length,prompts.map(x=>`<a class="chip-link s" href="#prompts" data-go="${esc(x.t)}" data-persona="${esc(name)}" title="${esc(x.tip)}">${esc(x.t)}</a>`).join(""))+
+  group("More skills",skills.length,skills.map(x=>`<a class="chip-link s${skillKind(x.n)}" href="${x.h}" title="${esc(x.w)}">${esc(x.n)}</a>`).join(""));
+}
 
 /* ---------- Use cases ---------- */
 const USE=[
@@ -753,5 +784,21 @@ function applyP(){const f=pf.value;let n=0;
  pc.textContent=n+" prompts";}
 pf.addEventListener("change",applyP);applyP();
 })();
+document.getElementById("testBtn").onclick=function(){cp(document.getElementById("testPrompt").textContent,this)};
+document.getElementById("persona-panel").addEventListener("click",e=>{
+ const a=e.target.closest("a[data-go]");if(!a)return;e.preventDefault();
+ const name=a.dataset.persona,label=a.dataset.go.replace(/\?$/,"");
+ /* Find the prompt for this persona first, then anywhere on the page (for example, a Sales leader link to an Account executive prompt) */
+ const starterOf=n=>[...document.querySelectorAll("#plist .pr")].filter(x=>!n||x.dataset.persona===n);
+ const roleOf=n=>[...document.querySelectorAll("#lib .lib")].filter(x=>!n||x.dataset.persona===n).flatMap(x=>[...x.querySelectorAll(".row")]).filter(r=>r.querySelector(".d"));
+ const find=n=>starterOf(n).find(x=>x.querySelector(".h b").textContent.startsWith(label))||roleOf(n).find(r=>r.querySelector(".d").textContent.startsWith(label+" \u00b7 "));
+ const hit=find(name)||find(null);
+ const pf=document.getElementById("pFilter");pf.value=hit&&!find(name)?"":name;pf.dispatchEvent(new Event("change"));
+ if(hit&&hit.closest("#lib")){document.querySelector("#prompts details.acc").open=true}
+ const target=hit||document.getElementById("prompts");
+ target.scrollIntoView({behavior:"smooth",block:"center"});
+ if(hit){hit.classList.add("flash");setTimeout(()=>hit.classList.remove("flash"),2200)}
+});
+renderPersona(0);
 </script>
 </body></html>
