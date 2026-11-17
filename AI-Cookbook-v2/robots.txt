@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# Agent-readable index: https://docusign.github.io/PSA/AI-Cookbook/llms.txt

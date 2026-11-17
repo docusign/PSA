@@ -1,0 +1,58 @@
+# Agreement AI Playbook
+
+> Connect Docusign to Claude, ChatGPT, Copilot Studio or Gemini, then copy a prompt for your role or install a skill. Read-only by default; writes wait for human approval.
+
+Each page has a Markdown version at the same path ending in index.md. Prompts are in code blocks. Replace the [brackets] before use.
+
+## Start
+- [Agreement AI Playbook](/PSA/AI-Cookbook-v2/index.md): Connect Docusign to your AI tool, then copy a prompt or install a skill for your role.
+
+## Connect
+- [Connect Docusign](/PSA/AI-Cookbook-v2/connect/index.md): Turn on Docusign MCP access, add the connector to your AI tool, and test it with a read-only prompt.
+
+## Prompts by role
+- [Prompts by role](/PSA/AI-Cookbook-v2/prompts/index.md): Ready-to-copy prompts for each role. A prompt is a question you type into your AI tool. Read-only prompts answer straight away.
+- [Account executive prompts](/PSA/AI-Cookbook-v2/prompts/account-executive/index.md): Know where a customer's agreement stands before the next call, and get order forms out without rework. 12 ready-to-copy prompts and the skills for this role.
+- [CX and FINS operations prompts](/PSA/AI-Cookbook-v2/prompts/cx-and-fins-operations/index.md): Move account updates and account openings through without missing fields or stalled steps. 9 ready-to-copy prompts and the skills for this role.
+- [Finance and revenue ops prompts](/PSA/AI-Cookbook-v2/prompts/finance-and-revenue-ops/index.md): Confirm revenue documents are executed before close and flag unusual payment terms. 10 ready-to-copy prompts and the skills for this role.
+- [HR operations prompts](/PSA/AI-Cookbook-v2/prompts/hr-operations/index.md): Get new-hire paperwork and policy sign-offs moving without chasing people one by one. 13 ready-to-copy prompts and the skills for this role.
+- [IT and admin prompts](/PSA/AI-Cookbook-v2/prompts/it-and-admin/index.md): Roll out MCP access safely, and spot failed or timed-out envelopes early. 6 ready-to-copy prompts and the skills for this role.
+- [Legal operations prompts](/PSA/AI-Cookbook-v2/prompts/legal-operations/index.md): Find the terms, deadlines and non-standard clauses that matter, quickly and with the source cited. 12 ready-to-copy prompts and the skills for this role.
+- [Partner and ISV builder prompts](/PSA/AI-Cookbook-v2/prompts/partner-and-isv-builder/index.md): Ship an agent to your own customers, with each customer's admin in control. 6 ready-to-copy prompts and the skills for this role.
+- [Procurement manager prompts](/PSA/AI-Cookbook-v2/prompts/procurement-manager/index.md): Know which vendor NDAs and contracts exist, when they renew, and how the terms compare. 12 ready-to-copy prompts and the skills for this role.
+- [Sales leader and RevOps prompts](/PSA/AI-Cookbook-v2/prompts/sales-leader-and-revops/index.md): See which deals are signed, stalled or waiting on the customer, without building a report by hand. 8 ready-to-copy prompts and the skills for this role.
+
+## Skills
+- [Skills](/PSA/AI-Cookbook-v2/skills/index.md): Install the docusign-agreements core skill once, then add team skills. Each skill is a SKILL.md file with its rules and steps.
+- [account-update-tracker](/PSA/AI-Cookbook-v2/skills/account-update-tracker/index.md): Tracks account-update envelopes waiting on customer or staff signers, by step.
+- [contract-intake](/PSA/AI-Cookbook-v2/skills/contract-intake/index.md): Turns a contract request into the right CLM workflow with the required inputs.
+- [deal-desk-assistant](/PSA/AI-Cookbook-v2/skills/deal-desk-assistant/index.md): Builds an order form from the approved template as a draft and checks required fields.
+- [docusign-agreements (core skill)](/PSA/AI-Cookbook-v2/skills/docusign-agreements/index.md): The core skill: read-first, approve-before-write rules, tool order and output format. Install it before any team skill.
+- [envelope-health](/PSA/AI-Cookbook-v2/skills/envelope-health/index.md): Daily view of voided, declined and timed-out envelopes with likely causes.
+- [expiry-digest](/PSA/AI-Cookbook-v2/skills/expiry-digest/index.md): Monthly digest of agreements expiring in the next 120 days, grouped by month, with the top three to review.
+- [mcp-access-audit](/PSA/AI-Cookbook-v2/skills/mcp-access-audit/index.md): Reviews connector set-up before rollout: account, brands, users and approval gates.
+- [nudge-sender](/PSA/AI-Cookbook-v2/skills/nudge-sender/index.md): Sends approved reminders to pending remote signers on an existing envelope.
+- [offer-letter-sender](/PSA/AI-Cookbook-v2/skills/offer-letter-sender/index.md): Drafts an offer letter from the role template for review before anything is sent.
+- [onboarding-orchestrator](/PSA/AI-Cookbook-v2/skills/onboarding-orchestrator/index.md): Finds the onboarding Maestro workflow, confirms inputs and triggers it after approval. Then tracks packet status.
+- [policy-ack-tracker](/PSA/AI-Cookbook-v2/skills/policy-ack-tracker/index.md): Finds policy acknowledgements still unsigned and groups them for a reminder list.
+- [provision-sweep](/PSA/AI-Cookbook-v2/skills/provision-sweep/index.md): Finds agreements by governing law, term or custom provision and flags partial results.
+- [quarter-close-audit](/PSA/AI-Cookbook-v2/skills/quarter-close-audit/index.md): Checks that revenue documents are executed before quarter end and reports the gaps.
+- [renewal-brief](/PSA/AI-Cookbook-v2/skills/renewal-brief/index.md): One-page account brief: terms, expiry, auto-renewal and governing law.
+- [renewal-radar](/PSA/AI-Cookbook-v2/skills/renewal-radar/index.md): Lists auto-renewals due in 90 days with open notice windows. Runs weekly as a scheduled task.
+- [signature-chaser](/PSA/AI-Cookbook-v2/skills/signature-chaser/index.md): Lists envelopes waiting 3+ days and drafts a nudge for each signer.
+- [term-comparator](/PSA/AI-Cookbook-v2/skills/term-comparator/index.md): Compares payment, termination, liability and governing law across vendors in one table.
+- [terms-outliers](/PSA/AI-Cookbook-v2/skills/terms-outliers/index.md): Flags agreements with payment terms longer than 45 days.
+- [vendor-nda-gate](/PSA/AI-Cookbook-v2/skills/vendor-nda-gate/index.md): Checks for an existing NDA before drafting a new one.
+
+## Build agents
+- [Build agents](/PSA/AI-Cookbook-v2/build/index.md): Two ways to build an agent: inside Docusign with Maestro workflows, or in your AI tool with Docusign MCP. Both keep a human approval step.
+- [Platform setup](/PSA/AI-Cookbook-v2/build/platforms/index.md): Platform-specific setup on top of the core skill, plus the prerequisites for customers and partners.
+
+## Use cases
+- [Use cases](/PSA/AI-Cookbook-v2/use-cases/index.md): Eight problems the playbook solves, with the prompt or skill that runs each one. Read-only unless noted.
+
+## Reference
+- [FAQ](/PSA/AI-Cookbook-v2/faq/index.md): Guardrails and common questions: numbers, approvals, data access, legal advice and set-up for Copilot.
+- [Tool names](/PSA/AI-Cookbook-v2/reference/tools/index.md): Docusign MCP tool names, what each one is for, and the gotcha to watch for.
+- [Troubleshooting](/PSA/AI-Cookbook-v2/reference/troubleshooting/index.md): Common symptoms, likely causes and fixes when connecting Docusign to an AI tool.
+

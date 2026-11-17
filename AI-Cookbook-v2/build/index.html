@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Build agents · Agreement AI Playbook</title><meta name="description" content="Two ways to build an agent: inside Docusign with Maestro workflows, or in your AI tool with Docusign MCP. Both keep a human approval step."><link rel="canonical" href="https://docusign.github.io/PSA/AI-Cookbook-v2/build/"><link rel="stylesheet" href="/PSA/AI-Cookbook-v2/site-assets/Layout.Ds8OR9co.css"></head><body><a class="skip" href="#main">Skip to content</a><header><div class="w"><a href="/PSA/AI-Cookbook-v2/" aria-label="Agreement AI Playbook home"><img class="logo" src="/PSA/AI-Cookbook-v2/site-assets/docusign-horizontal-black.B26QobHe.svg" alt="Docusign"></a><span class="crumb">Agreement AI Playbook</span><nav aria-label="Main"><a href="/PSA/AI-Cookbook-v2/connect/">Connect</a><a href="/PSA/AI-Cookbook-v2/prompts/">Prompts</a><a href="/PSA/AI-Cookbook-v2/skills/">Skills</a><a href="/PSA/AI-Cookbook-v2/build/">Build</a><a href="/PSA/AI-Cookbook-v2/use-cases/">Use cases</a><a href="/PSA/AI-Cookbook-v2/faq/">FAQ</a></nav></div></header><main id="main"><div class="w page"><nav aria-label="Breadcrumb" class="crumbs"><ol><li><a href="/PSA/AI-Cookbook-v2/">Home</a></li><li><span aria-current="page">Build</span></li></ol></nav><h1>Build agents</h1><p class="lead">Choose where the agent should live. Both use the same agreement data, and both keep a human approval step.</p><div class="opts">
+<div class="opt">
+<span class="tag">Option A</span>
+<h3>Build agents in Docusign</h3>
+<p class="lead2">Best for admins and operations teams who want repeatable workflows that run inside Docusign on approved templates.</p>
+<ol>
+<li>Confirm your IAM subscription covers Maestro workflows.</li>
+<li>Upload agreements to Agreement Manager and wait for extraction.</li>
+<li>Build or import a workflow, set the Agreement Desk routing email, then Save, Review and Publish.</li>
+<li>Set the start method to From an API call so an assistant can start it.</li>
+<li>Test the trigger inputs before any real send.</li>
+</ol>
+<div class="assets"><b>Ready assets:</b> renewal workflow import and document template from the sample agreement pack. Approval happens in the workflow's review steps.</div>
+</div>
+<div class="opt hl">
+<span class="tag v">Option B</span>
+<h3>Build agents in the AI tool you use, with Docusign MCP</h3>
+<p class="lead2">Best for teams already in Claude, ChatGPT, Copilot Studio or Gemini who want one agent that reads Docusign and works with calendar, mail or CRM too.</p>
+<ol>
+<li>Your admin enables MCP access for the account.</li>
+<li>Add the official connector (production), or a custom connector with your IK for demo.</li>
+<li>Install the core docusign-agreements skill.</li>
+<li>Add team skills, and paste the platform setup where the tool needs instructions.</li>
+<li>Run the connector test on the Connect page and confirm the tool call appears in the activity view.</li>
+<li>Publish to your team's channel once the write approvals behave as expected.</li>
+</ol>
+<div class="assets"><b>Ready assets:</b> core skill, team skills, platform setup and the prompts by role.</div>
+</div>
+</div>
+<div class="tw compare"><table>
+<thead><tr><th></th><th>Build in Docusign</th><th>Build in your AI tool with MCP</th></tr></thead>
+<tbody>
+<tr><td><b>Who builds</b></td><td>Docusign admins and operations</td><td>Makers, AEs and ops leads in their own AI tool</td></tr>
+<tr><td><b>Where it runs</b></td><td>Inside Docusign, on published workflows</td><td>In your AI tool, reading Docusign data</td></tr>
+<tr><td><b>Approval model</b></td><td>Workflow review and routing steps</td><td>Instructions and approval gates you write</td></tr>
+<tr><td><b>Needs</b></td><td>IAM subscription for Maestro workflows</td><td>Connector access and that tool's plan</td></tr>
+<tr><td><b>Good first build</b></td><td>Renewal workflow</td><td>Renewal brief and signature chaser</td></tr>
+</tbody></table></div>
+<section style="margin-top:28px"><h2>Blueprints</h2><div class="cards"><div class="card"><span class="tag">Partner / Legal</span><h3>Renewal Desk</h3><p>Weekly schedule. Filters agreements by expiry and renewal type, posts a digest.</p></div><div class="card"><span class="tag">Legal</span><h3>Contract Request Intake</h3><p>A request arrives; the agent lists CLM workflows and starts the right one after approval.</p></div><div class="card"><span class="tag">HR, Copilot Studio</span><h3>HR Onboarding Agent</h3><p>Chat request triggers a Maestro onboarding workflow after trigger requirements are confirmed; reports packet status.</p></div><div class="card"><span class="tag">Procurement</span><h3>Vendor Check Agent</h3><p>Answers &#39;do we have an NDA and when does it expire&#39; before a new one is drafted.</p></div><div class="card"><span class="tag">Sales leader and RevOps</span><h3>Stalled Deal Monitor</h3><p>Daily scheduled job lists envelopes waiting 3+ days; drafts nudges for approval.</p></div><div class="card"><span class="tag">IT &amp; Admin</span><h3>Account Audit Agent (read-only)</h3><p>Starter agent: audits an account&#39;s templates, workflows and MCP settings. Reads only.</p></div></div></section><p><a class="btn ghost" href="/PSA/AI-Cookbook-v2/build/platforms/">Platform setup and prerequisites →</a></p></div></main><footer><div class="w">Prototype for illustration. Sample prompts, skills and data, not a supported Docusign product. Colors follow brand.docusign.com/color. Verify plans and claims marked "reported" in the <a href="https://developers.docusign.com/platform/mcp-server/">MCP Server docs</a> before sharing.</div></footer><script type="module">document.addEventListener(`click`,async e=>{let t=e.target.closest(`[data-copy-pre]`);if(!t)return;let n=t.parentElement;for(;n&&!n.querySelector(`pre`);)n=n.parentElement;let r=n?.querySelector(`pre`)?.textContent??``;try{await navigator.clipboard.writeText(r)}catch{let e=document.createElement(`textarea`);e.value=r,document.body.appendChild(e),e.select(),document.execCommand(`copy`),e.remove()}let i=t.textContent;t.textContent=`Copied`,t.classList.add(`copied`),setTimeout(()=>{t.textContent=i,t.classList.remove(`copied`)},1400)});</script></body></html>
